@@ -1,5 +1,5 @@
 const SplashPage = () => {
-  return <div></div>;
+  return <div>스플래시입니다</div>;
 };
 
 export default SplashPage;
