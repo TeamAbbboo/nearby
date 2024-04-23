@@ -9,9 +9,9 @@ export default {
       },
 
       keyframes: {
-        //우리의 fall 애니메이션 keyframes
+        // fall 애니메이션 추가
         fall: {
-          '0%': { transform: 'translate(0%,-150%)' },
+          '0%': { transform: 'translate(-100%, 0%)' },
           '50%': { transform: 'translate(0%,0%)' },
         },
       },
