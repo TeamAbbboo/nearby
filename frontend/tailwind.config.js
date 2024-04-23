@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        home: 'url(@/assets/background_home.png)',
+        HOME: 'url(@/assets/background_home.png)',
+        GREENHOUSE: 'url(@/assets/background_greenhouse.png)',
       },
     },
   },
