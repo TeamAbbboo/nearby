@@ -3,11 +3,11 @@ import KakaoLogin from '@/components/login/KakaoLogin';
 const LoginPage = () => {
   return (
     <div className="w-full h-full bg-login bg-cover flex flex-col">
-      <div className="pl-5 pt-20 animate-[fall_3s_ease] text-2xl font-bold">
+      <div className="pl-5 pt-20 text-2xl font-bold">
         <p>
           가족들에게
           <br />
-          마음을 전달하세요.
+          마음을 전달하세요
         </p>
       </div>
 

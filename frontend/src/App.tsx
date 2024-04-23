@@ -3,6 +3,7 @@ import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
 import KakaoLoginRedircet from '@/components/login/KakaoLoginRedircet';
 import SignUpPage from './pages/signup/SignUpPage';
+import RegisterPage from './pages/register/RegisterPage';
 import PlaygroundPage from './pages/playground/PlaygroundPage';
 import GreenHousePage from './pages/greenhouse/GreenHousePage';
 import SplashPage from './pages/splash/SplashPage';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/signup',
     element: <SignUpPage />,
+  },
+  {
+    path: '/register',
+    element: <RegisterPage />,
   },
   {
     path: '/playground',
