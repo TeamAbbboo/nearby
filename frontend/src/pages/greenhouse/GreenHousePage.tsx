@@ -5,7 +5,7 @@ const GreenHousePage = () => {
 
   return (
     <div className=" relative w-full h-full bg-GREENHOUSE bg-cover">
-  return <div>온실입니다</div>;
+      <Dandelion state={state} />
     </div>
   );
 };
