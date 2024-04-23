@@ -1,7 +1,58 @@
+import userStore from '@/stores/userStore';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const KakaoLoginRedircet = () => {
   /* 인가 코드 쿼리 스트링 조회 */
   const queryParams = new URLSearchParams(location.search);
   const kakaocode = queryParams.get('code');
+
+  /* 이동할 navigate 객체 생성 */
+  const navigate = useNavigate();
+
+  /* 사용자 객체 생성 */
+  const { loginUser } = userStore();
+
+  /* kakaocode로 서버에 POST */
+  useEffect(() => {
+    // 카카오 코드 존재하면
+    if (kakaocode) {
+      // 회원가입이면 familyId가 존재 X
+      // 단순 로그인이라면 familyId가 존재 O
+      axios
+        .post(`${import.meta.env.VITE_BASE_URL}auth/login/kakao`, { authorizationCode: kakaocode })
+        .then(res => {
+          const { id, nickname, accessToken, refreshToken } = res.data.data;
+          const userId = Number(id);
+
+          if (nickname) {
+            loginUser({
+              nickname,
+              accessToken,
+              refreshToken,
+            });
+
+            navigate('/');
+          } else {
+            loginUser({ accessToken: accessToken, area: [], nickname: '', refreshToken: refreshToken, userId: userId });
+            navigate('/signup');
+          }
+        })
+        .catch(error => {
+          console.log('로그인 에러', error);
+
+          // 임시로 회원가입 로직
+          setTimeout(() => {
+            navigate('/register');
+          }, 1500);
+        });
+    }
+    // 카카오 코드 존재하지 않으면
+    else {
+      // 따로 처리할 필요??
+    }
+  });
 
   return (
     // 카카오 로딩중
