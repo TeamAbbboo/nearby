@@ -7,7 +7,7 @@ interface IPenguinDecoProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PenguinDeco = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
+const PenguinDecoBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
   const [tab, setTab] = useState<'left' | 'right'>('left');
 
   return (
@@ -44,4 +44,4 @@ const PenguinDeco = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
   );
 };
 
-export default PenguinDeco;
+export default PenguinDecoBottomSheet;
