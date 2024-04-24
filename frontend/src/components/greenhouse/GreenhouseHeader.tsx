@@ -1,3 +1,4 @@
+import albumIcon from '@/assets/icon_album.png';
 
 interface IDandelionState {
   level: number; // 레벨
@@ -34,6 +35,7 @@ const GreenhouseHeader = ({ level, exp, expMax }: IDandelionState) => {
       </div>
       <div className="w-full flex justify-end pt-5">
         <div className="w-10 h-10 bg-white hover:bg-gray-100 border rounded-full shadow-md flex justify-center items-center">
+          <img className="size-5" src={albumIcon} alt="Album" />
         </div>
       </div>
     </div>
