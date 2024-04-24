@@ -1,12 +1,15 @@
-import userStore from '@/stores/userStore';
-import axios from 'axios';
+/* libraries */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+/* Components */
+import userStore from '@/stores/userStore';
+import { doKakaoLoginReq } from '@/services/login/api';
 
 const KakaoLoginRedircet = () => {
   /* 인가 코드 쿼리 스트링 조회 */
   const queryParams = new URLSearchParams(location.search);
-  const kakaocode = queryParams.get('code');
+  const kakaoCode = queryParams.get('code');
 
   /* 이동할 navigate 객체 생성 */
   const navigate = useNavigate();
@@ -17,40 +20,51 @@ const KakaoLoginRedircet = () => {
   /* kakaocode로 서버에 POST */
   useEffect(() => {
     // 카카오 코드 존재하면
-    if (kakaocode) {
-      // 회원가입이면 familyId가 존재 X
-      // 단순 로그인이라면 familyId가 존재 O
-      axios
-        .post(`${import.meta.env.VITE_BASE_URL}auth/login/kakao`, { authorizationCode: kakaocode })
-        .then(res => {
-          const { id, nickname, accessToken, refreshToken } = res.data.data;
-          const userId = Number(id);
+    if (kakaoCode) {
+      try {
+        // 로그인 요청
+        const response = doKakaoLoginReq(kakaoCode);
 
-          if (nickname) {
-            loginUser({
-              nickname,
-              accessToken,
-              refreshToken,
-            });
+        const { userId, familyId, nickname, birthday, mood } = response.data.data;
+        const accessToken = response.headers['access_token'];
+        const refreshToken = response.headers['refresh_token'];
 
-            navigate('/');
-          } else {
-            loginUser({ accessToken: accessToken, area: [], nickname: '', refreshToken: refreshToken, userId: userId });
-            navigate('/signup');
-          }
-        })
-        .catch(error => {
-          console.log('로그인 에러', error);
+        if (nickname) {
+          loginUser({
+            userId,
+            familyId,
+            nickname,
+            birthday,
+            mood,
+            accessToken,
+            refreshToken,
+          });
 
-          // 임시로 회원가입 로직
-          setTimeout(() => {
-            navigate('/register');
-          }, 1500);
-        });
+          navigate('/');
+        } else {
+          loginUser({
+            userId: userId,
+            nickname: '',
+            birthday: '',
+            mood: '',
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          });
+
+          navigate('/register');
+        }
+      } catch (error) {
+        // MSW 하기 전에 임시로 register로 이동
+        setTimeout(() => {
+          navigate('/register');
+        }, 1500);
+      }
     }
     // 카카오 코드 존재하지 않으면
     else {
-      // 따로 처리할 필요??
+      // 다시 login으로
+      console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
+      navigate('/login');
     }
   });
 
