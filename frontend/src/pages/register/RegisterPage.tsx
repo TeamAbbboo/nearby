@@ -9,7 +9,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-full bg-login bg-cover flex flex-col">
+    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
       <div className="pl-5 pt-20 text-2xl font-bold">
         <p>펭귄 가족 등록하기</p>
       </div>
