@@ -1,6 +1,6 @@
 import Penguin from '@/components/@common/Penguin';
 import HomeHeader from '@/components/home/HomeHeader';
-import PenguinDeco from '@/components/home/PenguinDeco';
+import PenguinDecoBottomSheet from '@/components/home/PenguinDecoBottomSheet';
 import { useState } from 'react';
 
 const HomePage = () => {
@@ -12,7 +12,7 @@ const HomePage = () => {
         <Penguin mode="" onClick={() => setIsOpen(!isOpen)} />
       </div>
       <HomeHeader />
-      {isOpen && <PenguinDeco isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {isOpen && <PenguinDecoBottomSheet isOpen={isOpen} setIsOpen={setIsOpen} />}
     </div>
   );
 };
