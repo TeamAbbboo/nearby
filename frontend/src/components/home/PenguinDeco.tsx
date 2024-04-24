@@ -16,16 +16,16 @@ const PenguinDeco = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
         <div className="flex gap-3 font-bold">
           <button onClick={() => setTab('left')} className="cursor-pointer">
             {tab === 'left' ? (
-              <p className="font-bold border-b-[3px] py-1 border-black">펭귄 꾸미기</p>
+              <p className="font-bold border-b-[3px] py-1 border-black">상태 선택</p>
             ) : (
-              <p className="py-1 text-[#CDCDCD]">펭귄 꾸미기</p>
+              <p className="py-1 text-[#CDCDCD]">상태 선택</p>
             )}
           </button>
           <button onClick={() => setTab('right')} className="cursor-pointer">
             {tab === 'right' ? (
-              <p className="font-bold border-b-[3px] py-1 border-black">상태 선택</p>
+              <p className="font-bold border-b-[3px] py-1 border-black">펭귄 꾸미기</p>
             ) : (
-              <p className="py-1 text-[#CDCDCD]">상태 선택</p>
+              <p className="py-1 text-[#CDCDCD]">펭귄 꾸미기</p>
             )}
           </button>
         </div>
