@@ -9,12 +9,17 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const registerHandler = state => {
+    // 가족이 없을 경우
     if (state === 'solo') {
+      // 여기서 등록된 사용자면 바로 가족 코드 등록 페이지
+      // 아니라면 회원가입
       navigate('/signup');
     }
     // 가족이 있을 경우
     else if (state === 'family') {
-      navigate('/');
+      // 여기서 등록된 사용자면 바로 가족 코드 등록 페이지
+      // 아니라면 회원가입
+      navigate('/signup');
     }
   };
 
