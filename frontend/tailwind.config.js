@@ -10,6 +10,7 @@ export default {
       backgroundImage: {
         HOME: 'url(@/assets/background_home.png)',
         GREENHOUSE: 'url(@/assets/background_greenhouse.png)',
+        LOGIN: 'url(@/assets/background_login.png)',
       },
     },
   },
