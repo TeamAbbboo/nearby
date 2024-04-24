@@ -7,7 +7,7 @@ const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="relative w-full h-full bg-home bg-cover">
+    <div className="relative w-full h-full bg-HOME bg-cover">
       <div className="absolute left-0 right-0 bottom-[15%]">
         <Penguin mode="" onClick={() => setIsOpen(!isOpen)} />
       </div>

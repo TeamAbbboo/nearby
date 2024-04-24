@@ -1,5 +1,19 @@
+import Dandelion from '@/components/greenhouse/Dandelion';
+import GreenhouseHeader from '@/components/greenhouse/GreenhouseHeader';
+
 const GreenHousePage = () => {
-  return <div>온실입니다</div>;
+  const greenhouseProps = {
+    level: 4,
+    exp: 20,
+    expMax: 32,
+  };
+
+  return (
+    <div className=" relative w-full h-full bg-GREENHOUSE bg-cover bg-center">
+      <Dandelion state={greenhouseProps.level} />
+      <GreenhouseHeader {...greenhouseProps} />
+    </div>
+  );
 };
 
 export default GreenHousePage;
