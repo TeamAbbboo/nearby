@@ -11,8 +11,7 @@ const GreenHousePage = () => {
   return (
     <div className=" relative w-full h-full bg-GREENHOUSE bg-cover bg-center">
       <Dandelion state={greenhouseProps.level} />
-    <div className=" relative w-full h-full bg-GREENHOUSE bg-cover">
-      <Dandelion state={state} />
+      <GreenhouseHeader {...greenhouseProps} />
     </div>
   );
 };
