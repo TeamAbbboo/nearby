@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
-import KakaoLoginRedircet from '@/components/login/KakaoLoginRedircet';
+import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
 import SignUpPage from './pages/signup/SignUpPage';
 import RegisterPage from './pages/register/RegisterPage';
 import PlaygroundPage from './pages/playground/PlaygroundPage';
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/redirect/kakao',
-    element: <KakaoLoginRedircet />,
+    element: <KakaoLoginRedircetPage />,
   },
   {
     path: '/signup',

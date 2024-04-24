@@ -11,7 +11,7 @@ const LoginPage = () => {
         </p>
       </div>
 
-      <div className="w-full h-full flex flex-col justify-end pb-20 pl-5 pr-5">
+      <div className="w-full h-full flex flex-col justify-end pb-20 px-5">
         <KakaoLogin />
       </div>
     </div>
