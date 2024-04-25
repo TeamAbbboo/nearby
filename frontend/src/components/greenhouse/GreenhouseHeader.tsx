@@ -1,16 +1,16 @@
 import albumIcon from '@/assets/icon_album.png';
+import { firework } from '@/utils/firework';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IDandelionState {
   level: number; // 레벨
   exp: number; // 모은 경험치
   expMax: number; // 해당 레벨의 경험치 전체 크기
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const GreenhouseHeader = ({ level, exp, expMax }: IDandelionState) => {
+const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) => {
   const progressPercentage = (exp / expMax) * 100 >= 100 ? 100 : (exp / expMax) * 100;
-  const handleClick = () => {
-    console.log('성장해라');
-  };
 
   return (
     <div className="p-5">
@@ -23,7 +23,10 @@ const GreenhouseHeader = ({ level, exp, expMax }: IDandelionState) => {
           <div className={`${progressPercentage >= 100 ? 'visible' : 'invisible'}`}>
             <button
               className="hover:bg-gray-100 w-10 h-5 font-semibold text-[10px] bg-white border-[1px] rounded-xl shadow-md"
-              onClick={handleClick}
+              onClick={() => {
+                firework();
+                setIsOpen(true);
+              }}
             >
               성장
             </button>
