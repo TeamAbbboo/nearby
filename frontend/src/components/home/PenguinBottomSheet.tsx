@@ -7,25 +7,25 @@ interface IPenguinDecoProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PenguinDecoBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
-  const [tab, setTab] = useState<'left' | 'right'>('left');
+const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
+  const [tab, setTab] = useState<'state' | 'deco'>('state');
 
   return (
     <BottomSheet height="h-96" onClose={() => setIsOpen(false)}>
       <div className="px-5 pb-10">
         <div className="flex gap-3 font-bold">
-          <button onClick={() => setTab('left')} className="cursor-pointer">
-            {tab === 'left' ? (
-              <p className="font-bold border-b-[3px] py-1 border-black">상태 선택</p>
+          <button onClick={() => setTab('state')} className="cursor-pointer">
+            {tab === 'state' ? (
+              <p className="border-b-[3px] border-black">상태 선택</p>
             ) : (
-              <p className="py-1 text-[#CDCDCD]">상태 선택</p>
+              <p className=" text-[#CDCDCD]">상태 선택</p>
             )}
           </button>
-          <button onClick={() => setTab('right')} className="cursor-pointer">
-            {tab === 'right' ? (
-              <p className="font-bold border-b-[3px] py-1 border-black">펭귄 꾸미기</p>
+          <button onClick={() => setTab('deco')} className="cursor-pointer">
+            {tab === 'deco' ? (
+              <p className="border-b-[3px] border-black">펭귄 꾸미기</p>
             ) : (
-              <p className="py-1 text-[#CDCDCD]">펭귄 꾸미기</p>
+              <p className="text-[#CDCDCD]">펭귄 꾸미기</p>
             )}
           </button>
         </div>
@@ -44,4 +44,4 @@ const PenguinDecoBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
   );
 };
 
-export default PenguinDecoBottomSheet;
+export default PenguinBottomSheet;
