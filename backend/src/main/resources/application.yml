@@ -1,0 +1,35 @@
+spring:
+  config:
+    import:
+      - classpath:application-key.yml
+  profiles:
+    active: ${db.active} # 기본설정
+    group:
+      local:
+        - db-local
+      server:
+        - db-server
+    include:
+      - key
+      - db
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+    defer-datasource-initialization: true
+    open-in-view: false
+
+springdoc: #swagger
+  packages-to-scan: com.abbboo.backend
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    tags-sorter: alpha            # alpha: 알파벳 순 태그 정렬, method: HTTP Method 순 정렬
+    operations-sorter: alpha      # alpha: 알파벳 순 작업 정렬, method: HTTP Method 순 정렬
