@@ -1,7 +1,7 @@
-import { IMessageListRes } from '@/types/message';
+import { IReceivedMessageListRes } from '@/types/message';
 import { APIResponse } from '@/types/model';
 
-export const messageListRes: APIResponse<IMessageListRes> = {
+export const messageListRes: APIResponse<IReceivedMessageListRes> = {
   status: 201,
   message: '성공했습니다',
   code: 'SUCCESS',
