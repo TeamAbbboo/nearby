@@ -19,53 +19,59 @@ const KakaoLoginRedircet = () => {
 
   /* kakaocode로 서버에 POST */
   useEffect(() => {
-    // 카카오 코드 존재하면
-    if (kakaoCode) {
-      try {
-        // 로그인 요청
-        const response = doKakaoLoginReq(kakaoCode);
+    // useEffect 자체가 promise를 반환할 수 없기에
+    // async 사용
+    const fetchData = async () => {
+      if (kakaoCode) {
+        try {
+          // 로그인 요청
+          const response = await doKakaoLoginReq(kakaoCode);
 
-        const { userId, familyId, nickname, birthday, mood } = response.data.data;
-        const accessToken = response.headers['access_token'];
-        const refreshToken = response.headers['refresh_token'];
+          const { userId, familyId, nickname, birthday, mood } = response.data;
+          // const accessToken = response.headers['access_token'];
+          // const refreshToken = response.headers['refresh_token'];
 
-        if (nickname) {
-          loginUser({
-            userId,
-            familyId,
-            nickname,
-            birthday,
-            mood,
-            accessToken,
-            refreshToken,
-          });
+          if (nickname) {
+            loginUser({
+              userId,
+              familyId,
+              nickname,
+              birthday,
+              mood,
+              accessToken: '',
+              refreshToken: '',
+            });
 
-          navigate('/');
-        } else {
-          loginUser({
-            userId: userId,
-            nickname: '',
-            birthday: '',
-            mood: '',
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          });
+            navigate('/');
+          } else {
+            loginUser({
+              userId: userId,
+              familyId: 0,
+              nickname: '',
+              birthday: '',
+              mood: '',
+              accessToken: '',
+              refreshToken: '',
+            });
 
-          navigate('/register');
+            navigate('/register');
+          }
+        } catch (error) {
+          // MSW 하기 전에 임시로 register로 이동
+          setTimeout(() => {
+            navigate('/register');
+          }, 1500);
         }
-      } catch (error) {
-        // MSW 하기 전에 임시로 register로 이동
-        setTimeout(() => {
-          navigate('/register');
-        }, 1500);
       }
-    }
-    // 카카오 코드 존재하지 않으면
-    else {
-      // 다시 login으로
-      console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
-      navigate('/login');
-    }
+      // 카카오 코드 존재하지 않으면
+      else {
+        // 다시 login으로
+        console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
+        navigate('/login');
+      }
+    };
+
+    fetchData();
   });
 
   return (
