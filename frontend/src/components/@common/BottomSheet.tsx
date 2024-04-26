@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface IBottomSheetProps {
-  height: string;
+  height?: string;
   onClose: () => void;
   children: React.ReactNode;
 }
