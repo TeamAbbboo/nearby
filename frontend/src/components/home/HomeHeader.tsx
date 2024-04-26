@@ -1,14 +1,21 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import MessageModal from './MessageModal';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HomeHeader = () => {
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   return (
     <header>
       <nav className="p-5 flex justify-end gap-3">
-        <TransparentButton text="광장" rounded="rounded-full" shadow="shadow-xl" onClick={() => console.log('광장')} />
+        <TransparentButton
+          text="광장"
+          rounded="rounded-full"
+          shadow="shadow-xl"
+          onClick={() => navigate('/playground')}
+        />
         <TransparentButton
           text="아띠함"
           rounded="rounded-full"
