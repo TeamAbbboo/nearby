@@ -39,6 +39,7 @@ export default function Wheel(props: {
     updated: s => {
       size.current = s.size;
     },
+    /* 스크롤 될때 마다 이벤트 발생 */
     detailsChanged: s => {
       if (s.track.details.abs < props.idx || s.track.details.abs > props.length) return;
       setSliderState(s.track.details);
@@ -101,7 +102,7 @@ export default function Wheel(props: {
       <div className="wheel__inner">
         <div className="wheel__slides" style={{ width: props.width + 'px' }}>
           {slideValues().map(({ style, value }, idx) => (
-            <div className="wheel__slide" style={style} key={idx}>
+            <div className="wheel__slide text-2xl" style={style} key={idx}>
               <span>{value + 1}</span>
               <span>{props.tag}</span>
             </div>
