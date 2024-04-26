@@ -11,7 +11,7 @@ const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
   const [tab, setTab] = useState<'state' | 'deco'>('state');
 
   return (
-    <BottomSheet height="h-96" onClose={() => setIsOpen(false)}>
+    <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="px-5 pb-10">
         <div className="flex gap-3 font-bold">
           <button onClick={() => setTab('state')} className="cursor-pointer">
@@ -30,7 +30,7 @@ const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
           </button>
         </div>
         <div className="grid grid-cols-3 pt-3">
-          {['피곤해요', '열정 넘쳐요', '가족 생각중', '슬퍼요', '열 받았어요', '평범해요'].map((value, idx) => {
+          {['피곤 해요', '열정 넘쳐요', '가족 생각중', '슬퍼요', '열 받았어요', '평범해요'].map((value, idx) => {
             return (
               <div key={idx} className="flex flex-col items-center text-xs">
                 <Penguin mode={value} onClick={() => setIsOpen(!isOpen)} />
