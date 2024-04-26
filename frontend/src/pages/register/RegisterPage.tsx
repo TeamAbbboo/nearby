@@ -23,7 +23,13 @@ const RegisterPage = () => {
             rounded="rounded-xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup');
+              navigate('/signup', {
+                state: {
+                  data: {
+                    selectPenguinOption: 'solo',
+                  },
+                },
+              });
             }}
           >
             <div className="flex flex-col items-center">
@@ -42,7 +48,13 @@ const RegisterPage = () => {
             rounded="rounded-xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup');
+              navigate('/signup', {
+                state: {
+                  data: {
+                    selectPenguinOption: 'group',
+                  },
+                },
+              });
             }}
           >
             <div className="flex flex-col items-center">
