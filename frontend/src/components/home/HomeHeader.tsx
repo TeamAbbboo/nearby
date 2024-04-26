@@ -1,6 +1,10 @@
 import TransparentButton from '@/components/@common/TransparentButton';
+import MessageModal from './MessageModal';
+import { useState } from 'react';
 
 const HomeHeader = () => {
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(true);
+
   return (
     <header>
       <nav className="p-5 flex justify-end gap-3">
@@ -9,7 +13,7 @@ const HomeHeader = () => {
           text="아띠함"
           rounded="rounded-full"
           shadow="shadow-xl"
-          onClick={() => console.log('아띠함')}
+          onClick={() => setIsMessageModalOpen(true)}
         />
         <TransparentButton
           text="스토리"
@@ -19,6 +23,7 @@ const HomeHeader = () => {
         />
         <TransparentButton text="설정" rounded="rounded-full" shadow="shadow-xl" onClick={() => console.log('설정')} />
       </nav>
+      {isMessageModalOpen && <MessageModal setIsMessageModalOpen={setIsMessageModalOpen} />}
     </header>
   );
 };
