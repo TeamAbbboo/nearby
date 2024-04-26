@@ -17,7 +17,7 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: '',
       },
       {
-        messageId: 1,
+        messageId: 2,
         sender: '엄마',
         tts: 'url',
         content:
@@ -27,7 +27,7 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: '',
       },
       {
-        messageId: 1,
+        messageId: 3,
         sender: '엄마',
         tts: 'url',
         content:
