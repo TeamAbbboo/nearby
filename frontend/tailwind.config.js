@@ -6,6 +6,8 @@ export default {
       colors: {
         MAIN1: '#8BA278',
         SUB1: '#D5E8C5',
+        SUB2: '#FFEAEA',
+        UNIMPORTANT: '#B4B4B4',
       },
       backgroundImage: {
         HOME: 'url(@/assets/background_home.png)',
@@ -13,6 +15,14 @@ export default {
         LOGIN: 'url(@/assets/background_login.png)',
       },
       keyframes: {
+        fadeIn: {
+          from: { opacity: 0, transform: 'translate(-50%, -40%)' },
+          to: { opacity: 1, transform: 'translate(-50%, -50%)' },
+        },
+        fadeOut: {
+          from: { opacity: 1, transform: 'translate(-50%, -50%)' },
+          to: { opacity: 0, transform: 'translate(-50%, -40%)' },
+        },
         sheetOn: {
           from: { opacity: 0, transform: 'translateY(384px)' },
           to: { opacity: 1 },
@@ -23,6 +33,8 @@ export default {
         },
       },
       animation: {
+        modalOpen: 'fadeIn 0.3s ease-in-out',
+        modalClose: 'fadeOut 0.3s ease-in-out',
         sheetOn: 'sheetOn 0.3s ease-in-out',
         sheetOff: 'sheetOff 0.3s ease-in',
       },
