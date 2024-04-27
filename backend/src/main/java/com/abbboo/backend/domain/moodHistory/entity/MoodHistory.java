@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MoodHistory extends BaseEntity {
+public class MoodHistory extends BaseEntity { // 상태
 
     @Column(name = "mood_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 상태를 등록한 유저
+    // 상태를 등록한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

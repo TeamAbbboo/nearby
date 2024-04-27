@@ -19,20 +19,23 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "reaction")
-public class Reaction extends BaseEntity {
+public class Reaction extends BaseEntity { // 반응
 
     @Column(name = "reaction_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 반응이 달린 소식
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "story_id")
     private Story story;
 
+    // 반응한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    // 반응 내용
     @Column(name = "action", length = 10)
     private String action;
 

@@ -24,7 +24,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "story")
-public class Story extends BaseEntity {
+public class Story extends BaseEntity { // 소식
 
     @Column(name = "story_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,13 +35,16 @@ public class Story extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "url", nullable = false)
+    // 업로드 파일 S3 url
+    @Column(name = "url", nullable = false, length = 2000)
     private String url;
 
-    @Column(name = "saved", length = 2000)
+    // 보관 여부
+    @Column(name = "saved")
     @ColumnDefault("false")
     private Boolean saved;
 
+    // 소식에 달린 반응
     @OneToMany(mappedBy = "story")
     private List<Reaction> reactions = new ArrayList<>();
 
