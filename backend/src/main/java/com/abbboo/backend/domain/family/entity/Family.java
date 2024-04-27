@@ -20,18 +20,21 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "family")
-public class Family extends BaseEntity {
+public class Family extends BaseEntity { // 가족 그룹 정보
 
     @Column(name = "family_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    // 가족 코드
     @Column(name = "family_code")
     private String familyCode;
 
+    // 가족 구성원
     @OneToMany(mappedBy = "family")
     private List<User> familyMember = new ArrayList<>();
 
+    // 현재 가족 민들레 레벨
     @Column(name = "level", nullable = false)
     @ColumnDefault("1")
     private Integer level;

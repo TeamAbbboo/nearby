@@ -17,14 +17,13 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification {
-
-    // 알림 id
+public class Notification { // 알림
+    
     @Column(name = "notification_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 알림 대상 유저 id
+    // 알림 대상
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
