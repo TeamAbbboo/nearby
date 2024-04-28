@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
-import SignUpPage from './pages/signup/SignupPage';
+import SignupPage from '@/pages/signup/SignupPage';
 import RegisterPage from './pages/register/RegisterPage';
 import SoloPage from './pages/familycode/SoloPage';
 import GroupPage from './pages/familycode/GroupPage';
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/signup',
-    element: <SignUpPage />,
+    element: <SignupPage />,
   },
   {
     path: '/register',
