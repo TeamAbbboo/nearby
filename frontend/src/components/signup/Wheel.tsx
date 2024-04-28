@@ -1,6 +1,8 @@
+/* libraries */
 import React, { useRef, useEffect, useState } from 'react';
 import { TrackDetails, useKeenSlider } from 'keen-slider/react';
 
+/* 생년월일 돌림판 라이브러리 */
 export default function Wheel(props: {
   initIdx?: number;
   tag: string;
@@ -23,28 +25,29 @@ export default function Wheel(props: {
   const [options, setOptions] = useState({
     slides: {
       number: slides,
-      origin: props.loop ? 'center' : 'auto',
       perView: slidesPerView,
     },
     vertical: true,
     initial: props.initIdx || 0,
     loop: props.loop,
-    dragSpeed: val => {
+    dragSpeed: (val: number) => {
       const height = size.current;
       return val * (height / ((height / 2) * Math.tan(slideDegree * (Math.PI / 180))) / slidesPerView);
     },
-    created: s => {
+    created: (s: { size: number }) => {
       size.current = s.size;
     },
-    updated: s => {
+    updated: (s: { size: number }) => {
       size.current = s.size;
     },
     /* 스크롤 될때 마다 이벤트 발생 */
-    detailsChanged: s => {
-      if (s.track.details.abs < props.idx || s.track.details.abs > props.length) return;
-      setSliderState(s.track.details);
-      props.onChange(s.track.details.abs);
+    detailsChanged: (s: { track: { details?: TrackDetails } }) => {
+      if (s.track.details && props.onChange) {
+        setSliderState(s.track.details);
+        props.onChange(s.track.details.abs);
+      }
     },
+
     rubberband: !props.loop,
     mode: 'free-snap',
   });
@@ -59,7 +62,10 @@ export default function Wheel(props: {
     }));
   }, [props.length]);
 
-  const [sliderRef, slider] = useKeenSlider(options);
+  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
+    ...options,
+    mode: 'free-snap',
+  });
 
   const [radius, setRadius] = useState(0);
 
@@ -103,7 +109,7 @@ export default function Wheel(props: {
         <div className="wheel__slides" style={{ width: props.width + 'px' }}>
           {slideValues().map(({ style, value }, idx) => (
             <div className="wheel__slide text-2xl" style={style} key={idx}>
-              <span>{value + 1}</span>
+              <span>{Number(value) + 1}</span>
               <span>{props.tag}</span>
             </div>
           ))}

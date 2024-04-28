@@ -1,10 +1,10 @@
+/* components */
+import userStore from '@/stores/userStore';
+import { doKakaoLoginReq } from '@/services/login/api';
+
 /* libraries */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-/* Components */
-import userStore from '@/stores/userStore';
-import { doKakaoLoginReq } from '@/services/login/api';
 
 const KakaoLoginRedircet = () => {
   /* 인가 코드 쿼리 스트링 조회 */
@@ -28,8 +28,6 @@ const KakaoLoginRedircet = () => {
           const response = await doKakaoLoginReq(kakaoCode);
 
           const { userId, familyId, nickname, birthday, mood } = response.data;
-          // const accessToken = response.headers['access_token'];
-          // const refreshToken = response.headers['refresh_token'];
 
           if (nickname) {
             loginUser({
@@ -76,11 +74,11 @@ const KakaoLoginRedircet = () => {
 
   return (
     // 카카오 로딩중
-    <div className="w-full h-screen flex flex-col justify-center items-center relative">
+    <div className="w-full h-screen flex flex-col justify-center items-center relative bg-LOGIN bg-cover">
       <div role="status">
         <svg
           aria-hidden="true"
-          className="inline w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-green-600"
+          className="inline w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-MAIN1"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
