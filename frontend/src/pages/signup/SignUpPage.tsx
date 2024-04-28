@@ -1,4 +1,4 @@
-import SignUp from '@/components/signup/Signup';
+import Signup from '@/components/signup/Signup';
 
 const SignUpPage = () => {
   return (
@@ -13,7 +13,7 @@ const SignUpPage = () => {
 
       {/* 닉네임-생년월일-시작하기버튼 */}
       <div className="w-full h-full flex flex-col justify-end">
-        <SignUp />
+        <Signup />
       </div>
     </div>
   );
