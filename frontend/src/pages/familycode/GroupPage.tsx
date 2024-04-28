@@ -1,3 +1,5 @@
+import Group from '@/components/familycode/Group';
+
 const GroupPage = () => {
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
@@ -7,6 +9,9 @@ const GroupPage = () => {
           <br />
           만나러 가볼까요?
         </p>
+      </div>
+      <div>
+        <Group />
       </div>
     </div>
   );

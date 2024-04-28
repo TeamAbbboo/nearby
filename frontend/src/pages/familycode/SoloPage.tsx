@@ -1,3 +1,5 @@
+import Solo from '@/components/familycode/Solo';
+
 const SoloPage = () => {
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
@@ -7,6 +9,9 @@ const SoloPage = () => {
           <br />
           만나러 가볼까요?
         </p>
+      </div>
+      <div className="w-full h-full flex flex-col justify-end">
+        <Solo />
       </div>
     </div>
   );
