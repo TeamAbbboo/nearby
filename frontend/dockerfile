@@ -1,0 +1,11 @@
+FROM node:lts-alpine as build-stage
+WORKDIR /fe
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+FROM nginx:stable as production-stage
+COPY --from=build-stage ./fe/dist /usr/share/nginx/html/
+EXPOSE 3000
+CMD ["nginx", "-g", "daemon off;"]
