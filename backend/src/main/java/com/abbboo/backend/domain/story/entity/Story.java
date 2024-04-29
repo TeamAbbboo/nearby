@@ -41,9 +41,9 @@ public class Story extends BaseEntity { // 소식
     private String url;
 
     // 보관 여부
-    @Column(name = "saved")
+    @Column(name = "is_saved")
     @ColumnDefault("false")
-    private Boolean saved;
+    private Boolean isSaved;
 
     // 소식에 달린 반응
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
