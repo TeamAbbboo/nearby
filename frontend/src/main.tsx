@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
-    console.log('development mode');
     return;
   }
   const { worker } = await import('./mocks/browser.ts');
@@ -23,6 +22,6 @@ enableMocking().then(() => {
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </QueryClientProvider>
+    </QueryClientProvider>,
   );
 });
