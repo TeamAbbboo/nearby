@@ -1,8 +1,9 @@
+/* components */
 import TransparentButton from '@/components/@common/TransparentButton';
-
 import penguin from '@/assets/one_penguin.png';
 import groupPenguin from '@/assets/group_penguin.png';
 
+/* libraries */
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
@@ -20,10 +21,16 @@ const RegisterPage = () => {
           <TransparentButton
             width="w-40"
             height="h-60"
-            rounded="rounded-xl"
+            rounded="rounded-3xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup');
+              navigate('/signup', {
+                state: {
+                  data: {
+                    selectPenguinOption: 'solo',
+                  },
+                },
+              });
             }}
           >
             <div className="flex flex-col items-center">
@@ -39,10 +46,16 @@ const RegisterPage = () => {
           <TransparentButton
             width="w-40"
             height="h-60"
-            rounded="rounded-xl"
+            rounded="rounded-3xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup');
+              navigate('/signup', {
+                state: {
+                  data: {
+                    selectPenguinOption: 'group',
+                  },
+                },
+              });
             }}
           >
             <div className="flex flex-col items-center">
