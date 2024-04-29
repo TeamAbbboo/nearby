@@ -1,6 +1,6 @@
 import Signup from '@/components/signup/Signup';
 
-const SignUpPage = () => {
+const SignupPage = () => {
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
       <div className="pl-5 pt-20 text-2xl font-bold">
@@ -19,4 +19,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignupPage;
