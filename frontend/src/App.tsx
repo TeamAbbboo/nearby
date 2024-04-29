@@ -2,8 +2,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/home/HomePage';
 import LoginPage from './pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
-import SignUpPage from './pages/signup/SignUpPage';
+import SignupPage from '@/pages/signup/SignupPage';
 import RegisterPage from './pages/register/RegisterPage';
+import SoloPage from './pages/familycode/SoloPage';
+import GroupPage from './pages/familycode/GroupPage';
 import PlaygroundPage from './pages/playground/PlaygroundPage';
 import GreenHousePage from './pages/greenhouse/GreenHousePage';
 import SplashPage from './pages/splash/SplashPage';
@@ -23,11 +25,19 @@ const router = createBrowserRouter([
   },
   {
     path: '/signup',
-    element: <SignUpPage />,
+    element: <SignupPage />,
   },
   {
     path: '/register',
     element: <RegisterPage />,
+  },
+  {
+    path: '/solo',
+    element: <SoloPage />,
+  },
+  {
+    path: '/group',
+    element: <GroupPage />,
   },
   {
     path: '/playground',

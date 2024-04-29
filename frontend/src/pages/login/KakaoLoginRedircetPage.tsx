@@ -1,10 +1,10 @@
+/* components */
+import userStore from '@/stores/userStore';
+import { doKakaoLoginReq } from '@/services/login/api';
+
 /* libraries */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-/* Components */
-import userStore from '@/stores/userStore';
-import { doKakaoLoginReq } from '@/services/login/api';
 
 const KakaoLoginRedircet = () => {
   /* 인가 코드 쿼리 스트링 조회 */
@@ -19,62 +19,66 @@ const KakaoLoginRedircet = () => {
 
   /* kakaocode로 서버에 POST */
   useEffect(() => {
-    // 카카오 코드 존재하면
-    if (kakaoCode) {
-      try {
-        // 로그인 요청
-        const response = doKakaoLoginReq(kakaoCode);
+    // useEffect 자체가 promise를 반환할 수 없기에
+    // async 사용
+    const fetchData = async () => {
+      if (kakaoCode) {
+        try {
+          // 로그인 요청
+          const response = await doKakaoLoginReq(kakaoCode);
 
-        const { userId, familyId, nickname, birthday, mood } = response.data.data;
-        const accessToken = response.headers['access_token'];
-        const refreshToken = response.headers['refresh_token'];
+          const { userId, familyId, nickname, birthday, mood } = response.data;
 
-        if (nickname) {
-          loginUser({
-            userId,
-            familyId,
-            nickname,
-            birthday,
-            mood,
-            accessToken,
-            refreshToken,
-          });
+          if (nickname) {
+            loginUser({
+              userId,
+              familyId,
+              nickname,
+              birthday,
+              mood,
+              accessToken: '',
+              refreshToken: '',
+            });
 
-          navigate('/');
-        } else {
-          loginUser({
-            userId: userId,
-            nickname: '',
-            birthday: '',
-            mood: '',
-            accessToken: accessToken,
-            refreshToken: refreshToken,
-          });
+            navigate('/');
+          } else {
+            loginUser({
+              userId: userId,
+              familyId: 0,
+              nickname: '',
+              birthday: '',
+              mood: '',
+              accessToken: '',
+              refreshToken: '',
+            });
 
-          navigate('/register');
+            navigate('/register');
+          }
+        } catch (error) {
+          // MSW 하기 전에 임시로 register로 이동
+          setTimeout(() => {
+            navigate('/register');
+          }, 1500);
         }
-      } catch (error) {
-        // MSW 하기 전에 임시로 register로 이동
-        setTimeout(() => {
-          navigate('/register');
-        }, 1500);
       }
-    }
-    // 카카오 코드 존재하지 않으면
-    else {
-      // 다시 login으로
-      console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
-      navigate('/login');
-    }
+      // 카카오 코드 존재하지 않으면
+      else {
+        // 다시 login으로
+        console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
+        navigate('/login');
+      }
+    };
+
+    fetchData();
   });
 
   return (
     // 카카오 로딩중
-    <div className="w-full h-screen flex flex-col justify-center items-center relative">
+    <div className="w-full h-screen flex flex-col justify-center items-center relative bg-LOGIN bg-cover">
       <div role="status">
         <svg
           aria-hidden="true"
-          className="inline w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-green-600"
+          className="inline w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-MAIN1"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
