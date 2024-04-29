@@ -1,6 +1,6 @@
 // import { useState } from 'react';
-import CalenderDays from './CalenderDays';
-import CalenderCells from './CalenderCells';
+import CalenderDays from '@/components/greenhouse/CalenderDays';
+import CalenderCells from '@/components/greenhouse/CalenderCells';
 
 interface IRenderMonth {
   renderMonth: Date;
