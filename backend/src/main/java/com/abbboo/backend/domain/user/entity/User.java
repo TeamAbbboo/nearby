@@ -24,6 +24,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -41,7 +42,7 @@ public class User extends BaseEntity {  // 사용자
     private Family family;
 
     // 카카오 아이디
-    @Column(name = "kakao_id", nullable = false, unique = true)
+    @Column(name = "kakao_id", unique = true)
     private Long kakaoId;
 
     // 닉네임
@@ -60,6 +61,11 @@ public class User extends BaseEntity {  // 사용자
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    // 회원 탈퇴 여부
+    @Column(name = "is_deleted")
+    @ColumnDefault("false")
+    private Boolean isDeleted;
+
     // 받은 메시지 목록
     @OneToMany(mappedBy = "receiver")
     private List<Message> receivedMessages = new ArrayList<>();
@@ -72,20 +78,8 @@ public class User extends BaseEntity {  // 사용자
     @OneToMany(mappedBy = "user")
     private List<Story> stories = new ArrayList<>();
 
-    // 소식에 등록한 반응 목록
-    @OneToMany(mappedBy = "user")
-    private List<Reaction> reactions = new ArrayList<>();
-
     // 알림 목록
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
-
-    // 상태 등록 내역
-    @OneToMany(mappedBy = "user")
-    private List<MoodHistory> moodHistories = new ArrayList<>();
-
-    // 사용자 경험치 내역
-    @OneToMany(mappedBy = "user")
-    private List<ExpHistory> expHistories = new ArrayList<>();
 
 }
