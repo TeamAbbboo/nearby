@@ -30,10 +30,10 @@ const PokeModal = ({ setIsPokeModalOpen }: IPokeModalProps) => {
           <p>상대방에게 알림이 전송됩니다</p>
         </div>
         <div className="flex justify-center text-white h-10 gap-5">
-          <button onClick={() => setIsPokeModalOpen(false)} className="bg-SUB1 rounded-2xl w-24">
+          <button onClick={() => setIsPokeModalOpen(false)} className="bg-[rgb(255,215,234)] rounded-2xl w-24">
             아니요
           </button>
-          <button className="bg-MAIN1 rounded-2xl w-24 ">예</button>
+          <button className="bg-[rgb(247,159,202)] rounded-2xl w-24 ">예</button>
         </div>
       </div>
     </Modal>
