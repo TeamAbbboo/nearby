@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.message.entity;
 
 import com.abbboo.backend.domain.user.entity.User;
+import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "message")
-public class Message { // 쪽지
+public class Message extends BaseEntity { // 쪽지
 
     @Column(name = "message_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
