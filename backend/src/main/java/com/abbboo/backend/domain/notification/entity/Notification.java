@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.notification.entity;
 
 import com.abbboo.backend.domain.user.entity.User;
+import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -17,7 +18,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Notification { // 알림
+public class Notification extends BaseEntity { // 알림
     
     @Column(name = "notification_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
