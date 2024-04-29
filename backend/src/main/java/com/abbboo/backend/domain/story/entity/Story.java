@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.story.entity;
 import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.base.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,7 +46,7 @@ public class Story extends BaseEntity { // 소식
     private Boolean saved;
 
     // 소식에 달린 반응
-    @OneToMany(mappedBy = "story")
+    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     private List<Reaction> reactions = new ArrayList<>();
 
 }
