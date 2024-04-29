@@ -1,4 +1,4 @@
-package com.abbboo.backend.domain.moodHistory.entity;
+package com.abbboo.backend.domain.mood.entity;
 
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.base.BaseEntity;
@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MoodHistory extends BaseEntity { // 상태
+@Table(name = "mood_history")
+public class MoodHistory extends BaseEntity { // 사용자의 기분 상태 등록 내역
 
-    @Column(name = "mood_id")
+    @Column(name = "mood_history_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,8 +30,9 @@ public class MoodHistory extends BaseEntity { // 상태
     @JoinColumn(name = "user_id")
     private User user;
 
-    // 등록한 감정 상태
-    @Column(name = "content", length = 10)
-    private String content;
+    // 등록한 감정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mood_id")
+    private Mood mood;
 
 }

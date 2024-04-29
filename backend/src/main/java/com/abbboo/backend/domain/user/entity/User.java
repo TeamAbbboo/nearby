@@ -1,11 +1,8 @@
 package com.abbboo.backend.domain.user.entity;
 
-import com.abbboo.backend.domain.expHistory.entity.ExpHistory;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.message.entity.Message;
-import com.abbboo.backend.domain.moodHistory.entity.MoodHistory;
 import com.abbboo.backend.domain.notification.entity.Notification;
-import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.Column;
