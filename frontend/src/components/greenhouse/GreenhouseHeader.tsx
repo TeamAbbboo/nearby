@@ -1,6 +1,7 @@
 import albumIcon from '@/assets/icon_album.png';
 import { firework } from '@/utils/firework';
 import { Dispatch, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface IDandelionState {
   level: number; // 레벨
@@ -10,7 +11,12 @@ interface IDandelionState {
 }
 
 const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) => {
+  const navigate = useNavigate();
   const progressPercentage = (exp / expMax) * 100 >= 100 ? 100 : (exp / expMax) * 100;
+
+  const goAlbum = () => {
+    navigate('/album');
+  };
 
   return (
     <div className="p-5">
@@ -37,9 +43,12 @@ const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) =>
         </div>
       </div>
       <div className="w-full flex justify-end pt-5">
-        <div className="w-10 h-10 bg-white hover:bg-gray-100 border rounded-full shadow-md flex justify-center items-center">
+        <button
+          className="w-10 h-10 bg-white hover:bg-gray-100 border rounded-full shadow-md flex justify-center items-center"
+          onClick={() => goAlbum()}
+        >
           <img className="size-5" src={albumIcon} alt="Album" />
-        </div>
+        </button>
       </div>
     </div>
   );
