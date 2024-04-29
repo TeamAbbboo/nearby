@@ -1,6 +1,6 @@
 package com.abbboo.backend.domain.story.entity;
 
-import com.abbboo.backend.domain.reaction.entity.Reaction;
+import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.CascadeType;
@@ -47,6 +47,6 @@ public class Story extends BaseEntity { // 소식
 
     // 소식에 달린 반응
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
-    private List<Reaction> reactions = new ArrayList<>();
+    private List<ReactionHistory> reactions = new ArrayList<>();
 
 }

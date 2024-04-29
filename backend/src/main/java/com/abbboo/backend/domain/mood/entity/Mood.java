@@ -1,4 +1,4 @@
-package com.abbboo.backend.domain.reaction.entity;
+package com.abbboo.backend.domain.mood.entity;
 
 import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.Column;
@@ -15,14 +15,14 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "reaction")
-public class Reaction extends BaseEntity { // 반응
+@Table(name = "mood")
+public class Mood extends BaseEntity { // 기분 상태
 
-    @Column(name = "reaction_id")
+    @Column(name = "mood_id")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // 반응 정보
+    // 기분 상태 정보
     @Column(name = "expression", length = 10)
     private String expression;
 
