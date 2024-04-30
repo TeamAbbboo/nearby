@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,8 @@ public class S3Util {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;  // 버킷명
 
-    private String[] directories = new String[]{ // 파일별 폴더 분류
+    /* 파일 별 폴더 분류 */
+    private String[] directories = new String[]{
         "story/",   // 소식 파일
         "tts/"      // 음성 파일
     };
@@ -46,12 +48,10 @@ public class S3Util {
         return amazonS3.getUrl(bucket, newFileName).toString();
     }
 
-    // 파일명을 생성하는 메소드
-    public String makeFileName(String directory, String fileName) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-        String time = sdf.format(new Date());
-        return directory + time + "_" + fileName;
+    /* 파일명을 생성하는 메소드 */
+    public String makeFileName(String directory, String filename) {
+        // UUID를 활용하여 고유한 파일명 생성
+        UUID uuid = UUID.randomUUID();
+        return directory + uuid + '-' + filename;
     }
-
-
 }
