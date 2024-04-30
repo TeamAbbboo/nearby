@@ -1,9 +1,9 @@
 import { HttpResponse, http } from 'msw';
-import { postLoginRes } from '../data/auth';
+import { postKakaoLoginRes } from '@/mocks/api/data/auth';
 
 export const authHandlers = [
-  http.post('/api/auth/login', () => {
-    const success = HttpResponse.json(postLoginRes, {
+  http.post('/users/login', () => {
+    const success = HttpResponse.json(postKakaoLoginRes, {
       status: 200,
       headers: {
         authorization:
