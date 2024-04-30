@@ -20,11 +20,11 @@ const BottomSheet = ({ height, onClose, children }: IBottomSheetProps) => {
   return (
     <>
       <div
-        className={`absolute w-full h-full top-0 left-0 right-0 bottom-0  ${isRendering && 'bg-black/30'}`}
+        className={`absolute w-full h-full top-0 left-0 right-0 bottom-0 z-20 ${isRendering && 'bg-black/30'}`}
         onClick={handleClose}
       ></div>
       <div
-        className={`w-full absolute bottom-0 rounded-t-[2.2rem] bg-white ${isRendering ? 'animate-sheetOn' : 'animate-sheetOff'}`}
+        className={`w-full absolute bottom-0 rounded-t-[2.2rem] z-20 bg-white ${isRendering ? 'animate-sheetOn' : 'animate-sheetOff'}`}
       >
         <div
           className={`w-full ${height}`}
