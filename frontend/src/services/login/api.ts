@@ -1,9 +1,9 @@
 import { axiosCommonInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
-import { ILoginRes } from '@/types/auth';
+import { IPostKakaoLoginRes } from '@/types/auth';
 
 /* 카카오 로그인 */
-export const doKakaoLoginReq = async (kakaoCode: string): Promise<APIResponse<ILoginRes>> => {
+export const doPostKakaoLoginReq = async (kakaoCode: string): Promise<APIResponse<IPostKakaoLoginRes>> => {
   try {
     const { data } = await axiosCommonInstance.post('/users/login', {
       kakaoId: kakaoCode,
