@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
-    @Value("${cloud.aws.credentials.access-key}")  // IAM 사용자 액세스 키
+    @Value("${cloud.aws.s3.credentials.access-key}")  // IAM 사용자 액세스 키
     private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")  // IAM 사용자 비밀 액세스 키
+    @Value("${cloud.aws.s3.credentials.secret-key}")  // IAM 사용자 비밀 액세스 키
     private String secretKey;
 
-    @Value("${cloud.aws.region.static}")  // 버킷 리전
+    @Value("${cloud.aws.s3.bucket}")  // 버킷 리전
     private String region;
 
     // AmazonS3Client에 IAM 사용자 액세스 키, 버킷 리전 설정
