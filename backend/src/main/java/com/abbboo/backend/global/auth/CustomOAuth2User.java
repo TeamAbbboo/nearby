@@ -30,7 +30,7 @@ public class CustomOAuth2User implements OAuth2User {
     // -> 해당 서비스 이름 없음
     @Override
     public String getName() {
-        return null;
+        return "UnKnown";
     }
 
     // 사용자 아이디
