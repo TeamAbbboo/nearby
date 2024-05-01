@@ -4,9 +4,19 @@ import penguin from '@/assets/one_penguin.png';
 import groupPenguin from '@/assets/group_penguin.png';
 
 /* libraries */
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+  useEffect(() => {
+    console.log('여기서 작업');
+    /* To do list */
+    // 1. 헤더의 Access 토큰을 파싱한다.
+    // 2. 파싱이 성공되었다면, Access 토큰은 useStore에 저장
+    // 3. refresh 토큰은 쿠키에 자동적으로 저장 됩니다.
+    // 그런 다음, 강제 렌더링 작업 필요
+  }, []);
+
   const navigate = useNavigate();
 
   return (

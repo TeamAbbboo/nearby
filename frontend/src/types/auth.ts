@@ -1,8 +1,4 @@
-export interface IPostKakaoLoginReq {
-  kakaoId: string;
-}
-
-export interface IPostKakaoLoginRes {
+export interface IPostLoginRes {
   userId: number;
   familyId: number;
   nickname: string;

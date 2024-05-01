@@ -1,5 +1,4 @@
 /* components */
-import userStore from '@/stores/userStore';
 import { useLogin } from '@/hooks/login/useLogin';
 
 /* libraries */
@@ -7,81 +6,30 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const KakaoLoginRedircet = () => {
-  /* 인가 코드 쿼리 스트링 조회 */
+  /* Access 토큰 쿼리 스트링으로 조회 */
   const queryParams = new URLSearchParams(location.search);
-  const kakaoCode = queryParams.get('code');
+  const accessToken = queryParams.get('token');
 
-  /* 카카오 로그인 처리 */
-  const { usePostKakaoLogin } = useLogin();
-  const { mutate: doPostKakaoLoginReq } = usePostKakaoLogin();
+  /* 사용자 정보 가져오기 */
+  const { usePostLogin } = useLogin();
+  const { mutate: doPostLoginReq } = usePostLogin();
 
-  /* 이동할 navigate 객체 생성 */
   const navigate = useNavigate();
 
-  /* 사용자 객체 생성 */
-  const { loginUser } = userStore();
-
-  /* 백엔드 로그인 요청 */
   const fetchData = async () => {
-    if (kakaoCode) {
-      doPostKakaoLoginReq(
-        { kakaoCode },
-        {
-          onSuccess: res => {
-            const { userId, familyId, nickname, birthday, mood } = res.data;
+    if (accessToken) {
+      // 토큰 저장
+      localStorage.setItem('ACCESS_TOKEN', accessToken);
 
-            // 1. 닉네임 유무 --> 회원가입
-            // 2. FamilyId 유무 --> 가족 유무
-
-            // 로그인 진행
-            if (nickname) {
-              loginUser({
-                userId,
-                familyId,
-                nickname,
-                birthday,
-                mood,
-                accessToken: '',
-                refreshToken: '',
-              });
-
-              // if (familyId) {
-              // } else {
-              // }
-
-              navigate('/');
-            }
-            // 회원 가입 진행
-            else {
-              loginUser({
-                userId: userId,
-                familyId: 0,
-                nickname: '',
-                birthday: '',
-                mood: '',
-                accessToken: '',
-                refreshToken: '',
-              });
-
-              navigate('/register');
-            }
-          },
-          onError: err => {
-            console.log(err);
-            navigator('/login');
-          },
-        },
-      );
+      // 로그인 실행
+      doPostLoginReq();
     } else {
-      console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
+      console.log('KakaoLoginRedirectPage Error : [서버에러] AccessToken이 존재하지 않음.');
       navigate('/login');
     }
   };
 
-  /* kakaocode로 서버에 POST */
   useEffect(() => {
-    // useEffect 자체가 promise를 반환할 수 없기에
-    // async 사용
     fetchData();
   }, []);
 

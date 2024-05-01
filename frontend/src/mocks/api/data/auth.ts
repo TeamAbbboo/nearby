@@ -1,6 +1,7 @@
-export const postKakaoLoginRes = {
+export const postLoginRes = {
   status: 200,
   message: '로그인에 성공했습니다.',
+  code: 'SUCCESS',
   data: {
     userId: 1,
     familyId: 1,
