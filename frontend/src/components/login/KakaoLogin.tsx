@@ -3,14 +3,12 @@ import kakao from '@/assets/kakao.png';
 import TransparentButton from '@/components/@common/TransparentButton';
 
 const KakaoLogin = () => {
-  /* .env 저장 필요 */
-  const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
-
-  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  /* 카카오 하이퍼 링크 */
+  // const link = `${import.meta.env.VITE_BASE_URL}/oauth2/authorization/kakao`;
+  const link = 'http://localhost:8080/oauth2/authorization/kakao';
 
   const loginHandler = () => {
-    window.location.href = link;
+    window.location.replace(link);
   };
 
   return (
