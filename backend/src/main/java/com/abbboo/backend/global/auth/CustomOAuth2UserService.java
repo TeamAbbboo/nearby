@@ -42,6 +42,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             return null;
         }
 
-        return oAuth2User;
+        // 리소스 서버에서 발급받은 정보로 사용자 아이디 생성
+        String createdUserId = oAuth2Response.getProvider()+"-"+oAuth2Response.getProviderId();
+
+        log.info("사용자 아이디 생성 : OK");
+        
+        // OAuth2User 인자 객체 생성
+        OAuth2UserDto oAuth2UserDto = OAuth2UserDto.builder()
+                .createdUserId(createdUserId)
+                .build();
+
+        log.info("Authentication Provider 전달 객체 생성 : OK");
+
+        // Authentication Provider 전달 객체 생성 후 반환
+        return new CustomOAuth2User(oAuth2UserDto);
     }
 }
