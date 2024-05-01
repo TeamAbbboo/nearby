@@ -1,5 +1,5 @@
 /* components */
-import { useLogin } from '@/hooks/login/useLogin';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useEffect } from 'react';
@@ -11,7 +11,7 @@ const KakaoLoginRedircet = () => {
   const accessToken = queryParams.get('token');
 
   /* 사용자 정보 가져오기 */
-  const { usePostLogin } = useLogin();
+  const { usePostLogin } = useAuth();
   const { mutate: doPostLoginReq } = usePostLogin();
 
   const navigate = useNavigate();

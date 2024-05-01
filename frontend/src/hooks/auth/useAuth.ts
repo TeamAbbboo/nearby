@@ -1,12 +1,13 @@
 /* components */
 import userStore from '@/stores/userStore';
-import { doPostLoginReq } from '@/services/login/api';
+import { doPostLoginReq, doPostSignupReq } from '@/services/auth/api';
+import { IPostSignupReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-export const useLogin = () => {
+export const useAuth = () => {
   const { loginUser } = userStore();
   const navigate = useNavigate();
 
@@ -52,5 +53,18 @@ export const useLogin = () => {
     });
   };
 
-  return { usePostLogin };
+  const usePostSignup = () => {
+    return useMutation({
+      mutationFn: async ({ nickname, birthday }: IPostSignupReq) => doPostSignupReq({ nickname, birthday }),
+      onSuccess: () => {
+        console.log('회원가입에 성공했습니다.');
+      },
+      onError: () => {
+        console.log('회원가입에 실패했습니다.');
+        navigate('/register');
+      },
+    });
+  };
+
+  return { usePostLogin, usePostSignup };
 };

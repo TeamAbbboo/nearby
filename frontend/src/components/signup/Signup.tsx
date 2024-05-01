@@ -2,6 +2,7 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import './Style.css';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useRef, useState } from 'react';
@@ -10,6 +11,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Signup = () => {
   const location = useLocation();
   const navigator = useNavigate();
+
+  /* 사용자 정보 가져오기 */
+  const { usePostSignup } = useAuth();
+  const { mutate: doPostSignupReq } = usePostSignup();
 
   /* 닉네임 + 생년월일 */
   const nicknameRef = useRef<HTMLInputElement>(null);
@@ -58,13 +63,14 @@ const Signup = () => {
     }
   };
 
-  /* 아띠 시작하기 */
+  /* 회원가입 */
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
       nicknameRef.current?.focus();
       return;
     }
-    setNickname('');
+
+    doPostSignupReq(nickname, year + '-' + month + '-' + date);
     navigator('/' + location.state.data.selectPenguinOption);
   };
 
@@ -134,7 +140,7 @@ const Signup = () => {
         <TransparentButton width="w-full" height="h-20" rounded="rounded-2xl" shadow="shadow-xl" onClick={startAtti}>
           <div>
             <div className="text-lg font-bold">
-              <p>아띠 시작하기</p>
+              <p>등록하기</p>
             </div>
           </div>
         </TransparentButton>

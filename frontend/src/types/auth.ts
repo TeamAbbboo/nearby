@@ -5,3 +5,8 @@ export interface IPostLoginRes {
   birthday: string;
   mood: string;
 }
+
+export interface IPostSignupReq {
+  nickname: string;
+  birthday: string;
+}

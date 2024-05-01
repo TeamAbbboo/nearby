@@ -5,7 +5,7 @@ const SignupPage = () => {
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
       <div className="pl-5 pt-20 text-2xl font-bold">
         <p>
-          회원가입으로
+          가족들에게
           <br />
           마음을 전달하세요
         </p>
