@@ -16,12 +16,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "story")
 public class Story extends BaseEntity { // 소식
 
@@ -49,9 +52,8 @@ public class Story extends BaseEntity { // 소식
 
 
     @Builder
-    public Story(User user, String url, Boolean isSaved) {
+    public Story(User user, String url) {
         this.user = user;
         this.url = url;
-        this.isSaved = isSaved;
     }
 }
