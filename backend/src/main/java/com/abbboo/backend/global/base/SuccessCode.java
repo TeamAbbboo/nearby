@@ -8,9 +8,10 @@ import lombok.Getter;
 public enum SuccessCode {
 
     // story, reaction
-    STORY_UPLOAD_SUCCESS(200, "소식 업로드에 성공하였습니다.", "SUCCESS"),
-    STORY_SAVE_SUCCESS(200, "소식 보관에 성공하였습니다.", "SUCCESS"),
-    REACTION_REGIST_SUCCESS(200, "소식에 성공적으로 반응했습니다.", "SUCCESS"),
+    STORY_UPLOAD_SUCCESS(201, "소식 업로드에 성공하였습니다.", "SUCCESS"),
+    STORY_SAVE_SUCCESS(204, "소식 보관에 성공하였습니다.", "SUCCESS"),
+    REACTION_REGIST_SUCCESS(201, "반응을 성공적으로 등록했습니다.", "SUCCESS"),
+    DAYSTORY_GET_SUCCESS(200, "24시간 이내 소식 조회에 성공하였습니다.", "SUCCESS"),
     ;
 
     private final int status;

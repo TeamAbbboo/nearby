@@ -4,6 +4,8 @@ import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
 import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
+import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
+import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -85,5 +87,12 @@ public class StoryServiceImpl implements StoryService{
             .build();
 
         reactionHistoryRepository.save(reactionHistory);
+    }
+
+    @Override
+    public DayStoryListRes readDayStory(StoriesReq storiesReq) {
+        // familyId로 24시간이내 소식들 조회하기
+        int familyId = storiesReq.getFamilyId();
+        return storyRepository.findDayStoriesByFamilyId(familyId);
     }
 }
