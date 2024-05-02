@@ -8,5 +8,6 @@ public interface StoryService {
 
     void updateIsSaved(Long storyId);
 
-    void createReaction(String expression, Long storyId);
+    void createReaction(StoryReactionReq reactionReq, Long storyId);
+
 }

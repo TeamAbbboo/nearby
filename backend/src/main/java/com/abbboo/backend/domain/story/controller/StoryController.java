@@ -4,6 +4,7 @@ import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
+import com.abbboo.backend.domain.story.dto.StoryReactionReq;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.base.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,8 +47,8 @@ public class StoryController {
     @Operation(summary = "소식에 반응 등록")
     @PostMapping("/{storyId}/reactions")
     public ResponseEntity<BaseResponse> registReaction(
-        @PathVariable("storyId") Long storyId,@RequestBody String expression){
-        storyService.createReaction(expression, storyId);
+        @PathVariable("storyId") Long storyId, @RequestBody StoryReactionReq reactionReq){
+        storyService.createReaction(reactionReq, storyId);
         return ResponseEntity.ok(BaseResponse.of(REACTION_REGIST_SUCCESS));
     }
 }
