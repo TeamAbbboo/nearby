@@ -21,10 +21,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Table(name = "story")
 public class Story extends BaseEntity { // 소식
 
@@ -55,5 +57,9 @@ public class Story extends BaseEntity { // 소식
     public Story(User user, String url) {
         this.user = user;
         this.url = url;
+    }
+
+    public void changeIsSaved(){
+        this.isSaved = !isSaved;
     }
 }

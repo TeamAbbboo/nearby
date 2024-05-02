@@ -12,7 +12,10 @@ public enum ErrorCode {
     FILE_IS_NULL(400, "파일은 필수값입니다. 소식 등록에 실패했습니다.", "S-001", ""),
     UPLOAD_IS_FAIL(500, "파일 업로드에 실패했습니다. 서버가 잘못했습니다.", "S-002", ""),
 
-    //User
+    // Story
+    STORY_NOT_FOUND(404, "소식을 찾을 수 없습니다", "U-001", ""),
+
+    // User
     USER_NOT_FOUND(404, "사용자를 찾을 수 없습니다", "U-001", ""),
     ;
 
