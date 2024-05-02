@@ -2,6 +2,8 @@ package com.abbboo.backend.global.config;
 
 import com.abbboo.backend.global.auth.CustomOAuth2UserService;
 import com.abbboo.backend.global.auth.CustomSuccessHandler;
+import com.abbboo.backend.global.filter.JwtFilter;
+import com.abbboo.backend.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +20,7 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
+    private final JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,6 +43,11 @@ public class SecurityConfig {
                 // -> JWT 방식, OAuth2 방식의 로그인을 수행하므로 비활성화
                 .httpBasic((auth) -> auth.disable());
 
+        // jwt filter 등록
+        // -> UsernamePasswordAuthenticationFilter 이전에 JwtFilter 수행
+        http
+                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
         // OAuth2 설정
         http
                 // OAuth2 로그인 후 리소스 서버에서 받은 응답을 customOAuth2UserService 전달
@@ -52,7 +61,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
 
                         // ROOT 경로 모든 접근 허용 설정
-                        .requestMatchers("*").permitAll()
+                        .requestMatchers("/index.html","/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
                         // 이외 인증된 Client 접근 허용
                         .anyRequest().authenticated());
