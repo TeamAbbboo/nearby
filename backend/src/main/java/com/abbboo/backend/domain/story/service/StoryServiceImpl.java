@@ -47,4 +47,16 @@ public class StoryServiceImpl implements StoryService{
 
         storyRepository.save(story);
     }
+
+    @Override
+    @Transactional
+    public void updateIsSaved(Long storyId) {
+        // id로 story 가져오기
+        Story story = storyRepository.findById(storyId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.STORY_NOT_FOUND));
+        // story isSaved 값 변경
+        log.info("원래 isSaved : {}",story.getIsSaved());
+        story.changeIsSaved();
+        log.info("변경 isSaved : {}",story.getIsSaved());
+    }
 }

@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.controller;
 
+import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
 import com.abbboo.backend.domain.story.service.StoryService;
@@ -9,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,5 +32,12 @@ public class StoryController {
         @RequestParam("file") MultipartFile multipartFile){
         storyService.createStroy(multipartFile);
         return ResponseEntity.ok(BaseResponse.of(STORY_UPLOAD_SUCCESS));
+    }
+
+    @Operation(summary = "소식 보관")
+    @PatchMapping("/{storyId}")
+    public ResponseEntity<BaseResponse> saveStory(@PathVariable("storyId") Long storyId){
+        storyService.updateIsSaved(storyId);
+        return ResponseEntity.ok(BaseResponse.of(STORY_SAVE_SUCCESS));
     }
 }
