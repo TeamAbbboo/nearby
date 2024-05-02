@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -40,7 +41,7 @@ public class User extends BaseEntity {  // 사용자
 
     // 카카오 아이디
     @Column(name = "kakao_id", unique = true)
-    private Long kakaoId;
+    private String kakaoId;
 
     // 닉네임
     @Column(name = "nickname")
@@ -79,4 +80,8 @@ public class User extends BaseEntity {  // 사용자
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
 
+    @Builder
+    public User(String kakaoId) {
+        this.kakaoId = kakaoId;
+    }
 }
