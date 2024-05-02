@@ -18,14 +18,14 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 public class User extends BaseEntity {  // 사용자
@@ -62,7 +62,8 @@ public class User extends BaseEntity {  // 사용자
     // 회원 탈퇴 여부
     @Column(name = "is_deleted")
     @ColumnDefault("false")
-    private Boolean isDeleted;
+    @Builder.Default
+    private Boolean isDeleted = false;
 
     // 받은 메시지 목록
     @OneToMany(mappedBy = "receiver")
@@ -80,8 +81,8 @@ public class User extends BaseEntity {  // 사용자
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
 
-    @Builder
-    public User(String kakaoId) {
-        this.kakaoId = kakaoId;
+    // 토큰 갱신 메서드
+    public void changeRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }
