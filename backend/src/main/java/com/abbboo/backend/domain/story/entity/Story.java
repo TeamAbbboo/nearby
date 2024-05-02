@@ -17,16 +17,17 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DynamicInsert
 @Table(name = "story")
 public class Story extends BaseEntity { // 소식
 
@@ -46,18 +47,12 @@ public class Story extends BaseEntity { // 소식
     // 보관 여부
     @Column(name = "is_saved")
     @ColumnDefault("false")
-    private Boolean isSaved;
+    @Builder.Default
+    private Boolean isSaved = false;
 
     // 소식에 달린 반응
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     private List<ReactionHistory> reactions = new ArrayList<>();
-
-
-    @Builder
-    public Story(User user, String url) {
-        this.user = user;
-        this.url = url;
-    }
 
     public void changeIsSaved(){
         this.isSaved = !isSaved;
