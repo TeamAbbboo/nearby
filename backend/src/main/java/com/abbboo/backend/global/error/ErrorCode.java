@@ -2,13 +2,22 @@ package com.abbboo.backend.global.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    // 예시 데이터
-    EXAMPLE_CODE(404, "실패하였습니다.", "F-001","");
+    // S3 컨텐츠 관련 오류
+    FILE_IS_NULL(400, "파일은 필수값입니다. 소식 등록에 실패했습니다.", "S-001", ""),
+    UPLOAD_IS_FAIL(500, "파일 업로드에 실패했습니다. 서버가 잘못했습니다.", "S-002", ""),
+
+    // Story
+    STORY_NOT_FOUND(404, "소식을 찾을 수 없습니다", "U-001", ""),
+
+    // User
+    USER_NOT_FOUND(404, "사용자를 찾을 수 없습니다", "U-001", ""),
+    ;
 
     private final int status;
     private final String message;
