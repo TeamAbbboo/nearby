@@ -1,7 +1,7 @@
 /* components */
 import userStore from '@/stores/userStore';
-import { doPostLoginReq, doPostSignupReq } from '@/services/auth/api';
-import { IPostSignupReq } from '@/types/auth';
+import { doPostLoginReq, doPostSignupReq, doPostEnrollFamilyReq } from '@/services/auth/api';
+import { IPostSignupReq, IPostEnrollFamilyReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation } from '@tanstack/react-query';
@@ -21,6 +21,14 @@ export const useAuth = () => {
           data: { userId, familyId, nickname, birthday, mood },
         } = res;
 
+        userStore.setState({
+          userId: userId,
+          familyId: familyId,
+          nickname: nickname,
+          birthday: birthday,
+          mood: mood,
+        });
+
         // nickname이 존재하면, 바로 광장
         if (nickname) {
           loginUser({
@@ -31,7 +39,7 @@ export const useAuth = () => {
             mood,
           });
 
-          navigate('/');
+          window.location.replace(`${import.meta.env.BASE_URL}`);
         }
         // nickname이 없다면, 회원가입
         else {
@@ -46,7 +54,8 @@ export const useAuth = () => {
           navigate('/register');
         }
       },
-      onError: () => {
+      onError: error => {
+        console.log(error);
         console.log('카카오톡 서버가 불안정합니다.');
         navigate('/login');
       },
@@ -66,5 +75,17 @@ export const useAuth = () => {
     });
   };
 
-  return { usePostLogin, usePostSignup };
+  const useEnrollFamilyCode = () => {
+    return useMutation({
+      mutationFn: async ({ userId, familyCode }: IPostEnrollFamilyReq) => doPostEnrollFamilyReq({ userId, familyCode }),
+      onSuccess: () => {
+        console.log('가족 그룹 참여에 성공했습니다.');
+      },
+      onError: () => {
+        console.log('가족 코드가 유효하지 않습니다.');
+      },
+    });
+  };
+
+  return { usePostLogin, usePostSignup, useEnrollFamilyCode };
 };

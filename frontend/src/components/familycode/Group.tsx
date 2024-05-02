@@ -1,16 +1,17 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
+import { useAuth } from '@/hooks/auth/useAuth';
+import userStore from '@/stores/userStore';
 
 /* libraries */
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-/* To do list */
-// 1. FamilyCode 검증하는 API를 호출
-// 2. 성공 응답이 오면 가족 state를 초기화
 
 const Group = () => {
-  const navigator = useNavigate();
+  const userId = userStore(state => state.userId);
+
+  /* 사용자 정보 가져오기 */
+  const { useEnrollFamilyCode } = useAuth();
+  const { mutate: doPostEnrollFamilyReq } = useEnrollFamilyCode();
 
   /* 가족 코드 */
   const familyCodeRef = useRef<HTMLInputElement>(null);
@@ -21,14 +22,15 @@ const Group = () => {
     setFamilyCode(e.target.value.trim());
   };
 
-  /* 아띠 시작하기 */
-  const startAtti = () => {
+  /* Nearby 시작하기 */
+  const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
       familyCodeRef.current?.focus();
       return;
     }
+
+    doPostEnrollFamilyReq({ userId, familyCode });
     setFamilyCode('');
-    navigator('/');
   };
 
   return (
@@ -43,7 +45,7 @@ const Group = () => {
             className="w-full bg-white/0 outline-none text-center text-lg font-bold"
             type="text"
             name="familyCode"
-            maxLength={7}
+            maxLength={6}
             ref={familyCodeRef}
             value={familyCode}
             onChange={onChangeFamilyCode}
@@ -52,10 +54,10 @@ const Group = () => {
       </div>
 
       <div className="w-full pt-[332px] px-5 flex-2">
-        <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startAtti}>
+        <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startNearby}>
           <div>
             <div className="text-lg font-bold">
-              <p>아띠 시작하기</p>
+              <p>Nearby 시작하기</p>
             </div>
           </div>
         </TransparentButton>
