@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.service;
 
+import com.abbboo.backend.domain.story.dto.StoryReactionReq;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StoryService {
