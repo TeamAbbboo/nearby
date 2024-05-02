@@ -1,8 +1,9 @@
 /* components */
+import userStore from '@/stores/userStore';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
-import './Style.css';
 import { useAuth } from '@/hooks/auth/useAuth';
+import './Style.css';
 
 /* libraries */
 import { useRef, useState } from 'react';
@@ -18,7 +19,7 @@ const Signup = () => {
 
   /* 닉네임 + 생년월일 */
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState<string>('');
   const [year, setYear] = useState(1999);
   const [month, setMonth] = useState(1);
   const [date, setDate] = useState(1);
@@ -70,7 +71,15 @@ const Signup = () => {
       return;
     }
 
-    doPostSignupReq(nickname, year + '-' + month + '-' + date);
+    doPostSignupReq({
+      nickname,
+      birthday: year + 1 + '-' + month + '-' + date,
+    });
+
+    userStore.setState({
+      nickname: nickname,
+      birthday: year + 1 + '-' + month + '-' + date,
+    });
     navigator('/' + location.state.data.selectPenguinOption);
   };
 
@@ -137,7 +146,7 @@ const Signup = () => {
 
       {/* 아띠 시작하기 */}
       <div className="w-full p-16 px-5 flex-2">
-        <TransparentButton width="w-full" height="h-20" rounded="rounded-2xl" shadow="shadow-xl" onClick={startAtti}>
+        <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startAtti}>
           <div>
             <div className="text-lg font-bold">
               <p>등록하기</p>
