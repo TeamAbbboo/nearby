@@ -1,5 +1,9 @@
 package com.abbboo.backend.domain.story.service;
 
+import com.abbboo.backend.domain.reaction.entity.Reaction;
+import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
+import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
+import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -23,6 +27,8 @@ public class StoryServiceImpl implements StoryService{
     private final S3Util s3Util;
     private final TempUser tempUser;
     private final StoryRepository storyRepository;
+    private final ReactionRepository reactionRepository;
+    private final ReactionHistoryRepository reactionHistoryRepository;
 
     @Override
     @Transactional
@@ -58,5 +64,26 @@ public class StoryServiceImpl implements StoryService{
         log.info("원래 isSaved : {}",story.getIsSaved());
         story.changeIsSaved();
         log.info("변경 isSaved : {}",story.getIsSaved());
+    }
+
+    @Override
+    @Transactional
+    public void createReaction(String expression, Long storyId) {
+        log.info("반응 등록 서비스 :: storyId : {}, reaction : {}", storyId, expression);
+        // 받은 반응 expression으로 reaction 가져오기
+        Reaction reaction = reactionRepository.findByExpression(expression);
+        // storyId로 story 가져오기
+        Story story = storyRepository.findById(storyId)
+            .orElseThrow(()->new NotFoundException(ErrorCode.STORY_NOT_FOUND));
+
+        // TODO : User 가져오기
+        User user = tempUser.findById(1L).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // reaction_history에 저장
+        ReactionHistory reactionHistory = ReactionHistory.builder()
+            .reaction(reaction).story(story).user(user)
+            .build();
+
+        reactionHistoryRepository.save(reactionHistory);
     }
 }
