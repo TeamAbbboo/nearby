@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -49,4 +50,10 @@ public class Story extends BaseEntity { // 소식
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     private List<ReactionHistory> reactions = new ArrayList<>();
 
+
+    @Builder
+    public Story(User user, String url) {
+        this.user = user;
+        this.url = url;
+    }
 }
