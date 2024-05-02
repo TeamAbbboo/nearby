@@ -1,6 +1,11 @@
 package com.abbboo.backend.global.util;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SecurityException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtUtil {
 
@@ -21,13 +27,8 @@ public class JwtUtil {
     }
 
     // ID 확인
-    public String getCreatedId(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("createdId", String.class);
-    }
-
-    // 만료 여부 확인
-    public Boolean isExpired(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+    public String getCreatedUserId(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("createdUserId", String.class);
     }
 
     // JWT 생성
@@ -46,5 +47,32 @@ public class JwtUtil {
                 // 서명
                 .signWith(secretKey)
                 .compact();
+    }
+
+    // JWT 검증
+    public boolean validateToken(String token) {
+
+        try {
+
+            Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token);
+            return true;
+
+        } catch (SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+
+        } catch (ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+
+        } catch (UnsupportedJwtException e) {
+            log.info("지원되지 않는 JWT 토큰 입니다.");
+
+        } catch (IllegalArgumentException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
+
+        } catch (Exception e){
+            log.info("검증 시도 중 에러 발생");
+        }
+
+        return false;
     }
 }
