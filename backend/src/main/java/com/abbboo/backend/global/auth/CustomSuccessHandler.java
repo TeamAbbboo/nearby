@@ -25,7 +25,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
-    @Value("${spring.security.oauth2.redirect.url}")
+    @Value("${spring.security.oauth2.redirect.url.full}")
     private String sendRedirectUrl;
 
     @SneakyThrows
