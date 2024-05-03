@@ -1,7 +1,7 @@
 /* components */
 import userStore from '@/stores/userStore';
-import { doPostLoginReq, doPostSignupReq, doPostEnrollFamilyReq } from '@/services/auth/api';
-import { IPostSignupReq, IPostEnrollFamilyReq } from '@/types/auth';
+import { doPostLoginReq, doPostSignupReq, doPatchEnrollFamilyReq } from '@/services/auth/api';
+import { IPostSignupReq, IPatchEnrollFamilyReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation } from '@tanstack/react-query';
@@ -70,7 +70,8 @@ export const useAuth = () => {
 
   const useEnrollFamilyCode = () => {
     return useMutation({
-      mutationFn: async ({ userId, familyCode }: IPostEnrollFamilyReq) => doPostEnrollFamilyReq({ userId, familyCode }),
+      mutationFn: async ({ userId, familyCode }: IPatchEnrollFamilyReq) =>
+        doPatchEnrollFamilyReq({ userId, familyCode }),
     });
   };
 

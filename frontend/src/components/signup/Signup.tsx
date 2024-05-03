@@ -1,9 +1,9 @@
 /* components */
+import './Style.css';
 import userStore from '@/stores/userStore';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
-import './Style.css';
 
 /* libraries */
 import { useRef, useState } from 'react';
@@ -83,7 +83,7 @@ const Signup = () => {
             nickname: nickname,
             birthday: year + 1 + '-' + month + '-' + date,
           });
-          navigator('/' + location.state.data.selectPenguinOption);
+          window.location.replace('/' + location.state.data.selectPenguinOption);
         },
         onError: () => {
           console.log('회원가입에 실패했습니다.');

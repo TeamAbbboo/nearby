@@ -11,7 +11,7 @@ const Group = () => {
 
   /* 사용자 정보 가져오기 */
   const { useEnrollFamilyCode } = useAuth();
-  const { mutate: doPostEnrollFamilyReq } = useEnrollFamilyCode();
+  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
 
   /* 가족 코드 */
   const familyCodeRef = useRef<HTMLInputElement>(null);
@@ -30,7 +30,7 @@ const Group = () => {
       return;
     }
 
-    doPostEnrollFamilyReq(
+    doPatchEnrollFamilyReq(
       { userId, familyCode },
       {
         onSuccess: () => {

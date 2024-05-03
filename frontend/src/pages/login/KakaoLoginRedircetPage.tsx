@@ -18,10 +18,10 @@ const KakaoLoginRedircet = () => {
 
   const fetchData = async () => {
     if (accessToken) {
-      // 토큰 저장
+      // AccessToken 저장
       localStorage.setItem('ACCESS_TOKEN', accessToken);
 
-      // 로그인 실행
+      // 로그인 호출
       doPostLoginReq();
     } else {
       console.log('KakaoLoginRedirectPage Error : [서버에러] AccessToken이 존재하지 않음.');

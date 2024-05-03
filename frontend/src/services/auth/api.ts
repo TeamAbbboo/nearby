@@ -1,6 +1,6 @@
 import { axiosCommonInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
-import { IPostLoginRes, IPostSignupReq, IPostEnrollFamilyReq } from '@/types/auth';
+import { IPostLoginRes, IPostSignupReq, IPatchEnrollFamilyReq } from '@/types/auth';
 
 /* 로그인 */
 export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
@@ -18,11 +18,11 @@ export const doPostSignupReq = async ({ nickname, birthday }: IPostSignupReq): P
 };
 
 /* 가족 참여 */
-export const doPostEnrollFamilyReq = async ({
+export const doPatchEnrollFamilyReq = async ({
   userId,
   familyCode,
-}: IPostEnrollFamilyReq): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.post('/users/family/enroll', {
+}: IPatchEnrollFamilyReq): Promise<APIResponse<void>> => {
+  const { data } = await axiosCommonInstance.patch('/users/family/enroll', {
     userId: userId,
     familyCode: familyCode,
   });
