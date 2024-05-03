@@ -1,5 +1,6 @@
 import caretLeftIcon from '@/assets/icon_caretLeft.png';
 import { useNavigate } from 'react-router-dom';
+import { useModal } from '../story/ModalContext';
 
 const CalenderHeader = () => {
   const navigate = useNavigate();
@@ -7,8 +8,10 @@ const CalenderHeader = () => {
     navigate('/greenhouse');
   };
 
+  const { isModalOpen } = useModal();
+
   return (
-    <div className="fixed w-full h-30 z-50 flex flex-row p-5 items-center gap-2">
+    <div className={`absolute z-10 top-0 w-full flex flex-row p-5 items-center gap-2 ${isModalOpen && 'hidden'}`}>
       <button onClick={() => goGreenhouse()}>
         <img src={caretLeftIcon} />
       </button>
