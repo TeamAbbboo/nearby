@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface StoryService {
 
-    void createStroy(MultipartFile multipartFile);
+    void createStroy(MultipartFile frontFile, MultipartFile rearFile);
 
     void updateIsSaved(Long storyId);
 
