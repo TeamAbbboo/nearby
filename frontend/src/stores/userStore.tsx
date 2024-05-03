@@ -9,8 +9,6 @@ interface IUserState {
   nickname: string;
   birthday: string;
   mood: string;
-  accessToken: string;
-  refreshToken: string;
 
   loginUser: ({
     userId,
@@ -18,16 +16,12 @@ interface IUserState {
     nickname,
     birthday,
     mood,
-    accessToken,
-    refreshToken,
   }: {
     userId: number;
     familyId: number;
     nickname: string;
     birthday: string;
     mood: string;
-    accessToken: string;
-    refreshToken: string;
   }) => void;
 
   logoutUser: () => void;
@@ -42,10 +36,8 @@ const userStore = create(
       nickname: '',
       birthday: '',
       mood: '',
-      accessToken: '',
-      refreshToken: '',
 
-      loginUser: ({ userId, familyId, nickname, birthday, mood, accessToken, refreshToken }) =>
+      loginUser: ({ userId, familyId, nickname, birthday, mood }) =>
         set({
           isLogin: true,
           userId,
@@ -53,8 +45,6 @@ const userStore = create(
           nickname,
           birthday,
           mood,
-          accessToken,
-          refreshToken,
         }),
 
       logoutUser: () =>
@@ -65,8 +55,6 @@ const userStore = create(
           nickname: '',
           birthday: '',
           mood: '',
-          accessToken: '',
-          refreshToken: '',
         }),
     }),
     {

@@ -2,12 +2,32 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import penguin from '@/assets/one_penguin.png';
 import groupPenguin from '@/assets/group_penguin.png';
+import userStore from '@/stores/userStore';
 
 /* libraries */
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+
+  // 닉네임, 생년월일
+  const { nickname, birthday } = userStore();
+
+  /* Solo 또는 Group 버튼 */
+  const onClickHandler = (link: string) => {
+    // Refactor 필요 (API 호출로 확인)
+    if (nickname !== '' || birthday !== '') {
+      navigate('/' + link);
+    } else {
+      navigate('/signup', {
+        state: {
+          data: {
+            selectPenguinOption: link,
+          },
+        },
+      });
+    }
+  };
 
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
@@ -24,13 +44,7 @@ const RegisterPage = () => {
             rounded="rounded-3xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup', {
-                state: {
-                  data: {
-                    selectPenguinOption: 'solo',
-                  },
-                },
-              });
+              onClickHandler('solo');
             }}
           >
             <div className="flex flex-col items-center">
@@ -49,13 +63,7 @@ const RegisterPage = () => {
             rounded="rounded-3xl"
             shadow="shadow-xl"
             onClick={() => {
-              navigate('/signup', {
-                state: {
-                  data: {
-                    selectPenguinOption: 'group',
-                  },
-                },
-              });
+              onClickHandler('group');
             }}
           >
             <div className="flex flex-col items-center">

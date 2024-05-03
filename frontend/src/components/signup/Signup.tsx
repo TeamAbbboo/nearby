@@ -1,7 +1,9 @@
 /* components */
+import './Style.css';
+import userStore from '@/stores/userStore';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
-import './Style.css';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useRef, useState } from 'react';
@@ -11,9 +13,13 @@ const Signup = () => {
   const location = useLocation();
   const navigator = useNavigate();
 
+  /* 사용자 정보 가져오기 */
+  const { usePostSignup } = useAuth();
+  const { mutate: doPostSignupReq } = usePostSignup();
+
   /* 닉네임 + 생년월일 */
   const nicknameRef = useRef<HTMLInputElement>(null);
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState<string>('');
   const [year, setYear] = useState(1999);
   const [month, setMonth] = useState(1);
   const [date, setDate] = useState(1);
@@ -58,14 +64,33 @@ const Signup = () => {
     }
   };
 
-  /* 아띠 시작하기 */
+  /* 회원가입 */
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
       nicknameRef.current?.focus();
       return;
     }
-    setNickname('');
-    navigator('/' + location.state.data.selectPenguinOption);
+
+    doPostSignupReq(
+      {
+        nickname,
+        birthday: year + 1 + '-' + month + '-' + date,
+      },
+      {
+        onSuccess: () => {
+          console.log('회원가입에 성공했습니다.');
+          userStore.setState({
+            nickname: nickname,
+            birthday: year + 1 + '-' + month + '-' + date,
+          });
+          window.location.replace('/' + location.state.data.selectPenguinOption);
+        },
+        onError: () => {
+          console.log('회원가입에 실패했습니다.');
+          navigator('/register');
+        },
+      },
+    );
   };
 
   return (
@@ -131,10 +156,10 @@ const Signup = () => {
 
       {/* 아띠 시작하기 */}
       <div className="w-full p-16 px-5 flex-2">
-        <TransparentButton width="w-full" height="h-20" rounded="rounded-2xl" shadow="shadow-xl" onClick={startAtti}>
+        <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startAtti}>
           <div>
             <div className="text-lg font-bold">
-              <p>아띠 시작하기</p>
+              <p>등록하기</p>
             </div>
           </div>
         </TransparentButton>

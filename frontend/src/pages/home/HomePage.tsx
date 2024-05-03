@@ -1,10 +1,16 @@
 import Penguin from '@/components/@common/Penguin';
 import HomeHeader from '@/components/home/HomeHeader';
 import PenguinDecoBottomSheet from '@/components/home/PenguinBottomSheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import userStore from '@/stores/userStore';
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isLogin } = userStore();
+
+  useEffect(() => {
+    if (!isLogin) window.location.replace('/login');
+  }, []);
 
   return (
     <div className="relative w-full h-full bg-HOME bg-cover">
