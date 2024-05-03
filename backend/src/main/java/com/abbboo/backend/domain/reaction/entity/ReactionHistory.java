@@ -13,11 +13,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "reaction_history")
 public class ReactionHistory extends BaseEntity { // 사용자 반응 내역
@@ -36,6 +40,7 @@ public class ReactionHistory extends BaseEntity { // 사용자 반응 내역
     @JoinColumn(name = "user_id")
     private User user;
 
+    // 반응
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reaction_id")
     private Reaction reaction;
