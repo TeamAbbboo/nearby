@@ -72,6 +72,7 @@ const RegisterStoryPage = () => {
       const file: File = imgRef.current.files[0]; // 첫 번째 이미지 파일만 저장
 
       setPhotos(file);
+      console.log(photos);
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
