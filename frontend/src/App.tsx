@@ -1,16 +1,19 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import HomePage from './pages/home/HomePage';
-import LoginPage from './pages/login/LoginPage';
+/* components */
+import HomePage from '@/pages/home/HomePage';
+import LoginPage from '@/pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
 import SignupPage from '@/pages/signup/SignUpPage';
-import RegisterPage from './pages/register/RegisterPage';
-import SoloPage from './pages/familycode/SoloPage';
-import GroupPage from './pages/familycode/GroupPage';
-import PlaygroundPage from './pages/playground/PlaygroundPage';
-import GreenHousePage from './pages/greenhouse/GreenHousePage';
-import SplashPage from './pages/splash/SplashPage';
-import AlbumPage from './pages/greenhouse/AlbumPage';
-import RegisterStoryPage from './pages/story/RegisterStoryPage';
+import RegisterPage from '@/pages/register/RegisterPage';
+import SoloPage from '@/pages/familycode/SoloPage';
+import GroupPage from '@/pages/familycode/GroupPage';
+import PlaygroundPage from '@/pages/playground/PlaygroundPage';
+import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
+import SplashPage from '@/pages/splash/SplashPage';
+import AlbumPage from '@/pages/greenhouse/AlbumPage';
+import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
+
+/* libraries */
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
