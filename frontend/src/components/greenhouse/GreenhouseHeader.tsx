@@ -1,7 +1,8 @@
-import albumIcon from '@/assets/icon_album.png';
 import { firework } from '@/utils/firework';
 import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
+import story from '@/assets/icons/story.png';
+import playground from '@/assets/icons/playground.png';
 
 interface IDandelionState {
   level: number; // 레벨
@@ -42,13 +43,19 @@ const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) =>
           <div className="h-full bg-MAIN1 rounded-3xl" style={{ width: `${progressPercentage}%` }}></div>
         </div>
       </div>
-      <div className="w-full flex justify-end pt-5">
-        <button
-          className="w-10 h-10 bg-white hover:bg-gray-100 border rounded-full shadow-md flex justify-center items-center"
-          onClick={() => goAlbum()}
-        >
-          <img className="size-5" src={albumIcon} alt="Album" />
-        </button>
+      <div className="w-full flex flex-col items-end pt-5 gap-3">
+        <div onClick={() => navigate('/playground')} className="flex flex-col items-center">
+          <img src={playground} width={44} />
+          <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
+            <p className="text-[9px]">광장</p>
+          </div>
+        </div>
+        <div onClick={() => goAlbum()} className="flex flex-col items-center">
+          <img src={story} width={44} />
+          <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
+            <p className="text-[9px] ">소식 확인</p>
+          </div>
+        </div>
       </div>
     </div>
   );

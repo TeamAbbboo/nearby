@@ -31,12 +31,22 @@ export default {
           from: { opacity: 1 },
           to: { opacity: 0, transform: 'translateY(384px)' },
         },
+        captureOn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        captureOff: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
       },
       animation: {
         modalOpen: 'fadeIn 0.3s ease-in-out',
         modalClose: 'fadeOut 0.3s ease-in-out',
         sheetOn: 'sheetOn 0.3s ease-in-out',
         sheetOff: 'sheetOff 0.3s ease-in',
+        captureEnter: 'captureOn 0.3s ease-in-out',
+        captureExit: 'captureOff 0.3s ease-in-out',
       },
     },
   },

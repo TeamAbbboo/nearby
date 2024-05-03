@@ -10,6 +10,7 @@ import PlaygroundPage from '@/pages/playground/PlaygroundPage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import SplashPage from '@/pages/splash/SplashPage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
+import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: '/album',
     element: <AlbumPage />,
+  },
+  {
+    path: '/story',
+    element: <RegisterStoryPage />,
   },
   {
     path: '/splash',
