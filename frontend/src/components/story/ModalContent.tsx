@@ -1,4 +1,4 @@
-import { useModal } from './ModalContext';
+import { useModal } from '@/components/story/ModalContext';
 import Story from '@/components/story/Story';
 
 const ModalContent = () => {

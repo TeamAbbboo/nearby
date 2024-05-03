@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import BottomSheet from '../@common/BottomSheet';
+import BottomSheet from '@/components/@common/BottomSheet';
 
 interface IReactHistoryProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;

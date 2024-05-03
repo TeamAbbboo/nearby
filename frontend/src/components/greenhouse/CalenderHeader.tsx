@@ -1,6 +1,6 @@
 import caretLeftIcon from '@/assets/icon_caretLeft.png';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../story/ModalContext';
+import { useModal } from '@/components/story/ModalContext';
 
 const CalenderHeader = () => {
   const navigate = useNavigate();
