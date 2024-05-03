@@ -1,9 +1,12 @@
 package com.abbboo.backend.domain.story.controller;
 
+import static com.abbboo.backend.global.base.SuccessCode.DAYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
+import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
+import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.dto.StoryReactionReq;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.base.BaseResponse;
@@ -50,5 +53,12 @@ public class StoryController {
         @PathVariable("storyId") Long storyId, @RequestBody StoryReactionReq reactionReq){
         storyService.createReaction(reactionReq, storyId);
         return ResponseEntity.ok(BaseResponse.of(REACTION_REGIST_SUCCESS));
+    }
+
+    @Operation(summary = "24시간 이내 가족의 소식 조회")
+    @PostMapping("/day")
+    public ResponseEntity<BaseResponse> getDayStory(@RequestBody StoriesReq storiesReq){
+        DayStoryListRes dayStoryList = storyService.readDayStory(storiesReq);
+        return ResponseEntity.ok(BaseResponse.of(DAYSTORY_GET_SUCCESS, dayStoryList));
     }
 }
