@@ -163,15 +163,12 @@ const Solo = () => {
 
       <div className="w-full pt-[61px] px-5 flex-2">
         <div className="text-sm text-neutral-500 font-bold text-center pb-2">
-          {!inputVisible && <p>설정 페이지에서 생성할 수 있습니다.</p>}
-          {inputVisible && <p>저희 서비스에 오신 것을 환영합니다!</p>}
+          {inputVisible ? <p>저희 서비스에 오신 것을 환영합니다!</p> : <p>설정 페이지에서 생성할 수 있습니다.</p>}
         </div>
 
         <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={goToMainPage}>
           <div>
-            <div className="text-lg font-bold">
-              {!inputVisible && <p>나중에 생성하기</p>} {inputVisible && <p>광장으로 이동하기</p>}
-            </div>
+            <div className="text-lg font-bold">{inputVisible ? <p>광장으로 이동하기</p> : <p>나중에 생성하기</p>}</div>
           </div>
         </TransparentButton>
       </div>
