@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.service;
 
+import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
@@ -28,6 +29,7 @@ public class StoryServiceImpl implements StoryService{
 
     private final S3Util s3Util;
     private final TempUser tempUser;
+    private final FamilyRepository familyRepository;
     private final StoryRepository storyRepository;
     private final ReactionRepository reactionRepository;
     private final ReactionHistoryRepository reactionHistoryRepository;
@@ -91,8 +93,13 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     public DayStoryListRes readDayStory(StoriesReq storiesReq) {
-        // familyId로 24시간이내 소식들 조회하기
+        // familyId로 24시간이내 소식 조회하기
         int familyId = storiesReq.getFamilyId();
+
+        // 예외 1 - familyId가 유효하지 않은 경우
+        familyRepository.findById(familyId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+
         return storyRepository.findDayStoriesByFamilyId(familyId);
     }
 }
