@@ -7,6 +7,7 @@ import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
 import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
+import com.abbboo.backend.domain.story.dto.StoryReactionReq;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -72,10 +73,15 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @Transactional
-    public void createReaction(String expression, Long storyId) {
-        log.info("반응 등록 서비스 :: storyId : {}, reaction : {}", storyId, expression);
-        // 받은 반응 expression으로 reaction 가져오기
+    public void createReaction(StoryReactionReq reactionReq, Long storyId) {
+        String expression = reactionReq.getExpression();
+        // expression으로 reaction 가져오기
         Reaction reaction = reactionRepository.findByExpression(expression);
+        if(reaction == null){ // 예외처리
+            throw new BadRequestException(ErrorCode.REACTION_IS_WRONG);
+        }
+        log.info("반응 등록 서비스 :: reaction id: {} - {}", reaction.getId(), expression);
+
         // storyId로 story 가져오기
         Story story = storyRepository.findById(storyId)
             .orElseThrow(()->new NotFoundException(ErrorCode.STORY_NOT_FOUND));
