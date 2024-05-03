@@ -19,9 +19,12 @@ const Modal = ({ width, onClose, children }: IModalProps) => {
 
   return (
     <>
-      <div className={`absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-black/70`} onClick={handleClose}></div>
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${width}
+        className={`absolute w-full h-full top-0 left-0 right-0 bottom-0 bg-black/70 z-20`}
+        onClick={handleClose}
+      ></div>
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 ${width}
           ${isRendering ? 'animate-modalOpen' : 'animate-modalClose'}
         `}
       >
