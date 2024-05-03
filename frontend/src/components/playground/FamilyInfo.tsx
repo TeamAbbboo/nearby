@@ -5,7 +5,7 @@ import SendMessageModal from './SendMessageModal';
 
 const FamilyInfo = () => {
   const [isPokeModalOpen, setIsPokeModalOpen] = useState<boolean>(false);
-  const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(true);
+  const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
   return (
     <>
       {isPokeModalOpen && <PokeModal setIsPokeModalOpen={setIsPokeModalOpen} />}
