@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,8 +35,9 @@ public class StoryController {
     @Operation(summary = "소식 등록")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponse> uploadStory(
-        @RequestParam("file") MultipartFile multipartFile){
-        storyService.createStroy(multipartFile);
+        @RequestPart(value = "front") MultipartFile frontFile,
+        @RequestPart(value = "rear") MultipartFile rearFile){
+        storyService.createStroy(frontFile, rearFile);
         return ResponseEntity.ok(BaseResponse.of(STORY_UPLOAD_SUCCESS));
     }
 

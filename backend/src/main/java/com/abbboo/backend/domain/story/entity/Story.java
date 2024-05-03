@@ -40,9 +40,13 @@ public class Story extends BaseEntity { // 소식
     @JoinColumn(name = "user_id")
     private User user;
 
-    // 업로드 파일 S3 url
-    @Column(name = "url", nullable = false, length = 2000)
-    private String url;
+    // 업로드 파일 S3 url - frontFile
+    @Column(name = "front_url", nullable = false, length = 2000)
+    private String frontUrl;
+
+    // 업로드 파일 S3 url - rearFile
+    @Column(name = "rear_url", nullable = false, length = 2000)
+    private String rearUrl;
 
     // 보관 여부
     @Column(name = "is_saved")
