@@ -22,7 +22,7 @@ export const doPostEnrollFamilyReq = async ({
   userId,
   familyCode,
 }: IPostEnrollFamilyReq): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.post('/users/enroll', {
+  const { data } = await axiosCommonInstance.post('/users/family/enroll', {
     userId: userId,
     familyCode: familyCode,
   });

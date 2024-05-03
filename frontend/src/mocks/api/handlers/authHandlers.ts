@@ -27,7 +27,7 @@ export const authHandlers = [
   }),
 
   /* 가족 참여 */
-  http.post('/users/enroll', () => {
+  http.post('/users/family/enroll', () => {
     const success = HttpResponse.json(postJoinFamilyRes, {
       status: 200,
       headers: {

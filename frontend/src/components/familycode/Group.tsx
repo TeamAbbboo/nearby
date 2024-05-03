@@ -25,11 +25,23 @@ const Group = () => {
   /* Nearby 시작하기 */
   const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
+      alert('가족 코드에 공백 또는 빈칸이 존재합니다.');
       familyCodeRef.current?.focus();
       return;
     }
 
-    doPostEnrollFamilyReq({ userId, familyCode });
+    doPostEnrollFamilyReq(
+      { userId, familyCode },
+      {
+        onSuccess: () => {
+          console.log('가족 그룹 참여에 성공했습니다.');
+          window.location.replace('/');
+        },
+        onError: () => {
+          alert('가족 코드가 유효하지 않습니다.');
+        },
+      },
+    );
     setFamilyCode('');
   };
 

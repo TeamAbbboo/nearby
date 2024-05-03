@@ -71,16 +71,26 @@ const Signup = () => {
       return;
     }
 
-    doPostSignupReq({
-      nickname,
-      birthday: year + 1 + '-' + month + '-' + date,
-    });
-
-    userStore.setState({
-      nickname: nickname,
-      birthday: year + 1 + '-' + month + '-' + date,
-    });
-    navigator('/' + location.state.data.selectPenguinOption);
+    doPostSignupReq(
+      {
+        nickname,
+        birthday: year + 1 + '-' + month + '-' + date,
+      },
+      {
+        onSuccess: () => {
+          console.log('회원가입에 성공했습니다.');
+          userStore.setState({
+            nickname: nickname,
+            birthday: year + 1 + '-' + month + '-' + date,
+          });
+          navigator('/' + location.state.data.selectPenguinOption);
+        },
+        onError: () => {
+          console.log('회원가입에 실패했습니다.');
+          navigator('/register');
+        },
+      },
+    );
   };
 
   return (

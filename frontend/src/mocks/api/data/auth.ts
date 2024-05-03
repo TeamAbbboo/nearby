@@ -38,5 +38,7 @@ export const postJoinFamilyRes = {
   status: 200,
   message: '가족 그룹 참여에 성공했습니다.',
   code: 'SUCCESS',
-  data: '',
+  data: {
+    familyId: 1,
+  },
 };
