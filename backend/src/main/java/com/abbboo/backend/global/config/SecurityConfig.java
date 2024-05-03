@@ -5,6 +5,7 @@ import com.abbboo.backend.global.auth.CustomSuccessHandler;
 import com.abbboo.backend.global.filter.JwtFilter;
 import com.abbboo.backend.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,6 +22,9 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
+
+    @Value("${spring.security.oauth2.redirect.url.endpoint}")
+    private String sendRedirectUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -60,8 +64,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
 
-                        // ROOT 경로 모든 접근 허용 설정
-                        .requestMatchers("/index.html","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Swagger 허용
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                        // Redirect URL 허용
+                        .requestMatchers(sendRedirectUrl).permitAll()
 
                         // 이외 인증된 Client 접근 허용
                         .anyRequest().authenticated());
