@@ -65,25 +65,12 @@ export const useAuth = () => {
   const usePostSignup = () => {
     return useMutation({
       mutationFn: async ({ nickname, birthday }: IPostSignupReq) => doPostSignupReq({ nickname, birthday }),
-      onSuccess: () => {
-        console.log('회원가입에 성공했습니다.');
-      },
-      onError: () => {
-        console.log('회원가입에 실패했습니다.');
-        navigate('/register');
-      },
     });
   };
 
   const useEnrollFamilyCode = () => {
     return useMutation({
       mutationFn: async ({ userId, familyCode }: IPostEnrollFamilyReq) => doPostEnrollFamilyReq({ userId, familyCode }),
-      onSuccess: () => {
-        console.log('가족 그룹 참여에 성공했습니다.');
-      },
-      onError: () => {
-        console.log('가족 코드가 유효하지 않습니다.');
-      },
     });
   };
 
