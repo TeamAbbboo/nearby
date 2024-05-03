@@ -36,23 +36,22 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @Transactional
-    public void createStroy(MultipartFile storyFile) {
-        log.info("story 등록 서비스 : {} ",storyFile.getSize());
+    public void createStroy(MultipartFile frontFile, MultipartFile rearFile) {
+        log.info("story 등록 서비스 : {}, {}",frontFile.getSize(), rearFile.getSize());
         // TODO: user 받아오기
-
+        // 임시 user 데이터
+        User user = tempUser.findById(1L).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         // 파일 확인
-        if (storyFile.isEmpty()){
+        if (frontFile.isEmpty() || rearFile.isEmpty()){ // 두 개의 파일 중 하나라도 없다면 등록 불가
             throw new BadRequestException(ErrorCode.FILE_IS_NULL);
         }
 
-        // TODO: s3 폴더 코드를 프론트에서 받는 게 나은가? 여기에 코드 하드코딩하면 yml로 관리하는 게 의미없지 않나..
-        String fileUrl = s3Util.uploadFile(storyFile, 0);
-
-        // 임시 user 데이터
-        User user = tempUser.findById(1L).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        String frontUrl = s3Util.uploadFile(frontFile, 0);
+        String rearUrl = s3Util.uploadFile(rearFile, 0);
         Story story = Story.builder()
             .user(user)
-            .url(fileUrl)
+            .frontUrl(frontUrl)
+            .rearUrl(rearUrl)
             .build();
 
         storyRepository.save(story);
