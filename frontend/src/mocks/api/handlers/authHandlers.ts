@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { postLoginRes, postSignupRes, postJoinFamilyRes } from '@/mocks/api/data/auth';
+import { postLoginRes, postSignupRes, patchEnrollFamilyRes } from '@/mocks/api/data/auth';
 
 export const authHandlers = [
   /* 로그인 */
@@ -27,8 +27,8 @@ export const authHandlers = [
   }),
 
   /* 가족 참여 */
-  http.post('/users/family/enroll', () => {
-    const success = HttpResponse.json(postJoinFamilyRes, {
+  http.patch('/users/family/enroll', () => {
+    const success = HttpResponse.json(patchEnrollFamilyRes, {
       status: 200,
       headers: {
         authorization:

@@ -34,7 +34,7 @@ export const postSignupRes = {
 };
 
 /* 가족 참여 */
-export const postJoinFamilyRes = {
+export const patchEnrollFamilyRes = {
   status: 200,
   message: '가족 그룹 참여에 성공했습니다.',
   code: 'SUCCESS',

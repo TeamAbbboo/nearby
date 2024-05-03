@@ -14,7 +14,7 @@ export interface IPostSignupReq {
 }
 
 /* 가족 참여 요청 */
-export interface IPostEnrollFamilyReq {
+export interface IPatchEnrollFamilyReq {
   userId: number;
   familyCode: string;
 }
