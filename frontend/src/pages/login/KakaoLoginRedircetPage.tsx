@@ -1,79 +1,39 @@
 /* components */
-import userStore from '@/stores/userStore';
-import { doKakaoLoginReq } from '@/services/login/api';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const KakaoLoginRedircet = () => {
-  /* 인가 코드 쿼리 스트링 조회 */
+  /* Access 토큰 쿼리 스트링으로 조회 */
   const queryParams = new URLSearchParams(location.search);
-  const kakaoCode = queryParams.get('code');
+  const accessToken = queryParams.get('token');
 
-  /* 이동할 navigate 객체 생성 */
+  /* 사용자 정보 가져오기 */
+  const { usePostLogin } = useAuth();
+  const { mutate: doPostLoginReq } = usePostLogin();
+
   const navigate = useNavigate();
 
-  /* 사용자 객체 생성 */
-  const { loginUser } = userStore();
+  const fetchData = async () => {
+    if (accessToken) {
+      // AccessToken 저장
+      localStorage.setItem('ACCESS_TOKEN', accessToken);
 
-  /* kakaocode로 서버에 POST */
+      // 로그인 호출
+      doPostLoginReq();
+    } else {
+      console.log('KakaoLoginRedirectPage Error : [서버에러] AccessToken이 존재하지 않음.');
+      navigate('/login');
+    }
+  };
+
   useEffect(() => {
-    // useEffect 자체가 promise를 반환할 수 없기에
-    // async 사용
-    const fetchData = async () => {
-      if (kakaoCode) {
-        try {
-          // 로그인 요청
-          const response = await doKakaoLoginReq(kakaoCode);
-
-          const { userId, familyId, nickname, birthday, mood } = response.data;
-
-          if (nickname) {
-            loginUser({
-              userId,
-              familyId,
-              nickname,
-              birthday,
-              mood,
-              accessToken: '',
-              refreshToken: '',
-            });
-
-            navigate('/');
-          } else {
-            loginUser({
-              userId: userId,
-              familyId: 0,
-              nickname: '',
-              birthday: '',
-              mood: '',
-              accessToken: '',
-              refreshToken: '',
-            });
-
-            navigate('/register');
-          }
-        } catch (error) {
-          // MSW 하기 전에 임시로 register로 이동
-          setTimeout(() => {
-            navigate('/register');
-          }, 1500);
-        }
-      }
-      // 카카오 코드 존재하지 않으면
-      else {
-        // 다시 login으로
-        console.log('KakaoLoginRedirectPage: ' + '카카오 코드 존재하지 않음');
-        navigate('/login');
-      }
-    };
-
     fetchData();
-  });
+  }, []);
 
   return (
-    // 카카오 로딩중
     <div className="w-full h-screen flex flex-col justify-center items-center relative bg-LOGIN bg-cover">
       <div role="status">
         <svg

@@ -2,7 +2,6 @@ import Penguin from '@/components/@common/Penguin';
 import HomeHeader from '@/components/home/HomeHeader';
 import PenguinDecoBottomSheet from '@/components/home/PenguinBottomSheet';
 import { useState } from 'react';
-
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
