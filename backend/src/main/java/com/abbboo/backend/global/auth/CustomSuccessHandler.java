@@ -2,6 +2,8 @@ package com.abbboo.backend.global.auth;
 
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
+import com.abbboo.backend.global.error.ErrorCode;
+import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -48,7 +50,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         log.info("토큰 발행 : COMPLETE");
 
-        User user = userRepository.findByKakaoId(createdUserId);
+        User user = userRepository.findByKakaoId(createdUserId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         user.changeRefreshToken(refreshToken);
         userRepository.save(user);
 
