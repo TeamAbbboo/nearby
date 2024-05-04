@@ -13,24 +13,9 @@ const RegisterStoryPage = () => {
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
 
-  // const getMediaPermission = useCallback(async () => {
-  //   try {
-  //     const video = { video: { facingMode: facingMode } };
-
-  //     const videoStream = await navigator.mediaDevices.getUserMedia(video);
-  //     setStream(videoStream);
-
-  //     if (videoRef.current) {
-  //       videoRef.current.srcObject = videoStream;
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
-
   const getMediaPermission = useCallback(async () => {
     try {
-      const video = { audio: true, video: true };
+      const video = { video: { facingMode: facingMode } };
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
