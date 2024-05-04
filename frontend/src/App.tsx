@@ -11,6 +11,7 @@ import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import SplashPage from '@/pages/splash/SplashPage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
+import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -18,7 +19,11 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: (
+      <PrivateRoute>
+        <HomePage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/login',
@@ -26,43 +31,83 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/redirect/kakao',
-    element: <KakaoLoginRedircetPage />,
+    element: (
+      <PrivateRoute>
+        <KakaoLoginRedircetPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/signup',
-    element: <SignupPage />,
+    element: (
+      <PrivateRoute>
+        <SignupPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/register',
-    element: <RegisterPage />,
+    element: (
+      <PrivateRoute>
+        <RegisterPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/solo',
-    element: <SoloPage />,
+    element: (
+      <PrivateRoute>
+        <SoloPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/group',
-    element: <GroupPage />,
+    element: (
+      <PrivateRoute>
+        <GroupPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/playground',
-    element: <PlaygroundPage />,
+    element: (
+      <PrivateRoute>
+        <PlaygroundPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/greenhouse',
-    element: <GreenHousePage />,
+    element: (
+      <PrivateRoute>
+        <GreenHousePage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/album',
-    element: <AlbumPage />,
+    element: (
+      <PrivateRoute>
+        <AlbumPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/story',
-    element: <RegisterStoryPage />,
+    element: (
+      <PrivateRoute>
+        <RegisterStoryPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/splash',
-    element: <SplashPage />,
+    element: (
+      <PrivateRoute>
+        <SplashPage />
+      </PrivateRoute>
+    ),
   },
 ]);
 function App() {
