@@ -1,4 +1,5 @@
 import MessageModal from './MessageModal';
+import SettingModal from './SettingModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import playground from '@/assets/icons/playground.png';
@@ -10,6 +11,7 @@ import notification from '@/assets/icons/notification.png';
 const HomeHeader = () => {
   const navigate = useNavigate();
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
+  const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
 
   return (
     <header>
@@ -43,7 +45,7 @@ const HomeHeader = () => {
               <p className="text-[9px]">마음함</p>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-1">
+          <div onClick={() => setIsSettingModalOpen(true)} className="flex flex-col items-center gap-1">
             <img src={setting} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">설정</p>
@@ -52,6 +54,7 @@ const HomeHeader = () => {
         </div>
       </nav>
       {isMessageModalOpen && <MessageModal setIsMessageModalOpen={setIsMessageModalOpen} />}
+      {isSettingModalOpen && <SettingModal setIsSettingModalOpen={setIsSettingModalOpen} />}
     </header>
   );
 };
