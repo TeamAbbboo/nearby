@@ -1,9 +1,13 @@
 package com.abbboo.backend.domain.user.service;
 
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
+import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 
 public interface UserService {
 
     // 유저 정보 수정
     void updateUser(String kakaoId, UserModifyReq userModifyReq);
+
+    // 유저 정보 등록
+    void updateUserAll(String kakaoId, UserRegistReq userRegistReq);
 }
