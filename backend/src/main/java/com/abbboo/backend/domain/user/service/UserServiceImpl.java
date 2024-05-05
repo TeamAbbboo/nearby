@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.user.service;
 
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
+import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
@@ -29,6 +30,19 @@ public class UserServiceImpl implements UserService {
         user.changeNickname(userModifyReq.getNickname());
     }
 
+    // 유저 정보 등록
+    @Override
+    @Transactional
+    public void updateUserAll(String kakaoId, UserRegistReq userRegistReq) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 정보 등록 메서드
+        user.changeAll(userRegistReq.getNickname(), userRegistReq.getBirthday());
+    }
+      
     // 유저 로그인
     @Override
     public UserLoginRes getUserAll(String kakaoId) {
