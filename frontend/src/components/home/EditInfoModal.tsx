@@ -1,15 +1,66 @@
-import Modal from '../@common/Modal';
+/* components */
+import Modal from '@/components/@common/Modal';
+import { useAuth } from '@/hooks/auth/useAuth';
 
-import { Dispatch, SetStateAction, useState } from 'react';
+/* libraries */
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from 'react';
 
+/* interface */
 interface IEditInfoModalProps {
   setIsEditInfoModalOpen: Dispatch<SetStateAction<boolean>>;
   settingHandler: void;
 }
 
 const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModalProps) => {
+  const nicknameRef = useRef<HTMLInputElement>(null);
+  const [isModifiyNickname, setIsModifiyNickname] = useState<boolean>(false); // 수정 상태 유무
   const [nickname, setNickname] = useState<string>('이희웅'); // 닉네임
-  const [birthday, setBirthday] = useState<string>('1998-06-11'); // 생년월일 (수정 불가)
+  const [birthday, setBirthday] = useState<string>(''); // 생년월일 (수정 불가)
+
+  /* 사용자 정보 가져오기 */
+  const { useModifyNickname } = useAuth();
+  const { mutate: doPatchModifyyReq } = useModifyNickname();
+
+  /* 유저 정보 조회 */
+  useEffect(() => {}, []);
+
+  /* 회원 탈퇴 */
+  const onLeaveButton = () => {};
+
+  /* 수정 */
+  const onModifiyButton = () => {
+    setIsModifiyNickname(true);
+  };
+
+  /* 변경 */
+  const onChangeButton = () => {
+    if (nickname === '' || nickname.includes(' ')) {
+      alert('변경 또는 허용되지 않은 문자열이 있습니다.');
+      nicknameRef.current?.focus();
+      return;
+    }
+
+    if (window.confirm(nicknameRef.current.value + '을(를) 변경하시겠습니까?')) {
+      // 닉네임 변경 요청
+      doPatchModifyyReq(
+        {
+          nickname: nicknameRef.current.value,
+        },
+        {
+          onSuccess: () => {
+            setNickname(nicknameRef.current.value);
+            setIsModifiyNickname(false);
+            alert('변경 완료!');
+          },
+          onError: () => {
+            nicknameRef.current.value = nickname;
+            setIsModifiyNickname(false);
+            alert('변경 실패');
+          },
+        },
+      );
+    }
+  };
 
   return (
     <Modal onClose={() => setIsEditInfoModalOpen(false)} width="w-4/5">
@@ -23,9 +74,31 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
         <div className="flex flex-col items-center w-full h-full overflow-y-auto">
           <div>
             <p className="mt-3 ml-5 text-start">닉네임</p>
-            <div className="flex flex-row mt-1 w-60 h-14 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center">
-              <input value={nickname} readOnly={true} className="w-40 bg-zinc-200 ml-5 text-start outline-none" />
-            </div>
+            {isModifiyNickname ? (
+              <div className="flex flex-row mt-1 w-60 h-14 border-2 border-slate-400 rounded-xl items-center">
+                <input
+                  defaultValue={nickname}
+                  ref={nicknameRef}
+                  className="w-full ml-5 text-start outline-none"
+                  maxLength={7}
+                />
+                <button onClick={onChangeButton} className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl">
+                  변경
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-row mt-1 w-60 h-14 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center">
+                <input
+                  defaultValue={nickname}
+                  readOnly={true}
+                  className="w-full ml-5 bg-zinc-200 text-start outline-none"
+                  maxLength={10}
+                />
+                <button onClick={onModifiyButton} className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl">
+                  수정
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
@@ -36,7 +109,9 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
           </div>
 
           <div>
-            <button className="mt-[5vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">회원 탈퇴하기</button>
+            <button onClick={onLeaveButton} className="mt-[5vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">
+              회원 탈퇴하기
+            </button>
           </div>
         </div>
 

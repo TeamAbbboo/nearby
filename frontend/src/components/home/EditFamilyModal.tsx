@@ -1,6 +1,5 @@
 /* components */
 import Modal from '@/components/@common/Modal';
-import TransparentButton from '@/components/@common/TransparentButton';
 
 /* libraries */
 import { Dispatch, SetStateAction, useState, useRef } from 'react';
@@ -12,7 +11,7 @@ interface IEditFamilyModalProps {
 }
 
 const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFamilyModalProps) => {
-  const [isExistFamilyCode, setIsExistFamilyCode] = useState<boolean>(true); // 가족 만들기 버튼 클릭 유무
+  const [isExistFamilyCode, setIsExistFamilyCode] = useState<boolean>(false); // 가족 만들기 버튼 클릭 유무
   const [familyCode, setFamilyCode] = useState<string>('DDFFSS'); // 가족 코드
   const inputRef = useRef<HTMLInputElement>(null); // 가족코드 Input
 
@@ -134,10 +133,6 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                 <button className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">
                   가족 코드 등록하기
                 </button>
-              </div>
-
-              <div>
-                <button className="mt-[7vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">회원 탈퇴하기</button>
               </div>
             </div>
             <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">

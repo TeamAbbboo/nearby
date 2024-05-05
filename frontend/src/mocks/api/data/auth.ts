@@ -42,3 +42,11 @@ export const patchEnrollFamilyRes = {
     familyId: 1,
   },
 };
+
+/* 유저 정보 수정 */
+export const patchModifyNicknameRes = {
+  status: 204,
+  message: '유저 정보 수정에 성공했습니다.',
+  code: 'SUCCESS',
+  data: '',
+};

@@ -1,7 +1,7 @@
 /* components */
 import userStore from '@/stores/userStore';
-import { doPostLoginReq, doPostSignupReq, doPatchEnrollFamilyReq } from '@/services/auth/api';
-import { IPostSignupReq, IPatchEnrollFamilyReq } from '@/types/auth';
+import { doPostLoginReq, doPostSignupReq, doPatchEnrollFamilyReq, doPatchModifyReq } from '@/services/auth/api';
+import { IPostSignupReq, IPatchEnrollFamilyReq, IPatchModifyNicknameReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation } from '@tanstack/react-query';
@@ -75,5 +75,11 @@ export const useAuth = () => {
     });
   };
 
-  return { usePostLogin, usePostSignup, useEnrollFamilyCode };
+  const useModifyNickname = () => {
+    return useMutation({
+      mutationFn: async ({ nickname }: IPatchModifyNicknameReq) => doPatchModifyReq({ nickname }),
+    });
+  };
+
+  return { usePostLogin, usePostSignup, useEnrollFamilyCode, useModifyNickname };
 };

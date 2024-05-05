@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { postLoginRes, postSignupRes, patchEnrollFamilyRes } from '@/mocks/api/data/auth';
+import { postLoginRes, postSignupRes, patchEnrollFamilyRes, patchModifyNicknameRes } from '@/mocks/api/data/auth';
 
 export const authHandlers = [
   /* 로그인 */
@@ -29,6 +29,18 @@ export const authHandlers = [
   /* 가족 참여 */
   http.patch('/users/family/enroll', () => {
     const success = HttpResponse.json(patchEnrollFamilyRes, {
+      status: 200,
+      headers: {
+        authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0bmdoazk2MTFAbmF2ZXIuY29tIiwiaWF0IjoxNzExOTMyNzA2LCJleHAiOjE3MTIwMTkxMDYsImF1dGgiOiJqYXZhLnV0aWwuc3RyZWFtLlJlZmVyZW5jZVBpcGVsaW5lJDNAMThjZmVmZjcifQ.EjNEBOOjYYFM_rGWUrDq7di7dVhHmaCto074s4l2GD8',
+      },
+    });
+    return success;
+  }),
+
+  /* 유저 정보 수정 */
+  http.patch('/users', () => {
+    const success = HttpResponse.json(patchModifyNicknameRes, {
       status: 200,
       headers: {
         authorization:
