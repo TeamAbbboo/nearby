@@ -3,11 +3,23 @@ spring:
   config:
     activate:
       on-profile: db-local
+
   datasource:
     driver-class-name: ${local.db.driver}
     url: ${local.db.url}
     username: ${local.db.username}
     password: ${local.db.password}
+  security:
+    oauth2:
+      client: # oauth2
+        registration.kakao: # kakao registration
+          redirect-uri: ${local.redirect.uri}
+      redirect:
+        url:
+          full: ${local.redirect.full}
+          endpoint: ${local.redirect.endpoint}
+    frontend-url: ${local.front-url}
+swagger-url: ${local.swagger.url}
 
 ---
 spring:
@@ -19,3 +31,14 @@ spring:
     url: ${server.db.url}
     username: ${server.db.username}
     password: ${server.db.password}
+  security:
+    oauth2:
+      client: # oauth2
+        registration.kakao: # kakao registration
+          redirect-uri: ${server.redirect.uri}
+      redirect:
+        url:
+          full: ${server.redirect.full}
+          endpoint: ${server.redirect.endpoint}
+    frontend-url: ${server.front-url}
+swagger-url: ${server.swagger.url}
