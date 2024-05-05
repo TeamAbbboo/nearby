@@ -1,11 +1,14 @@
-import { Dispatch, SetStateAction } from 'react';
 import Modal from '../@common/Modal';
+
+import { Dispatch, SetStateAction } from 'react';
 
 interface ISettingModalProps {
   setIsSettingModalOpen: Dispatch<SetStateAction<boolean>>;
+  editInfoHandler: void;
+  editFamilyHandler: void;
 }
 
-const SettingModal = ({ setIsSettingModalOpen }: ISettingModalProps) => {
+const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHandler }: ISettingModalProps) => {
   return (
     <Modal onClose={() => setIsSettingModalOpen(false)} width="w-4/5">
       <div className="h-[60vh] bg-white flex flex-col justify-center items-center text-center font-bold rounded-2xl">
@@ -16,11 +19,19 @@ const SettingModal = ({ setIsSettingModalOpen }: ISettingModalProps) => {
 
         {/* 바디 */}
         <div className="flex flex-col items-center w-full h-full overflow-y-auto">
-          <button className="mt-5 w-80 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">
+          <button
+            onClick={editInfoHandler}
+            className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl"
+          >
             내 정보 수정
           </button>
-          <button className="mt-5 w-80 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">가족코드</button>
-          <button className="mt-[60px] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">로그아웃</button>
+          <button
+            onClick={editFamilyHandler}
+            className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl"
+          >
+            가족 코드
+          </button>
+          <button className="mt-[8vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">로그아웃</button>
         </div>
 
         {/* 바텀 */}
@@ -40,4 +51,4 @@ const SettingModal = ({ setIsSettingModalOpen }: ISettingModalProps) => {
   );
 };
 
-export default SettingModal;
+export default SettingHomeModal;

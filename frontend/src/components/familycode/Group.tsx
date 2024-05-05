@@ -48,7 +48,7 @@ const Group = () => {
   return (
     <div className="w-full h-full relative flex flex-col">
       {/* 가족 코드 */}
-      <div className=" px-5">
+      <div className="px-5">
         <div className="text-lg font-bold text-start pt-10">
           <p>가족 코드</p>
         </div>

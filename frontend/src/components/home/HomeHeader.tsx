@@ -1,5 +1,7 @@
 import MessageModal from './MessageModal';
 import SettingModal from './SettingModal';
+import EditInfoModal from './EditInfoModal';
+import EditFamilyModal from './EditFamilyModal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import playground from '@/assets/icons/playground.png';
@@ -12,6 +14,26 @@ const HomeHeader = () => {
   const navigate = useNavigate();
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
+  const [isEditInfoModalOpen, setIsEditInfoModalOpen] = useState<boolean>(false);
+  const [isEditFamilyModalOpen, setIsEditFamilyModalOpen] = useState<boolean>(false);
+
+  const settingHandler = () => {
+    setIsSettingModalOpen(true);
+    setIsEditFamilyModalOpen(false);
+    setIsEditInfoModalOpen(false);
+  };
+
+  const editInfoHandler = () => {
+    setIsSettingModalOpen(false);
+    setIsEditFamilyModalOpen(false);
+    setIsEditInfoModalOpen(true);
+  };
+
+  const editFamilyHandler = () => {
+    setIsSettingModalOpen(false);
+    setIsEditFamilyModalOpen(true);
+    setIsEditInfoModalOpen(false);
+  };
 
   return (
     <header>
@@ -54,7 +76,21 @@ const HomeHeader = () => {
         </div>
       </nav>
       {isMessageModalOpen && <MessageModal setIsMessageModalOpen={setIsMessageModalOpen} />}
-      {isSettingModalOpen && <SettingModal setIsSettingModalOpen={setIsSettingModalOpen} />}
+
+      {/* 설정 관련 모달들 */}
+      {isSettingModalOpen && (
+        <SettingModal
+          setIsSettingModalOpen={setIsSettingModalOpen}
+          editInfoHandler={editInfoHandler}
+          editFamilyHandler={editFamilyHandler}
+        />
+      )}
+      {isEditInfoModalOpen && (
+        <EditInfoModal setIsEditInfoModalOpen={setIsEditInfoModalOpen} settingHandler={settingHandler} />
+      )}
+      {isEditFamilyModalOpen && (
+        <EditFamilyModal setIsEditFamilyModalOpen={setIsEditFamilyModalOpen} settingHandler={settingHandler} />
+      )}
     </header>
   );
 };
