@@ -13,9 +13,10 @@ import notification from '@/assets/icons/notification.png';
 const HomeHeader = () => {
   const navigate = useNavigate();
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
-  const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false);
-  const [isEditInfoModalOpen, setIsEditInfoModalOpen] = useState<boolean>(false);
-  const [isEditFamilyModalOpen, setIsEditFamilyModalOpen] = useState<boolean>(false);
+
+  const [isSettingModalOpen, setIsSettingModalOpen] = useState<boolean>(false); // 설정 모달
+  const [isEditInfoModalOpen, setIsEditInfoModalOpen] = useState<boolean>(false); // 내 정보 수정 모달
+  const [isEditFamilyModalOpen, setIsEditFamilyModalOpen] = useState<boolean>(false); // 가족 코드 모달
 
   const settingHandler = () => {
     setIsSettingModalOpen(true);
