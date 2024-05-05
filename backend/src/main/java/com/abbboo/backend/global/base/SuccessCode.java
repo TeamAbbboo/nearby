@@ -15,7 +15,8 @@ public enum SuccessCode {
 
     // user
     USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
-    USER_REGIST_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS")
+    USER_REGIST_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
+    USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS")
     ;
 
     private final int status;
