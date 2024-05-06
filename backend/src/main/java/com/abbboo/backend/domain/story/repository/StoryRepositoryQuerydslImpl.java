@@ -30,7 +30,9 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             DayStoryRes.class,
             story.id.as("storyId"),
             story.user.id.as("userId"),
-            story.url.as("url"),
+            story.frontUrl.as("frontUrl"),
+            story.rearUrl.as("rearUrl"),
+            story.createdAt.as("createdAt"),
             story.user.mood.as("mood"),
             story.user.nickname.as("nickname"),
             story.isSaved.as("isSaved")
