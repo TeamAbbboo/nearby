@@ -31,7 +31,7 @@ const Group = () => {
     }
 
     doPatchEnrollFamilyReq(
-      { userId, familyCode },
+      { familyCode },
       {
         onSuccess: () => {
           console.log('가족 그룹 참여에 성공했습니다.');

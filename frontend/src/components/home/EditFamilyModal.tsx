@@ -109,6 +109,40 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
     });
   };
 
+  /* 가족 코드로 참여 */
+  const { useEnrollFamilyCode } = useAuth();
+  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
+  const onParticipateButton = () => {
+    if (inputRef.current?.value === '' || inputRef.current?.value.includes(' ')) {
+      alert('가족 코드 입력칸에 빈칸 또는 공백이 존재합니다.');
+      return;
+    }
+
+    if (inputRef.current?.value.length !== 6) {
+      alert('가족 코드는 6자리 입니다.');
+      return;
+    }
+
+    if (window.confirm(inputRef.current?.value + ' 코드로 가족 참여하시겠습니까?')) {
+      doPatchEnrollFamilyReq(
+        {
+          familyCode: inputRef.current?.value,
+        },
+        {
+          onSuccess: data => {
+            setFamilyCode(inputRef.current?.value);
+            setIsExistFamilyCode(true);
+            alert('참여 성공!!');
+          },
+          onError: error => {
+            console.log(error);
+            alert('존재하지 않는 코드입니다!!');
+          },
+        },
+      );
+    }
+  };
+
   /* 가족 떠나기 */
   const { useLeaveFamily } = useAuth();
   const { mutate: doPatchLeaveFamilyReq } = useLeaveFamily();
@@ -196,7 +230,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
               <div>
                 <p className="mt-5 ml-5 text-start">내 가족 코드</p>
                 <div className="flex flex-row mt-1 w-60 h-16 border-2 border-slate-400 rounded-xl items-center justify-center">
-                  <input className="w-40 ml-5 text-start outline-none" maxLength={6} placeholder="가족이 없습니다." />
+                  <input
+                    className="w-40 ml-5 text-start outline-none"
+                    ref={inputRef}
+                    maxLength={6}
+                    placeholder="가족이 없습니다."
+                  />
                   <button onClick={createFamilyCode} className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl">
                     생성
                   </button>
@@ -204,8 +243,11 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
               </div>
 
               <div>
-                <button className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">
-                  가족 코드 등록하기
+                <button
+                  onClick={onParticipateButton}
+                  className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl"
+                >
+                  가족 코드로 참여하기
                 </button>
               </div>
             </div>
