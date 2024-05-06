@@ -2,6 +2,7 @@ package com.abbboo.backend.domain.user.controller;
 
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
+import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
 import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
 import com.abbboo.backend.domain.user.service.UserService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -23,6 +24,20 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @Operation(summary = "유저 정보 조회")
+    @GetMapping("")
+    public ResponseEntity<BaseResponse> checkUser(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("유저 정보 조회 URL 맵핑 : OK");
+
+        log.info("유저 정보 조회 : START");
+        UserCheckRes userCheckRes = userService.getUserMe(customOAuth2User.getCreatedUserId());
+        log.info("유저 정보 조회 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_CHECK_SUCCESS,userCheckRes));
+    }
 
     @Operation(summary = "유저 정보 수정")
     @PatchMapping("")
