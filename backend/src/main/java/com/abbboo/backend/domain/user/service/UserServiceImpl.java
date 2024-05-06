@@ -2,6 +2,7 @@ package com.abbboo.backend.domain.user.service;
 
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
+import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
 import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
@@ -16,6 +17,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    // 유저 정보 조회
+    @Override
+    public UserCheckRes getUserMe(String kakaoId) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 유저 정보 조회 응답 반환
+        return UserCheckRes.builder()
+                .nickname(user.getNickname())
+                .birthday(user.getBirthday())
+                .build();
+    }
 
     // 유저 정보 수정
     @Override
