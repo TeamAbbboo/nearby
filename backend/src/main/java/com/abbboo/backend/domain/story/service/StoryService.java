@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.service;
 
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.dto.StoryReactionReq;
@@ -15,4 +16,5 @@ public interface StoryService {
   
     void createReaction(StoryReactionReq reactionReq, Long storyId);
 
+    DayStoryListRes readDailySavedStory(YearMonthDayParams params);
 }

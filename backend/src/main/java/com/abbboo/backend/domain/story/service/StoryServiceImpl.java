@@ -5,6 +5,7 @@ import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
 import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.dto.StoryReactionReq;
@@ -96,9 +97,23 @@ public class StoryServiceImpl implements StoryService{
         reactionHistoryRepository.save(reactionHistory);
     }
 
+    // 일자별 소식 조회하기
+    @Override
+    public DayStoryListRes readDailySavedStory(YearMonthDayParams params) {
+        // TODO: familyId 가져오기
+        int familyId = 1; //임시
+
+        // 예외 1 - familyId가 유효하지 않은 경우
+        familyRepository.findById(familyId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        
+        return storyRepository.findDailySavedStoriesByFamilyId(params, familyId);
+    }
+
+    // 24시간이내 소식 조회하기
     @Override
     public DayStoryListRes readDayStory(StoriesReq storiesReq) {
-        // familyId로 24시간이내 소식 조회하기
+
         int familyId = storiesReq.getFamilyId();
 
         // 예외 1 - familyId가 유효하지 않은 경우
