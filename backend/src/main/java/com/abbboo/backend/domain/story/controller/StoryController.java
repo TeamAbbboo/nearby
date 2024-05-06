@@ -7,6 +7,7 @@ import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
+import com.abbboo.backend.domain.story.dto.StoryReactionReq;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.base.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +35,9 @@ public class StoryController {
     @Operation(summary = "소식 등록")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<BaseResponse> uploadStory(
-        @RequestParam("file") MultipartFile multipartFile){
-        storyService.createStroy(multipartFile);
+        @RequestPart(value = "front") MultipartFile frontFile,
+        @RequestPart(value = "rear") MultipartFile rearFile){
+        storyService.createStroy(frontFile, rearFile);
         return ResponseEntity.ok(BaseResponse.of(STORY_UPLOAD_SUCCESS));
     }
 
@@ -49,8 +51,8 @@ public class StoryController {
     @Operation(summary = "소식에 반응 등록")
     @PostMapping("/{storyId}/reactions")
     public ResponseEntity<BaseResponse> registReaction(
-        @PathVariable("storyId") Long storyId,@RequestBody String expression){
-        storyService.createReaction(expression, storyId);
+        @PathVariable("storyId") Long storyId, @RequestBody StoryReactionReq reactionReq){
+        storyService.createReaction(reactionReq, storyId);
         return ResponseEntity.ok(BaseResponse.of(REACTION_REGIST_SUCCESS));
     }
 
