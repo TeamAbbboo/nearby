@@ -3,29 +3,43 @@ import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
-import { Dispatch, SetStateAction, useState, useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, useRef } from 'react';
 
 /* interface */
 interface IEditInfoModalProps {
   setIsEditInfoModalOpen: Dispatch<SetStateAction<boolean>>;
-  settingHandler: void;
+  settingHandler: MouseEventHandler<HTMLButtonElement>;
 }
 
 const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModalProps) => {
-  const nicknameRef = useRef<HTMLInputElement>(null);
+  const nicknameRef = useRef<HTMLInputElement>(null!);
   const [isModifiyNickname, setIsModifiyNickname] = useState<boolean>(false); // 수정 상태 유무
-  const [nickname, setNickname] = useState<string>('이희웅'); // 닉네임
+  const [nickname, setNickname] = useState<string>(''); // 닉네임
   const [birthday, setBirthday] = useState<string>(''); // 생년월일 (수정 불가)
 
   /* 사용자 정보 가져오기 */
-  const { useModifyNickname } = useAuth();
-  const { mutate: doPatchModifyyReq } = useModifyNickname();
+  const { useGetUserInfo, useModifyNickname, useDeleteUser } = useAuth();
+  const { mutate: doPatchModifyReq } = useModifyNickname();
+  const { mutate: doDeleteUserReq } = useDeleteUser();
 
   /* 유저 정보 조회 */
-  useEffect(() => {}, []);
+  const { data, error } = useGetUserInfo();
+  useEffect(() => {
+    if (data) {
+      setNickname(data.data.nickname);
+      setBirthday(data.data.birthday);
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
 
   /* 회원 탈퇴 */
-  const onLeaveButton = () => {};
+  const onLeaveButton = () => {
+    if (window.confirm('정말 탈퇴하시겠습니까?')) {
+      doDeleteUserReq();
+    }
+  };
 
   /* 수정 */
   const onModifiyButton = () => {
@@ -34,21 +48,21 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
 
   /* 변경 */
   const onChangeButton = () => {
-    if (nickname === '' || nickname.includes(' ')) {
+    if (nicknameRef.current?.value === '' || nicknameRef.current?.value.includes(' ')) {
       alert('변경 또는 허용되지 않은 문자열이 있습니다.');
       nicknameRef.current?.focus();
       return;
     }
 
-    if (window.confirm(nicknameRef.current.value + '을(를) 변경하시겠습니까?')) {
+    if (window.confirm(nicknameRef.current?.value + '을(를) 변경하시겠습니까?')) {
       // 닉네임 변경 요청
-      doPatchModifyyReq(
+      doPatchModifyReq(
         {
-          nickname: nicknameRef.current.value,
+          nickname: nicknameRef.current?.value ?? '',
         },
         {
           onSuccess: () => {
-            setNickname(nicknameRef.current.value);
+            setNickname(nicknameRef.current?.value ?? '');
             setIsModifiyNickname(false);
             alert('변경 완료!');
           },
