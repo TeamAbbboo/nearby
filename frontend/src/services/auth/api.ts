@@ -24,12 +24,8 @@ export const doPostSignupReq = async ({ nickname, birthday }: IPostSignupReq): P
 };
 
 /* 가족 참여 */
-export const doPatchEnrollFamilyReq = async ({
-  userId,
-  familyCode,
-}: IPatchEnrollFamilyReq): Promise<APIResponse<void>> => {
+export const doPatchEnrollFamilyReq = async ({ familyCode }: IPatchEnrollFamilyReq): Promise<APIResponse<void>> => {
   const { data } = await axiosCommonInstance.patch('/users/family/enroll', {
-    userId: userId,
     familyCode: familyCode,
   });
   return data;
