@@ -24,7 +24,7 @@ import org.springframework.http.HttpHeaders;
         // 서비스 버전
         version = "1.0"
     ),
-    servers = {@Server(url = "${server.swagger.url}", description = "Our Server URL")}
+    servers = {@Server(url = "${swagger-url}", description = "Our Server URL")}
 )
 
 @Configuration
