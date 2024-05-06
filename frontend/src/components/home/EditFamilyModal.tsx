@@ -129,8 +129,8 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
           familyCode: inputRef.current?.value,
         },
         {
-          onSuccess: data => {
-            setFamilyCode(inputRef.current?.value);
+          onSuccess: () => {
+            setFamilyCode(inputRef.current?.value ?? '');
             setIsExistFamilyCode(true);
             alert('참여 성공!!');
           },

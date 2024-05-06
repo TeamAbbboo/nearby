@@ -79,8 +79,7 @@ export const useAuth = () => {
 
   const useEnrollFamilyCode = () => {
     return useMutation({
-      mutationFn: async ({ userId, familyCode }: IPatchEnrollFamilyReq) =>
-        doPatchEnrollFamilyReq({ userId, familyCode }),
+      mutationFn: async ({ familyCode }: IPatchEnrollFamilyReq) => doPatchEnrollFamilyReq({ familyCode }),
     });
   };
 

@@ -1,14 +1,11 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
-import userStore from '@/stores/userStore';
 
 /* libraries */
 import { useRef, useState } from 'react';
 
 const Group = () => {
-  const userId = userStore(state => state.userId);
-
   /* 사용자 정보 가져오기 */
   const { useEnrollFamilyCode } = useAuth();
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
