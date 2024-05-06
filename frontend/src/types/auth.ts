@@ -24,6 +24,12 @@ export interface IPostEnrollFamilyRes {
   familyCode: string;
 }
 
+/* 유저 정보 응답 */
+export interface IGetUserInfoRes {
+  nickname: string;
+  birthday: string;
+}
+
 /* 유저 정보 수정 요청 */
 export interface IPatchModifyNicknameReq {
   nickname: string;

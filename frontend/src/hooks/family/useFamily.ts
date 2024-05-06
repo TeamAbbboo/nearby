@@ -1,11 +1,18 @@
 /* components */
-import { doPostCreateFamilyCodeReq } from '@/services/family/api';
+import { doGetFamilyCodeReq, doPostCreateFamilyCodeReq } from '@/services/family/api';
 import userStore from '@/stores/userStore';
 
 /* libraries */
-import { useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 
 export const useFamily = () => {
+  const useGetFamilyCode = () => {
+    return useQuery({
+      queryKey: ['familyCode'],
+      queryFn: () => doGetFamilyCodeReq(),
+    });
+  };
+
   const useCreateFamilyCode = () => {
     return useMutation({
       mutationFn: async () => doPostCreateFamilyCodeReq(),
@@ -22,5 +29,5 @@ export const useFamily = () => {
     });
   };
 
-  return { useCreateFamilyCode };
+  return { useGetFamilyCode, useCreateFamilyCode };
 };

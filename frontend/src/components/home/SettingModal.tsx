@@ -1,14 +1,36 @@
-import Modal from '../@common/Modal';
+/* components */
+import Modal from '@/components/@common/Modal';
+import { useAuth } from '@/hooks/auth/useAuth';
 
-import { Dispatch, SetStateAction } from 'react';
+/* libraries */
+import { Dispatch, SetStateAction, MouseEventHandler } from 'react';
 
+/* interface */
 interface ISettingModalProps {
   setIsSettingModalOpen: Dispatch<SetStateAction<boolean>>;
-  editInfoHandler: void;
-  editFamilyHandler: void;
+  editInfoHandler: MouseEventHandler<HTMLButtonElement>;
+  editFamilyHandler: MouseEventHandler<HTMLButtonElement>;
 }
 
 const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHandler }: ISettingModalProps) => {
+  /* 로그아웃 */
+  const { useLogout } = useAuth();
+  const { mutate: doPatchLogoutReq } = useLogout();
+  const onLogoutButton = () => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      doPatchLogoutReq(undefined, {
+        onSuccess: () => {
+          localStorage.setItem('user-store', '');
+          window.location.replace('/login');
+          alert('로그아웃 성공!!');
+        },
+        onError: () => {
+          alert('로그아웃 실패!!');
+        },
+      });
+    }
+  };
+
   return (
     <Modal onClose={() => setIsSettingModalOpen(false)} width="w-4/5">
       <div className="h-[60vh] bg-white flex flex-col justify-center items-center text-center font-bold rounded-2xl">
@@ -31,7 +53,9 @@ const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHa
           >
             가족 코드
           </button>
-          <button className="mt-[8vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">로그아웃</button>
+          <button onClick={onLogoutButton} className="mt-[8vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">
+            로그아웃
+          </button>
         </div>
 
         {/* 바텀 */}

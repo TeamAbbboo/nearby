@@ -1,27 +1,74 @@
 /* components */
 import Modal from '@/components/@common/Modal';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useFamily } from '@/hooks/family/useFamily';
 
 /* libraries */
-import { Dispatch, SetStateAction, useState, useRef } from 'react';
+import { Dispatch, SetStateAction, MouseEventHandler, useState, useRef, useEffect } from 'react';
 
 /* interface */
 interface IEditFamilyModalProps {
   setIsEditFamilyModalOpen: Dispatch<SetStateAction<boolean>>;
-  settingHandler: void;
+  settingHandler: MouseEventHandler<HTMLButtonElement>;
+}
+
+/* Window 인터페이스에 Kakao 객체가 존재하는 것으로 덮어 씌움 */
+declare global {
+  interface Window {
+    Kakao: any;
+  }
 }
 
 const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFamilyModalProps) => {
   const [isExistFamilyCode, setIsExistFamilyCode] = useState<boolean>(false); // 가족 만들기 버튼 클릭 유무
-  const [familyCode, setFamilyCode] = useState<string>('DDFFSS'); // 가족 코드
+  const [familyCode, setFamilyCode] = useState<string>(''); // 가족 코드
   const inputRef = useRef<HTMLInputElement>(null); // 가족코드 Input
 
+  /* 카카오 객체 초기화 */
+  const { Kakao } = window;
+  useEffect(() => {
+    Kakao.cleanup();
+    Kakao.init(import.meta.env.VITE_JAVA_SCRIPT_KEY);
+  }, []);
+
+  /* 가족 코드가 존재하는 지 조회 */
+  const { useGetFamilyCode } = useFamily();
+  const { data, error } = useGetFamilyCode();
+  useEffect(() => {
+    if (data) {
+      if (data.data.familyCode.length === 6) {
+        setIsExistFamilyCode(true);
+        setFamilyCode(data.data.familyCode);
+      } else {
+        setIsExistFamilyCode(false);
+        setFamilyCode('');
+      }
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
+
   /* 가족 코드 생성 */
+  const { useCreateFamilyCode } = useFamily();
+  const { mutate: doPostCreateFamilyCodeReq } = useCreateFamilyCode();
   const createFamilyCode = async () => {
-    setIsExistFamilyCode(true);
-    // await doPostCreateFamilyCodeReq();
+    if (window.confirm('생성하시겠습니까?')) {
+      doPostCreateFamilyCodeReq(undefined, {
+        onSuccess: data => {
+          setFamilyCode(data.data.familyCode);
+          setIsExistFamilyCode(true);
+          alert('생성 성공!!');
+        },
+        onError: () => {
+          setIsExistFamilyCode(false);
+          alert('생성 실패!!');
+        },
+      });
+    }
   };
 
-  /* 공유 */
+  /* 복사 */
   const onCopyClick = () => {
     const { current: inputEl } = inputRef;
     const value = inputEl?.value;
@@ -41,28 +88,42 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
 
   /* 공유 */
   const shareKakao = () => {
-    if (familyCode) {
-      Kakao.Share.sendDefault({
-        objectType: 'feed',
-        content: {
-          title: 'Nearby',
-          description: '우리 가족 그룹에 참여하시겠습니까?',
-          imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: 'Nearby',
+        description: '우리 가족 그룹에 참여하시겠습니까?',
+        imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
+        link: {
+          mobileWebUrl: 'http://localhost:5173/login' + '?familyCode=' + familyCode,
+        },
+      },
+      buttons: [
+        {
+          title: '지금 가족 그룹에 참여하기',
           link: {
-            mobileWebUrl: import.meta.env.BASE_URL + '?familyCode=' + familyCode,
+            mobileWebUrl: 'http://localhost:5173/login' + '?familyCode=' + familyCode,
           },
         },
-        buttons: [
-          {
-            title: '지금 가족 그룹에 참여하기',
-            link: {
-              mobileWebUrl: import.meta.env.BASE_URL + '?familyCode=' + familyCode,
-            },
-          },
-        ],
+      ],
+    });
+  };
+
+  /* 가족 떠나기 */
+  const { useLeaveFamily } = useAuth();
+  const { mutate: doPatchLeaveFamilyReq } = useLeaveFamily();
+  const onLeaveButton = () => {
+    if (window.confirm('정말 가족을 떠나시겠습니까?')) {
+      doPatchLeaveFamilyReq(undefined, {
+        onSuccess: () => {
+          setIsExistFamilyCode(false);
+          setFamilyCode('');
+          alert('가족 떠나기 성공!!');
+        },
+        onError: () => {
+          alert('가족 떠나기 실패!!');
+        },
       });
-    } else {
-      alert('가족코드 없습니다. 잠시 후 다시 이용해주세요.');
     }
   };
 
@@ -81,29 +142,40 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
             <div className="flex flex-col items-center w-full h-full overflow-y-auto">
               <div>
                 <p className="mt-3 ml-5 text-start">내 가족 코드</p>
-                <div className="flex flex-row mt-1 w-60 h-14 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center">
+                <div className="flex flex-row mt-1 w-60 h-16 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center">
                   <input
+                    className="w-40 bg-zinc-200 ml-5 text-start outline-none"
                     value={familyCode}
                     ref={inputRef}
                     readOnly={true}
-                    className="w-40 bg-zinc-200 ml-5 text-start outline-none"
                   />
+                  <button onClick={onCopyClick}>
+                    <svg
+                      className="ml-2 self-center"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      fill="#000000"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M216,28H88A12,12,0,0,0,76,40V76H40A12,12,0,0,0,28,88V216a12,12,0,0,0,12,12H168a12,12,0,0,0,12-12V180h36a12,12,0,0,0,12-12V40A12,12,0,0,0,216,28ZM156,204H52V100H156Zm48-48H180V88a12,12,0,0,0-12-12H100V52H204Z"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
 
               <div>
-                <button className="mt-5 w-60 h-12 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">
+                <button
+                  onClick={shareKakao}
+                  className="mt-5 w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl"
+                >
                   가족 코드 공유하기
                 </button>
               </div>
               <div>
-                <button className="mt-5 w-60 h-12 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl">
-                  가족 코드 수정하기
+                <button onClick={onLeaveButton} className="mt-[5vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">
+                  가족 떠나기
                 </button>
-              </div>
-
-              <div>
-                <button className="mt-[3vh] w-36 h-10 bg-rose-200 rounded-xl shadow-xl">가족 떠나기</button>
               </div>
             </div>
             <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
@@ -125,7 +197,9 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                 <p className="mt-5 ml-5 text-start">내 가족 코드</p>
                 <div className="flex flex-row mt-1 w-60 h-16 border-2 border-slate-400 rounded-xl items-center justify-center">
                   <input className="w-40 ml-5 text-start outline-none" maxLength={6} placeholder="가족이 없습니다." />
-                  <button className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl">생성</button>
+                  <button onClick={createFamilyCode} className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl">
+                    생성
+                  </button>
                 </div>
               </div>
 

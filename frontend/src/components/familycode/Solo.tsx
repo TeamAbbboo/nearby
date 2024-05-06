@@ -31,7 +31,6 @@ const Solo = () => {
 
   /* 카카오 객체 초기화 */
   const { Kakao } = window;
-
   useEffect(() => {
     Kakao.cleanup();
     Kakao.init(import.meta.env.VITE_JAVA_SCRIPT_KEY);
@@ -70,7 +69,7 @@ const Solo = () => {
 
   /* 공유 버튼 눌렀을 경우 */
   const shareKakao = () => {
-    if (familyCode) {
+    if (familyCode.length === 6) {
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
