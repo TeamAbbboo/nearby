@@ -85,4 +85,15 @@ public class User extends BaseEntity {  // 사용자
     public void changeRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
+
+    // 닉네임 변경 메서드
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    // 정보 등록 메서드
+    public void changeAll(String nickname, LocalDate birthday) {
+        this.nickname = nickname;
+        this.birthday = birthday;
+    }
 }
