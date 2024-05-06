@@ -1,20 +1,28 @@
 package com.abbboo.backend.domain.story.controller;
 
 import static com.abbboo.backend.global.base.SuccessCode.DAYSTORY_GET_SUCCESS;
+import static com.abbboo.backend.global.base.SuccessCode.MONTLYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
+import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.dto.StoryReactionReq;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.base.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,5 +69,13 @@ public class StoryController {
     public ResponseEntity<BaseResponse> getDayStory(@RequestBody StoriesReq storiesReq){
         DayStoryListRes dayStoryList = storyService.readDayStory(storiesReq);
         return ResponseEntity.ok(BaseResponse.of(DAYSTORY_GET_SUCCESS, dayStoryList));
+    }
+
+    @Operation(summary = "보관된 소식을 캘린더에서 월 별 조회")
+    @GetMapping("/monthly")
+    public ResponseEntity<BaseResponse> getMonthlyStory(
+        @ModelAttribute @ParameterObject @Valid MonthlyStoriesParams monthlyStoriesParams ){
+        List<MonthlyStoryRes> monthlyStoryListRes = storyService.readMonthlyStory(monthlyStoriesParams);
+        return ResponseEntity.ok(BaseResponse.of(MONTLYSTORY_GET_SUCCESS, monthlyStoryListRes));
     }
 }
