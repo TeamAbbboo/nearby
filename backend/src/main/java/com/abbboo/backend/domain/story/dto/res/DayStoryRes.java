@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.dto.res;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,11 +14,12 @@ import lombok.Setter;
 public class DayStoryRes { // 24시간이내 소식 정보 응답
 
     private Long storyId;
-    private Integer userId;
-    private String url;
+    private String frontUrl;
+    private String rearUrl;
     private String mood;
     private String nickname;
     private Boolean isSaved;
+    private LocalDateTime createdAt;
     List<ReactionRes> reactions;
 
 }
