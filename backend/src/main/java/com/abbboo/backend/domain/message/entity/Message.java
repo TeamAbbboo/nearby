@@ -50,4 +50,8 @@ public class Message extends BaseEntity { // 쪽지
     // 쪽지 내용
     @Column(name = "content", length = 100)
     private String content;
+
+    // tts 파일 저장 url
+    @Column(name = "tts_url", length = 2000)
+    private String ttsUrl;
 }
