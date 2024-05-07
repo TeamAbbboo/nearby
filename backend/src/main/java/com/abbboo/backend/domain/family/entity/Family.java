@@ -12,13 +12,16 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 @Table(name = "family")
 public class Family extends BaseEntity { // 가족 그룹 정보
 
@@ -35,8 +38,12 @@ public class Family extends BaseEntity { // 가족 그룹 정보
     private List<User> familyMember = new ArrayList<>();
 
     // 현재 가족 민들레 레벨
-    @Column(name = "level", nullable = false)
+    @Column(name = "level")
     @ColumnDefault("1")
     private Integer level;
 
+    @Builder
+    public Family(String familyCode) {
+        this.familyCode = familyCode;
+    }
 }
