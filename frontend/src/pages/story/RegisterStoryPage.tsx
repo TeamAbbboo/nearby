@@ -13,27 +13,13 @@ const RegisterStoryPage = () => {
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
 
-  // const getMediaPermission = useCallback(async () => {
-  //   try {
-  //     const video = { video: { facingMode: facingMode } };
-
-  //     const videoStream = await navigator.mediaDevices.getUserMedia(video);
-  //     setStream(videoStream);
-
-  //     if (videoRef.current) {
-  //       videoRef.current.srcObject = videoStream;
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
-
   const getMediaPermission = useCallback(async () => {
     try {
-      const video = { audio: true, video: true };
+      const video = { video: { facingMode: facingMode } };
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
+      console.log(videoStream);
 
       if (videoRef.current) {
         videoRef.current.srcObject = videoStream;
@@ -99,6 +85,7 @@ const RegisterStoryPage = () => {
   };
 
   useEffect(() => {
+    console.log(stream);
     // 아직 media stream이 설정되지 않았다면 호출
     if (!stream) {
       getMediaPermission();
@@ -163,8 +150,9 @@ const RegisterStoryPage = () => {
             )}
           </div>
         </div>
+        {/* playsInline muted */}
         {stream ? (
-          <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
+          <video ref={videoRef} className="w-full h-full object-cover" autoPlay />
         ) : (
           <div className="w-full h-full bg-black"></div>
         )}
