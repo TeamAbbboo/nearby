@@ -103,7 +103,7 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
               }
             >
               <input
-                defaultValue={nickname}
+                value={nickname}
                 readOnly={!isModifiyNickname}
                 className={
                   isModifiyNickname

@@ -53,6 +53,8 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { mutate: doPostCreateFamilyCodeReq } = useCreateFamilyCode();
   const createFamilyCode = async () => {
     if (window.confirm('생성하시겠습니까?')) {
+      setFamilyCode('');
+
       doPostCreateFamilyCodeReq(undefined, {
         onSuccess: data => {
           setFamilyCode(data.data.familyCode);
@@ -126,6 +128,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         },
         onError: error => {
           console.log(error);
+          setFamilyCode('');
           alert('존재하지 않는 코드입니다!!');
         },
       });
@@ -181,7 +184,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                       ? 'w-40 bg-zinc-200 ml-5 text-start outline-none'
                       : 'w-40 ml-5 text-start outline-none'
                   }
-                  defaultValue={familyCode}
+                  value={familyCode}
                   maxLength={6}
                   placeholder={isExistFamilyCode ? '' : '가족이 없습니다.'}
                   readOnly={isExistFamilyCode}
