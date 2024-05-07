@@ -38,6 +38,11 @@ public class MessageServiceImpl implements MessageService{
             throw new BadRequestException(ErrorCode.NOT_SAME_FAMILY);
         }
 
+        // 메시지 길이가 100자 이내인지 확인
+        if (req.getContent().length() > 100){
+            throw new BadRequestException(ErrorCode.MESSAGE_LENGTH_EXCEEDED);
+        }
+
         Message message = Message.builder()
             .sender(sender).receiver(receiver).content(req.getContent())
             .build();
