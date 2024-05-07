@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.family.controller;
 
+import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
 import com.abbboo.backend.domain.family.service.FamilyService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.base.BaseResponse;
@@ -29,9 +30,9 @@ public class FamilyController {
         log.info("가족 생성 URL 맵핑 : OK");
 
         log.info("가족 생성 : START");
-        familyService.createFamily(customOAuth2User.getCreatedUserId());
+        FamilyGenerateRes familyGenerateRes = familyService.createFamily(customOAuth2User.getCreatedUserId());
         log.info("가족 생성 : COMPLETE");
 
-        return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_CREATE_SUCCESS));
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_CREATE_SUCCESS,familyGenerateRes));
     }
 }
