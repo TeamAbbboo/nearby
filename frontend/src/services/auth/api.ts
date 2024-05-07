@@ -1,12 +1,6 @@
 import { axiosCommonInstance, axiosWithCredentialInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
-import {
-  IPostLoginRes,
-  IPostSignupReq,
-  IPatchEnrollFamilyReq,
-  IGetUserInfoRes,
-  IPatchModifyNicknameReq,
-} from '@/types/auth';
+import { IPostLoginRes, IUserInfoReq } from '@/types/auth';
 
 /* 로그인 */
 export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
@@ -15,7 +9,7 @@ export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
 };
 
 /* 회원 가입 */
-export const doPostSignupReq = async ({ nickname, birthday }: IPostSignupReq): Promise<APIResponse<void>> => {
+export const doPostSignupReq = async ({ nickname, birthday }: IUserInfoReq): Promise<APIResponse<void>> => {
   const { data } = await axiosCommonInstance.post('/users/signup', {
     nickname: nickname,
     birthday: birthday,
@@ -24,7 +18,7 @@ export const doPostSignupReq = async ({ nickname, birthday }: IPostSignupReq): P
 };
 
 /* 가족 참여 */
-export const doPatchEnrollFamilyReq = async ({ familyCode }: IPatchEnrollFamilyReq): Promise<APIResponse<void>> => {
+export const doPatchEnrollFamilyReq = async (familyCode: string): Promise<APIResponse<void>> => {
   const { data } = await axiosCommonInstance.patch('/users/family/enroll', {
     familyCode: familyCode,
   });
@@ -32,13 +26,13 @@ export const doPatchEnrollFamilyReq = async ({ familyCode }: IPatchEnrollFamilyR
 };
 
 /* 유저 정보 조회 */
-export const doGetUserInfoReq = async (): Promise<APIResponse<IGetUserInfoRes>> => {
+export const doGetUserInfoReq = async (): Promise<APIResponse<IUserInfoReq>> => {
   const { data } = await axiosCommonInstance.get('/users');
   return data;
 };
 
 /* 유저 정보 수정 */
-export const doPatchModifyReq = async ({ nickname }: IPatchModifyNicknameReq): Promise<APIResponse<void>> => {
+export const doPatchModifyReq = async (nickname: string): Promise<APIResponse<void>> => {
   const { data } = await axiosCommonInstance.patch('/users', {
     nickname: nickname,
   });
