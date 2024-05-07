@@ -77,9 +77,10 @@ public class StoryController {
     @GetMapping("/daily")
     public ResponseEntity<BaseResponse> getDailySavedStory(
         @ModelAttribute @Valid @ParameterObject YearMonthDayParams params
-    ){
+    ) {
         DayStoryListRes dailySavedStory = storyService.readDailySavedStory(params);
         return ResponseEntity.ok(BaseResponse.of(DAILYSTORY_GET_SUCCESS, dailySavedStory));
+    }
 
     @Operation(summary = "보관된 소식을 캘린더에서 월 별 조회")
     @GetMapping("/monthly")
