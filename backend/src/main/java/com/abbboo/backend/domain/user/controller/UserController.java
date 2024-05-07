@@ -1,8 +1,10 @@
 package com.abbboo.backend.domain.user.controller;
 
+import com.abbboo.backend.domain.user.dto.req.UserEnrollFamilyReq;
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
+import com.abbboo.backend.domain.user.dto.res.UserEnrollFamilyRes;
 import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
 import com.abbboo.backend.domain.user.service.UserService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -52,6 +54,22 @@ public class UserController {
         log.info("유저 정보 수정 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_MODIFY_SUCCESS));
+    }
+
+    @Operation(summary = "유저 가족 등록")
+    @PatchMapping("/family/enroll")
+    public ResponseEntity<BaseResponse> enrollUser(
+            @RequestBody UserEnrollFamilyReq userRegistReq,
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("유저 가족 등록 URL 맵핑 : OK");
+
+        log.info("유저 가족 등록 : START");
+        UserEnrollFamilyRes userEnrollFamilyRes
+                =  userService.updateUserFamily(customOAuth2User.getCreatedUserId(),userRegistReq);
+        log.info("유저 가족 등록 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_ENROLL_SUCCESS,userEnrollFamilyRes));
     }
 
     @Operation(summary = "유저 정보 등록")
