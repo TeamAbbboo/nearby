@@ -23,7 +23,10 @@ public enum SuccessCode {
     USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS"),
 
     // family
-    FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS")
+    FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),
+
+    // exp
+    EXPHISTORY_GET_SUCCESS(200,"경험치 조회에 성공하였습니다.","SUCCESS"),
     ;
 
     private final int status;
