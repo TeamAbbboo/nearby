@@ -17,10 +17,10 @@ public class DayStoryRes { // 24시간이내 소식 정보 응답
     private Integer userId;
     private String frontUrl;
     private String rearUrl;
-    private LocalDateTime createdAt;
     private String mood;
     private String nickname;
     private Boolean isSaved;
+    private LocalDateTime createdAt;
     List<ReactionRes> reactions;
 
 }
