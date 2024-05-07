@@ -90,4 +90,9 @@ public class User extends BaseEntity {  // 사용자
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    // 가족 정보 변경 메서드
+    public void changeFamily(Family family) {
+        this.family = family;
+    }
 }
