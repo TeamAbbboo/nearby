@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.family.controller;
 
+import com.abbboo.backend.domain.family.dto.res.FamilyCodeCheckRes;
 import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
 import com.abbboo.backend.domain.family.service.FamilyService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -34,5 +35,19 @@ public class FamilyController {
         log.info("가족 생성 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_CREATE_SUCCESS,familyGenerateRes));
+    }
+
+    @Operation(summary = "가족 코드 조회")
+    @GetMapping("/code")
+    public ResponseEntity<BaseResponse> checkFamilyCode(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("가족 코드 조회 URL 맵핑 : OK");
+
+        log.info("가족 코드 조회 : START");
+        FamilyCodeCheckRes familyCodeCheckRes = familyService.getFamilyCode(customOAuth2User.getCreatedUserId());
+        log.info("가족 코드 조회 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_CODE_CHECK_SUCCESS,familyCodeCheckRes));
     }
 }
