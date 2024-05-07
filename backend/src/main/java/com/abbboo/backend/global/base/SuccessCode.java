@@ -14,7 +14,12 @@ public enum SuccessCode {
     DAYSTORY_GET_SUCCESS(200, "24시간 이내 소식 조회에 성공하였습니다.", "SUCCESS"),
 
     // user
-    USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS")
+    USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
+
+
+
+    // family
+    FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS")
     ;
 
     private final int status;
