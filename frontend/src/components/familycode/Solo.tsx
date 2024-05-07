@@ -4,7 +4,6 @@ import hold_on_letter from '@/assets/hold_on_letter.png';
 import { useFamily } from '@/hooks/family/useFamily';
 
 /* libraries */
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 /* Window 인터페이스에 Kakao 객체가 존재하는 것으로 덮어 씌움 */
@@ -15,8 +14,6 @@ declare global {
 }
 
 const Solo = () => {
-  const navigator = useNavigate();
-
   const [inputVisible, setInputVisible] = useState<boolean>(false); // 가족코드 만들기 버튼에 대한 클릭 유무
   const [familyCode, setFamilyCode] = useState<string>(''); // 가족 코드
 
