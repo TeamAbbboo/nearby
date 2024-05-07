@@ -8,8 +8,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class dayDto {
-    Integer day;
-    Long storyId;
-    String rearUrl;
+
+    private int day;
+    private long storyId;
+    private String rearUrl;
 
 }
