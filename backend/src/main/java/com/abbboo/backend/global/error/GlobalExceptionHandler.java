@@ -1,5 +1,6 @@
 package com.abbboo.backend.global.error;
 
+import com.abbboo.backend.global.error.exception.AlreadyExistException;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.ConflictException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
@@ -28,6 +29,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ConflictException.class)
     public ErrorResponse handleConflictException(ConflictException e) {
         return new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getMessage(), e.getErrorCode().getCode(), "");
+    }
+
+    @ResponseStatus(value = HttpStatus.ALREADY_REPORTED)
+    @ExceptionHandler(value = AlreadyExistException.class)
+    public ErrorResponse handleAlreadyExistException(AlreadyExistException e) {
+        return new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getMessage(), e.getErrorCode().getCode(), "");
+
     }
 
 }
