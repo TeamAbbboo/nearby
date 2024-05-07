@@ -6,7 +6,7 @@ import Wheel from './Wheel.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -18,7 +18,6 @@ const Signup = () => {
   const { mutate: doPostSignupReq } = usePostSignup();
 
   /* 닉네임 + 생년월일 */
-  const nicknameRef = useRef<HTMLInputElement>(null);
   const [nickname, setNickname] = useState<string>('');
   const [year, setYear] = useState(1999);
   const [month, setMonth] = useState(1);
@@ -67,7 +66,7 @@ const Signup = () => {
   /* 회원가입 */
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
-      nicknameRef.current?.focus();
+      alert('빈 문자열 또는 공백이 존재합니다!!');
       return;
     }
 
@@ -78,16 +77,16 @@ const Signup = () => {
       },
       {
         onSuccess: () => {
-          console.log('회원가입에 성공했습니다.');
-          userStore.setState({
-            nickname: nickname,
-            birthday: year + 1 + '-' + month + '-' + date,
-          });
+          // userStore.setState({
+          //   nickname: nickname,
+          //   birthday: year + 1 + '-' + month + '-' + date,
+          // });
           window.location.replace('/' + location.state.data.selectPenguinOption);
+          alert('회원가입에 성공했습니다.');
         },
         onError: () => {
-          console.log('회원가입에 실패했습니다.');
           navigator('/register');
+          alert('회원가입에 실패했습니다.');
         },
       },
     );
@@ -105,8 +104,7 @@ const Signup = () => {
             className="w-full bg-white/0 outline-none text-center text-lg font-bold"
             type="text"
             name="nickname"
-            maxLength={7}
-            ref={nicknameRef}
+            maxLength={6}
             value={nickname}
             onChange={onChangeNickname}
           />

@@ -3,7 +3,7 @@ export const getFamilyCodeRes = {
   message: '가족코드 조회를 성공하였습니다.',
   code: 'SUCCESS',
   data: {
-    familyCode: 'ABBO01',
+    familyCode: '',
   },
 };
 

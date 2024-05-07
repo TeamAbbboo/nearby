@@ -21,6 +21,7 @@ const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHa
       doPatchLogoutReq(undefined, {
         onSuccess: () => {
           localStorage.setItem('user-store', '');
+          localStorage.setItem('ACCESS_TOKEN', '');
           window.location.replace('/login');
           alert('로그아웃 성공!!');
         },

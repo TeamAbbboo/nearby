@@ -31,11 +31,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/login/redirect/kakao',
-    element: (
-      <PrivateRoute>
-        <KakaoLoginRedircetPage />
-      </PrivateRoute>
-    ),
+    element: <KakaoLoginRedircetPage />,
   },
   {
     path: '/signup',

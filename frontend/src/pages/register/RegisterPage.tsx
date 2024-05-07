@@ -2,21 +2,50 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import penguin from '@/assets/one_penguin.png';
 import groupPenguin from '@/assets/group_penguin.png';
-import userStore from '@/stores/userStore';
+import { useAuth } from '@/hooks/auth/useAuth';
+import { useFamily } from '@/hooks/family/useFamily';
 
 /* libraries */
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
 
-  // 닉네임, 생년월일
-  const { nickname, birthday } = userStore();
+  const [birthday, setBirthday] = useState<string>(''); // 생년월일
+
+  /* 유저 정보 조회 */
+  /** 회원가입을 해야하는지 확인하는 용도 */
+  const { useGetUserInfo } = useAuth();
+  const { data: userData, error: userError } = useGetUserInfo();
+  useEffect(() => {
+    if (userData) {
+      setBirthday(userData.data.birthday);
+    }
+    if (userError) {
+      console.log('유저 정보 받아오기 실패 : ' + userError);
+    }
+  }, [userData, userError]);
+
+  /* 가족 코드가 존재하는지 조회 */
+  /** (솔로 -> 가족코드 생성 -> 뒤로가기) 눌렀을 경우 방지하는 용도 */
+  const { useGetFamilyCode } = useFamily();
+  const { data: familyData, error: familyError } = useGetFamilyCode();
+  useEffect(() => {
+    if (familyData) {
+      if (familyData.data.familyCode.length === 6) {
+        window.location.replace('/');
+      }
+    }
+    if (familyError) {
+      console.log('가족 코드 받아오기 실패 : ' + familyError);
+    }
+  }, [familyData, familyError]);
 
   /* Solo 또는 Group 버튼 */
   const onClickHandler = (link: string) => {
-    // Refactor 필요 (API 호출로 확인)
-    if (nickname !== '' || birthday !== '') {
+    // 생일 데이터 유무로 (회원가입 or 등록) 페이지로 이동
+    if (birthday !== '') {
       navigate('/' + link);
     } else {
       navigate('/signup', {

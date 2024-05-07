@@ -30,7 +30,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
     Kakao.init(import.meta.env.VITE_JAVA_SCRIPT_KEY);
   }, []);
 
-  /* 가족 코드가 존재하는 지 조회 */
+  /* 가족 코드가 존재하는지 조회 */
   const { useGetFamilyCode } = useFamily();
   const { data, error } = useGetFamilyCode();
   useEffect(() => {
