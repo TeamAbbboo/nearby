@@ -19,6 +19,7 @@ const RegisterStoryPage = () => {
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
+      console.log(videoStream);
 
       if (videoRef.current) {
         videoRef.current.srcObject = videoStream;
@@ -84,6 +85,7 @@ const RegisterStoryPage = () => {
   };
 
   useEffect(() => {
+    console.log(stream);
     // 아직 media stream이 설정되지 않았다면 호출
     if (!stream) {
       getMediaPermission();
