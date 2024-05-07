@@ -16,10 +16,14 @@ public enum SuccessCode {
     MONTLYSTORY_GET_SUCCESS(200, "월 별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
 
     // user
+    USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
     USER_CHECK_SUCCESS(200,"유저 정보 조회에 성공하였습니다.","SUCCESS"),
     USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
     USER_REGIST_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
-    USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS")
+    USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS"),
+
+    // family
+    FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS")
     ;
 
     private final int status;

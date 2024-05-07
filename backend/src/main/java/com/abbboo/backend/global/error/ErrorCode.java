@@ -2,7 +2,6 @@ package com.abbboo.backend.global.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
@@ -16,9 +15,12 @@ public enum ErrorCode {
     STORY_NOT_FOUND(404, "소식을 찾을 수 없습니다.", "S-001", ""),
     REACTION_IS_WRONG(400, "잘못된 반응을 요청했습니다.", "S-002", ""),
 
-    // User, Family
+    // User
     USER_NOT_FOUND(404, "사용자를 찾을 수 없습니다", "U-001", ""),
-    FAMILY_NOT_FOUND(404, "유효하지 않은 가족 코드입니다.", "U-002", ""),
+    USER_EXIST_FAMILY(404, "이미 가족이 존재합니다.", "U-002", ""),
+
+    // Family
+    FAMILY_NOT_FOUND(404, "유효하지 않은 가족 코드입니다.", "F-001", "")
     ;
 
     private final int status;
