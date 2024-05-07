@@ -151,11 +151,11 @@ const RegisterStoryPage = () => {
           </div>
         </div>
         {/* playsInline muted */}
-        {stream ? (
-          <video ref={videoRef} className="w-full h-full object-cover" autoPlay />
-        ) : (
-          <div className="w-full h-full bg-black"></div>
-        )}
+        {/* {stream ? ( */}
+        <video ref={videoRef} className="w-full h-full object-cover" autoPlay />
+        {/* ) : ( */}
+        {/* <div className="w-full h-full bg-black"></div> */}
+        {/* )} */}
 
         {/* 캡쳐버튼 */}
         {frontImage && backImage ? (
