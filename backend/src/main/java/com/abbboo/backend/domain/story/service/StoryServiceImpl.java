@@ -5,9 +5,12 @@ import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
 import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
+import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
 import com.abbboo.backend.domain.story.dto.StoryReactionReq;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -16,6 +19,7 @@ import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.util.S3Util;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -96,9 +100,23 @@ public class StoryServiceImpl implements StoryService{
         reactionHistoryRepository.save(reactionHistory);
     }
 
+    // 일자별 소식 조회하기
+    @Override
+    public DayStoryListRes readDailySavedStory(YearMonthDayParams params) {
+        // TODO: familyId 가져오기
+        int familyId = 1; //임시
+
+        // 예외 1 - familyId가 유효하지 않은 경우
+        familyRepository.findById(familyId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        
+        return storyRepository.findDailySavedStoriesByFamilyId(params, familyId);
+    }
+
+    // 24시간이내 소식 조회하기
     @Override
     public DayStoryListRes readDayStory(StoriesReq storiesReq) {
-        // familyId로 24시간이내 소식 조회하기
+
         int familyId = storiesReq.getFamilyId();
 
         // 예외 1 - familyId가 유효하지 않은 경우
@@ -106,5 +124,14 @@ public class StoryServiceImpl implements StoryService{
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
 
         return storyRepository.findDayStoriesByFamilyId(familyId);
+    }
+
+    @Override
+    public List<MonthlyStoryRes> readMonthlyStory(MonthlyStoriesParams monthlyStoriesParams) {
+        // TODO: userId로 familyId 조회하기
+        // TODO: familId 존재유무에 따라 예외 처리
+        int familyId = 1;
+        
+        return storyRepository.findMonthlyStories(monthlyStoriesParams, familyId);
     }
 }
