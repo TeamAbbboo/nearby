@@ -27,18 +27,15 @@ const Group = () => {
       return;
     }
 
-    doPatchEnrollFamilyReq(
-      { familyCode },
-      {
-        onSuccess: () => {
-          console.log('가족 그룹 참여에 성공했습니다.');
-          window.location.replace('/');
-        },
-        onError: () => {
-          alert('가족 코드가 유효하지 않습니다.');
-        },
+    doPatchEnrollFamilyReq(familyCode, {
+      onSuccess: () => {
+        console.log('가족 그룹 참여에 성공했습니다.');
+        window.location.replace('/');
       },
-    );
+      onError: () => {
+        alert('가족 코드가 유효하지 않습니다.');
+      },
+    });
     setFamilyCode('');
   };
 

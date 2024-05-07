@@ -10,7 +10,7 @@ import {
   doDeleteUserReq,
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
-import { IPostSignupReq, IPatchEnrollFamilyReq, IPatchModifyNicknameReq } from '@/types/auth';
+import { IUserInfoReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -73,13 +73,13 @@ export const useAuth = () => {
 
   const usePostSignup = () => {
     return useMutation({
-      mutationFn: async ({ nickname, birthday }: IPostSignupReq) => doPostSignupReq({ nickname, birthday }),
+      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
     });
   };
 
   const useEnrollFamilyCode = () => {
     return useMutation({
-      mutationFn: async ({ familyCode }: IPatchEnrollFamilyReq) => doPatchEnrollFamilyReq({ familyCode }),
+      mutationFn: async (familyCode: string) => doPatchEnrollFamilyReq(familyCode),
     });
   };
 
@@ -92,7 +92,7 @@ export const useAuth = () => {
 
   const useModifyNickname = () => {
     return useMutation({
-      mutationFn: async ({ nickname }: IPatchModifyNicknameReq) => doPatchModifyReq({ nickname }),
+      mutationFn: async (nickname: string) => doPatchModifyReq(nickname),
     });
   };
 
