@@ -22,10 +22,11 @@ public enum SuccessCode {
     USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS"),
 
     // family
-    FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),
+    FAMILY_CREATE_SUCCESS(201,"가족 생성에 성공하였습니다.","SUCCESS"),
+    FAMILY_CODE_CHECK_SUCCESS(200,"가족 코드 조회에 성공하였습니다.","SUCCESS"),
 
     // message
-    MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS"),
+    MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS")
     ;
 
     private final int status;
