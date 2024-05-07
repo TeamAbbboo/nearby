@@ -14,7 +14,6 @@ import lombok.Setter;
 public class DayStoryRes { // 24시간이내 소식 정보 응답
 
     private Long storyId;
-    private Integer userId;
     private String frontUrl;
     private String rearUrl;
     private String mood;
