@@ -8,3 +8,11 @@ export const getCurrentLevelReq = async (): Promise<APIResponse<IGetCurrentLevel
   console.log(data);
   return data;
 };
+
+/* 레벨업 */
+export const patchLevelUpReq = async (level: number): Promise<APIResponse<void>> => {
+  const { data } = await axiosCommonInstance.patch('/level', {
+    level: level,
+  });
+  return data;
+};

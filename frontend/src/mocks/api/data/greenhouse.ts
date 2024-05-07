@@ -9,3 +9,10 @@ export const getCurrentLevelReq = {
     maxExp: 30,
   },
 };
+
+export const patchLevelUpReq = {
+  status: 200,
+  message: '레벨 높이기에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: '',
+};

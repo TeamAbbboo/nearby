@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import story from '@/assets/icons/story.png';
 import playground from '@/assets/icons/playground.png';
+import { useGreenhouse } from '@/hooks/greenhouse/useGreenhouse';
 
 interface IDandelionState {
   level: number; // 레벨
@@ -12,8 +13,12 @@ interface IDandelionState {
 }
 
 const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionState) => {
+  /*레벨업*/
+  const { usePatchLevelUp } = useGreenhouse();
+  const { mutate } = usePatchLevelUp();
+
   const navigate = useNavigate();
-  const progressPercentage = (exp / expMax) * 100 >= 100 ? 100 : (exp / expMax) * 100;
+  const progressPercentage = (currentExp / maxExp) * 100 >= 100 ? 100 : (currentExp / maxExp) * 100;
 
   const goAlbum = () => {
     navigate('/album');
@@ -31,6 +36,7 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionSt
             <button
               className="hover:bg-gray-100 w-10 h-5 font-semibold text-[10px] bg-white border-[1px] rounded-xl shadow-md"
               onClick={() => {
+                mutate(level);
                 firework();
                 setIsOpen(true);
               }}
