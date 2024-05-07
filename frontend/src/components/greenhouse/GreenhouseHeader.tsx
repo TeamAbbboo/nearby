@@ -6,12 +6,12 @@ import playground from '@/assets/icons/playground.png';
 
 interface IDandelionState {
   level: number; // 레벨
-  exp: number; // 모은 경험치
-  expMax: number; // 해당 레벨의 경험치 전체 크기
+  currentExp: number; // 모은 경험치
+  maxExp: number; // 해당 레벨의 경험치 전체 크기
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) => {
+const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionState) => {
   const navigate = useNavigate();
   const progressPercentage = (exp / expMax) * 100 >= 100 ? 100 : (exp / expMax) * 100;
 
