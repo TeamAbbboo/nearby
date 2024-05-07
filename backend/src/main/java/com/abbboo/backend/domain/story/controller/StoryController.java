@@ -1,11 +1,13 @@
 package com.abbboo.backend.domain.story.controller;
 
+import static com.abbboo.backend.global.base.SuccessCode.DAILYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.DAYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.MONTLYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoriesReq;
@@ -70,6 +72,14 @@ public class StoryController {
         DayStoryListRes dayStoryList = storyService.readDayStory(storiesReq);
         return ResponseEntity.ok(BaseResponse.of(DAYSTORY_GET_SUCCESS, dayStoryList));
     }
+
+    @Operation(summary = "일자별 보관된 가족의 소식 조회")
+    @GetMapping("/daily")
+    public ResponseEntity<BaseResponse> getDailySavedStory(
+        @ModelAttribute @Valid @ParameterObject YearMonthDayParams params
+    ){
+        DayStoryListRes dailySavedStory = storyService.readDailySavedStory(params);
+        return ResponseEntity.ok(BaseResponse.of(DAILYSTORY_GET_SUCCESS, dailySavedStory));
 
     @Operation(summary = "보관된 소식을 캘린더에서 월 별 조회")
     @GetMapping("/monthly")
