@@ -1,6 +1,5 @@
 /* components */
 import './Style.css';
-import userStore from '@/stores/userStore';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
