@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.family.service;
 
 import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
+import com.abbboo.backend.domain.family.dto.res.FamilyCodeCheckRes;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.user.entity.User;
@@ -23,6 +24,7 @@ public class FamilyServiceImpl implements FamilyService {
     private final UserRepository userRepository;
     private final FamilyRepository familyRepository;
 
+    // 가족 생성
     @Override
     @Transactional
     public FamilyGenerateRes createFamily(String kakaoId) {
@@ -54,6 +56,22 @@ public class FamilyServiceImpl implements FamilyService {
         return FamilyGenerateRes.builder()
                 .familyId(family.getId())
                 .familyCode(family.getFamilyCode())
+                .build();
+    }
+
+    // 가족 코드 조회
+    @Override
+    @Transactional(readOnly = true)
+    public FamilyCodeCheckRes getFamilyCode(String kakaoId) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 가족 코드 조회 응답 반환
+        return FamilyCodeCheckRes.builder()
+                .familyCode(user.getFamily()==null
+                        ? null : user.getFamily().getFamilyCode())
                 .build();
     }
 
