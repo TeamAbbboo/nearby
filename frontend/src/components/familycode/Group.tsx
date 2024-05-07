@@ -1,14 +1,11 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
-import userStore from '@/stores/userStore';
 
 /* libraries */
 import { useRef, useState } from 'react';
 
 const Group = () => {
-  const userId = userStore(state => state.userId);
-
   /* 사용자 정보 가져오기 */
   const { useEnrollFamilyCode } = useAuth();
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
@@ -30,25 +27,22 @@ const Group = () => {
       return;
     }
 
-    doPatchEnrollFamilyReq(
-      { userId, familyCode },
-      {
-        onSuccess: () => {
-          console.log('가족 그룹 참여에 성공했습니다.');
-          window.location.replace('/');
-        },
-        onError: () => {
-          alert('가족 코드가 유효하지 않습니다.');
-        },
+    doPatchEnrollFamilyReq(familyCode, {
+      onSuccess: () => {
+        console.log('가족 그룹 참여에 성공했습니다.');
+        window.location.replace('/');
       },
-    );
+      onError: () => {
+        alert('가족 코드가 유효하지 않습니다.');
+      },
+    });
     setFamilyCode('');
   };
 
   return (
     <div className="w-full h-full relative flex flex-col">
       {/* 가족 코드 */}
-      <div className=" px-5">
+      <div className="px-5">
         <div className="text-lg font-bold text-start pt-10">
           <p>가족 코드</p>
         </div>

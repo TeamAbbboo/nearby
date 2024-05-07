@@ -1,10 +1,19 @@
 /* components */
 import userStore from '@/stores/userStore';
-import { doPostLoginReq, doPostSignupReq, doPatchEnrollFamilyReq } from '@/services/auth/api';
-import { IPostSignupReq, IPatchEnrollFamilyReq } from '@/types/auth';
+import {
+  doPostLoginReq,
+  doPostSignupReq,
+  doPatchEnrollFamilyReq,
+  doGetUserInfoReq,
+  doPatchModifyReq,
+  doPatchLogoutReq,
+  doDeleteUserReq,
+  doPatchLeaveFamilyReq,
+} from '@/services/auth/api';
+import { IUserInfoReq } from '@/types/auth';
 
 /* libraries */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
@@ -64,16 +73,63 @@ export const useAuth = () => {
 
   const usePostSignup = () => {
     return useMutation({
-      mutationFn: async ({ nickname, birthday }: IPostSignupReq) => doPostSignupReq({ nickname, birthday }),
+      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
     });
   };
 
   const useEnrollFamilyCode = () => {
     return useMutation({
-      mutationFn: async ({ userId, familyCode }: IPatchEnrollFamilyReq) =>
-        doPatchEnrollFamilyReq({ userId, familyCode }),
+      mutationFn: async (familyCode: string) => doPatchEnrollFamilyReq(familyCode),
     });
   };
 
-  return { usePostLogin, usePostSignup, useEnrollFamilyCode };
+  const useGetUserInfo = () => {
+    return useQuery({
+      queryKey: ['userInfo'],
+      queryFn: () => doGetUserInfoReq(),
+    });
+  };
+
+  const useModifyNickname = () => {
+    return useMutation({
+      mutationFn: async (nickname: string) => doPatchModifyReq(nickname),
+    });
+  };
+
+  const useLogout = () => {
+    return useMutation({
+      mutationFn: async () => doPatchLogoutReq(),
+    });
+  };
+
+  const useDeleteUser = () => {
+    return useMutation({
+      mutationFn: async () => doDeleteUserReq(),
+      onSuccess: () => {
+        localStorage.setItem('user-store', '');
+        window.location.replace('/login');
+        alert('회원 탈퇴에 성공했습니다.');
+      },
+      onError: () => {
+        alert('회원 탈퇴 실패했습니다.');
+      },
+    });
+  };
+
+  const useLeaveFamily = () => {
+    return useMutation({
+      mutationFn: async () => doPatchLeaveFamilyReq(),
+    });
+  };
+
+  return {
+    usePostLogin,
+    usePostSignup,
+    useEnrollFamilyCode,
+    useGetUserInfo,
+    useModifyNickname,
+    useLogout,
+    useDeleteUser,
+    useLeaveFamily,
+  };
 };
