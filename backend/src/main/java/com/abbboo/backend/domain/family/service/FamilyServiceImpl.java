@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.family.service;
 
+import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.user.entity.User;
@@ -24,7 +25,7 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     @Transactional
-    public void createFamily(String kakaoId) {
+    public FamilyGenerateRes createFamily(String kakaoId) {
 
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
@@ -48,6 +49,12 @@ public class FamilyServiceImpl implements FamilyService {
         user.changeFamily(family);
 
         familyRepository.save(family);
+
+        // 가족 생성 응답 반환
+        return FamilyGenerateRes.builder()
+                .familyId(family.getId())
+                .familyCode(family.getFamilyCode())
+                .build();
     }
 
     // 가족 코드 생성 메서드
