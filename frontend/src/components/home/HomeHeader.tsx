@@ -12,8 +12,8 @@ const HomeHeader = () => {
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   return (
-    <header>
-      <nav className="p-5 flex justify-between font-bold">
+    <header className="w-full h-screen absolute top-0">
+      <nav className="w-full p-5 flex justify-between font-bold">
         {/* 왼쪽 네비바 */}
         <div className="flex flex-col gap-3">
           <div onClick={() => navigate('/story')} className="flex flex-col items-center gap-1 ">
