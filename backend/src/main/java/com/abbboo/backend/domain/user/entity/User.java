@@ -101,4 +101,9 @@ public class User extends BaseEntity {  // 사용자
     public void changeFamily(Family family) {
         this.family = family;
     }
+
+    // 가족 정보 삭제
+    public void deleteFamily() {
+        this.family = null;
+    }
 }
