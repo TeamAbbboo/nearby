@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.message.dto.res;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -10,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SentMessageRes { // 보낸 메시지 정보 응답 객체
     
-    private int receiverId;              // 상대방 id
+    private int toId;                    // 상대방(받은 사람) id
     private String nickname;             // 상대방 닉네임
     private String mood;                 // 상대방 상태
     private String content;              // 메시지 내용
