@@ -54,4 +54,8 @@ public class Message extends BaseEntity { // 쪽지
     // tts 파일 저장 url
     @Column(name = "tts_url", length = 2000)
     private String ttsUrl;
+
+    public void changeIsRead(){
+        this.isRead = true;
+  ;  }
 }

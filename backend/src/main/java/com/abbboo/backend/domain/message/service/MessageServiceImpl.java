@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,5 +109,26 @@ public class MessageServiceImpl implements MessageService{
         int familyId = receiver.getFamily().getId();
 
         return messageRepository.findUnreadMessage(userId, familyId);
+    }
+
+    @Override
+    public void updateMessageIsRead(String kakaoId, Long messageId) {
+        // 해당 메시지 가져오기
+        Message message = messageRepository.findById(messageId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.MESSAGE_NOT_FOUND));
+        log.info("메시지 조회 성공!");
+
+        // 요청한 사용자 가져오기
+        User user = userRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        log.info("사용자 조회 성공!");
+
+        // 요청한 사용자가 해당 메시지의 수신자가 맞는지 검증
+        if(!message.getReceiver().getId().equals(user.getId())){
+            throw new BadRequestException(ErrorCode.RECEIVER_NOT_CORRECT);
+        }
+
+        // 메시지의 isRead를 true로 변경
+        message.changeIsRead();
     }
 }
