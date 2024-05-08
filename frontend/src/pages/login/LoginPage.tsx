@@ -19,13 +19,10 @@ const LoginPage = () => {
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
       <div className="pl-5 pt-20 text-2xl font-bold">
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.7,
-            delay: 0.2,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
           <p>
             가족들에게
@@ -37,13 +34,10 @@ const LoginPage = () => {
 
       <div className="w-full h-full flex flex-col justify-end pb-20 px-5">
         <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.7,
-            delay: 0.5,
-            ease: [0, 0.71, 0.2, 1.01],
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
         >
           <KakaoLogin />
         </motion.div>
