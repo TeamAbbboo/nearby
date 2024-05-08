@@ -1,38 +1,30 @@
 import { useState } from 'react';
-import TransparentButton from '../@common/TransparentButton';
-import PokeModal from './PokeModal';
 import SendMessageModal from './SendMessageModal';
+import { IFamilyInfoRes } from '@/types/playground';
 
-const FamilyInfo = () => {
-  const [isPokeModalOpen, setIsPokeModalOpen] = useState<boolean>(false);
+interface IFamilyInfoProps {
+  familyInfo: IFamilyInfoRes;
+}
+
+const FamilyInfo = ({ familyInfo }: IFamilyInfoProps) => {
   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
   return (
     <>
-      {isPokeModalOpen && <PokeModal setIsPokeModalOpen={setIsPokeModalOpen} />}
       {isSendMessageModalOpen && <SendMessageModal setIsSendMessageModalOpen={setIsSendMessageModalOpen} />}
-      <div className="absolute w-full bottom-10 px-5">
-        <div className="w-full h-full px-5 py-3 flex justify-between rounded-2xl shadow-xl font-bold text-left bg-white/40 text-black ">
-          <div className="flex flex-col gap-3 justify-center">
-            <p className="text-4xl">영한 펭귄</p>
-            <p className="text-lg font-normal pl-1">열정활활 💥💥</p>
+      <div className="w-full">
+        <div className="w-full h-full px-5 py-3 flex justify-between rounded-2xl shadow-xl text-left bg-white">
+          <div className="flex flex-col gap-1 justify-center">
+            <p className="text-lg font-bold">{familyInfo.nickname} 펭귄</p>
+            <p className="text-sm">{familyInfo.mood}</p>
+            <p className="text-xs text-black/50">{familyInfo.birthday}</p>
           </div>
-          <div className="flex flex-col gap-3">
-            <TransparentButton
-              text="찌르기"
-              width="w-14"
-              height="h-14"
-              rounded="rounded-full"
-              shadow="shadow-xl"
-              onClick={() => setIsPokeModalOpen(true)}
-            />
-            <TransparentButton
-              text="메시지"
-              width="w-14"
-              height="h-14"
-              rounded="rounded-full"
-              shadow="shadow-xl"
+          <div className="flex items-center">
+            <button
               onClick={() => setIsSendMessageModalOpen(true)}
-            />
+              className="w-14 h-14 rounded-full text-xs bg-SUB2 text-black font-bold"
+            >
+              메시지
+            </button>
           </div>
         </div>
       </div>
