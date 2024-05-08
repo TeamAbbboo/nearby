@@ -11,10 +11,10 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @AllArgsConstructor
 public class ExpHistoryDto {
-    Long expId;
-    Integer userId;
-    Integer level;
-    Integer point;
+    long expId;
+    int userId;
+    int level;
+    int point;
     String content;
     LocalDateTime createAt;
 }

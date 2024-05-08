@@ -7,9 +7,8 @@ import lombok.Setter;
 import org.springframework.data.domain.Slice;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class GetExpHistoryRes {
-    Integer sum;
+    int sum;
     Slice<ExpHistoryDto> histories;
 }
