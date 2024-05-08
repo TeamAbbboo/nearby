@@ -4,3 +4,5 @@ export interface APIResponse<T> {
   code: string;
   data: T;
 }
+
+export type moodType = 'NORMAL' | 'ANGRY' | 'CHEERUP' | 'TIRED' | 'WORRY' | 'SAD' | 'THINK' | 'PASSION';
