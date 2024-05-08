@@ -2,13 +2,14 @@ import { Dispatch, SetStateAction } from 'react';
 import Modal from '../@common/Modal';
 
 interface IPokeModalProps {
+  nickname: string;
   setIsPokeModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PokeModal = ({ setIsPokeModalOpen }: IPokeModalProps) => {
+const PokeModal = ({ nickname, setIsPokeModalOpen }: IPokeModalProps) => {
   return (
-    <Modal onClose={() => setIsPokeModalOpen(false)} width="w-4/5">
-      <div className="w-full bg-white h-56 rounded-2xl p-5 flex flex-col justify-between">
+    <Modal onClose={() => setIsPokeModalOpen(false)} width="w-full" backgroundColor="">
+      <div className="w-full bg-white h-56 rounded-2xl p-5 flex flex-col justify-between ">
         <div className="w-full flex text-center justify-between items-center">
           <div className="w-5">&nbsp;</div>
           <p className="text-lg font-bold">꾸욱 누르기</p>
@@ -25,7 +26,7 @@ const PokeModal = ({ setIsPokeModalOpen }: IPokeModalProps) => {
         </div>
         <div className="text-center">
           <p>
-            <span>영한 펭귄</span>을 꾸욱 누르시겠습니까?
+            <span>{nickname} 펭귄</span>을 꾸욱 누르시겠습니까?
           </p>
           <p>상대방에게 알림이 전송됩니다</p>
         </div>
