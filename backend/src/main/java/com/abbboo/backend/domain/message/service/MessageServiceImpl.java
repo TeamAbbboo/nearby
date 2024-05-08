@@ -11,6 +11,7 @@ import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -96,7 +97,7 @@ public class MessageServiceImpl implements MessageService{
 
     // 읽지 않은 메시지 조회
     @Override
-    public Slice<ReceivedMessageRes> findUnreadMessage(String kakaoId) {
+    public ReceivedMessageRes findUnreadMessage(String kakaoId) {
         
         // receiver 조건에 들어갈 사용자 정보
         User receiver = userRepository.findByKakaoId(kakaoId)
