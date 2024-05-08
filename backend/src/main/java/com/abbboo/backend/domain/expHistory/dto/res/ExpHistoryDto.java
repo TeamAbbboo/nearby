@@ -1,12 +1,11 @@
-package com.abbboo.backend.domain.expHistory.entity.res;
+package com.abbboo.backend.domain.expHistory.dto.res;
 
-import com.abbboo.backend.domain.user.entity.User;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -17,5 +16,5 @@ public class ExpHistoryDto {
     Integer level;
     Integer point;
     String content;
-    String createAt;
+    LocalDateTime createAt;
 }
