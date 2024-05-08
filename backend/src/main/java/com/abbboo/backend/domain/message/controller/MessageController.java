@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,5 +78,16 @@ public class MessageController {
             customOAuth2User.getCreatedUserId());
         log.info("안 읽은 메시지 중 가장 최근 메시지 조회 성공!!");
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_MESSAGE_SUCCESS, unreadMessageRes));
+    }
+
+    @Operation(summary = "메시지 읽음 처리 API")
+    @PatchMapping
+    public ResponseEntity<BaseResponse> getReadMessageOne(
+        @RequestBody Long messageId,
+        @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+
+        log.info("id : {} 메시지 읽기에 성공!!", messageId);
+        messageService.updateMessageIsRead(customOAuth2User.getCreatedUserId(), messageId);
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.READ_MESSAGE_SUCCESS));
     }
 }
