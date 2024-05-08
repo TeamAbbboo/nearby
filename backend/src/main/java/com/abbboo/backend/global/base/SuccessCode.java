@@ -26,7 +26,8 @@ public enum SuccessCode {
     FAMILY_CODE_CHECK_SUCCESS(200,"가족 코드 조회에 성공하였습니다.","SUCCESS"),
 
     // message
-    MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS")
+    MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS"),
+    GET_SENT_MESSAGE_SUCCESS(200, "보낸 메시지 조회에 성공하였습니다.", "SUCCESS"),
     ;
 
     private final int status;
