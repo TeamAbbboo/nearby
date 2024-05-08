@@ -103,16 +103,32 @@ public class UserServiceImpl implements UserService {
         // 정보 등록 메서드
         user.changeAll(userRegistReq.getNickname(), userRegistReq.getBirthday());
     }
-      
-    // 유저 로그인
+
+    // 유저 탈퇴
     @Override
-    public UserLoginRes getUserAll(String kakaoId) {
+    @Transactional
+    public void deleteUser(String kakaoId) {
 
         // 유저 조회
-        userRepository.findByKakaoId(kakaoId)
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        
+        // 유저 정보 삭제
+        user.deleteUser();
+    }
+
+    // 유저 로그인
+    @Override
+    public UserLoginRes getUserFamily(String kakaoId) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        // 유저 정보 응답 반환
-        return userRepository.findByUserAll(kakaoId);
+        // 유저 로그인 응답 반환
+        return UserLoginRes.builder()
+                .familyId(user.getFamily()==null
+                        ? null : user.getFamily().getId())
+                .build();
     }
 }

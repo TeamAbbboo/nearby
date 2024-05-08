@@ -24,6 +24,9 @@ public interface UserService {
     // 유저 정보 등록
     void updateUserAll(String kakaoId, UserRegistReq userRegistReq);
 
+    // 유저 탈퇴
+    void deleteUser(String kakaoId);
+
     // 유저 로그인
-    UserLoginRes getUserAll(String kakaoId);
+    UserLoginRes getUserFamily(String kakaoId);
 }
