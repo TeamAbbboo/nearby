@@ -35,7 +35,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { data, error } = useGetFamilyCode();
   useEffect(() => {
     if (data) {
-      if (data.data.familyCode.length === 6) {
+      if (data.data.familyCode) {
         setIsExistFamilyCode(true);
         setFamilyCode(data.data.familyCode);
       } else {

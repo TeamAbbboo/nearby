@@ -10,7 +10,7 @@ export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
 
 /* 회원 가입 */
 export const doPostSignupReq = async ({ nickname, birthday }: IUserInfoReq): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.post('/users/signup', {
+  const { data } = await axiosWithCredentialInstance.post('/users/signup', {
     nickname: nickname,
     birthday: birthday,
   });
@@ -19,7 +19,7 @@ export const doPostSignupReq = async ({ nickname, birthday }: IUserInfoReq): Pro
 
 /* 가족 참여 */
 export const doPatchEnrollFamilyReq = async (familyCode: string): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.patch('/users/family/enroll', {
+  const { data } = await axiosWithCredentialInstance.patch('/users/family/enroll', {
     familyCode: familyCode,
   });
   return data;
@@ -27,13 +27,13 @@ export const doPatchEnrollFamilyReq = async (familyCode: string): Promise<APIRes
 
 /* 유저 정보 조회 */
 export const doGetUserInfoReq = async (): Promise<APIResponse<IUserInfoReq>> => {
-  const { data } = await axiosCommonInstance.get('/users');
+  const { data } = await axiosWithCredentialInstance.get('/users');
   return data;
 };
 
 /* 유저 정보 수정 */
 export const doPatchModifyReq = async (nickname: string): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.patch('/users', {
+  const { data } = await axiosWithCredentialInstance.patch('/users', {
     nickname: nickname,
   });
   return data;
@@ -47,12 +47,12 @@ export const doPatchLogoutReq = async (): Promise<APIResponse<void>> => {
 
 /* 회원 탈퇴 */
 export const doDeleteUserReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.delete('/users');
+  const { data } = await axiosWithCredentialInstance.delete('/users');
   return data;
 };
 
 /* 가족 떠나기 */
 export const doPatchLeaveFamilyReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosCommonInstance.patch('/users/family/leave');
+  const { data } = await axiosWithCredentialInstance.patch('/users/family/leave');
   return data;
 };
