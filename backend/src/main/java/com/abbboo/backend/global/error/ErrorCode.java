@@ -26,6 +26,8 @@ public enum ErrorCode {
     RECEIVER_NOT_FOUND(404, "메시지를 받을 사용자가 존재하지 않습니다.", "M-001", ""),
     NOT_SAME_FAMILY(400, "메시지는 가족끼리만 주고 받을 수 있습니다.", "M-002", ""),
     MESSAGE_LENGTH_EXCEEDED(400, "메시지는 100자를 초과할 수 없습니다.", "M-003", ""),
+    MESSAGE_NOT_FOUND(404, "해당 메시지를 찾을 수 없습니다.", "M-004", ""),
+    RECEIVER_NOT_CORRECT(400, "수신자와 사용자가 일치하지 않습니다.", "M-005", ""),
     ;
 
     private final int status;
