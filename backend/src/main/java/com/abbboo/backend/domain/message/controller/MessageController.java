@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.message.controller;
 
 import com.abbboo.backend.domain.message.dto.req.SendMessageReq;
+import com.abbboo.backend.domain.message.dto.req.messageIdReq;
 import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
 import com.abbboo.backend.domain.message.service.MessageService;
@@ -83,11 +84,11 @@ public class MessageController {
     @Operation(summary = "메시지 읽음 처리 API")
     @PatchMapping
     public ResponseEntity<BaseResponse> getReadMessageOne(
-        @RequestBody Long messageId,
+        @RequestBody messageIdReq messageId,
         @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
 
-        log.info("id : {} 메시지 읽기에 성공!!", messageId);
-        messageService.updateMessageIsRead(customOAuth2User.getCreatedUserId(), messageId);
+        log.info("id : {} 메시지 읽기에 성공!!", messageId.getMessageId());
+        messageService.updateMessageIsRead(customOAuth2User.getCreatedUserId(), messageId.getMessageId());
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.READ_MESSAGE_SUCCESS));
     }
 }
