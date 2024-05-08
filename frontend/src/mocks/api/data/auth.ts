@@ -69,3 +69,11 @@ export const patchLeaveFamilyRes = {
   code: 'SUCCESS',
   data: '',
 };
+
+/* ACCESS 토큰 재발급 */
+export const patchGetAccessTokenyRes = {
+  status: 200,
+  message: '액세스 토큰 재발급에 성공했습니다.',
+  code: 'SUCCESS',
+  data: '',
+};
