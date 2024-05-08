@@ -22,6 +22,7 @@ public enum SuccessCode {
     USER_LOGIN_SUCCESS(200,"로그인에 성공하였습니다.","SUCCESS"),
     USER_ENROLL_SUCCESS(204,"가족 등록에 성공하였습니다.","SUCCESS"),
     USER_LEAVE_SUCCESS(204,"가족 떠나기에 성공하였습니다.","SUCCESS"),
+    USER_WITHDRAWAL_SUCCESS(204,"유저 탈퇴에 성공하였습니다.","SUCCESS"),
 
     // family
     FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),

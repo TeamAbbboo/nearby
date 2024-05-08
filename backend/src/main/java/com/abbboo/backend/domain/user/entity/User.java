@@ -106,4 +106,10 @@ public class User extends BaseEntity {  // 사용자
     public void deleteFamily() {
         this.family = null;
     }
+
+    // 유저 정보 삭제
+    public void deleteUser() {
+        this.kakaoId = null;
+        this.isDeleted = true;
+    }
 }
