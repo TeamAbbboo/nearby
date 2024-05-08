@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.message.controller;
 
 import com.abbboo.backend.domain.message.dto.req.SendMessageReq;
+import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
 import com.abbboo.backend.domain.message.service.MessageService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -43,12 +44,25 @@ public class MessageController {
 
     @Operation(summary = "가족들에게 보낸 메시지 조회 API")
     @GetMapping("/sent")
-    public ResponseEntity<BaseResponse> getSentMessage(@AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+    public ResponseEntity<BaseResponse> getSentMessage(
+        @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
         @ModelAttribute @ParameterObject PagenationReq pagenationReq){
 
-        Slice<SentMessageRes> sentMessages =  messageService.findSentMessage(customOAuth2User.getCreatedUserId(), pagenationReq);
-        log.info("가족들에게 보낸 메시지 조회 성공 : {}", sentMessages);
+        Slice<SentMessageRes> sentMessages =
+            messageService.findSentMessage(customOAuth2User.getCreatedUserId(), pagenationReq);
+        log.info("가족들에게 보낸 메시지 조회 성공!");
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_SENT_MESSAGE_SUCCESS, sentMessages));
     }
 
+    @Operation(summary = "가족들에게 받은 메시지 조회 API")
+    @GetMapping("/received")
+    public ResponseEntity<BaseResponse> getReceivedMessage(
+        @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+        @ModelAttribute @ParameterObject PagenationReq pagenationReq){
+
+        Slice<ReceivedMessageRes> receivedMessages =
+            messageService.findReceivedMessage(customOAuth2User.getCreatedUserId(), pagenationReq);
+        log.info("가족들에게 받은 메시지 조회 성공!");
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_MESSAGE_SUCCESS, receivedMessages));
+    }
 }
