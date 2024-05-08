@@ -72,6 +72,20 @@ public class UserController {
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_ENROLL_SUCCESS,userEnrollFamilyRes));
     }
 
+    @Operation(summary = "유저 가족 떠나기")
+    @PatchMapping("/family/leave")
+    public ResponseEntity<BaseResponse> leaveUser(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("유저 가족 떠나기 URL 맵핑 : OK");
+
+        log.info("유저 가족 떠나기 : START");
+        userService.deleteUserFamily(customOAuth2User.getCreatedUserId());
+        log.info("유저 가족 떠나기 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LEAVE_SUCCESS));
+    }
+
     @Operation(summary = "유저 정보 등록")
     @PatchMapping("/regist")
     public ResponseEntity<BaseResponse> registUser(
