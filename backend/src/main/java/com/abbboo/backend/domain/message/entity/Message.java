@@ -57,5 +57,5 @@ public class Message extends BaseEntity { // 쪽지
 
     public void changeIsRead(){
         this.isRead = true;
-  ;  }
+    }
 }

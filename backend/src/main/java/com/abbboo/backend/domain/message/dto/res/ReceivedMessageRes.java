@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ReceivedMessageRes { // 받은 메시지 정보 응답 객체
 
+    private long messageId;              // 메시지 id
     private int fromId;                  // 상대방(보낸 사람) id
     private String nickname;             // 상대방 닉네임
     private String mood;                 // 상대방 상태
