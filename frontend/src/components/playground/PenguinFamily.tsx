@@ -1,7 +1,7 @@
 import fire from '@/assets/fire.png';
 import PlaygroundPenguin from './PlaygroundPenguin';
 import { IFamilyInfoRes } from '@/types/playground';
-import PenguinModal from './PenguinModal';
+import PenguinModal from './modal/PenguinModal';
 import playgroundPenguinStore from '@/stores/playgroundPenguinStore';
 
 interface IPenguinFamilyProps {

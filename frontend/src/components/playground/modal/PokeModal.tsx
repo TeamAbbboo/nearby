@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import Modal from '../@common/Modal';
+import Modal from '../../@common/Modal';
 
 interface IPokeModalProps {
   nickname: string;
