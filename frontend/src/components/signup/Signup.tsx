@@ -95,7 +95,7 @@ const Signup = () => {
     <div className="w-full h-full relative flex flex-col">
       {/* 닉네임 */}
       <div className="px-5">
-        <div className="text-lg font-bold text-start pt-10">
+        <div className="pl-3 text-base font-bold text-start pt-10">
           <p>닉네임</p>
         </div>
         <div className="w-full h-20 bg-white/60 rounded-2xl shadow-xl flex items-center justify-center mt-2">
@@ -112,12 +112,12 @@ const Signup = () => {
 
       {/* 생년월일 */}
       <div className="px-5">
-        <div className="text-lg font-bold text-start pt-10">
+        <div className="pl-3 text-base font-bold text-start pt-10">
           <p>생년월일</p>
         </div>
 
         <div className="w-full h-48 bg-white/90 rounded-2xl shadow-xl flex mt-2 px-5 relative">
-          <div className="absolute bg-gray-300 left-0 right-0 top-[80px] bottom-[80px] h-[32px]"></div>
+          <div className="absolute bg-gray-300 left-5 right-5 top-[80px] bottom-[80px] h-[32px] rounded-3xl"></div>
           {/* 년 */}
           <Wheel
             initIdx={year}
@@ -126,17 +126,17 @@ const Signup = () => {
             width={80}
             idx={1919}
             onChange={handleYearChange}
-            perspective="right"
+            perspective="left"
           />
           {/* 월 */}
           <Wheel
             initIdx={month - 1}
             tag={'월'}
             length={12}
-            width={80}
+            width={60}
             idx={0}
             onChange={handleMonthChange}
-            perspective="center"
+            perspective="left"
           />
           {/* 일 */}
           <Wheel

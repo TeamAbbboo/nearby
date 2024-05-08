@@ -108,7 +108,7 @@ export default function Wheel(props: {
       <div className="wheel__inner">
         <div className="wheel__slides" style={{ width: props.width + 'px' }}>
           {slideValues().map(({ style, value }, idx) => (
-            <div className="wheel__slide text-2xl" style={style} key={idx}>
+            <div className="wheel__slide text-xl" style={style} key={idx}>
               <span>{Number(value) + 1}</span>
               <span>{props.tag}</span>
             </div>
