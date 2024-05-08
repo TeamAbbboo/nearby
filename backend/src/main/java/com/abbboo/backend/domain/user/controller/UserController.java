@@ -101,6 +101,20 @@ public class UserController {
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_REGIST_SUCCESS));
     }
 
+    @Operation(summary = "유저 탈퇴")
+    @PatchMapping("/withdrawal")
+    public ResponseEntity<BaseResponse> withdrawalUser(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("유저 탈퇴 URL 맵핑 : OK");
+
+        log.info("유저 탈퇴 : START");
+        userService.deleteUser(customOAuth2User.getCreatedUserId());
+        log.info("유저 탈퇴 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_WITHDRAWAL_SUCCESS));
+    }
+
     @Operation(summary = "유저 로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> loginUser(
