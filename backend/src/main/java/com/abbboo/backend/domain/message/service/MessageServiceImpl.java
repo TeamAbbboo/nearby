@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.message.service;
 
 import com.abbboo.backend.domain.message.dto.req.SendMessageReq;
+import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
 import com.abbboo.backend.domain.message.entity.Message;
 import com.abbboo.backend.domain.message.repository.MessageRepository;
@@ -12,6 +13,7 @@ import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -56,7 +58,7 @@ public class MessageServiceImpl implements MessageService{
         messageRepository.save(message);
     }
 
-    // 가족에게 보낸 메시지 조회 (전체)
+    // 가족에게 보낸 메시지 조회
     @Override
     public Slice<SentMessageRes> findSentMessage(String kakaoId, PagenationReq req) {
 
@@ -64,12 +66,31 @@ public class MessageServiceImpl implements MessageService{
         User sender = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("보낸 사람 정보 조회 성공: {}", sender.getId());
+        log.info("보낸 사람 정보 조회 성공: id - {}", sender.getId());
         int userId = sender.getId();
         int familyId = sender.getFamily().getId();
 
+        // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC,"createdAt"));
 
         return messageRepository.findSentMessage(userId, familyId, pageRequest);
+    }
+
+    // 가족에게 받은 메시지 조회
+    @Override
+    public Slice<ReceivedMessageRes> findReceivedMessage(String kakaoId, PagenationReq req) {
+
+        // receiver 조건에 들어갈 사용자 정보
+        User receiver = userRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("받은 사람 정보 조회 성공: id - {}", receiver.getId());
+        int userId = receiver.getId();
+        int familyId = receiver.getFamily().getId();
+
+        // 페이징
+        PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC, "createdAt"));
+
+        return messageRepository.findReceivedMessage(userId, familyId, pageRequest);
     }
 }
