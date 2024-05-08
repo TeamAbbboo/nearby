@@ -1,5 +1,5 @@
-import Modal from '../@common/Modal';
-import Penguin from '../@common/Penguin';
+import Modal from '../../@common/Modal';
+import Penguin from '../../@common/Penguin';
 import playgroundPenguinStore from '@/stores/playgroundPenguinStore';
 import { useState } from 'react';
 import PokeModal from './PokeModal';
