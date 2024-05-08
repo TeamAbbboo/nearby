@@ -73,6 +73,24 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    // 유저 가족 떠나기
+    @Override
+    @Transactional
+    public void deleteUserFamily(String kakaoId) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 가족이 이미 없는 경우
+        if(user.getFamily()==null) {
+            throw new NotFoundException(ErrorCode.FAMILY_NOT_FOUND);
+        }
+
+        // 유저 가족 정보 삭제
+        user.deleteFamily();
+    }
+
     // 유저 정보 등록
     @Override
     @Transactional
