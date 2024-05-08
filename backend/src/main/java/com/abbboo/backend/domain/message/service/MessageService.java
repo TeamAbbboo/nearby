@@ -13,4 +13,6 @@ public interface MessageService {
     Slice<SentMessageRes> findSentMessage(String kakaoId, PagenationReq pagenationReq);
 
     Slice<ReceivedMessageRes> findReceivedMessage(String kakaoId, PagenationReq pagenationReq);
+
+    Slice<ReceivedMessageRes> findUnreadMessage(String kakaoId);
 }

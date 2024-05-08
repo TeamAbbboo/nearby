@@ -26,4 +26,13 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "where m.receiver.id= :receiverId and u.family.id= :familyId")
     Slice<ReceivedMessageRes> findReceivedMessage(@Param("receiverId") int receiverId,
         @Param("familyId") int familyId, PageRequest pageRequest);
+
+    // 읽지 않은 메시지 중 가장 최근 메시지 조회
+    @Query("select new com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes(" +
+        "u.id, u.nickname, u.mood, m.content, m.createdAt, m.isRead, m.ttsUrl)" +
+        "from User u join Message m on u.id = m.sender.id " +
+        "where m.receiver.id= :receiverId and u.family.id= :familyId and m.isRead = false " +
+        "order by m.createdAt limit 1")
+    Slice<ReceivedMessageRes> findUnreadMessage(@Param("receiverId") int receiverId,
+        @Param("familyId") int familyId);
 }
