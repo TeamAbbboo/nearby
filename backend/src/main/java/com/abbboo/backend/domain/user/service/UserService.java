@@ -18,6 +18,9 @@ public interface UserService {
     // 유저 가족 등록
     UserEnrollFamilyRes updateUserFamily(String kakaoId, UserEnrollFamilyReq userEnrollFamilyReq);
 
+    // 유저 가족 떠나기
+    void deleteUserFamily(String kakaoId);
+
     // 유저 정보 등록
     void updateUserAll(String kakaoId, UserRegistReq userRegistReq);
 
