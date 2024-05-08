@@ -30,11 +30,11 @@ export const patchEnrollFamilyRes = {
 /* 유저 정보 조회 */
 export const getUserInfoRes = {
   status: 200,
-  message: '유저 정보 수정에 성공했습니다.',
+  message: '유저 정보 조회에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    nickname: '홍길동',
-    birthday: '2000-01-01',
+    nickname: '',
+    birthday: '',
   },
 };
 
