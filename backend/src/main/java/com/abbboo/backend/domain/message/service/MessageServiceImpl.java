@@ -14,12 +14,10 @@ import com.abbboo.backend.global.error.exception.NotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +78,7 @@ public class MessageServiceImpl implements MessageService{
 
     // 가족에게 받은 메시지 조회
     @Override
+    @Transactional
     public Slice<ReceivedMessageRes> findReceivedMessage(String kakaoId, PagenationReq req) {
 
         // receiver 조건에 들어갈 사용자 정보
@@ -93,7 +92,27 @@ public class MessageServiceImpl implements MessageService{
         // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC, "createdAt"));
 
-        return messageRepository.findReceivedMessage(userId, familyId, pageRequest);
+        Slice<ReceivedMessageRes> receivedMessages = messageRepository.findReceivedMessage(userId, familyId, pageRequest);
+
+        // 안 읽은 메시지 찾기
+        List<Message> messages = receiver.getReceivedMessages().stream()
+            .filter(message -> !message.getIsRead())
+            .toList();
+
+        // 안 읽은 메시지 읽음 처리
+        for (ReceivedMessageRes m : receivedMessages){
+
+            // isRead == false -> true
+            if(!m.getIsRead()){
+                for(Message message : messages){
+                    if(message.getId() == m.getMessageId()){
+                        message.changeIsRead();
+                    }
+                }
+            }
+        }
+
+        return receivedMessages;
     }
 
     // 읽지 않은 메시지 조회
@@ -111,7 +130,9 @@ public class MessageServiceImpl implements MessageService{
         return messageRepository.findUnreadMessage(userId, familyId);
     }
 
+    // 메시지 읽음 처리
     @Override
+    @Transactional
     public void updateMessageIsRead(String kakaoId, Long messageId) {
         // 해당 메시지 가져오기
         Message message = messageRepository.findById(messageId)
