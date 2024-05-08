@@ -10,13 +10,14 @@ export default function Wheel(props: {
   length: number;
   loop?: boolean;
   idx: number;
+  valueOffset?: number;
   perspective?: 'left' | 'right' | 'center';
   width: number;
   setValue?: (relative: number, absolute: number) => string;
   onChange?: (tmp: number) => number;
 }) {
   const perspective = props.perspective || 'center';
-  const wheelSize = 14;
+  const wheelSize = 12;
   const slides = props.length;
   const slideDegree = 360 / wheelSize;
   const slidesPerView = props.loop ? 9 : 1;
@@ -40,12 +41,11 @@ export default function Wheel(props: {
     updated: (s: { size: number }) => {
       size.current = s.size;
     },
+
     /* 스크롤 될때 마다 이벤트 발생 */
-    detailsChanged: (s: { track: { details?: TrackDetails } }) => {
-      if (s.track.details && props.onChange) {
-        setSliderState(s.track.details);
-        props.onChange(s.track.details.abs);
-      }
+    detailsChanged: s => {
+      setSliderState(s.track.details);
+      props.onChange(s.track.details.abs);
     },
 
     rubberband: !props.loop,
@@ -90,7 +90,9 @@ export default function Wheel(props: {
         transform: `rotateX(${rotate}deg) translateZ(${radius}px)`,
         WebkitTransform: `rotateX(${rotate}deg) translateZ(${radius}px)`,
       };
-      const value = props.setValue ? props.setValue(i, sliderState.abs + Math.round(distance)) : i;
+      const value = props.setValue
+        ? props.setValue(i, sliderState.abs + Math.round(distance))
+        : i + (props.valueOffset ? props.valueOffset : 0);
       values.push({ style, value });
     }
     return values;
@@ -108,7 +110,7 @@ export default function Wheel(props: {
       <div className="wheel__inner">
         <div className="wheel__slides" style={{ width: props.width + 'px' }}>
           {slideValues().map(({ style, value }, idx) => (
-            <div className="wheel__slide text-xl" style={style} key={idx}>
+            <div className="wheel__slide text-lg" style={style} key={idx}>
               <span>{Number(value) + 1}</span>
               <span>{props.tag}</span>
             </div>
