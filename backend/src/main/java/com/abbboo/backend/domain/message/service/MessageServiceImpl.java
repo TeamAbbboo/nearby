@@ -11,6 +11,7 @@ import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -92,5 +93,20 @@ public class MessageServiceImpl implements MessageService{
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC, "createdAt"));
 
         return messageRepository.findReceivedMessage(userId, familyId, pageRequest);
+    }
+
+    // 읽지 않은 메시지 조회
+    @Override
+    public ReceivedMessageRes findUnreadMessage(String kakaoId) {
+        
+        // receiver 조건에 들어갈 사용자 정보
+        User receiver = userRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("받은 사람 정보 조회 성공: id - {}", receiver.getId());
+        int userId = receiver.getId();
+        int familyId = receiver.getFamily().getId();
+
+        return messageRepository.findUnreadMessage(userId, familyId);
     }
 }

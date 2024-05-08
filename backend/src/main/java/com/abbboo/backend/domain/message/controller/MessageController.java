@@ -10,6 +10,7 @@ import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.base.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -64,5 +65,16 @@ public class MessageController {
             messageService.findReceivedMessage(customOAuth2User.getCreatedUserId(), pagenationReq);
         log.info("가족들에게 받은 메시지 조회 성공!");
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_MESSAGE_SUCCESS, receivedMessages));
+    }
+
+    @Operation(summary = "안 읽은 메시지 중 가장 최근 메시지 조회 API")
+    @GetMapping("/unread")
+    public ResponseEntity<BaseResponse> getUnreadMessage(
+        @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+
+        ReceivedMessageRes unreadMessageRes = messageService.findUnreadMessage(
+            customOAuth2User.getCreatedUserId());
+        log.info("안 읽은 메시지 중 가장 최근 메시지 조회 성공!!");
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_MESSAGE_SUCCESS, unreadMessageRes));
     }
 }
