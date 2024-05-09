@@ -23,7 +23,7 @@ const Solo = () => {
   const { data, error } = useGetFamilyCode();
   useEffect(() => {
     if (data) {
-      if (data.data.familyCode.length === 6) {
+      if (data.data.familyCode !== null) {
         window.location.replace('/');
       } else {
         setInputVisible(false);
@@ -114,7 +114,7 @@ const Solo = () => {
 
   return (
     <div className="w-full h-full relative flex flex-col">
-      <div className="pt-[108px] px-5">
+      <div className="pt-[100px] px-5">
         <div>
           <div className="text-lg font-bold">
             {!inputVisible && (
@@ -171,7 +171,7 @@ const Solo = () => {
         <img src={hold_on_letter}></img>
       </div>
 
-      <div className="w-full pt-[61px] px-5 flex-2">
+      <div className="absolute w-full px-5 bottom-5">
         <div className="text-sm text-neutral-500 font-bold text-center pb-2">
           {inputVisible ? <p>저희 서비스에 오신 것을 환영합니다!</p> : <p>설정 페이지에서 생성할 수 있습니다.</p>}
         </div>
