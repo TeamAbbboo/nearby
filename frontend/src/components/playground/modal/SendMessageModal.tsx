@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import Modal from '../@common/Modal';
-import Penguin from '../@common/Penguin';
+import Modal from '../../@common/Modal';
+import Penguin from '../../@common/Penguin';
 
 interface ISendMessageModalProps {
   setIsSendMessageModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -11,7 +11,7 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
     <Modal onClose={() => setIsSendMessageModalOpen(false)} width="w-4/5">
       <>
         <div className="absolute top-0 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-SUB2 rounded-full z-10 shadow-lg">
-          <Penguin mode="" />
+          <Penguin mood="ANGRY" />
         </div>
         <div className="w-full bg-white rounded-2xl p-5 pt-16 ">
           <div className="bg-SUB2 w-full h-48 rounded-xl p-5">

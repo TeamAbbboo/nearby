@@ -13,6 +13,7 @@ export default {
         HOME: 'url(@/assets/background_home.png)',
         GREENHOUSE: 'url(@/assets/background_greenhouse.png)',
         LOGIN: 'url(@/assets/background_login.png)',
+        PLAYGROUND: 'url(@/assets/background_playground.jpg)',
       },
       keyframes: {
         fadeIn: {

@@ -19,7 +19,7 @@ const StoryHeader = ({ nickname, createdAt }: IStoryHeaderProps) => {
     <div className="fixed top-0 flex w-full h-fit justify-between pt-6 pb-2 px-3 items-center bg-gradient-to-b from-black/40 z-10">
       <div className="flex flex-row gap-2 items-center text-white text-sm">
         <div className="bg-white w-8 h-8 rounded-full">
-          <Penguin mode={''} />
+          <Penguin mood="NORMAL" />
         </div>
         <p className="font-bold">{nickname}</p>
         <p>{dayjs(createdAt).fromNow()}</p>
