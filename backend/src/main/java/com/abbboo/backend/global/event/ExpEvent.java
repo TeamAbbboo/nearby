@@ -16,7 +16,7 @@ public class ExpEvent extends ApplicationEvent {
 
         ExpType(String content, int point) {
             this.point = point;
-            this.content = content+(point>=0?" +":" -")+String.valueOf(point);
+            this.content = content+(point>=0?" +":" ")+String.valueOf(point);
         }
     }
     User user;
