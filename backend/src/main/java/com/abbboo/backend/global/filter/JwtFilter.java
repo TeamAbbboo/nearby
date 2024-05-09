@@ -33,20 +33,46 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // 헤더에서 Authorization 조회
-        String authorization = request.getHeader("Authorization");
+        // 접근 경로에 따른 토큰 확인 위치 분기
+        String authorization;
+        String token;
 
-        // 헤더에 Authorization 없거나, 시작이 Bearer 아닌 경우
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
+        // 재발급 요청인 경우
+        if(request.getRequestURI().startsWith("/api/users/reissue")) {
+            
+            // 쿠키에서 토큰 확인
+            authorization = jwtUtil.getCookieToken(request);
 
-            log.info("토큰이 없습니다.");
-            request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
-            filterChain.doFilter(request, response);
-            return;
+            // 쿠키에 refreshToken 없는 경우
+            if(authorization == null) {
+                log.info("쿠키가 없습니다.");
+                request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // 순수 토큰 문자열 가져오기
+            token = authorization;
         }
 
-        // 순수 토큰 문자열 가져오기
-        String token = authorization.split(" ")[1];
+        // 일반 요청인 경우
+        else {
+            
+            // 헤더에서 토큰 확인
+            authorization = request.getHeader("Authorization");
+
+            // 헤더에 Authorization 없거나, 시작이 Bearer 아닌 경우
+            if (authorization == null || !authorization.startsWith("Bearer ")) {
+
+                log.info("토큰이 없습니다.");
+                request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // 순수 토큰 문자열 가져오기
+            token = authorization.split(" ")[1];
+        }
 
         log.info("토큰 검증 수행 : START");
 
