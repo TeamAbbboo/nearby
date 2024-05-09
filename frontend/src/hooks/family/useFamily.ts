@@ -14,7 +14,7 @@ export const useFamily = () => {
 
   const useCreateFamilyCode = () => {
     return useMutation({
-      mutationKey: 'postCreateFamilyCode',
+      mutationKey: ['postCreateFamilyCode'],
       mutationFn: async () => doPostCreateFamilyCodeReq(),
     });
   };

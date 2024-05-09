@@ -17,21 +17,21 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 export const useAuth = () => {
   const usePostLogin = () => {
     return useMutation({
-      mutationKey: 'postLogin',
+      mutationKey: ['postLogin'],
       mutationFn: async () => doPostLoginReq(),
     });
   };
 
   const usePostSignup = () => {
     return useMutation({
-      mutationKey: 'postSignup',
+      mutationKey: ['postSignup'],
       mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
     });
   };
 
   const useEnrollFamilyCode = () => {
     return useMutation({
-      mutationKey: 'patchEnrollFamilyCode',
+      mutationKey: ['patchEnrollFamilyCode'],
       mutationFn: async (familyCode: string) => doPatchEnrollFamilyReq(familyCode),
     });
   };
@@ -45,21 +45,21 @@ export const useAuth = () => {
 
   const useModifyNickname = () => {
     return useMutation({
-      mutationKey: 'patchModifyNickname',
+      mutationKey: ['patchModifyNickname'],
       mutationFn: async (nickname: string) => doPatchModifyReq(nickname),
     });
   };
 
   const useLogout = () => {
     return useMutation({
-      mutationKey: 'patchLogout',
+      mutationKey: ['patchLogout'],
       mutationFn: async () => doPatchLogoutReq(),
     });
   };
 
   const useDeleteUser = () => {
     return useMutation({
-      mutationKey: 'deleteUser',
+      mutationKey: ['deleteUser'],
       mutationFn: async () => doDeleteUserReq(),
       onSuccess: () => {
         localStorage.setItem('user-store', '');
@@ -74,7 +74,7 @@ export const useAuth = () => {
 
   const useLeaveFamily = () => {
     return useMutation({
-      mutationKey: 'patchLeaveFamily',
+      mutationKey: ['patchLeaveFamily'],
       mutationFn: async () => doPatchLeaveFamilyReq(),
     });
   };

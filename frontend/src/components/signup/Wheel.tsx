@@ -1,6 +1,6 @@
 /* libraries */
 import React, { useRef, useEffect, useState } from 'react';
-import { TrackDetails, useKeenSlider } from 'keen-slider/react';
+import { TrackDetails, useKeenSlider, KeenSliderInstance } from 'keen-slider/react';
 
 /* 생년월일 돌림판 라이브러리 */
 export default function Wheel(props: {
@@ -43,9 +43,12 @@ export default function Wheel(props: {
     },
 
     /* 스크롤 될때 마다 이벤트 발생 */
-    detailsChanged: s => {
+    detailsChanged: (s: KeenSliderInstance) => {
       setSliderState(s.track.details);
-      props.onChange(s.track.details.abs);
+
+      if (props.onChange) {
+        props.onChange(s.track.details?.abs);
+      }
     },
 
     rubberband: !props.loop,
