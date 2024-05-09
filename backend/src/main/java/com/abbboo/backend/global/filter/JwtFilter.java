@@ -3,6 +3,7 @@ package com.abbboo.backend.global.filter;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.auth.OAuth2UserDto;
 import com.abbboo.backend.global.error.ErrorCode;
+import com.abbboo.backend.global.util.CookieUtil;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if(request.getRequestURI().startsWith("/api/users/reissue")) {
             
             // 쿠키에서 토큰 확인
-            authorization = jwtUtil.getCookieToken(request);
+            authorization = cookieUtil.getCookieToken(request);
 
             // 쿠키에 refreshToken 없는 경우
             if(authorization == null) {

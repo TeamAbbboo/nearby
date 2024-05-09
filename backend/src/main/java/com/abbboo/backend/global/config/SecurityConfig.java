@@ -5,6 +5,7 @@ import com.abbboo.backend.global.auth.CustomSuccessHandler;
 import com.abbboo.backend.global.error.CustomAccessDeniedHandler;
 import com.abbboo.backend.global.error.CustomAuthenticationEntryPoint;
 import com.abbboo.backend.global.filter.JwtFilter;
+import com.abbboo.backend.global.util.CookieUtil;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CookieUtil cookieUtil;
 
     @Value("${spring.security.oauth2.redirect.url.endpoint}")
     private String sendRedirectUrl;
@@ -68,7 +70,7 @@ public class SecurityConfig {
         // jwt filter 등록
         // -> UsernamePasswordAuthenticationFilter 이전에 JwtFilter 수행
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtUtil,cookieUtil), UsernamePasswordAuthenticationFilter.class);
 
         // OAuth2 설정
         http
