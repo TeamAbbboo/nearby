@@ -1,20 +1,19 @@
-import { moodInfo } from '@/constants/penguinMood';
-import { moodType } from '@/types/model';
+import { decoInfo, moodInfo } from '@/constants/penguinState';
+import { decoType, moodType } from '@/types/model';
 
 interface IPenguinProps {
   width?: string;
-  mode: string;
-  decoration?: string;
+  mood: moodType;
+  decoration?: decoType;
   onClick?: () => void;
 }
 
-const Penguin = ({ width, mode, decoration, onClick }: IPenguinProps) => {
-  console.log(decoration);
-
+const Penguin = ({ width, mood, decoration, onClick }: IPenguinProps) => {
   return (
     <>
-      <div onClick={onClick} className={`${width} z-10`}>
-        {moodInfo[mode as moodType]}
+      <div onClick={onClick} className={`${width} relative z-10`}>
+        {moodInfo[mood as moodType]}
+        <div className={`${width} absolute top-0 bottom-0 left-0 right-0`}>{decoInfo[decoration as decoType]}</div>
       </div>
     </>
   );
