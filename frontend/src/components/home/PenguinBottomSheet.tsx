@@ -1,21 +1,23 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import BottomSheet from '../@common/BottomSheet';
-import Penguin from '../@common/Penguin';
+import { decoInfo, moodInfo } from '@/constants/penguinState';
+import { decoType, moodType } from '@/types/model';
+import { getMoodMeaning } from '@/utils/getMoodMeaning';
+import { getDecoMeaning } from '@/utils/getDecoMeaning';
 
 interface IPenguinDecoProps {
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
-  const [tab, setTab] = useState<'state' | 'deco'>('state');
+const PenguinBottomSheet = ({ setIsOpen }: IPenguinDecoProps) => {
+  const [tab, setTab] = useState<'mood' | 'deco'>('mood');
 
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="px-5 pb-10">
         <div className="flex gap-3 font-bold">
-          <button onClick={() => setTab('state')} className="cursor-pointer">
-            {tab === 'state' ? (
+          <button onClick={() => setTab('mood')} className="cursor-pointer">
+            {tab === 'mood' ? (
               <p className="border-b-[3px] border-black">상태 선택</p>
             ) : (
               <p className=" text-[#CDCDCD]">상태 선택</p>
@@ -29,16 +31,32 @@ const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
             )}
           </button>
         </div>
-        <div className="grid grid-cols-3 pt-3">
-          {['피곤 해요', '열정 넘쳐요', '가족 생각중', '슬퍼요', '열 받았어요', '평범해요'].map((value, idx) => {
-            return (
-              <div key={idx} className="flex flex-col items-center text-xs">
-                <Penguin mode={value} onClick={() => setIsOpen(!isOpen)} />
-                <p>{value}</p>
-              </div>
-            );
-          })}
-        </div>
+        {tab === 'mood' ? (
+          <div className="grid grid-cols-4 pt-3">
+            {Object.keys(moodInfo).map((value, idx) => {
+              return (
+                <div key={idx} className="flex flex-col items-center text-xs">
+                  {moodInfo[value as moodType]}
+                  <p>{getMoodMeaning(value as moodType)}</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 pt-3">
+            {Object.keys(decoInfo)
+              .filter(value => value !== '')
+              .map((value, idx) => {
+                return (
+                  <div key={idx} className="relative flex flex-col items-center text-xs">
+                    {moodInfo.NORMAL}
+                    <div className={`absolute top-0 bottom-0 left-0 right-0`}>{decoInfo[value as decoType]}</div>
+                    <p>{getDecoMeaning(value as decoType)}</p>
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
     </BottomSheet>
   );
