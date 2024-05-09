@@ -4,6 +4,8 @@ import playgroundPenguinStore from '@/stores/playgroundPenguinStore';
 import { useState } from 'react';
 import PokeModal from './PokeModal';
 import SendMessageModal from './SendMessageModal';
+import { getMoodMeaning } from '@/utils/getMoodMeaning';
+import { moodType } from '@/types/model';
 
 const PenguinModal = () => {
   const { modalClose, familyInfo } = playgroundPenguinStore();
@@ -14,13 +16,18 @@ const PenguinModal = () => {
     <>
       <Modal onClose={modalClose} width="w-4/5" backgroundColor="bg-black/20 backdrop-blur-[4px]">
         <div className="w-full h-full  rounded-2xl flex justify-center items-center">
-          <Penguin onClick={() => setIsPokeModalOpen(true)} mode={familyInfo.mood} decoration="" width="w-[20rem]" />
+          <Penguin
+            onClick={() => setIsPokeModalOpen(true)}
+            mood={familyInfo.mood}
+            decoration={familyInfo.decoration}
+            width="w-[18rem]"
+          />
         </div>
         <div className="w-full">
           <div className="w-full h-full px-5 py-3 flex justify-between rounded-2xl shadow-xl text-left bg-white">
             <div className="flex flex-col gap-1 justify-center">
               <p className="text-lg font-bold">{familyInfo.nickname} 펭귄</p>
-              <p className="text-sm">{familyInfo.mood}</p>
+              <p className="text-sm">{getMoodMeaning(familyInfo.mood as moodType)}</p>
               <p className="text-xs text-black/50">{familyInfo.birthday}</p>
             </div>
             <div className="flex items-center">
