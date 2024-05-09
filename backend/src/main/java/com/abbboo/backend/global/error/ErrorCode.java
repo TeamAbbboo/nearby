@@ -32,6 +32,15 @@ public enum ErrorCode {
     MESSAGE_LENGTH_EXCEEDED(400, "메시지는 100자를 초과할 수 없습니다.", "M-003", ""),
     MESSAGE_NOT_FOUND(404, "해당 메시지를 찾을 수 없습니다.", "M-004", ""),
     RECEIVER_NOT_CORRECT(400, "수신자와 사용자가 일치하지 않습니다.", "M-005", ""),
+  
+    // Token
+    TOKEN_NOT_FOUND(401,"토큰이 존재하지 않습니다.","T-001",""),
+    TOKEN_SIGNATURE_IS_WRONG(403,"잘못된 JWT 서명입니다.","T-002",""),
+    ACCESS_TOKEN_IS_EXPIRED(403,"액세스 토큰이 만료되었습니다.","T-003", ""),
+    REFRESH_TOKEN_IS_EXPIRED(401,"리프레쉬 토큰이 만료되었습니다.","T-004", ""),
+    TOKEN_IS_NOT_SUPPORTED(403,"지원되지 않는 JWT 토큰 입니다.","T-005",""),
+    TOKEN_IS_WRONG(403,"JWT 토큰이 잘못되었습니다.","T-006",""),
+    TOKEN_VERIFICATION_FAIL(403,"토큰 검증에 실패했습니다.","T-007","")
     ;
 
     private final int status;
