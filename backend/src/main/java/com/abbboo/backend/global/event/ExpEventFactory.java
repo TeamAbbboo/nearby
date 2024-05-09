@@ -14,11 +14,11 @@ public class ExpEventFactory {
         return new ExpEvent(source, user, ExpEvent.ExpType.HEARTFUL_LETTER);
     }
 
-    public static ApplicationEvent applicationEvent(Object source,User user) {
+    public static ApplicationEvent createStoryEvent(Object source,User user) {
         return new ExpEvent(source,user, ExpEvent.ExpType.UPLOAD_STORY);
     }
 
-    public static ApplicationEvent createForcedEvent(Object source,User user) {
+    public static ApplicationEvent createForcedMessageEvent(Object source,User user) {
         return new ExpEvent(source, user, ExpEvent.ExpType.FORCED_MESSAGE);
     }
 

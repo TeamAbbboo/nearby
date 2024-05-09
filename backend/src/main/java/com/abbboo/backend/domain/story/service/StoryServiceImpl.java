@@ -62,7 +62,7 @@ public class StoryServiceImpl implements StoryService{
             .build();
 
         //경험치 추가 이벤트 발생
-        eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
+        eventPublisher.publishEvent(ExpEventFactory.createStoryEvent(this,user));
         storyRepository.save(story);
     }
 
