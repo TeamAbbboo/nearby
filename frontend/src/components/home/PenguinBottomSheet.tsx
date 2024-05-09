@@ -1,13 +1,14 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import BottomSheet from '../@common/BottomSheet';
-import Penguin from '../@common/Penguin';
+import { moodInfo } from '@/constants/penguinMood';
+import { moodType } from '@/types/model';
+import { getMoodMeaning } from '@/utils/getMoodMeaning';
 
 interface IPenguinDecoProps {
-  isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
+const PenguinBottomSheet = ({ setIsOpen }: IPenguinDecoProps) => {
   const [tab, setTab] = useState<'state' | 'deco'>('state');
 
   return (
@@ -29,16 +30,20 @@ const PenguinBottomSheet = ({ isOpen, setIsOpen }: IPenguinDecoProps) => {
             )}
           </button>
         </div>
-        <div className="grid grid-cols-3 pt-3">
-          {['피곤 해요', '열정 넘쳐요', '가족 생각중', '슬퍼요', '열 받았어요', '평범해요'].map((value, idx) => {
-            return (
-              <div key={idx} className="flex flex-col items-center text-xs">
-                <Penguin mode={value} onClick={() => setIsOpen(!isOpen)} />
-                <p>{value}</p>
-              </div>
-            );
-          })}
-        </div>
+        {tab === 'state' ? (
+          <div className="grid grid-cols-4 pt-3">
+            {Object.keys(moodInfo).map((value, idx) => {
+              return (
+                <div key={idx} className="flex flex-col items-center text-xs">
+                  {moodInfo[value as moodType]}
+                  <p>{getMoodMeaning(value as moodType)}</p>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 pt-3"></div>
+        )}
       </div>
     </BottomSheet>
   );
