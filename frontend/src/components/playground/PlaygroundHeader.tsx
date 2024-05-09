@@ -9,7 +9,7 @@ const PlaygroundHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="w-full h-screen absolute top-0">
+    <header className="w-full absolute top-0">
       <nav className="w-full p-5 flex justify-between font-bold">
         {/* 왼쪽 네비바 */}
         <div className="flex flex-col gap-3">
