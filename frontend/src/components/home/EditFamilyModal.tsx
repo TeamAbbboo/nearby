@@ -30,12 +30,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
     Kakao.init(import.meta.env.VITE_JAVA_SCRIPT_KEY);
   }, []);
 
-  /* 가족 코드가 존재하는 지 조회 */
+  /* 가족 코드가 존재하는지 조회 */
   const { useGetFamilyCode } = useFamily();
   const { data, error } = useGetFamilyCode();
   useEffect(() => {
     if (data) {
-      if (data.data.familyCode.length === 6) {
+      if (data.data.familyCode) {
         setIsExistFamilyCode(true);
         setFamilyCode(data.data.familyCode);
       } else {
@@ -53,6 +53,8 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { mutate: doPostCreateFamilyCodeReq } = useCreateFamilyCode();
   const createFamilyCode = async () => {
     if (window.confirm('생성하시겠습니까?')) {
+      setFamilyCode('');
+
       doPostCreateFamilyCodeReq(undefined, {
         onSuccess: data => {
           setFamilyCode(data.data.familyCode);
@@ -89,14 +91,14 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         description: '우리 가족 그룹에 참여하시겠습니까?',
         imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
         link: {
-          mobileWebUrl: 'http://localhost:5173/login' + '?familyCode=' + familyCode,
+          mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
         },
       },
       buttons: [
         {
           title: '지금 가족 그룹에 참여하기',
           link: {
-            mobileWebUrl: 'http://localhost:5173/login' + '?familyCode=' + familyCode,
+            mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
           },
         },
       ],
@@ -126,6 +128,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         },
         onError: error => {
           console.log(error);
+          setFamilyCode('');
           alert('존재하지 않는 코드입니다!!');
         },
       });
@@ -181,7 +184,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                       ? 'w-40 bg-zinc-200 ml-5 text-start outline-none'
                       : 'w-40 ml-5 text-start outline-none'
                   }
-                  defaultValue={familyCode}
+                  value={familyCode}
                   maxLength={6}
                   placeholder={isExistFamilyCode ? '' : '가족이 없습니다.'}
                   readOnly={isExistFamilyCode}
