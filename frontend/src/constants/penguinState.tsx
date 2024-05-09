@@ -45,4 +45,5 @@ export const decoInfo: Deco = {
   POOP: <img src={poop} />,
   TIE: <img src={tie} />,
   MUSTACHE: <img src={mustache} />,
+  '': <></>,
 };

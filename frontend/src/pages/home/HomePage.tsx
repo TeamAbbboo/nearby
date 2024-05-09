@@ -13,7 +13,7 @@ const HomePage = () => {
     <div className="relative w-full h-full">
       <img src={home} className="w-full h-full" />
       <div className="absolute left-0 right-0 bottom-[18%] flex justify-center">
-        <Penguin mode="ANGRY" width="w-[17rem]" onClick={() => setIsOpen(true)} />
+        <Penguin mood="ANGRY" width="w-[17rem]" onClick={() => setIsOpen(true)} />
       </div>
       <HomeHeader />
       {isOpen && <PenguinDecoBottomSheet setIsOpen={setIsOpen} />}
