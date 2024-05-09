@@ -16,6 +16,7 @@ const refresh = async (error: AxiosError) => {
   else if (error.response?.status === 403) {
     const { headers } = await axiosWithCredentialInstance.patch('/users/reissue');
     localStorage.setItem('ACCESS_TOKEN', headers.authorization.split('Bearer ')[1]);
+    return Promise.resolve();
   }
 
   return Promise.reject(error);
