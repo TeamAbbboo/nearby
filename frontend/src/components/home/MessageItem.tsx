@@ -11,7 +11,7 @@ const MessageItem = ({ messageItem }: IMessageItemProps) => {
     <div className="py-2 border-b">
       <div className="flex items-center gap-3 ">
         <div className="w-14 h-14 rounded-full bg-SUB2">
-          <Penguin mode={mood} />
+          <Penguin mood={mood} />
         </div>
         <div className="flex-1">
           <div className="w-full flex justify-between">

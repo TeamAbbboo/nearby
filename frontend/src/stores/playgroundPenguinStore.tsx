@@ -16,7 +16,8 @@ const playgroundPenguinStore = create<IPlaygroundStoreState>(set => ({
   familyInfo: {
     userId: 0,
     birthday: '',
-    mood: '',
+    mood: 'NORMAL',
+    decoration: '',
     nickname: '',
   },
 
@@ -34,7 +35,8 @@ const playgroundPenguinStore = create<IPlaygroundStoreState>(set => ({
       familyInfo: {
         userId: 0,
         birthday: '',
-        mood: '',
+        mood: 'NORMAL',
+        decoration: '',
         nickname: '',
       },
     }),
