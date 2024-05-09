@@ -52,7 +52,7 @@ const HomeHeader = () => {
       <nav className="w-full p-5 flex justify-between font-bold">
         {/* 왼쪽 네비바 */}
         <div className="flex flex-col gap-3">
-          <div onClick={() => navigate('/story')} className="flex flex-col items-center gap-1 ">
+          <div onClick={() => navigate('/story')} className="flex flex-col items-center">
             <img src={camera} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">소식 등록</p>

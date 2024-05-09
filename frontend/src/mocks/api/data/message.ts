@@ -14,7 +14,7 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
         content: '엄마펭귄 안녕 엄마 잘지내? ..... 난 못지내고 있어.... 피그마가 너무 힘들어',
         isRead: true,
         createdAt: '2024-04-19 12:00:15',
-        mood: '',
+        mood: 'ANGRY',
       },
       {
         messageId: 2,
@@ -24,7 +24,7 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
           '엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..',
         isRead: true,
         createdAt: '2024-04-19 12:00:15',
-        mood: '',
+        mood: 'PASSION',
       },
       {
         messageId: 3,
@@ -34,7 +34,7 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
           '엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..',
         isRead: true,
         createdAt: '2024-04-19 12:00:15',
-        mood: '',
+        mood: 'SAD',
       },
     ],
   },
