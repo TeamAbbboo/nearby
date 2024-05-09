@@ -123,7 +123,7 @@ public class UserController {
         log.info("유저 로그인 URL 맵핑 : OK");
 
         log.info("유저 로그인 : START");
-        UserLoginRes userLoginRes = userService.getUserFamily(customOAuth2User.getCreatedUserId());
+        UserLoginRes userLoginRes = userService.getUserAll(customOAuth2User.getCreatedUserId());
         log.info("유저 로그인 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LOGIN_SUCCESS,userLoginRes));
