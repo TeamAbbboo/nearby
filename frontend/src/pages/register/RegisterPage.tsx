@@ -34,7 +34,8 @@ const RegisterPage = () => {
   const { data: familyData, error: familyError } = useGetFamilyCode();
   useEffect(() => {
     if (familyData) {
-      if (familyData.data.familyCode.length === 6) {
+      console.log(familyData);
+      if (familyData.data.familyCode !== null) {
         window.location.replace('/');
       }
     }

@@ -4,7 +4,9 @@ export const postLoginRes = {
   message: '로그인에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    familyId: 0,
+    nickname: '',
+    birthday: '',
+    familyId: null,
   },
 };
 

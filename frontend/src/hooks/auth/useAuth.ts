@@ -17,18 +17,21 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 export const useAuth = () => {
   const usePostLogin = () => {
     return useMutation({
+      mutationKey: 'postLogin',
       mutationFn: async () => doPostLoginReq(),
     });
   };
 
   const usePostSignup = () => {
     return useMutation({
+      mutationKey: 'postSignup',
       mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
     });
   };
 
   const useEnrollFamilyCode = () => {
     return useMutation({
+      mutationKey: 'patchEnrollFamilyCode',
       mutationFn: async (familyCode: string) => doPatchEnrollFamilyReq(familyCode),
     });
   };
@@ -42,18 +45,21 @@ export const useAuth = () => {
 
   const useModifyNickname = () => {
     return useMutation({
+      mutationKey: 'patchModifyNickname',
       mutationFn: async (nickname: string) => doPatchModifyReq(nickname),
     });
   };
 
   const useLogout = () => {
     return useMutation({
+      mutationKey: 'patchLogout',
       mutationFn: async () => doPatchLogoutReq(),
     });
   };
 
   const useDeleteUser = () => {
     return useMutation({
+      mutationKey: 'deleteUser',
       mutationFn: async () => doDeleteUserReq(),
       onSuccess: () => {
         localStorage.setItem('user-store', '');
@@ -68,6 +74,7 @@ export const useAuth = () => {
 
   const useLeaveFamily = () => {
     return useMutation({
+      mutationKey: 'patchLeaveFamily',
       mutationFn: async () => doPatchLeaveFamilyReq(),
     });
   };
