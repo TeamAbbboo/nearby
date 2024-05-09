@@ -1,10 +1,8 @@
 /* 로그인 응답 */
 export interface IPostLoginRes {
-  userId: number;
-  familyId: number;
   nickname: string;
   birthday: string;
-  mood: string;
+  familyId: number;
 }
 
 /* 유저 정보 */
