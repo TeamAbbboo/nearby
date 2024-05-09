@@ -1,6 +1,7 @@
 package com.abbboo.backend.global.util;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +28,28 @@ public class CookieUtil {
         cookie.setHttpOnly(true);
 
         return cookie;
+    }
+
+    // 쿠키에서 토큰 확인 메서드
+    public String getCookieToken(HttpServletRequest request) {
+
+        log.info("토큰 재발급 요청 : OK");
+
+        // 쿠기 가져오기
+        Cookie[] cookies = request.getCookies();
+
+        // 쿠키가 존재할 경우
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+
+                // 쿠키 키가 refreshToken 경우
+                if (cookie.getName().equals("refreshToken")) {
+                    request.setAttribute("refreshToken",cookie.getValue());
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        return null;
     }
 }
