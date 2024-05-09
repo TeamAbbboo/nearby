@@ -11,7 +11,7 @@ export const familyHandlers = [
   }),
 
   /* 가족코드 생성 */
-  http.post('/families/create', () => {
+  http.post('/families', () => {
     const success = HttpResponse.json(postCreateFamilyCodeRes, {
       status: 200,
     });
