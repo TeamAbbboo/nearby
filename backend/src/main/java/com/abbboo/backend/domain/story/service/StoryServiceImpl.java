@@ -18,10 +18,12 @@ import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import com.abbboo.backend.global.event.ExpEventFactory;
 import com.abbboo.backend.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +40,7 @@ public class StoryServiceImpl implements StoryService{
     private final StoryRepository storyRepository;
     private final ReactionRepository reactionRepository;
     private final ReactionHistoryRepository reactionHistoryRepository;
-
+    private final ApplicationEventPublisher eventPublisher;
     @Override
     @Transactional
     public void createStroy(MultipartFile frontFile, MultipartFile rearFile) {
@@ -59,6 +61,8 @@ public class StoryServiceImpl implements StoryService{
             .rearUrl(rearUrl)
             .build();
 
+        //경험치 추가 이벤트 발생
+        eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
         storyRepository.save(story);
     }
 
