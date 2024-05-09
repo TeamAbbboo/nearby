@@ -1,27 +1,12 @@
-// export const postLoginRes = {
-//   status: 200,
-//   message: '로그인에 성공했습니다.',
-//   code: "SUCCESS",
-//   data: {
-//     userId: 1,
-//     familyId: 1,
-//     nickname: '바보',
-//     birthday: '2000-03-21',
-//     mood: '열정 넘쳐요',
-//   },
-// };
-
 /* 로그인 */
 export const postLoginRes = {
   status: 200,
   message: '로그인에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    userId: 1,
-    familyId: 1,
     nickname: '',
     birthday: '',
-    mood: '',
+    familyId: null,
   },
 };
 
@@ -47,11 +32,11 @@ export const patchEnrollFamilyRes = {
 /* 유저 정보 조회 */
 export const getUserInfoRes = {
   status: 200,
-  message: '유저 정보 수정에 성공했습니다.',
+  message: '유저 정보 조회에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    nickname: '홍길동',
-    birthday: '2000-01-01',
+    nickname: '',
+    birthday: '',
   },
 };
 
@@ -83,6 +68,14 @@ export const deleteUserRes = {
 export const patchLeaveFamilyRes = {
   status: 200,
   message: '가족 떠나기를 성공했습니다.',
+  code: 'SUCCESS',
+  data: '',
+};
+
+/* ACCESS 토큰 재발급 */
+export const patchGetAccessTokenyRes = {
+  status: 200,
+  message: '액세스 토큰 재발급에 성공했습니다.',
   code: 'SUCCESS',
   data: '',
 };

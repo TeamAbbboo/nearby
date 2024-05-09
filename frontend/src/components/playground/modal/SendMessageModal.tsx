@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import Modal from '../@common/Modal';
-import Penguin from '../@common/Penguin';
+import Modal from '../../@common/Modal';
+import Penguin from '../../@common/Penguin';
 
 interface ISendMessageModalProps {
   setIsSendMessageModalOpen: Dispatch<SetStateAction<boolean>>;
