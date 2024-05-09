@@ -34,10 +34,11 @@ public enum ErrorCode {
     // Token
     TOKEN_NOT_FOUND(401,"토큰이 존재하지 않습니다.","T-001",""),
     TOKEN_SIGNATURE_IS_WRONG(403,"잘못된 JWT 서명입니다.","T-002",""),
-    TOKEN_IS_EXPIRED(403,"토큰이 만료되었습니다.","T-003", ""),
-    TOKEN_IS_NOT_SUPPORTED(403,"지원되지 않는 JWT 토큰 입니다.","T-004",""),
-    TOKEN_IS_WRONG(403,"JWT 토큰이 잘못되었습니다.","T-005",""),
-    TOKEN_VERIFICATION_FAIL(403,"토큰 검증에 실패했습니다.","T-006","")
+    ACCESS_TOKEN_IS_EXPIRED(403,"액세스 토큰이 만료되었습니다.","T-003", ""),
+    REFRESH_TOKEN_IS_EXPIRED(401,"리프레쉬 토큰이 만료되었습니다.","T-004", ""),
+    TOKEN_IS_NOT_SUPPORTED(403,"지원되지 않는 JWT 토큰 입니다.","T-005",""),
+    TOKEN_IS_WRONG(403,"JWT 토큰이 잘못되었습니다.","T-006",""),
+    TOKEN_VERIFICATION_FAIL(403,"토큰 검증에 실패했습니다.","T-007","")
     ;
 
     private final int status;
