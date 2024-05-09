@@ -1,13 +1,13 @@
 /* components */
 import './Style.css';
-import userStore from '@/stores/userStore';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Signup = () => {
   const location = useLocation();
@@ -18,7 +18,6 @@ const Signup = () => {
   const { mutate: doPostSignupReq } = usePostSignup();
 
   /* 닉네임 + 생년월일 */
-  const nicknameRef = useRef<HTMLInputElement>(null);
   const [nickname, setNickname] = useState<string>('');
   const [year, setYear] = useState(1999);
   const [month, setMonth] = useState(1);
@@ -67,7 +66,7 @@ const Signup = () => {
   /* 회원가입 */
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
-      nicknameRef.current?.focus();
+      alert('닉네임 입력 칸에 빈 문자열 또는 공백이 존재합니다!!');
       return;
     }
 
@@ -78,93 +77,127 @@ const Signup = () => {
       },
       {
         onSuccess: () => {
-          console.log('회원가입에 성공했습니다.');
-          userStore.setState({
-            nickname: nickname,
-            birthday: year + 1 + '-' + month + '-' + date,
-          });
+          // userStore.setState({
+          //   nickname: nickname,
+          //   birthday: year + 1 + '-' + month + '-' + date,
+          // });
           window.location.replace('/' + location.state.data.selectPenguinOption);
+          alert('회원가입에 성공했습니다.');
         },
         onError: () => {
-          console.log('회원가입에 실패했습니다.');
           navigator('/register');
+          alert('회원가입에 실패했습니다.');
         },
       },
     );
   };
 
+  /* 애니메이션 설정(1) */
+  const list = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        when: 'beforeChildren',
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  /* 애니메이션 설정(2) */
+  const item = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="w-full h-full relative flex flex-col">
-      {/* 닉네임 */}
-      <div className="px-5">
-        <div className="text-lg font-bold text-start pt-10">
-          <p>닉네임</p>
-        </div>
-        <div className="w-full h-20 bg-white/60 rounded-2xl shadow-xl flex items-center justify-center mt-2">
-          <input
-            className="w-full bg-white/0 outline-none text-center text-lg font-bold"
-            type="text"
-            name="nickname"
-            maxLength={7}
-            ref={nicknameRef}
-            value={nickname}
-            onChange={onChangeNickname}
-          />
-        </div>
-      </div>
-
-      {/* 생년월일 */}
-      <div className="px-5">
-        <div className="text-lg font-bold text-start pt-10">
-          <p>생년월일</p>
-        </div>
-
-        <div className="w-full h-48 bg-white/90 rounded-2xl shadow-xl flex mt-2 px-5 relative">
-          <div className="absolute bg-gray-300 left-0 right-0 top-[80px] bottom-[80px] h-[32px]"></div>
-          {/* 년 */}
-          <Wheel
-            initIdx={year}
-            tag={'년'}
-            length={2024}
-            width={80}
-            idx={1919}
-            onChange={handleYearChange}
-            perspective="right"
-          />
-          {/* 월 */}
-          <Wheel
-            initIdx={month - 1}
-            tag={'월'}
-            length={12}
-            width={80}
-            idx={0}
-            onChange={handleMonthChange}
-            perspective="center"
-          />
-          {/* 일 */}
-          <Wheel
-            initIdx={date - 1}
-            tag={'일'}
-            length={maxDate}
-            width={80}
-            idx={0}
-            onChange={handleDateChange}
-            perspective="left"
-          />
-        </div>
-      </div>
-
-      {/* 아띠 시작하기 */}
-      <div className="w-full p-16 px-5 flex-2">
-        <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startAtti}>
-          <div>
-            <div className="text-lg font-bold">
-              <p>등록하기</p>
+    <motion.ul variants={list} initial="hidden" animate="visible">
+      <div className="w-full h-full relative flex flex-col">
+        {/* 닉네임 */}
+        <motion.li variants={item}>
+          <div className="px-5">
+            <div className="pl-3 text-base font-bold text-start pt-10">
+              <p>닉네임</p>
+            </div>
+            <div className="w-full h-20 bg-white/60 rounded-2xl shadow-xl flex items-center justify-center mt-2">
+              <input
+                className="w-full bg-white/0 outline-none text-center text-lg font-bold"
+                type="text"
+                name="nickname"
+                maxLength={6}
+                value={nickname}
+                onChange={onChangeNickname}
+              />
             </div>
           </div>
-        </TransparentButton>
+        </motion.li>
+
+        {/* 생년월일 */}
+        <motion.li variants={item}>
+          <div className="px-5">
+            <div className="pl-3 text-base font-bold text-start pt-10">
+              <p>생년월일</p>
+            </div>
+
+            <div className="w-full h-48 bg-white/40 rounded-2xl shadow-xl flex mt-2 px-5 relative">
+              <div className="absolute bg-gray-300 rounded-3xl left-5 right-5 top-[80px] bottom-[80px] h-[35px]"></div>
+              {/* 년 */}
+              <Wheel
+                initIdx={95}
+                tag={'년'}
+                length={120}
+                width={80}
+                idx={0}
+                onChange={handleYearChange}
+                valueOffset={new Date().getFullYear() - 120}
+                perspective="left"
+              />
+              {/* 월 */}
+              <Wheel
+                initIdx={month - 1}
+                tag={'월'}
+                length={12}
+                width={60}
+                idx={0}
+                onChange={handleMonthChange}
+                perspective="left"
+              />
+              {/* 일 */}
+              <Wheel
+                initIdx={date - 1}
+                tag={'일'}
+                length={maxDate}
+                width={80}
+                idx={0}
+                onChange={handleDateChange}
+                perspective="left"
+              />
+            </div>
+          </div>
+        </motion.li>
+
+        {/* 아띠 시작하기 */}
+        <motion.li variants={item}>
+          <div className="w-full p-16 px-5 flex-2">
+            <TransparentButton
+              width="w-full"
+              height="h-20"
+              rounded="rounded-3xl"
+              shadow="shadow-xl"
+              onClick={startAtti}
+            >
+              <div>
+                <div className="text-lg font-bold">
+                  <p>등록하기</p>
+                </div>
+              </div>
+            </TransparentButton>
+          </div>
+        </motion.li>
       </div>
-    </div>
+    </motion.ul>
   );
 };
 

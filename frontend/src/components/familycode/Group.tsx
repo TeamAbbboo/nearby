@@ -1,20 +1,16 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
-import userStore from '@/stores/userStore';
 
 /* libraries */
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 const Group = () => {
-  const userId = userStore(state => state.userId);
-
   /* 사용자 정보 가져오기 */
   const { useEnrollFamilyCode } = useAuth();
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
 
   /* 가족 코드 */
-  const familyCodeRef = useRef<HTMLInputElement>(null);
   const [familyCode, setFamilyCode] = useState<string>('');
 
   /* 가족 코드 변경 시 */
@@ -26,29 +22,32 @@ const Group = () => {
   const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
       alert('가족 코드에 공백 또는 빈칸이 존재합니다.');
-      familyCodeRef.current?.focus();
       return;
     }
 
-    doPatchEnrollFamilyReq(
-      { userId, familyCode },
-      {
+    if (familyCode.length !== 6) {
+      alert('가족 코드는 6글자 입니다.');
+      return;
+    }
+
+    if (window.confirm(familyCode + '로 참여하시겠습니까?')) {
+      doPatchEnrollFamilyReq(familyCode, {
         onSuccess: () => {
-          console.log('가족 그룹 참여에 성공했습니다.');
+          alert('가족 그룹 참여에 성공했습니다.');
           window.location.replace('/');
         },
         onError: () => {
           alert('가족 코드가 유효하지 않습니다.');
+          setFamilyCode('');
         },
-      },
-    );
-    setFamilyCode('');
+      });
+    }
   };
 
   return (
     <div className="w-full h-full relative flex flex-col">
       {/* 가족 코드 */}
-      <div className=" px-5">
+      <div className="px-5">
         <div className="text-lg font-bold text-start pt-10">
           <p>가족 코드</p>
         </div>
@@ -58,7 +57,6 @@ const Group = () => {
             type="text"
             name="familyCode"
             maxLength={6}
-            ref={familyCodeRef}
             value={familyCode}
             onChange={onChangeFamilyCode}
           />
