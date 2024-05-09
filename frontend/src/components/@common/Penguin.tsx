@@ -1,22 +1,20 @@
-import penguin from '@/assets/penguin.gif';
-import scaffolding from '@/assets/scaffolding.png';
+import { decoInfo, moodInfo } from '@/constants/penguinState';
+import { decoType, moodType } from '@/types/model';
 
 interface IPenguinProps {
   width?: string;
-  mode: string;
-  decoration?: string;
-  isScaffolding?: boolean;
+  mood: moodType;
+  decoration?: decoType;
   onClick?: () => void;
 }
 
-const Penguin = ({ width, mode, decoration, isScaffolding = false, onClick }: IPenguinProps) => {
-  console.log(mode);
-  console.log(decoration);
-
+const Penguin = ({ width, mood, decoration, onClick }: IPenguinProps) => {
   return (
     <>
-      <img onClick={onClick} src={penguin} alt="penguin" className={`${width} z-10`}></img>
-      {isScaffolding && <img src={scaffolding} alt="scaffolding" className="absolute bottom-0" />}
+      <div onClick={onClick} className={`${width} relative z-10`}>
+        {moodInfo[mood as moodType]}
+        <div className={`${width} absolute top-0 bottom-0 left-0 right-0`}>{decoInfo[decoration as decoType]}</div>
+      </div>
     </>
   );
 };
