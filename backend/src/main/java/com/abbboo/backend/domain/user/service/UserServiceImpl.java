@@ -121,17 +121,21 @@ public class UserServiceImpl implements UserService {
 
     // 유저 로그인
     @Override
-    public UserLoginRes getUserFamily(String kakaoId) {
+    @Transactional
+    public UserLoginRes getUserAll(String kakaoId) {
 
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
         eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
 
         // 유저 로그인 응답 반환
         return UserLoginRes.builder()
                 .familyId(user.getFamily()==null
                         ? null : user.getFamily().getId())
+                .nickname(user.getNickname())
+                .birthday(user.getBirthday())
                 .build();
     }
 }
