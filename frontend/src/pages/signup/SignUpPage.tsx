@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const SignupPage = () => {
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
-      <div className="pl-5 pt-20 text-2xl font-bold">
+      <div className="pl-5 pt-10 text-2xl font-bold">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -20,7 +20,7 @@ const SignupPage = () => {
       </div>
 
       {/* 닉네임-생년월일-시작하기버튼 */}
-      <div className="w-full h-full flex flex-col justify-end">
+      <div className="w-full h-full">
         <Signup />
       </div>
     </div>

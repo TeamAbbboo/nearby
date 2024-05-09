@@ -1,3 +1,5 @@
+import { moodType } from './model';
+
 export interface IReceivedMessageListRes {
   messageList: IReceivedMessageItem[];
 }
@@ -7,7 +9,7 @@ export interface IReceivedMessageItem {
   sender: string;
   isRead: boolean;
   content: string;
-  mood: string;
+  mood: moodType;
   tts: string;
   createdAt: string;
 }
