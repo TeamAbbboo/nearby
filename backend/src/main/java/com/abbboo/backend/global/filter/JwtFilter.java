@@ -2,6 +2,7 @@ package com.abbboo.backend.global.filter;
 
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.auth.OAuth2UserDto;
+import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,6 +40,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authorization == null || !authorization.startsWith("Bearer ")) {
 
             log.info("토큰이 없습니다.");
+            request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
             filterChain.doFilter(request, response);
             return;
         }
@@ -49,7 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
         log.info("토큰 검증 수행 : START");
 
         // 토큰 검증 수행
-        if(!jwtUtil.validateToken(token)) {
+        if(!jwtUtil.validateToken(request, token)) {
             filterChain.doFilter(request, response);
             return;
         }

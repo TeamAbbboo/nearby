@@ -1,10 +1,12 @@
 package com.abbboo.backend.global.util;
 
+import com.abbboo.backend.global.error.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SecurityException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -50,7 +52,7 @@ public class JwtUtil {
     }
 
     // JWT 검증
-    public boolean validateToken(String token) {
+    public boolean validateToken(HttpServletRequest request, String token) {
 
         try {
 
@@ -59,18 +61,24 @@ public class JwtUtil {
 
         } catch (SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
+            request.setAttribute("exception", ErrorCode.TOKEN_SIGNATURE_IS_WRONG);
 
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
+            request.setAttribute("exception", ErrorCode.TOKEN_IS_EXPIRED);
 
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰 입니다.");
+            request.setAttribute("exception", ErrorCode.TOKEN_IS_NOT_SUPPORTED);
 
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
+            request.setAttribute("exception", ErrorCode.TOKEN_IS_WRONG);
 
         } catch (Exception e){
             log.info("검증 시도 중 에러 발생");
+            request.setAttribute("exception", ErrorCode.TOKEN_VERIFICATION_FAIL);
+
         }
 
         return false;
