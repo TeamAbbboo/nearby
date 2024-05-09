@@ -8,9 +8,7 @@ const LoginPage = () => {
   // 만약 우리 서버의 Access 토큰이 존재하게 되면, 로그인 된 상태로 처리
   if (
     localStorage.getItem('ACCESS_TOKEN') &&
-    localStorage
-      .getItem('ACCESS_TOKEN')
-      ?.startsWith('eyJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkVXNlcklkIjoia2FrYW8tMzQ1OTkyOTc3M')
+    localStorage.getItem('ACCESS_TOKEN')?.startsWith('eyJhbGciOiJIUzI1NiJ9')
   ) {
     window.location.replace('/');
   }
