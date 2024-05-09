@@ -23,10 +23,11 @@ const KakaoLoginRedircet = () => {
       /* 로그인 */
       doPostLoginReq(undefined, {
         onSuccess: res => {
-          const { familyId } = res.data;
+          const { nickname, birthday, familyId } = res.data;
+          console.log(nickname + ':' + birthday + ':' + familyId);
 
           // 가족 그룹 유무 확인
-          if (familyId !== 0) window.location.replace(`${import.meta.env.BASE_URL}`);
+          if ((nickname && birthday) || familyId !== null) window.location.replace(`${import.meta.env.BASE_URL}`);
           else window.location.replace('/register');
         },
         onError: error => {
