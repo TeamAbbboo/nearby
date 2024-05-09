@@ -24,12 +24,13 @@ public class ExpEventListener implements ApplicationListener<ExpEvent> {
     public void onApplicationEvent(ExpEvent event) {
         log.info("경험치 생성 user: {} ,ExpType: {}", event.user.getId(), event.expType.content);
         if (event.user.getFamily() == null) {
-            throw new NotFoundException(ErrorCode.FAMILY_NOT_FOUND);
+            log.error("가족없어서 경험치 적용안됨");
+            return;
         }
         //일일 로그인은 당일 기록이 있을 경우 등록안함
         if (event.expType == ExpEvent.ExpType.DAILY_LOGIN) {
             if (expHistoryRepository.existsByUserAndCreatedAtBetweenAndContentLike(event.user, LocalDate.now().atStartOfDay(), LocalDateTime.now(), "%로그인%")) {
-                log.info("이미 일일 로그인 완료");
+                log.error("이미 일일 로그인 완료");
                 return;
             }
         }
