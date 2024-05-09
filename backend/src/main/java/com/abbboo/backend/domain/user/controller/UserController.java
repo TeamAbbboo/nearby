@@ -12,6 +12,8 @@ import com.abbboo.backend.global.base.BaseResponse;
 import com.abbboo.backend.global.base.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -127,5 +129,19 @@ public class UserController {
         log.info("유저 로그인 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LOGIN_SUCCESS,userLoginRes));
+    }
+
+    @Operation(summary = "유저 토큰 재발급")
+    @PostMapping("/reissue")
+    public ResponseEntity<BaseResponse> reissueToken(
+            HttpServletRequest request, HttpServletResponse response) {
+
+        log.info("유저 토큰 재발급 URL 맵핑 : OK");
+
+        log.info("유저 토큰 재발급 : START");
+        userService.createUserToken(request,response);
+        log.info("유저 토큰 재발급 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_TOKEN_REISSUE_SUCCESS));
     }
 }
