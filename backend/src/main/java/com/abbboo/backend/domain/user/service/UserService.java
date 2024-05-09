@@ -28,5 +28,5 @@ public interface UserService {
     void deleteUser(String kakaoId);
 
     // 유저 로그인
-    UserLoginRes getUserAll(String kakaoId);
+    UserLoginRes getUserFamily(String kakaoId);
 }

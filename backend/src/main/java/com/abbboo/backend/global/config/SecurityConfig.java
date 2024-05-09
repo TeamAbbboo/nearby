@@ -2,6 +2,8 @@ package com.abbboo.backend.global.config;
 
 import com.abbboo.backend.global.auth.CustomOAuth2UserService;
 import com.abbboo.backend.global.auth.CustomSuccessHandler;
+import com.abbboo.backend.global.error.CustomAccessDeniedHandler;
+import com.abbboo.backend.global.error.CustomAuthenticationEntryPoint;
 import com.abbboo.backend.global.filter.JwtFilter;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,6 +29,8 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final JwtUtil jwtUtil;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Value("${spring.security.oauth2.redirect.url.endpoint}")
     private String sendRedirectUrl;
@@ -54,6 +58,12 @@ public class SecurityConfig {
                 // HTTP Basic 인증 방식 비활성화
                 // -> JWT 방식, OAuth2 방식의 로그인을 수행하므로 비활성화
                 .httpBasic((auth) -> auth.disable());
+
+        // security 예외 설정
+        http
+                .exceptionHandling((handling) -> handling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler));
 
         // jwt filter 등록
         // -> UsernamePasswordAuthenticationFilter 이전에 JwtFilter 수행
