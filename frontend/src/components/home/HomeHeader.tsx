@@ -41,13 +41,13 @@ const HomeHeader = () => {
       <nav className="w-full p-5 flex justify-between font-bold">
         {/* 왼쪽 네비바 */}
         <div className="flex flex-col gap-3">
-          <div onClick={() => navigate('/story')} className="flex flex-col items-center gap-1 ">
+          <div onClick={() => navigate('/story')} className="flex flex-col items-center">
             <img src={camera} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => console.log('알림 확인하기')} className="flex flex-col items-center gap-1">
+          <div onClick={() => console.log('알림 확인하기')} className="flex flex-col items-center">
             <img src={notification} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">알림</p>
@@ -68,7 +68,7 @@ const HomeHeader = () => {
               <p className="text-[9px]">마음함</p>
             </div>
           </div>
-          <div onClick={() => setIsSettingModalOpen(true)} className="flex flex-col items-center gap-1">
+          <div onClick={() => setIsSettingModalOpen(true)} className="flex flex-col items-center">
             <img src={setting} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">설정</p>
