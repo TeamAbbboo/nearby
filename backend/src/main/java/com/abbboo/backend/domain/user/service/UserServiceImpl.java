@@ -12,7 +12,9 @@ import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import com.abbboo.backend.global.event.ExpEventFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FamilyRepository familyRepository;
-
+    private final ApplicationEventPublisher eventPublisher;
     // 유저 정보 조회
     @Override
     public UserCheckRes getUserMe(String kakaoId) {
@@ -124,6 +126,7 @@ public class UserServiceImpl implements UserService {
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
 
         // 유저 로그인 응답 반환
         return UserLoginRes.builder()

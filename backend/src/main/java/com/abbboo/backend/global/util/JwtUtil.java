@@ -65,7 +65,7 @@ public class JwtUtil {
 
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
-            request.setAttribute("exception", ErrorCode.TOKEN_IS_EXPIRED);
+            request.setAttribute("exception", ErrorCode.ACCESS_TOKEN_IS_EXPIRED);
 
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰 입니다.");
