@@ -11,13 +11,20 @@ import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
+import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.ExpEventFactory;
+import com.abbboo.backend.global.util.CookieUtil;
+import com.abbboo.backend.global.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -25,6 +32,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FamilyRepository familyRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
+
     // 유저 정보 조회
     @Override
     public UserCheckRes getUserMe(String kakaoId) {
@@ -137,5 +147,40 @@ public class UserServiceImpl implements UserService {
                 .nickname(user.getNickname())
                 .birthday(user.getBirthday())
                 .build();
+    }
+
+    // 유저 토큰 재발급
+    @Override
+    @Transactional
+    public void createUserToken(HttpServletRequest request, HttpServletResponse response) {
+
+        // 토큰 가져오기
+        String token = (String) request.getAttribute("refreshToken");
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(jwtUtil.getCreatedUserId(token))
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("토큰 정보 - USER : {}", user.getId());
+
+        // 저장된 토큰 비교
+        if(!token.equals(user.getRefreshToken())) {
+            throw new BadRequestException(ErrorCode.TOKEN_VERIFICATION_FAIL);
+        }
+
+        log.info("기존 토큰과 비교 검증 : OK");
+
+        // 토큰 발행 (10분, 30일)
+        String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token), 1000*10*60L);
+        String refreshToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),1000*60*60*24*30L);
+
+        log.info("액세스, 리프레쉬 토큰 재발행 : OK");
+
+        // 리프레쉬 토큰 저장
+        user.changeRefreshToken(refreshToken);
+
+        // 응답에 토큰 추가
+        response.addHeader("Authorization",accessToken);
+        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken));
     }
 }
