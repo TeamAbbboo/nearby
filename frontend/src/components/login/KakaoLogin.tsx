@@ -1,3 +1,4 @@
+/** 배포된 환경에서 사용 */
 /* components */
 import kakao from '@/assets/kakao.png';
 import TransparentButton from '@/components/@common/TransparentButton';
