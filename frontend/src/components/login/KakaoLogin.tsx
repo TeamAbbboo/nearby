@@ -4,8 +4,7 @@ import TransparentButton from '@/components/@common/TransparentButton';
 
 const KakaoLogin = () => {
   /* 카카오 하이퍼 링크 */
-  // const link = `${import.meta.env.VITE_BASE_URL}/oauth2/authorization/kakao`;
-  const link = 'http://localhost:8080/api/oauth2/authorization/kakao';
+  const link = `${import.meta.env.VITE_BASE_URL}/oauth2/authorization/kakao`;
 
   const loginHandler = () => {
     window.location.replace(link);
