@@ -13,7 +13,6 @@ const KakaoLoginRedircet = () => {
   /* 사용자 정보 가져오기 */
   const { usePostLogin } = useAuth();
   const { mutate: doPostLoginReq } = usePostLogin();
-
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -21,8 +20,21 @@ const KakaoLoginRedircet = () => {
       // AccessToken 저장
       localStorage.setItem('ACCESS_TOKEN', accessToken);
 
-      // 로그인 호출
-      doPostLoginReq();
+      /* 로그인 */
+      doPostLoginReq(undefined, {
+        onSuccess: res => {
+          const { nickname, birthday, familyId } = res.data;
+          console.log(nickname + ':' + birthday + ':' + familyId);
+
+          // 가족 그룹 유무 확인
+          if ((nickname && birthday) || familyId !== null) window.location.replace(`${import.meta.env.BASE_URL}`);
+          else window.location.replace('/register');
+        },
+        onError: error => {
+          console.log('KakaoLoginRedirectPage Error : ' + error);
+          navigate('/login');
+        },
+      });
     } else {
       console.log('KakaoLoginRedirectPage Error : [서버에러] AccessToken이 존재하지 않음.');
       navigate('/login');
