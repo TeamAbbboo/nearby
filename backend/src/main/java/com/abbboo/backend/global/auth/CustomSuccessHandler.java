@@ -4,9 +4,9 @@ import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import com.abbboo.backend.global.util.CookieUtil;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final CookieUtil cookieUtil;
 
     @Value("${spring.security.oauth2.redirect.url.full}")
     private String sendRedirectUrl;
@@ -44,9 +45,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         log.info("토큰 발행 : START");
 
-        // 토큰 발행 (3일, 30일)
-        String accessToken = jwtUtil.createJwt(createdUserId, 1000*60*24*3*60L);
-        String refreshToken = jwtUtil.createJwt(createdUserId, 1000*60*60*24*30L);
+        // 토큰 발행 (10분, 30일)
+        String accessToken = jwtUtil.createJwt(createdUserId, 1000*10*60L);
+        String refreshToken = jwtUtil.createJwt(createdUserId,1000*60*60*24*30L);
 
         log.info("토큰 발행 : COMPLETE");
 
@@ -58,30 +59,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         log.info("응답 생성 : START");
         
         // 리프레쉬 토큰 쿠키에 추가
-        response.addCookie(createCookie("refreshToken", refreshToken));
+        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken));
         response.sendRedirect(sendRedirectUrl+"?token="+accessToken);
 
         log.info("응답 생성 : COMPLETE");
-    }
-
-    // 쿠키 생성 메서드
-    private Cookie createCookie(String key, String value) {
-
-        // 쿠키 객체 생성
-        Cookie cookie = new Cookie(key, value);
-
-        // 쿠키 만료 시간 설정
-        cookie.setMaxAge(1000*60*60*24);
-
-        // https 환경에서만 사용가능하도록 설정
-        //cookie.setSecure(true);
-
-        // 쿠키가 보일 위치 설정
-        cookie.setPath("/");
-
-        // 브라우저에서 JS 접근 불가하도록 설정
-        cookie.setHttpOnly(true);
-
-        return cookie;
     }
 }

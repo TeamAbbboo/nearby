@@ -6,6 +6,8 @@ import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
 import com.abbboo.backend.domain.user.dto.res.UserEnrollFamilyRes;
 import com.abbboo.backend.domain.user.dto.res.UserLoginRes;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface UserService {
 
@@ -28,5 +30,8 @@ public interface UserService {
     void deleteUser(String kakaoId);
 
     // 유저 로그인
-    UserLoginRes getUserFamily(String kakaoId);
+    UserLoginRes getUserAll(String kakaoId);
+
+    // 유저 토큰 재발급
+    void createUserToken(HttpServletRequest request, HttpServletResponse response);
 }

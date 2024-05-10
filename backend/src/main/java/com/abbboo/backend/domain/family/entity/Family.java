@@ -46,4 +46,9 @@ public class Family extends BaseEntity { // 가족 그룹 정보
     public Family(String familyCode) {
         this.familyCode = familyCode;
     }
+
+    public void updateLevel(int level)
+    {
+        this.level=level;
+    }
 }
