@@ -3,7 +3,7 @@ import { getFamilyCodeRes, postCreateFamilyCodeRes } from '@/mocks/api/data/fami
 
 export const familyHandlers = [
   /* 가족코드 조회 */
-  http.get('/families', () => {
+  http.get('/families/code', () => {
     const success = HttpResponse.json(getFamilyCodeRes, {
       status: 200,
     });
