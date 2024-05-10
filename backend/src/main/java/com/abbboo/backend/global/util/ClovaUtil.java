@@ -1,6 +1,7 @@
 package com.abbboo.backend.global.util;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,16 +68,34 @@ public class ClovaUtil {  // NAVER AI CLOVA VOICE Config
         wr.close();  // 자원 정리
 
         // 요청 후 받은 응답 처리
+        return getFile(con);
+    }
+
+    // 응답 데이터 File 형태로 쓰기
+    private static MultipartFile getFile(HttpURLConnection con) throws IOException {
+
         int responseCode = con.getResponseCode();
         log.info("tts 파일 요청 응답 코드 : {}", responseCode);
 
         if (responseCode == HttpURLConnection.HTTP_OK) {  // 응답 코드 정상인 경우
+            // 응답 데이터(바이트 배열 형태의 음성 파일) 읽기
+            try (InputStream is = con.getInputStream()) {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] bytes = new byte[1024];  // 데이터를 특정 크기만큼 읽어서 저장하기 위한 배열
 
-            File ttsFile = getFile(con);
-            log.info("File 타입 ttsFile 생성 완료 : {}", ttsFile);
+                int length = 0;
+                while ((length = is.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, length);
+                }
+                is.close();
 
-            // File 타입을 multipartFile 타입으로 변환
-            return convert(ttsFile);
+                // outputStream에 저장된 바이너리 데이터를 최종 바이트 배열로 반환
+                byte[] results = outputStream.toByteArray();
+
+                // S3 업로드 로직에 고유 파일명 생성 과정이 있으므로 임시 파일명은 고정.
+                // 바이트 배열을 multipart-file로 변환.
+                return new MockMultipartFile("tts.mp3", results);
+            }
 
         } else { // 오류 발생 시
             try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream()))) {
@@ -90,31 +109,4 @@ public class ClovaUtil {  // NAVER AI CLOVA VOICE Config
         }
     }
 
-    // 응답 데이터 File 형태로 쓰기
-    private static File getFile(HttpURLConnection con) throws IOException {
-
-        // S3 업로드 로직에 고유 파일명 생성 과정이 있으므로 임시 파일명은 고정.
-        File ttsFile = new File("tts.mp3");
-        byte[] bytes = new byte[1024];
-
-        // 응답 데이터(바이트 배열 형태의 음성 파일) 읽기
-        InputStream is = con.getInputStream();
-
-        // ttsFile에 응답 데이터 쓰기
-        try (OutputStream outputStream = new FileOutputStream(ttsFile)) {
-            int length = 0;
-            while ((length = is.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, length);
-            }
-            is.close();
-        }
-        return ttsFile;
-    }
-
-    // File 타입을 multipartFile 타입으로 변환
-    public static MultipartFile convert(File file) throws IOException {
-        try (FileInputStream input = new FileInputStream(file)) {
-            return new MockMultipartFile("convertFile", file.getName(), "audio/mpeg", input);
-        }
-    }
 }
