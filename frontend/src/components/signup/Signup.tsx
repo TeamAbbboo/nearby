@@ -6,12 +6,11 @@ import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const Signup = () => {
   const location = useLocation();
-  const navigator = useNavigate();
 
   /* 사용자 정보 가져오기 */
   const { usePostSignup } = useAuth();
