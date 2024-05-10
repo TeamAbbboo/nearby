@@ -31,6 +31,8 @@ public enum SuccessCode {
 
     // exp
     EXPHISTORY_GET_SUCCESS(200,"경험치 조회에 성공하였습니다.","SUCCESS"),
+    LEVEL_UP_SUCCESS(204,"레벨 수정에 성공하였습니다.","SUCCESS"),
+    LEVELEXP_GET_SUCCESS(200,"레벨, 경험치 합 조회에 성공하였습니다.","SUCCESS"),
 
     // message
     MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS"),
