@@ -24,11 +24,40 @@ const KakaoLoginRedircet = () => {
       doPostLoginReq(undefined, {
         onSuccess: res => {
           const { nickname, birthday, familyId } = res.data;
-          console.log(nickname + ':' + birthday + ':' + familyId);
 
-          // 가족 그룹 유무 확인
-          if ((nickname && birthday) || familyId !== null) window.location.replace(`${import.meta.env.BASE_URL}`);
-          else window.location.replace('/register');
+          // 초대 코드 확인
+          const code = localStorage.getItem('SHARE_FAMILY_CODE');
+
+          // 초대 코드 O
+          if (code && code.length === 6) {
+            // 가족 그룹 존재 O
+            if (familyId !== null) {
+              // 초대한 가족 그룹으로 참여 O
+              if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
+                window.location.replace('/group');
+              }
+              // 초대한 가족 그룹으로 참여 X
+              else {
+                localStorage.removeItem('SHARE_FAMILY_CODE');
+                window.location.replace(`${import.meta.env.BASE_URL}`);
+              }
+            }
+            // 가족 그룹 존재 X (AND) 초대한 가족 그룹으로 참여 O (AND) 회원가입 O
+            else if (nickname && birthday) {
+              window.location.replace('/group');
+            }
+            // 초대한 가족 그룹으로 참여 O (AND) 회원가입 X
+            else {
+              window.location.replace('/signup');
+            }
+          }
+          // 초대 코드 X
+          else {
+            // 회원가입 O (OR) 가족 그룹 존재 O
+            if ((nickname && birthday) || familyId !== null) window.location.replace(`${import.meta.env.BASE_URL}`);
+            // 회원가입 X (AND) 가족 그룹 존재 X
+            else window.location.replace('/register');
+          }
         },
         onError: error => {
           console.log('KakaoLoginRedirectPage Error : ' + error);
