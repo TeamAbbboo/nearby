@@ -29,7 +29,7 @@ const KakaoLoginRedircet = () => {
           const code = localStorage.getItem('SHARE_FAMILY_CODE');
 
           // 초대 코드 O
-          if (code && code.length === 6) {
+          if (code && code.length === 8) {
             // 가족 그룹 존재 O
             if (familyId !== null) {
               // 초대한 가족 그룹으로 참여 O

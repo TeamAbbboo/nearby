@@ -19,7 +19,7 @@ const LoginPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const familyCode = queryParams.get('code');
   useEffect(() => {
-    if (familyCode?.length === 6) localStorage.setItem('SHARE_FAMILY_CODE', familyCode);
+    if (familyCode?.length === 8) localStorage.setItem('SHARE_FAMILY_CODE', familyCode);
     else if (familyCode) localStorage.removeItem('SHARE_FAMILY_CODE');
   }, [familyCode]);
 

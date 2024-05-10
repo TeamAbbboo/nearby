@@ -25,7 +25,7 @@ export const patchEnrollFamilyRes = {
   code: 'SUCCESS',
   data: {
     familyId: 1,
-    familyCode: 'Abbo03',
+    familyCode: 'ABBBOO01',
   },
 };
 

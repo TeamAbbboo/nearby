@@ -82,7 +82,7 @@ const Signup = () => {
             //   birthday: year + 1 + '-' + month + '-' + date,
             // });
             const code = localStorage.getItem('SHARE_FAMILY_CODE');
-            if (code && code.length === 6) window.location.replace('/group');
+            if (code && code.length === 8) window.location.replace('/group');
             else window.location.replace('/' + location.state.data.selectPenguinOption);
 
             alert('회원가입에 성공했습니다.');
@@ -128,7 +128,7 @@ const Signup = () => {
               className="w-full bg-white/0 outline-none text-center text-lg font-bold"
               type="text"
               name="nickname"
-              maxLength={6}
+              maxLength={8}
               value={nickname}
               onChange={onChangeNickname}
             />

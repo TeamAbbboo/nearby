@@ -116,8 +116,8 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
       return;
     }
 
-    if (familyCode.length !== 6) {
-      alert('가족 코드는 6자리 입니다.');
+    if (familyCode.length !== 8) {
+      alert('가족 코드는 8자리 입니다.');
       return;
     }
 
@@ -187,7 +187,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                       : 'w-40 ml-5 text-start outline-none'
                   }
                   value={familyCode}
-                  maxLength={6}
+                  maxLength={8}
                   placeholder={isExistFamilyCode ? '' : '가족이 없습니다.'}
                   readOnly={isExistFamilyCode}
                   onChange={onChangeFamilyCode}

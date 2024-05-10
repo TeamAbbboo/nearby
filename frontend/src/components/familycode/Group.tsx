@@ -25,8 +25,8 @@ const Group = () => {
       return;
     }
 
-    if (familyCode.length !== 6) {
-      alert('가족 코드는 6글자 입니다.');
+    if (familyCode.length !== 8) {
+      alert('가족 코드는 8글자 입니다.');
       return;
     }
 
@@ -47,7 +47,7 @@ const Group = () => {
   /* 초대받은 가족코드 조회 */
   const code = localStorage.getItem('SHARE_FAMILY_CODE');
   useEffect(() => {
-    if (code && code.length === 6) {
+    if (code && code.length === 8) {
       doPatchEnrollFamilyReq(code, {
         onSuccess: () => {
           alert('가족 그룹 참여에 성공했습니다.');
@@ -76,7 +76,7 @@ const Group = () => {
             className="w-full bg-white/0 outline-none text-center text-lg font-bold"
             type="text"
             name="familyCode"
-            maxLength={6}
+            maxLength={8}
             value={familyCode}
             onChange={onChangeFamilyCode}
           />
