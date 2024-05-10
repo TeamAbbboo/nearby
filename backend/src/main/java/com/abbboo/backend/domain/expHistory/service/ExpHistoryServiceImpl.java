@@ -1,11 +1,16 @@
 package com.abbboo.backend.domain.expHistory.service;
 
+import com.abbboo.backend.domain.expHistory.dto.req.LevelUpReq;
 import com.abbboo.backend.domain.expHistory.dto.res.ExpHistoryDto;
 import com.abbboo.backend.domain.expHistory.dto.res.GetExpHistoryRes;
+import com.abbboo.backend.domain.expHistory.dto.res.GetLevelAndExpSumRes;
 import com.abbboo.backend.domain.expHistory.repository.ExpHistoryRepository;
+import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
+import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
+import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +21,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
+
 @RequiredArgsConstructor
 @Slf4j
 @Service
 public class ExpHistoryServiceImpl implements ExpHistoryService{
     private final FamilyRepository familyRepository;
     private final ExpHistoryRepository expHistoryRepository;
+    private final UserRepository userRepository;
     @Override
     @Transactional(readOnly = true)
     public GetExpHistoryRes getExpHistory(String kakaoId, PagenationReq pagenationReq) {
@@ -34,6 +42,42 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
         int sum= expHistoryRepository.getCurrentSum(familyId).orElse(0);
         return new GetExpHistoryRes(sum,hitories);
     }
+
+    @Override
+    @Transactional
+    public void updateLevel(String kakaoId, LevelUpReq levelUpReq) {
+        int familyId=familyRepository.findByKakaoId(kakaoId).orElseThrow(()->new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        Family family= familyRepository.findById(familyId).get();
+        //현재 db와 다른 값이 들어올
+        if(family.getLevel()!=levelUpReq.getLevel())
+        {
+            throw new BadRequestException(ErrorCode.LEVEL_IS_INVALID);
+        }
+        //경험치 충분한지 확인
+        int sum=expHistoryRepository.getCurrentSum(familyId).orElse(0);
+        int familyCount=userRepository.countByFamilyAndIsDeletedFalse(family);
+        if(sum<getMaxExp(levelUpReq.getLevel(),familyCount))
+        {
+            throw new BadRequestException(ErrorCode.LACK_OF_EXP);
+        }
+        family.updateLevel(levelUpReq.getLevel()+1);
+    }
+
+    @Override
+    public GetLevelAndExpSumRes getLevelAndExpSum(String kakaoId) {
+        int familyId=familyRepository.findByKakaoId(kakaoId).orElseThrow(()->new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        Family family= familyRepository.findById(familyId).get();
+        int currentExp=expHistoryRepository.getCurrentSum(familyId).orElse(0);
+        int familyCount=userRepository.countByFamilyAndIsDeletedFalse(family);
+        GetLevelAndExpSumRes res=GetLevelAndExpSumRes.builder()
+                .level(family.getLevel()).currentExp(currentExp).maxExp(getMaxExp(family.getLevel(),familyCount))
+                .startDate(family.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .build();
+        return res;
+    }
+    private int getMaxExp(int level,int familyCount)
+    {
+        return familyCount*10*(int)Math.pow(2,level-1);
+    }
+
 }
-
-
