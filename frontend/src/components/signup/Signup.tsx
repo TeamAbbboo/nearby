@@ -6,12 +6,11 @@ import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const Signup = () => {
   const location = useLocation();
-  const navigator = useNavigate();
 
   /* 사용자 정보 가져오기 */
   const { usePostSignup } = useAuth();
@@ -70,26 +69,30 @@ const Signup = () => {
       return;
     }
 
-    doPostSignupReq(
-      {
-        nickname,
-        birthday: year + 1 + '-' + month + '-' + date,
-      },
-      {
-        onSuccess: () => {
-          // userStore.setState({
-          //   nickname: nickname,
-          //   birthday: year + 1 + '-' + month + '-' + date,
-          // });
-          window.location.replace('/' + location.state.data.selectPenguinOption);
-          alert('회원가입에 성공했습니다.');
+    if (window.confirm('회원가입을 진행하시겠습니까?')) {
+      doPostSignupReq(
+        {
+          nickname,
+          birthday: year + 1 + '-' + month + '-' + date,
         },
-        onError: () => {
-          navigator('/register');
-          alert('회원가입에 실패했습니다.');
+        {
+          onSuccess: () => {
+            // userStore.setState({
+            //   nickname: nickname,
+            //   birthday: year + 1 + '-' + month + '-' + date,
+            // });
+            const code = localStorage.getItem('SHARE_FAMILY_CODE');
+            if (code && code.length === 6) window.location.replace('/group');
+            else window.location.replace('/' + location.state.data.selectPenguinOption);
+
+            alert('회원가입에 성공했습니다.');
+          },
+          onError: () => {
+            alert('회원가입에 실패했습니다. 잠시 후에 이용해주세요.');
+          },
         },
-      },
-    );
+      );
+    }
   };
 
   /* 애니메이션 설정(1) */
@@ -117,10 +120,10 @@ const Signup = () => {
       {/* 닉네임 */}
       <motion.li variants={item}>
         <div className="px-5">
-          <div className="pl-3 text-base font-bold text-start pt-10">
+          <div className="pl-3 text-base font-bold text-start pt-[10vh]">
             <p>닉네임</p>
           </div>
-          <div className="w-full h-20 bg-white/60 rounded-2xl shadow-xl flex items-center justify-center mt-2">
+          <div className="w-full h-[12vh] bg-white/60 rounded-2xl shadow-xl flex items-center justify-center mt-2">
             <input
               className="w-full bg-white/0 outline-none text-center text-lg font-bold"
               type="text"
@@ -140,8 +143,8 @@ const Signup = () => {
             <p>생년월일</p>
           </div>
 
-          <div className="w-full h-48 bg-white/40 rounded-2xl shadow-xl flex mt-2 px-5 relative">
-            <div className="absolute bg-gray-300 rounded-3xl left-5 right-5 top-[80px] bottom-[80px] h-[35px]"></div>
+          <div className="w-full h-[28vh] bg-white/40 rounded-2xl shadow-xl flex mt-2 px-5 relative">
+            <div className="absolute bg-gray-300 rounded-3xl left-5 right-5 top-[11.5vh] bottom-[80px] h-[35px]"></div>
             {/* 년 */}
             <Wheel
               initIdx={95}

@@ -3,7 +3,7 @@ import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Group = () => {
   /* 사용자 정보 가져오기 */
@@ -43,6 +43,26 @@ const Group = () => {
       });
     }
   };
+
+  /* 초대받은 가족코드 조회 */
+  const code = localStorage.getItem('SHARE_FAMILY_CODE');
+  useEffect(() => {
+    if (code && code.length === 6) {
+      doPatchEnrollFamilyReq(code, {
+        onSuccess: () => {
+          alert('가족 그룹 참여에 성공했습니다.');
+          localStorage.removeItem('SHARE_FAMILY_CODE');
+          window.location.replace('/');
+        },
+        onError: () => {
+          alert('가족 코드가 유효하지 않습니다.');
+          localStorage.removeItem('SHARE_FAMILY_CODE');
+          window.location.replace('/');
+          setFamilyCode('');
+        },
+      });
+    }
+  }, [code]);
 
   return (
     <div className="w-full h-full relative flex flex-col">
