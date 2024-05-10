@@ -2,6 +2,7 @@ package com.abbboo.backend.domain.expHistory.controller;
 
 import com.abbboo.backend.domain.expHistory.dto.req.LevelUpReq;
 import com.abbboo.backend.domain.expHistory.dto.res.GetExpHistoryRes;
+import com.abbboo.backend.domain.expHistory.dto.res.GetLevelAndExpSumRes;
 import com.abbboo.backend.domain.expHistory.service.ExpHistoryService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.base.BaseResponse;
@@ -52,6 +53,16 @@ public class ExpHistoryController {
         log.info("레벨 높이기 입력: userId : {}, level : {}", customOAuth2User.getCreatedUserId(),levelUpReq.getLevel());
         expHistoryService.updateLevel(customOAuth2User.getCreatedUserId(),levelUpReq);
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.LEVEL_UP_SUCCESS));
+    }
+
+    @GetMapping("/level")
+    @Operation(summary = "레벨/경험치 합 조회")
+    ResponseEntity<BaseResponse> getLevelAndExpSum(@AuthenticationPrincipal CustomOAuth2User customOAuth2User)
+    {
+        log.info("레벨/경험치 합 조회 입력");
+        GetLevelAndExpSumRes getLevelAndExpSumRes=expHistoryService.getLevelAndExpSum(customOAuth2User.getCreatedUserId());
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.LEVELEXP_GET_SUCCESS,getLevelAndExpSumRes));
+
     }
 
 }

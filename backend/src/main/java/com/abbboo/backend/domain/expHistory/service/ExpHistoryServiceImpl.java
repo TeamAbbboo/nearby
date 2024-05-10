@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.expHistory.service;
 import com.abbboo.backend.domain.expHistory.dto.req.LevelUpReq;
 import com.abbboo.backend.domain.expHistory.dto.res.ExpHistoryDto;
 import com.abbboo.backend.domain.expHistory.dto.res.GetExpHistoryRes;
+import com.abbboo.backend.domain.expHistory.dto.res.GetLevelAndExpSumRes;
 import com.abbboo.backend.domain.expHistory.repository.ExpHistoryRepository;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.format.DateTimeFormatter;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -53,12 +56,28 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
         //경험치 충분한지 확인
         int sum=expHistoryRepository.getCurrentSum(familyId).orElse(0);
         int familyCount=userRepository.countByFamilyAndIsDeletedFalse(family);
-        if(sum<familyCount*10*levelUpReq.getLevel())
+        if(sum<getMaxExp(levelUpReq.getLevel(),familyCount))
         {
             throw new BadRequestException(ErrorCode.LACK_OF_EXP);
         }
         family.updateLevel(levelUpReq.getLevel()+1);
     }
+
+    @Override
+    public GetLevelAndExpSumRes getLevelAndExpSum(String kakaoId) {
+        int familyId=familyRepository.findByKakaoId(kakaoId).orElseThrow(()->new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        Family family= familyRepository.findById(familyId).get();
+        int currentExp=expHistoryRepository.getCurrentSum(familyId).orElse(0);
+        int familyCount=userRepository.countByFamilyAndIsDeletedFalse(family);
+        GetLevelAndExpSumRes res=GetLevelAndExpSumRes.builder()
+                .level(family.getLevel()).currentExp(currentExp).maxExp(getMaxExp(family.getLevel(),familyCount))
+                .startDate(family.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .build();
+        return res;
+    }
+    private int getMaxExp(int level,int familyCount)
+    {
+        return familyCount*10*(int)Math.pow(2,level-1);
+    }
+
 }
-
-
