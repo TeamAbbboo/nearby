@@ -1,14 +1,11 @@
 import { getCurrentLevelReq, patchLevelUpReq } from '@/services/greenhouse/api';
-import userStore from '@/stores/userStore';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGreenhouse = () => {
-  const { familyId } = userStore();
-
   /* 현재 레벨, 경험치 */
   const useGetCurrentLevel = () => {
     return useQuery({
-      queryKey: ['currentLevel', familyId],
+      queryKey: ['currentLevel'],
       queryFn: () => getCurrentLevelReq(),
     });
   };
@@ -19,7 +16,7 @@ export const useGreenhouse = () => {
 
     return useMutation({
       mutationFn: (level: number) => patchLevelUpReq(level),
-
+      mutationKey: ['levelUP'],
       onSuccess: async () => {
         //레벨업 성공 후 현재 레벨 데이터 다시 가져오기
         await refetchCurrentLevel();
