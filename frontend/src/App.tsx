@@ -8,9 +8,9 @@ import SoloPage from '@/pages/familycode/SoloPage';
 import GroupPage from '@/pages/familycode/GroupPage';
 import PlaygroundPage from '@/pages/playground/PlaygroundPage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
-import SplashPage from '@/pages/splash/SplashPage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
+import SplashPage from '@/pages/splash/SplashPage';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
@@ -19,6 +19,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <SplashPage />,
+  },
+  {
+    path: '/home',
     element: (
       <PrivateRoute>
         <HomePage />
@@ -94,14 +98,6 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <RegisterStoryPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: '/splash',
-    element: (
-      <PrivateRoute>
-        <SplashPage />
       </PrivateRoute>
     ),
   },
