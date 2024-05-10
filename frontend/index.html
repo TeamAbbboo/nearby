@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <link rel="manifest" href="/manifest.json" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -12,7 +13,8 @@
     <!-- 모바일에서 전체화면으로 보이게 할 지 여부 -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <!-- 상태 표시줄 배경 색상 설정 -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="#000000" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
+    <meta name="theme-color" content="#ffffff" />
     <title>가까이</title>
 
     <!-- Kakao share api init -->
@@ -25,5 +27,21 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .then(function (registration) {
+              console.log('Service Worker 등록 성공:', registration);
+            })
+            .catch(function (error) {
+              console.log('Service Worker 등록 실패:', error);
+            });
+        });
+      } else {
+        console.log('Service workers are not supported.');
+      }
+    </script>
   </body>
 </html>
