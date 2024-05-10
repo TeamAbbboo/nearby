@@ -13,6 +13,6 @@ export const postCreateFamilyCodeRes = {
   code: 'SUCCESS',
   data: {
     familyId: 1,
-    familyCode: 'ABBO02',
+    familyCode: 'ABBBOO02',
   },
 };

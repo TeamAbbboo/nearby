@@ -77,7 +77,7 @@ const Solo = () => {
 
   /* 공유 버튼 눌렀을 경우 */
   const shareKakao = () => {
-    if (familyCode.length === 6) {
+    if (familyCode.length === 8) {
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
