@@ -2,6 +2,7 @@
 import KakaoLogin from '@/components/login/KakaoLogin';
 
 /* libraries */
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const LoginPage = () => {
@@ -12,6 +13,15 @@ const LoginPage = () => {
   // ) {
   //   window.location.replace('/');
   // }
+
+  /* 공유 링크로 들어왔다면, 가족 코드 저장 */
+  /** 안전하게 해쉬 값 또는 암호화 값으로 디코드해서 가져올 수 있는지 찾아보기 */
+  const queryParams = new URLSearchParams(location.search);
+  const familyCode = queryParams.get('code');
+  useEffect(() => {
+    if (familyCode?.length === 6) localStorage.setItem('SHARE_FAMILY_CODE', familyCode);
+    else if (familyCode) localStorage.removeItem('SHARE_FAMILY_CODE');
+  }, [familyCode]);
 
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
