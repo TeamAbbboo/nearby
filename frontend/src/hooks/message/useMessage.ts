@@ -1,5 +1,6 @@
-import { getReceivedMessageList, getSentMessageList } from '@/services/message/api';
-import { useQuery } from '@tanstack/react-query';
+import { getReceivedMessageList, getSentMessageList, postSendMessage } from '@/services/message/api';
+import { IMessageSendReq } from '@/types/message';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useMessage = () => {
   const useGetReceivedMessageList = () => {
@@ -16,8 +17,16 @@ export const useMessage = () => {
     });
   };
 
+  const usePostSendMessage = () => {
+    return useMutation({
+      mutationKey: ['message', 'send'],
+      mutationFn: (req: IMessageSendReq) => postSendMessage(req),
+    });
+  };
+
   return {
     useGetReceivedMessageList,
     useGetSentMessageList,
+    usePostSendMessage,
   };
 };
