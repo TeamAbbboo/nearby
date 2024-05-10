@@ -4,7 +4,7 @@ import { IGetFamilyCodeRes, IPostCreateFamilyCodeReq } from '@/types/family';
 
 /* 가족코드 조회 */
 export const doGetFamilyCodeReq = async (): Promise<APIResponse<IGetFamilyCodeRes>> => {
-  const { data } = await axiosWithCredentialInstance.get('/families');
+  const { data } = await axiosWithCredentialInstance.get('/families/code');
   return data;
 };
 
