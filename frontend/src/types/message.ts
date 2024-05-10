@@ -13,3 +13,8 @@ export interface IReceivedMessageItem {
   tts: string;
   createdAt: string;
 }
+
+export interface IMessageSendReq {
+  receiverId: number;
+  content: string;
+}

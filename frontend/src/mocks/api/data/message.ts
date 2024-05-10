@@ -39,3 +39,10 @@ export const messageListRes: APIResponse<IReceivedMessageListRes> = {
     ],
   },
 };
+
+export const postMessageSendRes: APIResponse<string> = {
+  status: 201,
+  message: '메시지 전송에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: '',
+};
