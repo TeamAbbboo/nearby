@@ -5,6 +5,7 @@ import com.abbboo.backend.global.auth.CustomSuccessHandler;
 import com.abbboo.backend.global.error.CustomAccessDeniedHandler;
 import com.abbboo.backend.global.error.CustomAuthenticationEntryPoint;
 import com.abbboo.backend.global.filter.JwtFilter;
+import com.abbboo.backend.global.util.CookieUtil;
 import com.abbboo.backend.global.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -31,12 +33,13 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CookieUtil cookieUtil;
 
     @Value("${spring.security.oauth2.redirect.url.endpoint}")
     private String sendRedirectUrl;
 
     @Value("${spring.security.frontend-url}")
-    private String frontendUrl;
+    private List<String> frontendUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -68,7 +71,7 @@ public class SecurityConfig {
         // jwt filter 등록
         // -> UsernamePasswordAuthenticationFilter 이전에 JwtFilter 수행
         http
-                .addFilterBefore(new JwtFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtUtil,cookieUtil), UsernamePasswordAuthenticationFilter.class);
 
         // OAuth2 설정
         http
@@ -109,7 +112,7 @@ public class SecurityConfig {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         // 프론트엔드 서버 주소 허용
-                        configuration.setAllowedOrigins(Collections.singletonList(frontendUrl));
+                        configuration.setAllowedOrigins(frontendUrl);
 
                         // 모든 요청 메서드 허용
                         configuration.setAllowedMethods(Collections.singletonList("*"));
