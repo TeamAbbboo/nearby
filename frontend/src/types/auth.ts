@@ -1,5 +1,5 @@
 /* components */
-import { moodType, decoType } from './types';
+import { moodType, decoType } from './model';
 
 /* 로그인 응답 */
 export interface IPostLoginRes {
