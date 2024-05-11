@@ -13,7 +13,7 @@ const HomePage = () => {
 
   return (
     <motion.div
-      className="relative w-full h-full"
+      className="relative w-full h-full font-NPSfontBold"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
