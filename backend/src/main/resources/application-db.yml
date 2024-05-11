@@ -18,7 +18,6 @@ spring:
         url:
           full: ${local.redirect.full}
           endpoint: ${local.redirect.endpoint}
-    frontend-url: ${local.front-url}
 swagger-url: ${local.swagger.url}
 
 ---
@@ -40,5 +39,4 @@ spring:
         url:
           full: ${server.redirect.full}
           endpoint: ${server.redirect.endpoint}
-    frontend-url: ${server.front-url}
 swagger-url: ${server.swagger.url}
