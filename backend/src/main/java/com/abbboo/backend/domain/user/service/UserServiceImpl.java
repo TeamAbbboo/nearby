@@ -170,8 +170,8 @@ public class UserServiceImpl implements UserService {
 
         log.info("기존 토큰과 비교 검증 : OK");
 
-        // 토큰 발행 (10분, 30일)
-        String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token), 1000*10*60L);
+        // 토큰 발행 (3일, 30일)
+        String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),1000*60*24*3*60L);
         String refreshToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),1000*60*60*24*30L);
 
         log.info("액세스, 리프레쉬 토큰 재발행 : OK");
