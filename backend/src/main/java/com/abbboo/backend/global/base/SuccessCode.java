@@ -15,7 +15,7 @@ public enum SuccessCode {
     DAILYSTORY_GET_SUCCESS(200, "일자별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
     MONTLYSTORY_GET_SUCCESS(200, "월 별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
 
-    // user
+    // user, token
     USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
     USER_CHECK_SUCCESS(200,"유저 정보 조회에 성공하였습니다.","SUCCESS"),
     USER_REGIST_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
@@ -23,6 +23,7 @@ public enum SuccessCode {
     USER_ENROLL_SUCCESS(204,"가족 등록에 성공하였습니다.","SUCCESS"),
     USER_LEAVE_SUCCESS(204,"가족 떠나기에 성공하였습니다.","SUCCESS"),
     USER_WITHDRAWAL_SUCCESS(204,"유저 탈퇴에 성공하였습니다.","SUCCESS"),
+    USER_TOKEN_REISSUE_SUCCESS(200,"토큰 재발급에 성공하였습니다.","SUCCESS"),
 
     // family
     FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),
@@ -30,6 +31,8 @@ public enum SuccessCode {
 
     // exp
     EXPHISTORY_GET_SUCCESS(200,"경험치 조회에 성공하였습니다.","SUCCESS"),
+    LEVEL_UP_SUCCESS(204,"레벨 수정에 성공하였습니다.","SUCCESS"),
+    LEVELEXP_GET_SUCCESS(200,"레벨, 경험치 합 조회에 성공하였습니다.","SUCCESS"),
 
     // message
     MESSAGE_SEND_SUCCESS(201, "메시지 전송에 성공하였습니다.", "SUCCESS"),

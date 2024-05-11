@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SendMessageReq {
 
-    private int senderId;
     private int receiverId;
     private String content;
 

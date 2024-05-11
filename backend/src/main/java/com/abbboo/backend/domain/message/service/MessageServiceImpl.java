@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService{
     public void createMessage(String kakaoId, SendMessageReq req) {
 
         // 발신자와 수신자가 유효한 사용자인지 확인
-        User sender = userRepository.findById(req.getSenderId())
+        User sender = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         User receiver = userRepository.findById(req.getReceiverId())
             .orElseThrow(() -> new NotFoundException(ErrorCode.RECEIVER_NOT_FOUND));
