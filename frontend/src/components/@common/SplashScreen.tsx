@@ -43,11 +43,11 @@ const SplashScreen = ({ text, routerPath, imgSrc }: ISplashProps) => {
         className={imgSrc === 'home' ? 'bg-HOME' : imgSrc === 'playground' ? 'bg-PLAYGROUND' : 'bg-GREENHOUSE'}
       >
         <div className="w-full h-screen flex flex-col justify-center items-center">
-          <div className="text-3xl font-bold">
+          <img className="w-72 h-72" src={imgSrc === 'home' ? normal : imgSrc === 'playground' ? thinking : cheering} />
+          <div className="font-Ownglyph_meetme text-2xl">
             {text}
             {dots}
           </div>
-          <img src={imgSrc === 'home' ? normal : imgSrc === 'playground' ? thinking : cheering} />
         </div>
       </motion.div>
     </>
