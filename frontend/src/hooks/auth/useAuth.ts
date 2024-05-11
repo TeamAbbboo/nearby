@@ -6,7 +6,7 @@ import {
   doGetUserInfoReq,
   doPatchModifyReq,
   doPostLogoutReq,
-  doDeleteUserReq,
+  doPatchWithdrawalUserReq,
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
 import { IUserInfoReq } from '@/types/auth';
@@ -57,10 +57,10 @@ export const useAuth = () => {
     });
   };
 
-  const useDeleteUser = () => {
+  const usePatchWithdrawalUser = () => {
     return useMutation({
       mutationKey: ['deleteUser'],
-      mutationFn: async () => doDeleteUserReq(),
+      mutationFn: async () => doPatchWithdrawalUserReq(),
       onSuccess: () => {
         localStorage.setItem('user-store', '');
         window.location.replace('/login');
@@ -86,7 +86,7 @@ export const useAuth = () => {
     useGetUserInfo,
     useModifyNickname,
     useLogout,
-    useDeleteUser,
+    usePatchWithdrawalUser,
     useLeaveFamily,
   };
 };
