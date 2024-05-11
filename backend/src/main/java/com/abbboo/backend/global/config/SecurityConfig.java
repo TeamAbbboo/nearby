@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +33,7 @@ public class SecurityConfig {
     private String sendRedirectUrl;
 
     @Value("${spring.security.frontend-url}")
-    private String frontendUrl;
+    private List<String> frontendUrl;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -99,7 +100,7 @@ public class SecurityConfig {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         // 프론트엔드 서버 주소 허용
-                        configuration.setAllowedOrigins(Collections.singletonList(frontendUrl));
+                        configuration.setAllowedOrigins(frontendUrl);
 
                         // 모든 요청 메서드 허용
                         configuration.setAllowedMethods(Collections.singletonList("*"));
