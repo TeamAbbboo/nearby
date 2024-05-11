@@ -1,7 +1,7 @@
 /* components */
 import {
   doPostLoginReq,
-  doPostSignupReq,
+  doPatchSignupReq,
   doPatchEnrollFamilyReq,
   doGetUserInfoReq,
   doPatchModifyReq,
@@ -22,10 +22,10 @@ export const useAuth = () => {
     });
   };
 
-  const usePostSignup = () => {
+  const usePatchSignup = () => {
     return useMutation({
       mutationKey: ['postSignup'],
-      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
+      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPatchSignupReq({ nickname, birthday }),
     });
   };
 
@@ -81,7 +81,7 @@ export const useAuth = () => {
 
   return {
     usePostLogin,
-    usePostSignup,
+    usePatchSignup,
     useEnrollFamilyCode,
     useGetUserInfo,
     useModifyNickname,
