@@ -11,6 +11,12 @@ public enum ErrorCode {
     FILE_IS_NULL(400, "파일은 필수값입니다. 소식 등록에 실패했습니다.", "F-001", ""),
     UPLOAD_IS_FAIL(500, "파일 업로드에 실패했습니다. 서버가 잘못했습니다.", "F-002", ""),
 
+    // clova tts 관련 오류
+    CONVERT_FILE_IS_FAIL(500, "Multipart-file 파일 변환에 실패했습니다.", "C-001", ""),
+    INVALID_URI(500, "유효하지 않은 URI 형태입니다.", "C-002", ""),
+    INVALID_URL(500, "유효하지 않은 URL 형태입니다.", "C-003", ""),
+    REQUEST_CLOVA_SERVER(500, "Clova API 요청에 실패했습니다.", "C-004", ""),
+
     // Pagination 관련 오류
     INVALID_PAGE_NUMBER(400,"페이지 번호는 0 이상이어야 합니다.","P-001",""),
     INVALID_PAGE_SIZE(400,"페이지 사이즈는 1 이상이어야 합니다.","P-002",""),

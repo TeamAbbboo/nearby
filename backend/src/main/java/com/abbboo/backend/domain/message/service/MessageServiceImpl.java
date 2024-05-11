@@ -11,6 +11,8 @@ import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import com.abbboo.backend.global.util.ClovaUtil;
+import com.abbboo.backend.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final ClovaUtil clovaUtil;
+    private final S3Util s3Util;
 
     // 메시지 전송
     @Override
@@ -51,8 +55,20 @@ public class MessageServiceImpl implements MessageService{
             throw new BadRequestException(ErrorCode.MESSAGE_LENGTH_EXCEEDED);
         }
 
+        String ttsUrl = "";
+        // naver clova에 tts 파일 변환 요청
+        try {
+            log.info("tts 파일 요청 시작");
+            ttsUrl = s3Util.uploadFile(clovaUtil.createTTS(req.getContent()), 1);
+            log.info("tts 파일 요청 완료");
+        } catch (Exception e) {
+            log.info("exception");
+            throw new RuntimeException(e);
+        }
+
         Message message = Message.builder()
             .sender(sender).receiver(receiver).content(req.getContent())
+            .ttsUrl(ttsUrl)
             .build();
 
         messageRepository.save(message);

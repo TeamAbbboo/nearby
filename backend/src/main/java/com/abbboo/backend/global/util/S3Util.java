@@ -2,7 +2,7 @@ package com.abbboo.backend.global.util;
 
 import com.abbboo.backend.global.config.S3Config;
 import com.abbboo.backend.global.error.ErrorCode;
-import com.abbboo.backend.global.error.exception.ConflictException;
+import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class S3Util {
         try {
             amazonS3.putObject(bucket, newFileName, multipartFile.getInputStream(), metadata);
         } catch (IOException e) {
-            throw new ConflictException(ErrorCode.UPLOAD_IS_FAIL);
+            throw new BadRequestException(ErrorCode.UPLOAD_IS_FAIL);
         }
         return amazonS3.getUrl(bucket, newFileName).toString();
     }
