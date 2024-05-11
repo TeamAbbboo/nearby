@@ -9,7 +9,8 @@ export interface IDayStoryItem {
   storyId: number;
   userId: number;
   url: string;
-  mood: string;
+  mood: moodType;
+  decoration: decoType;
   nickname: string;
   isSaved: boolean;
   reactions: IReactionItem[];
