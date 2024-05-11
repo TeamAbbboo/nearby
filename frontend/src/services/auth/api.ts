@@ -40,8 +40,8 @@ export const doPatchModifyReq = async (nickname: string): Promise<APIResponse<vo
 };
 
 /* 로그아웃 */
-export const doPatchLogoutReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosWithCredentialInstance.patch('/users/logout');
+export const doPostLogoutReq = async (): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.post('/users/logout');
   return data;
 };
 

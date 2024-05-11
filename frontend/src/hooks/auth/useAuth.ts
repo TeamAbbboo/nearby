@@ -5,7 +5,7 @@ import {
   doPatchEnrollFamilyReq,
   doGetUserInfoReq,
   doPatchModifyReq,
-  doPatchLogoutReq,
+  doPostLogoutReq,
   doDeleteUserReq,
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
@@ -52,8 +52,8 @@ export const useAuth = () => {
 
   const useLogout = () => {
     return useMutation({
-      mutationKey: ['patchLogout'],
-      mutationFn: async () => doPatchLogoutReq(),
+      mutationKey: ['postLogout'],
+      mutationFn: async () => doPostLogoutReq(),
     });
   };
 
