@@ -1,5 +1,3 @@
-import greenhouseBackground from '@/assets/background_greenhouse.png';
-import HomeBackground from '@/assets/background_home.png';
 import { useEffect, useState } from 'react';
 import { useModal } from '@/components/story/ModalContext';
 import StoryHeader from '@/components/story/StoryHeader';
@@ -8,13 +6,22 @@ import dayjs from 'dayjs';
 import ShowMoreBottomSheet from './ShowMoreBottomSheet';
 import ReactHistoryBottomSheet from './ReactHistoryBottomSheet';
 import SendReactModal from './SendReactModal';
+import { useStory } from '@/hooks/story/useStory';
 
-/* 저장한거 보는건지 여부 받아서 StoryBottom 보이게 할건지 말건지 */
+/* 저장한거 보는건지 24시간 이내 스토리 보는건지 여부 */
+interface IStoryProps {
+  isSaved: boolean;
+}
 
-const Story = () => {
-  const images = [greenhouseBackground, HomeBackground, greenhouseBackground, HomeBackground];
+const Story: React.FC<IStoryProps> = isSaved => {
+  const { useGetDayStory } = useStory();
+  const { data: dayStoryList } = useGetDayStory(isSaved.isSaved);
+
+  console.log('isSaved:', isSaved.isSaved);
+  console.log('DayStoryData:', dayStoryList?.data.dayStoryResList);
+
   const [activeImage, setActiveImage] = useState(1); //현재 보여지는 사진
-  const [progressBars, setProgressBars] = useState(new Array(images.length).fill(0)); //프로그래스 바 진행 상태
+  const [progressBars, setProgressBars] = useState(new Array(dayStoryList?.data.dayStoryResList.length).fill(0)); //프로그래스 바 진행 상태
   const { toggleModal } = useModal();
 
   const [isReactHistoryOpen, setIsReactHistoryOpen] = useState<boolean>(false); //반응 보기
@@ -36,7 +43,7 @@ const Story = () => {
           clearInterval(interval);
           const nextImage = activeImage + 1;
 
-          if (activeImage === images.length) {
+          if (activeImage === dayStoryList?.data.dayStoryResList.length) {
             toggleModal(); //마지막 이미지에서 모달 닫기
           } else {
             newProgressBars[activeImage - 1] = 100;
@@ -48,7 +55,7 @@ const Story = () => {
       });
     }, updateInterval); //3초씩 사진 보여주기
     return () => clearInterval(interval);
-  }, [activeImage, images.length, toggleModal]);
+  }, [activeImage, dayStoryList?.data.dayStoryResList.length, toggleModal]);
 
   /* 프로그래스 바 빈걸로 리셋하는 함수
   const resetProgressBars = () => {
@@ -79,20 +86,22 @@ const Story = () => {
         ))}
       </div>
       {/* 스토리 이미지 캐러샐 */}
-      {images.map((image, index) => (
+      {dayStoryList?.data.dayStoryResList.map((image, index) => (
         <div
           key={index}
           className={`fixed top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
         >
-          <img className="object-cover w-full h-full" src={image} alt={`Carousel ${index + 1}`} />
+          <img className="object-cover w-full h-full" src={image.url} alt={`Carousel ${index + 1}`} />
         </div>
       ))}
       {/* 스토리 하단 메뉴 */}
-      <StoryBottom
-        setIsReactHistoryOpen={setIsReactHistoryOpen}
-        setIsSendReactOpen={setIsSendReactOpen}
-        setIsShowMoreOpen={setIsShowMoreOpen}
-      />
+      <div className="visible">
+        <StoryBottom
+          setIsReactHistoryOpen={setIsReactHistoryOpen}
+          setIsSendReactOpen={setIsSendReactOpen}
+          setIsShowMoreOpen={setIsShowMoreOpen}
+        />
+      </div>
     </>
   );
 };
