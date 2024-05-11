@@ -149,6 +149,35 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    // 유저 로그아웃
+    @Override
+    @Transactional
+    public void deleteUserState(String kakaoId, HttpServletRequest request, HttpServletResponse response) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}",user.getId());
+
+        // 쿠키 토큰 확인
+        String token = cookieUtil.getCookieToken(request);
+
+        // 쿠키가 없는 경우
+        if(token==null) {
+            log.info("쿠키가 없습니다.");
+            throw new NotFoundException(ErrorCode.TOKEN_NOT_FOUND);
+        }
+
+        // 유저의 토큰인지 확인
+        if(!user.getRefreshToken().equals(token))
+            throw new NotFoundException(ErrorCode.TOKEN_NOT_FOUND);
+
+        // 임의의 리프레쉬 토큰 쿠키에 추가
+        response.addCookie(cookieUtil.createCookie("refreshToken",
+                jwtUtil.createJwt(kakaoId,1000*60*60*24*30L)));
+    }
+
     // 유저 토큰 재발급
     @Override
     @Transactional
