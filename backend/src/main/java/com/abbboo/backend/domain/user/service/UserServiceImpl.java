@@ -35,6 +35,10 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
 
+    // 토큰 시간 정의
+    private final static int ACCESS_TOKEN_SECONDS = 1000*60*24*3*60;
+    private final static int REFRESH_TOKEN_SECONDS = 1000*60*60*24*24;
+
     // 유저 정보 조회
     @Override
     public UserCheckRes getUserMe(String kakaoId) {
@@ -42,6 +46,8 @@ public class UserServiceImpl implements UserService {
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}",user.getId());
 
         // 유저 정보 조회 응답 반환
         return UserCheckRes.builder()
@@ -59,6 +65,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        log.info("유저 ID : {}",user.getId());
+
         // 유저 닉네임 변경
         user.changeNickname(userModifyReq.getNickname());
     }
@@ -71,6 +79,8 @@ public class UserServiceImpl implements UserService {
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}",user.getId());
 
         // 가족 코드로 가족 조회
         Family family = familyRepository.findByFamilyCode(userEnrollFamilyReq.getFamilyCode())
@@ -94,6 +104,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        log.info("유저 ID : {}",user.getId());
+
         // 가족이 이미 없는 경우
         if(user.getFamily()==null) {
             throw new NotFoundException(ErrorCode.FAMILY_NOT_FOUND);
@@ -112,6 +124,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        log.info("유저 ID : {}",user.getId());
+
         // 정보 등록 메서드
         user.changeAll(userRegistReq.getNickname(), userRegistReq.getBirthday());
     }
@@ -124,7 +138,9 @@ public class UserServiceImpl implements UserService {
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-        
+
+        log.info("유저 ID : {}",user.getId());
+
         // 유저 정보 삭제
         user.deleteUser();
     }
@@ -137,6 +153,8 @@ public class UserServiceImpl implements UserService {
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}",user.getId());
 
         eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
 
@@ -163,19 +181,28 @@ public class UserServiceImpl implements UserService {
         // 쿠키 토큰 확인
         String token = cookieUtil.getCookieToken(request);
 
+        log.info("쿠키 내 토큰 가져오기 : OK");
+
         // 쿠키가 없는 경우
         if(token==null) {
-            log.info("쿠키가 없습니다.");
+            log.info("쿠키 - 토큰이 없습니다.");
             throw new NotFoundException(ErrorCode.TOKEN_NOT_FOUND);
         }
 
+        log.info("쿠키 내 토큰 확인 : OK");
+
         // 유저의 토큰인지 확인
-        if(!user.getRefreshToken().equals(token))
-            throw new NotFoundException(ErrorCode.TOKEN_NOT_FOUND);
+        if(!user.getRefreshToken().equals(token)) {
+            throw new BadRequestException(ErrorCode.TOKEN_VERIFICATION_FAIL);
+        }
+
+        log.info("유저 토큰과의 비교 : OK");
 
         // 임의의 리프레쉬 토큰 쿠키에 추가
         response.addCookie(cookieUtil.createCookie("refreshToken",
-                jwtUtil.createJwt(kakaoId,1000*60*60*24*30L)));
+                jwtUtil.createJwt(kakaoId,0),1000));
+
+        log.info("임의의 토큰 발급 : OK");
     }
 
     // 유저 토큰 재발급
@@ -190,18 +217,17 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByKakaoId(jwtUtil.getCreatedUserId(token))
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("토큰 정보 - USER : {}", user.getId());
+        log.info("유저 ID : {}",user.getId());
 
-        // 저장된 토큰 비교
-        if(!token.equals(user.getRefreshToken())) {
+        // 유저의 토큰인지 확인
+        if(!user.getRefreshToken().equals(token))
             throw new BadRequestException(ErrorCode.TOKEN_VERIFICATION_FAIL);
-        }
 
-        log.info("기존 토큰과 비교 검증 : OK");
+        log.info("유저 토큰과의 비교 : OK");
 
-        // 토큰 발행 (3일, 30일)
-        String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),1000*60*24*3*60L);
-        String refreshToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),1000*60*60*24*30L);
+        // 토큰 발행 (3일, 24일)
+        String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),ACCESS_TOKEN_SECONDS);
+        String refreshToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),REFRESH_TOKEN_SECONDS);
 
         log.info("액세스, 리프레쉬 토큰 재발행 : OK");
 
@@ -210,6 +236,6 @@ public class UserServiceImpl implements UserService {
 
         // 응답에 토큰 추가
         response.addHeader("Authorization",accessToken);
-        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken));
+        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken, REFRESH_TOKEN_SECONDS));
     }
 }
