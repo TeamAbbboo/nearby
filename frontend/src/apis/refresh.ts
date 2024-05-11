@@ -14,7 +14,7 @@ const refresh = async (error: AxiosError) => {
 
   // access 토큰이 만료되었을 경우 -> 재발급 요청
   else if (error.response?.status === 403) {
-    const { headers } = await axiosWithCredentialInstance.patch('/users/reissue');
+    const { headers } = await axiosWithCredentialInstance.post('/users/reissue');
     localStorage.setItem('ACCESS_TOKEN', headers.authorization.split('Bearer ')[1]);
     return Promise.resolve();
   }
