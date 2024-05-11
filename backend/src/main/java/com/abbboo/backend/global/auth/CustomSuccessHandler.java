@@ -45,8 +45,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         log.info("토큰 발행 : START");
 
-        // 토큰 발행 (10분, 30일)
-        String accessToken = jwtUtil.createJwt(createdUserId, 1000*10*60L);
+        // 토큰 발행 (3일, 30일)
+        String accessToken = jwtUtil.createJwt(createdUserId, 1000*60*24*3*60L);
         String refreshToken = jwtUtil.createJwt(createdUserId,1000*60*60*24*30L);
 
         log.info("토큰 발행 : COMPLETE");
