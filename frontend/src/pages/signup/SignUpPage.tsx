@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const SignupPage = () => {
   return (
-    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
+    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col font-NPSfontBold">
       <div className="pl-5 pt-10 text-2xl font-bold">
         <motion.div
           initial={{ opacity: 0 }}

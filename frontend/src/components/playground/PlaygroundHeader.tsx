@@ -34,7 +34,7 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">홈</p>
             </div>
           </div>
-          <div onClick={() => navigate('/greenhouse')} className="flex flex-col items-center">
+          <div onClick={() => navigate('/splashGreenhouse')} className="flex flex-col items-center">
             <img src={greenhouse} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">온실</p>

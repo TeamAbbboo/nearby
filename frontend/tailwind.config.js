@@ -3,6 +3,12 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        NPSfontBold: ['NPSfontBold'],
+        Ownglyph_meetme: ['Ownglyph_meetme-Rg'],
+        Goyang: ['Goyang'],
+        insungitCutelivelyjisu: ['insungitCutelivelyjisu'],
+      },
       colors: {
         MAIN1: '#8BA278',
         SUB1: '#D5E8C5',
