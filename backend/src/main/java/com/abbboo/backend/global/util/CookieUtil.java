@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 public class CookieUtil {
 
     // 쿠키 생성 메서드
-    public Cookie createCookie(String key, String value) {
+    public Cookie createCookie(String key, String value, int expiredTime) {
 
         // 쿠키 객체 생성
         Cookie cookie = new Cookie(key, value);
 
         // 쿠키 만료 시간 설정
-        cookie.setMaxAge(1000*60*60*24);
+        cookie.setMaxAge(expiredTime);
 
         // https 환경에서만 사용가능하도록 설정
         //cookie.setSecure(true);
@@ -32,8 +32,6 @@ public class CookieUtil {
 
     // 쿠키에서 토큰 확인 메서드
     public String getCookieToken(HttpServletRequest request) {
-
-        log.info("토큰 재발급 요청 : OK");
 
         // 쿠기 가져오기
         Cookie[] cookies = request.getCookies();

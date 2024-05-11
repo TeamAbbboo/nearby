@@ -28,6 +28,8 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        log.info("필터 API URL : {}", request.getRequestURI());
+
         // 스웨거 경로를 확인하고 필터 적용을 건너뛰기
         if (request.getRequestURI().startsWith("/api/swagger-ui") ||
                 request.getRequestURI().startsWith("/api/v3/api-docs")) {
@@ -45,13 +47,17 @@ public class JwtFilter extends OncePerRequestFilter {
             // 쿠키에서 토큰 확인
             authorization = cookieUtil.getCookieToken(request);
 
+            log.info("쿠키 가져오기 : OK");
+
             // 쿠키에 refreshToken 없는 경우
             if(authorization == null) {
-                log.info("쿠키가 없습니다.");
+                log.info("쿠키 - 토큰이 없습니다.");
                 request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
                 filterChain.doFilter(request, response);
                 return;
             }
+
+            log.info("쿠키 내 토큰 확인 : OK");
 
             // 순수 토큰 문자열 가져오기
             token = authorization;
@@ -63,10 +69,13 @@ public class JwtFilter extends OncePerRequestFilter {
             // 헤더에서 토큰 확인
             authorization = request.getHeader("Authorization");
 
+            log.info("헤더 가져오기 : OK");
+
             // 헤더에 Authorization 없거나, 시작이 Bearer 아닌 경우
             if (authorization == null || !authorization.startsWith("Bearer ")) {
 
-                log.info("토큰이 없습니다.");
+                log.info("헤더 - 토큰이 없습니다.");
+                
                 request.setAttribute("exception", ErrorCode.TOKEN_NOT_FOUND);
                 filterChain.doFilter(request, response);
                 return;
@@ -74,6 +83,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             // 순수 토큰 문자열 가져오기
             token = authorization.split(" ")[1];
+
+            log.info("헤더 내 토큰 확인 : OK");
         }
 
         log.info("토큰 검증 수행 : START");
