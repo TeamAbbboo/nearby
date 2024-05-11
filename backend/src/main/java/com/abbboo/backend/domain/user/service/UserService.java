@@ -32,6 +32,10 @@ public interface UserService {
     // 유저 로그인
     UserLoginRes getUserAll(String kakaoId);
 
+    // 유저 로그아웃
+    void deleteUserState(String kakaoId, HttpServletRequest request, HttpServletResponse response);
+
     // 유저 토큰 재발급
     void createUserToken(HttpServletRequest request, HttpServletResponse response);
+
 }
