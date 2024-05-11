@@ -64,7 +64,7 @@ public class ClovaUtil {  // NAVER AI CLOVA VOICE Config
             con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
             con.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
-            log.info("clova API 요청 설정 : http request 설정 실패");
+            log.info("clova API 요청 설정 : http request 설정 성공");
 
             // 음성 합성음 옵션 설정 TODO: 추후에 음성 합성음 결정 후 옵션 조정 필요
             String voiceOptions = "speaker=nar&volume=0&speed=0&pitch=0";
