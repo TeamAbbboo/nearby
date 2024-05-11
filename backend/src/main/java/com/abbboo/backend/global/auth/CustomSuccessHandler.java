@@ -28,6 +28,10 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final CookieUtil cookieUtil;
 
+    // 토큰 시간 정의
+    private final static int ACCESS_TOKEN_SECONDS = 1000*60*24*3*60;
+    private final static int REFRESH_TOKEN_SECONDS = 1000*60*60*24*24;
+
     @Value("${spring.security.oauth2.redirect.url.full}")
     private String sendRedirectUrl;
 
@@ -45,9 +49,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         log.info("토큰 발행 : START");
 
-        // 토큰 발행 (3일, 30일)
-        String accessToken = jwtUtil.createJwt(createdUserId, 1000*60*24*3*60L);
-        String refreshToken = jwtUtil.createJwt(createdUserId,1000*60*60*24*30L);
+        // 토큰 발행 (3일, 24일)
+        String accessToken = jwtUtil.createJwt(createdUserId, ACCESS_TOKEN_SECONDS);
+        String refreshToken = jwtUtil.createJwt(createdUserId, REFRESH_TOKEN_SECONDS);
 
         log.info("토큰 발행 : COMPLETE");
 
@@ -59,7 +63,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         log.info("응답 생성 : START");
         
         // 리프레쉬 토큰 쿠키에 추가
-        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken));
+        response.addCookie(cookieUtil.createCookie("refreshToken", refreshToken, REFRESH_TOKEN_SECONDS));
         response.sendRedirect(sendRedirectUrl+"?token="+accessToken);
 
         log.info("응답 생성 : COMPLETE");

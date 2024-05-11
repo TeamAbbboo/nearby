@@ -34,7 +34,7 @@ public class JwtUtil {
     }
 
     // JWT 생성
-    public String createJwt(String createdUserId, Long expiredMs) {
+    public String createJwt(String createdUserId, int expiredMs) {
         return Jwts.builder()
 
                 // ID 정보
