@@ -131,6 +131,21 @@ public class UserController {
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LOGIN_SUCCESS,userLoginRes));
     }
 
+    @Operation(summary = "유저 로그아웃")
+    @PostMapping("/logout")
+    public ResponseEntity<BaseResponse> logoutUserMe(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        log.info("유저 로그아웃 URL 맵핑 : OK");
+
+        log.info("유저 로그아웃 : START");
+        userService.deleteUserState(customOAuth2User.getCreatedUserId(),request,response);
+        log.info("유저 로그아웃 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LOGOUT_SUCCESS));
+    }
+
     @Operation(summary = "유저 토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<BaseResponse> reissueToken(
