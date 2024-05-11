@@ -23,7 +23,7 @@ public class Decoration extends BaseEntity { // 펭귄 꾸미기 아이템
     private Integer id;
 
     // 아이템 정보
-    @Column(name = "expression", length = 10)
+    @Column(name = "expression", length = 20)
     private String expression;
 
     // 삭제 여부
