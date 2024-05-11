@@ -31,7 +31,7 @@ public class UserController {
 
     @Operation(summary = "유저 정보 조회")
     @GetMapping("")
-    public ResponseEntity<BaseResponse> checkUser(
+    public ResponseEntity<BaseResponse> getUserMe(
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("유저 정보 조회 URL 맵핑 : OK");
@@ -45,7 +45,7 @@ public class UserController {
 
     @Operation(summary = "유저 정보 수정")
     @PatchMapping("")
-    public ResponseEntity<BaseResponse> modifyUser(
+    public ResponseEntity<BaseResponse> modifyUserMe(
             @RequestBody UserModifyReq userModifyReq,
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
@@ -60,7 +60,7 @@ public class UserController {
 
     @Operation(summary = "유저 가족 등록")
     @PatchMapping("/family/enroll")
-    public ResponseEntity<BaseResponse> enrollUser(
+    public ResponseEntity<BaseResponse> enrollUserMe(
             @RequestBody UserEnrollFamilyReq userRegistReq,
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
@@ -76,7 +76,7 @@ public class UserController {
 
     @Operation(summary = "유저 가족 떠나기")
     @PatchMapping("/family/leave")
-    public ResponseEntity<BaseResponse> leaveUser(
+    public ResponseEntity<BaseResponse> leaveUserMe(
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("유저 가족 떠나기 URL 맵핑 : OK");
@@ -89,8 +89,8 @@ public class UserController {
     }
 
     @Operation(summary = "유저 정보 등록")
-    @PatchMapping("/regist")
-    public ResponseEntity<BaseResponse> registUser(
+    @PatchMapping("/signup")
+    public ResponseEntity<BaseResponse> signUpUserMe(
             @RequestBody UserRegistReq userRegistReq,
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
@@ -105,7 +105,7 @@ public class UserController {
 
     @Operation(summary = "유저 탈퇴")
     @PatchMapping("/withdrawal")
-    public ResponseEntity<BaseResponse> withdrawalUser(
+    public ResponseEntity<BaseResponse> withdrawalUserMe(
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("유저 탈퇴 URL 맵핑 : OK");
@@ -119,7 +119,7 @@ public class UserController {
 
     @Operation(summary = "유저 로그인")
     @PostMapping("/login")
-    public ResponseEntity<BaseResponse> loginUser(
+    public ResponseEntity<BaseResponse> loginUserMe(
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("유저 로그인 URL 맵핑 : OK");
