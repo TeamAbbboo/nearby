@@ -3,6 +3,7 @@ import './Style.css';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
+import userStore from '@/stores/userStore.tsx';
 
 /* libraries */
 import { useState } from 'react';
@@ -13,8 +14,6 @@ const Signup = () => {
   const location = useLocation();
 
   /* 사용자 정보 가져오기 */
-  const { usePostSignup } = useAuth();
-  const { mutate: doPostSignupReq } = usePostSignup();
 
   /* 닉네임 + 생년월일 */
   const [nickname, setNickname] = useState<string>('');
@@ -63,6 +62,8 @@ const Signup = () => {
   };
 
   /* 회원가입 */
+  const { usePostSignup } = useAuth();
+  const { mutate: doPostSignupReq } = usePostSignup();
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
       alert('닉네임 입력 칸에 빈 문자열 또는 공백이 존재합니다!!');
@@ -73,17 +74,28 @@ const Signup = () => {
       doPostSignupReq(
         {
           nickname,
-          birthday: year + 1 + '-' + month + '-' + date,
+          birthday: year + 1905 + '-' + month + '-' + date,
         },
         {
           onSuccess: () => {
-            // userStore.setState({
-            //   nickname: nickname,
-            //   birthday: year + 1 + '-' + month + '-' + date,
-            // });
-            const code = localStorage.getItem('SHARE_FAMILY_CODE');
-            if (code && code.length === 8) window.location.replace('/group');
-            else window.location.replace('/' + location.state.data.selectPenguinOption);
+            // 월과 일이 두 자리라면, 앞에 0 붙이기
+            const formattedMonth = String(month).padStart(2, '0');
+            const formattedDate = String(date).padStart(2, '0');
+
+            userStore.setState({
+              nickname: nickname,
+              birthday: year + 1905 + '-' + formattedMonth + '-' + formattedDate,
+            });
+
+            try {
+              const code = localStorage.getItem('SHARE_FAMILY_CODE');
+              if (code && code.length === 8) window.location.replace('/group');
+              else window.location.replace('/' + location.state.data.selectPenguinOption);
+            } catch (e) {
+              alert('잘못된 접근!!');
+              window.location.replace('/');
+              return;
+            }
 
             alert('회원가입에 성공했습니다.');
           },
