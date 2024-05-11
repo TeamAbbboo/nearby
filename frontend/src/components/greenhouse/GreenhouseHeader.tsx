@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import story from '@/assets/icons/story.png';
 import playground from '@/assets/icons/playground.png';
 import { useGreenhouse } from '@/hooks/greenhouse/useGreenhouse';
-import ExpHistoryItem from '@/components/greenhouse/ExpHistoryItem';
+import ExpHistory from './ExpHistory';
 
 interface IDandelionState {
   level: number; // 레벨
@@ -13,25 +13,13 @@ interface IDandelionState {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-interface IExpHistoryProp {
-  historyLevel: number;
-  point: number;
-  content: string;
-  createAt: string;
-}
-
 const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionState) => {
   /*레벨업*/
   const { usePatchLevelUp } = useGreenhouse();
   const { mutate } = usePatchLevelUp();
-  const [isExpOpen, setIsExpOpen] = useState<boolean>(false);
 
-  const expData: IExpHistoryProp = {
-    historyLevel: 1,
-    point: 3,
-    content: '일일 접속 +1',
-    createAt: '2024-04-07 12:12:12',
-  };
+  /*경험치 내역*/
+  const [isExpOpen, setIsExpOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const progressPercentage = (currentExp / maxExp) * 100 >= 100 ? 100 : (currentExp / maxExp) * 100;
@@ -68,15 +56,7 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionSt
           <div className="h-full bg-MAIN1 rounded-3xl" style={{ width: `${progressPercentage}%` }}></div>
         </div>
       </div>
-      {isExpOpen && (
-        <div className="-flex flex-col p-5 w-full h-60 bg-white rounded-3xl shadow-xl overflow-y-auto">
-          <ExpHistoryItem data={expData} />
-          <ExpHistoryItem data={expData} />
-          <ExpHistoryItem data={expData} />
-          <ExpHistoryItem data={expData} />
-          <ExpHistoryItem data={expData} />
-        </div>
-      )}
+      {isExpOpen && <ExpHistory />}
       <div className={`w-full flex flex-col items-end pt-5 gap-3 ${isExpOpen ? 'invisible' : 'visible'}`}>
         <div onClick={() => navigate('/playground')} className="flex flex-col items-center">
           <img src={playground} width={44} />
