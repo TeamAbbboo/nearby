@@ -9,7 +9,7 @@ import { useModal } from '@/components/story/ModalContext';
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
 
-  const { toggleModal } = useModal();
+  const { toggleModal, setIsSaved } = useModal();
 
   return (
     <header className="w-full absolute top-0">
@@ -46,6 +46,7 @@ const PlaygroundHeader = () => {
           <div
             onClick={() => {
               toggleModal();
+              setIsSaved(false);
             }}
             className="flex flex-col items-center"
           >

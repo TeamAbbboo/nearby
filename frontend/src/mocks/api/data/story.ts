@@ -1,0 +1,65 @@
+export const getDayStoryReq = {
+  status: 200,
+  message: '24시간 이내 소식 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: {
+    dayStoryResList: [
+      {
+        storyId: 1,
+        userId: 1,
+        url: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/f8338468-2d6c-4a7b-b69c-19b665f978ab-%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202024-03-25%20103903.png',
+        mood: 'NORMAL',
+        decoration: 'ALIEN',
+        nickname: '유저1',
+        isSaved: true,
+        reactions: [
+          {
+            userId: 2,
+            mood: 'PASSION',
+            decoration: 'ALIEN',
+            nickname: '유저2',
+            expression: 'LOL',
+          },
+          {
+            userId: 2,
+            mood: 'PASSION',
+            decoration: 'ALIEN',
+            nickname: '유저2',
+            expression: 'SAD',
+          },
+          {
+            userId: 2,
+            mood: 'PASSION',
+            decoration: 'ALIEN',
+            nickname: '유저2',
+            expression: 'OOPS',
+          },
+          {
+            userId: 2,
+            mood: 'PASSION',
+            decoration: 'ALIEN',
+            nickname: '유저2',
+            expression: 'COOL',
+          },
+          {
+            userId: 2,
+            mood: 'PASSION',
+            decoration: 'ALIEN',
+            nickname: '유저2',
+            expression: 'LOVE',
+          },
+        ],
+      },
+      {
+        storyId: 2,
+        userId: 1,
+        url: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/677c3fb9-6ef8-4db9-b37f-9cd7b9da896c-%ED%99%94%EB%A9%B4%20%EC%BA%A1%EC%B2%98%202024-03-25%20103903.png',
+        mood: '행복해요',
+        decoration: 'ALIEN',
+        nickname: '유저1',
+        isSaved: false,
+        reactions: [],
+      },
+    ],
+  },
+};
