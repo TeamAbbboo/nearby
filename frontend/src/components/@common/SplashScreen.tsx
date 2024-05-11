@@ -19,7 +19,7 @@ const SplashScreen = ({ text, routerPath, imgSrc }: ISplashProps) => {
 
   useEffect(() => {
     setTimeout(() => {
-      window.location.replace(routerPath);
+      window.location.replace(routerPath ? routerPath : '');
     }, 2600);
 
     const interval = setInterval(() => {
