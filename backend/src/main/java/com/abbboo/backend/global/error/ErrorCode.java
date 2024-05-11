@@ -51,6 +51,10 @@ public enum ErrorCode {
     // Exp,Level
     LEVEL_IS_INVALID(400,"현재 레벨과 맞지않는 요청입니다","L-001",""),
     LACK_OF_EXP(400,"경험치가 아직 부족합니다.","L-002",""),
+
+    // Mood, Decoration (펭귄의 STATUS)
+    EXPRESSION_IS_WRONG(400,"일치하는 표현이 없습니다.","ST-001","")
+
     ;
 
     private final int status;
