@@ -53,7 +53,7 @@ export const authHandlers = [
   }),
 
   /* 로그아웃 */
-  http.patch('/users/logout', () => {
+  http.post('/users/logout', () => {
     const success = HttpResponse.json(patchLogoutRes, {
       status: 200,
     });
