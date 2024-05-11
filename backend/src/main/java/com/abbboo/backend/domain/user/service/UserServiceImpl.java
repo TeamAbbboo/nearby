@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
 
-    // 토큰 시간 정의 (20초, 1분)
+    // 토큰 시간 정의 (20초, 24일)
     private final static int ACCESS_TOKEN_SECONDS = 1000*20;
-    private final static int REFRESH_TOKEN_SECONDS = 1000*60;
+    private final static int REFRESH_TOKEN_SECONDS = 1000*60*60*24*24;
 
     // 유저 정보 조회
     @Override
