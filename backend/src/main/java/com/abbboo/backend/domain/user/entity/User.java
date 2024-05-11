@@ -21,12 +21,15 @@ import java.util.List;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert @DynamicUpdate
 @Table(name = "user")
 public class User extends BaseEntity {  // 사용자
 
@@ -53,7 +56,13 @@ public class User extends BaseEntity {  // 사용자
 
     // 펭귄 상태
     @Column(name = "mood", length = 10)
+    @ColumnDefault("NORMAL")
     private String mood;
+
+    // 펭귄 꾸미기
+    @Column(name = "decoration", length = 20)
+    @ColumnDefault("NORMAL")
+    private String decoration;
 
     // 리프레시 토큰
     @Column(name = "refresh_token")
@@ -62,8 +71,7 @@ public class User extends BaseEntity {  // 사용자
     // 회원 탈퇴 여부
     @Column(name = "is_deleted")
     @ColumnDefault("false")
-    @Builder.Default
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
     // 받은 메시지 목록
     @OneToMany(mappedBy = "receiver")
@@ -111,5 +119,9 @@ public class User extends BaseEntity {  // 사용자
     public void deleteUser() {
         this.kakaoId = null;
         this.isDeleted = true;
+    }
+
+    public void chageDecoration(String expression) {
+        this.decoration = expression;
     }
 }
