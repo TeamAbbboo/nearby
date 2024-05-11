@@ -61,7 +61,7 @@ export const authHandlers = [
   }),
 
   /* 회원 탈퇴 */
-  http.delete('/users', () => {
+  http.patch('/users/withdrawal', () => {
     const success = HttpResponse.json(deleteUserRes, {
       status: 200,
     });

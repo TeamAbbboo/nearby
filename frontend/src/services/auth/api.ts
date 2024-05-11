@@ -46,8 +46,8 @@ export const doPostLogoutReq = async (): Promise<APIResponse<void>> => {
 };
 
 /* 회원 탈퇴 */
-export const doDeleteUserReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosWithCredentialInstance.delete('/users');
+export const doPatchWithdrawalUserReq = async (): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.patch('/users/withdrawal');
   return data;
 };
 
