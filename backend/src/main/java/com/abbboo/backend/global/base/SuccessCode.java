@@ -24,6 +24,7 @@ public enum SuccessCode {
     USER_LEAVE_SUCCESS(204,"가족 떠나기에 성공하였습니다.","SUCCESS"),
     USER_WITHDRAWAL_SUCCESS(204,"유저 탈퇴에 성공하였습니다.","SUCCESS"),
     USER_TOKEN_REISSUE_SUCCESS(200,"토큰 재발급에 성공하였습니다.","SUCCESS"),
+    USER_LOGOUT_SUCCESS(200,"로그아웃에 성공하였습니다.","SUCCESS"),
 
     // family
     FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),
