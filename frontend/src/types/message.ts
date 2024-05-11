@@ -1,15 +1,17 @@
 import { moodType } from './model';
 
+// 받은 메시지
 export interface IReceivedMessageListRes extends IInfiniteScrollRes {
   content: IReceivedMessageItem[];
 }
 
+// 보낸 메시지
 export interface ISentMessageListRes extends IInfiniteScrollRes {
   content: ISentMessageItem[];
 }
 
-// 받은 메시지
 export interface IReceivedMessageItem {
+  messageId: number;
   fromId: number;
   nickname: string;
   isRead: boolean;
@@ -19,7 +21,6 @@ export interface IReceivedMessageItem {
   createdAt: string;
 }
 
-// 보낸 메시지
 export interface ISentMessageItem {
   receiverId: number;
   nickname: string;
