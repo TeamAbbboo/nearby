@@ -4,9 +4,12 @@ import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
+import { useModal } from '@/components/story/ModalContext';
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
+
+  const { toggleModal } = useModal();
 
   return (
     <header className="w-full absolute top-0">
@@ -40,7 +43,12 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">온실</p>
             </div>
           </div>
-          <div onClick={() => console.log('소식 확인하기')} className="flex flex-col items-center">
+          <div
+            onClick={() => {
+              toggleModal();
+            }}
+            className="flex flex-col items-center"
+          >
             <img src={story} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px] ">소식 확인</p>
