@@ -1,10 +1,13 @@
+/* components */
+import { moodType, decoType } from './types';
+
 /* 로그인 응답 */
 export interface IPostLoginRes {
   isFamily: boolean;
   nickname: string;
   birthday: string;
-  mood: string;
-  decoration: string;
+  mood: moodType;
+  decoration: decoType;
 }
 
 /* 유저 정보 */
