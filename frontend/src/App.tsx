@@ -8,9 +8,12 @@ import SoloPage from '@/pages/familycode/SoloPage';
 import GroupPage from '@/pages/familycode/GroupPage';
 import PlaygroundPage from '@/pages/playground/PlaygroundPage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
-import SplashPage from '@/pages/splash/SplashPage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
+import SplashHomePage from '@/pages/splash/SplashHomePage';
+import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
+import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
+
 import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
@@ -19,6 +22,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <SplashHomePage />,
+  },
+  {
+    path: '/home',
     element: (
       <PrivateRoute>
         <HomePage />
@@ -66,12 +73,20 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/splashPlayground',
+    element: <SplashPlaygroundPage />,
+  },
+  {
     path: '/playground',
     element: (
       <PrivateRoute>
         <PlaygroundPage />
       </PrivateRoute>
     ),
+  },
+  {
+    path: '/splashGreenhouse',
+    element: <SplashGreenhousePage />,
   },
   {
     path: '/greenhouse',
@@ -94,14 +109,6 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <RegisterStoryPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: '/splash',
-    element: (
-      <PrivateRoute>
-        <SplashPage />
       </PrivateRoute>
     ),
   },

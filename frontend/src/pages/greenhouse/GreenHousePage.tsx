@@ -3,6 +3,7 @@ import DandelionGrowth from '@/components/greenhouse/DandelionGrowth';
 import GreenhouseHeader from '@/components/greenhouse/GreenhouseHeader';
 import { useGreenhouse } from '@/hooks/greenhouse/useGreenhouse';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const GreenHousePage = () => {
   /* 현재 가족 레벨 정보 가져오기 */
@@ -12,7 +13,13 @@ const GreenHousePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <div className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center">
+    <motion.div
+      className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       {currentLevel && (
         <>
           <Dandelion level={currentLevel.data.level} />
@@ -25,7 +32,7 @@ const GreenHousePage = () => {
           )}
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 
