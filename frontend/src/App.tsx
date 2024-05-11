@@ -10,7 +10,10 @@ import PlaygroundPage from '@/pages/playground/PlaygroundPage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
-import SplashPage from '@/pages/splash/SplashPage';
+import SplashHomePage from '@/pages/splash/SplashHomePage';
+import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
+import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
+
 import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
@@ -19,7 +22,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SplashPage />,
+    element: <SplashHomePage />,
   },
   {
     path: '/home',
@@ -70,12 +73,20 @@ const router = createBrowserRouter([
     ),
   },
   {
+    path: '/splashPlayground',
+    element: <SplashPlaygroundPage />,
+  },
+  {
     path: '/playground',
     element: (
       <PrivateRoute>
         <PlaygroundPage />
       </PrivateRoute>
     ),
+  },
+  {
+    path: '/splashGreenhouse',
+    element: <SplashGreenhousePage />,
   },
   {
     path: '/greenhouse',
