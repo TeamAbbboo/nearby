@@ -17,7 +17,7 @@ const playgroundPenguinStore = create<IPlaygroundStoreState>(set => ({
     userId: 0,
     birthday: '',
     mood: 'NORMAL',
-    decoration: '',
+    decoration: 'NORMAL',
     nickname: '',
   },
 
@@ -36,7 +36,7 @@ const playgroundPenguinStore = create<IPlaygroundStoreState>(set => ({
         userId: 0,
         birthday: '',
         mood: 'NORMAL',
-        decoration: '',
+        decoration: 'NORMAL',
         nickname: '',
       },
     }),
