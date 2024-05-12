@@ -87,7 +87,7 @@ public class MessageServiceImpl implements MessageService{
         int familyId = sender.getFamily().getId();
 
         // 페이징
-        PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC,"createdAt"));
+        PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC,"createdAt"));
 
         return messageRepository.findSentMessage(userId, familyId, pageRequest);
     }
@@ -106,7 +106,7 @@ public class MessageServiceImpl implements MessageService{
         int familyId = receiver.getFamily().getId();
 
         // 페이징
-        PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.ASC, "createdAt"));
+        PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC, "createdAt"));
 
         Slice<ReceivedMessageRes> receivedMessages = messageRepository.findReceivedMessage(userId, familyId, pageRequest);
 
