@@ -1,6 +1,6 @@
 import { axiosCommonInstance, axiosWithCredentialInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
-import { IPostLoginRes, IUserInfoReq } from '@/types/auth';
+import { IPostLoginRes, ISignUpReq, IUserInfoReq } from '@/types/auth';
 
 /* 로그인 */
 export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
@@ -9,7 +9,7 @@ export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
 };
 
 /* 회원 가입 */
-export const doPatchSignupReq = async ({ nickname, birthday }: IUserInfoReq): Promise<APIResponse<void>> => {
+export const doPatchSignupReq = async ({ nickname, birthday }: ISignUpReq): Promise<APIResponse<void>> => {
   const { data } = await axiosWithCredentialInstance.patch('/users/signup', {
     nickname: nickname,
     birthday: birthday,
