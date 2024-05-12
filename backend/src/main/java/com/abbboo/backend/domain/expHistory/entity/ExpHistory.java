@@ -27,7 +27,7 @@ public class ExpHistory extends BaseEntity { // 경험치 내역
 
     // 경험치를 올린 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 경험치 증가 시점의 가족 레벨 (경험치는 해당 레벨에만 반영됨)

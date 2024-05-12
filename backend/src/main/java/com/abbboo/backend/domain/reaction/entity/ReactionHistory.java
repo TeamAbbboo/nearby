@@ -32,17 +32,17 @@ public class ReactionHistory extends BaseEntity { // 사용자 반응 내역
 
     // 반응이 달린 소식
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "story_id", nullable = false)
     private Story story;
 
     // 반응한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 반응
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reaction_id")
+    @JoinColumn(name = "reaction_id", nullable = false)
     private Reaction reaction;
 
 }

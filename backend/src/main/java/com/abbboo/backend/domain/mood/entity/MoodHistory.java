@@ -31,12 +31,12 @@ public class MoodHistory extends BaseEntity { // 사용자의 기분 상태 등�
 
     // 상태를 등록한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 등록한 감정
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mood_id")
+    @JoinColumn(name = "mood_id", nullable = false)
     private Mood mood;
 
 }
