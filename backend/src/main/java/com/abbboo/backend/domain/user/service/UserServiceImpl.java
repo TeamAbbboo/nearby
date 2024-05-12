@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
         return UserCheckRes.builder()
                 .nickname(user.getNickname())
                 .birthday(user.getBirthday())
+                .mood(user.getMood())
+                .decoration(user.getDecoration())
                 .build();
     }
 
