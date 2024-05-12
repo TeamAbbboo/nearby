@@ -1,13 +1,21 @@
-import { getReceivedMessageList, getSentMessageList, postSendMessage } from '@/services/message/api';
+import {
+  getReceivedMessageList,
+  getSentMessageList,
+  getUnreadMessage,
+  patchUnreadMessage,
+  postSendMessage,
+} from '@/services/message/api';
 import { IMessageSendReq } from '@/types/message';
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useMessage = () => {
-  const useGetReceivedMessageList = ({ page, size }: { page: number; size: number }) => {
+  const queryClient = useQueryClient();
+
+  const useGetReceivedMessageList = (size: number) => {
     return useInfiniteQuery({
-      queryKey: ['message', 'list', 'received', page, size],
-      queryFn: () => {
-        return getReceivedMessageList({ page, size });
+      queryKey: ['message', 'list', 'received', size],
+      queryFn: ({ pageParam }) => {
+        return getReceivedMessageList({ page: pageParam - 1, size });
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
@@ -20,11 +28,11 @@ export const useMessage = () => {
     });
   };
 
-  const useGetSentMessageList = ({ page, size }: { page: number; size: number }) => {
+  const useGetSentMessageList = (size: number) => {
     return useInfiniteQuery({
-      queryKey: ['message', 'list', 'sent', page, size],
-      queryFn: () => {
-        return getSentMessageList({ page, size });
+      queryKey: ['message', 'list', 'sent', size],
+      queryFn: ({ pageParam }) => {
+        return getSentMessageList({ page: pageParam - 1, size });
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
@@ -44,9 +52,26 @@ export const useMessage = () => {
     });
   };
 
+  const useGetUnreadMessage = () => {
+    return useQuery({
+      queryKey: ['message', 'unread'],
+      queryFn: () => getUnreadMessage(),
+    });
+  };
+
+  const usePatchUnreadMessage = () => {
+    return useMutation({
+      mutationKey: ['message', 'unread', 'read'],
+      mutationFn: (messageId: number) => patchUnreadMessage(messageId),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ['message', 'unread'] }),
+    });
+  };
+
   return {
     useGetReceivedMessageList,
     useGetSentMessageList,
     usePostSendMessage,
+    useGetUnreadMessage,
+    usePatchUnreadMessage,
   };
 };

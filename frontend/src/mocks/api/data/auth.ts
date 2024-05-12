@@ -4,9 +4,11 @@ export const postLoginRes = {
   message: '로그인에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    nickname: '123',
-    birthday: '123',
-    familyId: 11,
+    isFamily: true,
+    nickname: '이희웅',
+    birthday: '2000-01-01',
+    mood: 'NORMAL',
+    decoration: 'GLASSES',
   },
 };
 
