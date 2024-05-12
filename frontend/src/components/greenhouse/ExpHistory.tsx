@@ -1,6 +1,6 @@
 import ExpHistoryItem from '@/components/greenhouse/ExpHistoryItem';
 import { useGreenhouse } from '@/hooks/greenhouse/useGreenhouse';
-import { useIntersectionObserver } from '@/hooks/@common/useIntersecctionObserver';
+import { useIntersectionObserver } from '@/hooks/@common/useIntersectionObserver';
 
 const ExpHistory = () => {
   const { useGetExpHistoryList } = useGreenhouse();
