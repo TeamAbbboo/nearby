@@ -17,6 +17,7 @@ public class DayStoryRes { // 24시간이내 소식 정보 응답
     private String frontUrl;
     private String rearUrl;
     private String mood;
+    private String decoration;
     private String nickname;
     private Boolean isSaved;
     private LocalDateTime createdAt;
