@@ -117,7 +117,7 @@ const RegisterStoryPage = () => {
     <>
       <canvas ref={canvasRef} className="hidden" />
 
-      <div className={`relative w-full h-screen ${captured && 'animate-captureEnter'}`}>
+      <div className={`relative w-full h-full ${captured && 'animate-captureEnter'}`}>
         <div className="absolute left-0 right-0 bottom-0 top-0 w-full h-full">
           {backImage && <img src={backImage} className="w-full h-full object-cover" />}
         </div>
@@ -167,7 +167,7 @@ const RegisterStoryPage = () => {
             )}
           </div>
         </div>
-        {!stream && <div className="w-full h-full bg-black"></div>}
+        {!stream && <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full bg-black"></div>}
 
         <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
         {/* 캡쳐버튼 */}
