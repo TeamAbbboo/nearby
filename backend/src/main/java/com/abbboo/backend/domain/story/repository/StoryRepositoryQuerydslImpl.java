@@ -149,6 +149,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         ))
             .from(reactionHistory)
             .where(reactionHistory.story.id.eq(dayStoryRes.getStoryId()))    // 각 소식 id
+            .orderBy(reactionHistory.createdAt.desc())
             .fetch();
 
         dayStoryRes.setReactions(reactionRes);
