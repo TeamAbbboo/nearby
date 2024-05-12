@@ -71,7 +71,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         return new DayStoryListRes(dayStoryResList);
     }
 
-    // 월 별 소식 조회
+    // 월별 소식 조회
     @Override
     public List<MonthlyStoryRes> findMonthlyStories(MonthlyStoriesParams params, int familyId) {
         // TODO: 페이징 무한스크롤 추후 클라이언트와 협의 후 구현

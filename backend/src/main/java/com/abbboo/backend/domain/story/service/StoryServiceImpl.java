@@ -10,6 +10,7 @@ import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
+import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -137,6 +138,7 @@ public class StoryServiceImpl implements StoryService{
         return storyRepository.findDayStoriesByFamilyId(familyId);
     }
 
+    // 월별 소식 조회하기
     @Override
     public List<MonthlyStoryRes> readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams) {
 
@@ -148,5 +150,12 @@ public class StoryServiceImpl implements StoryService{
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
         
         return storyRepository.findMonthlyStories(monthlyStoriesParams, familyId);
+    }
+
+    // 소식별 반응 조회하기
+    @Override
+    public List<ReactionRes> readReaction(Long storyId) {
+
+        return reactionRepository.findByStoryId(storyId);
     }
 }
