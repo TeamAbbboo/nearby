@@ -74,7 +74,7 @@ public class StoryController {
     }
 
     @Operation(summary = "24시간 이내 가족의 소식 조회")
-    @PostMapping("/day")
+    @GetMapping("/day")
     public ResponseEntity<BaseResponse> getDayStory(
         @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
 
