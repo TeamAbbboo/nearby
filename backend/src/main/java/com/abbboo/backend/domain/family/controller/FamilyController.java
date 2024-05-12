@@ -61,11 +61,11 @@ public class FamilyController {
     public ResponseEntity<BaseResponse> getFamiliesInfo(
         @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
 
-        log.info("가족 코드 조회 URL 맵핑 : OK");
+        log.info("가족 구성원의 정보 조회 조회 URL 맵핑 : OK");
 
-        log.info("가족 코드 조회 : START");
+        log.info("가족 구성원의 정보 조회 : START");
         List<FamilyInfoRes> familyInfoResList = familyService.readFamilyInfo(customOAuth2User.getCreatedUserId());
-        log.info("가족 코드 조회 : COMPLETE");
+        log.info("가족 구성원의 정보 조회 : COMPLETE");
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_INFO_GET_SUCCESS, familyInfoResList));
     }
 }
