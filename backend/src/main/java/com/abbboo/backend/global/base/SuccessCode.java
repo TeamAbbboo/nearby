@@ -40,6 +40,9 @@ public enum SuccessCode {
     GET_SENT_MESSAGE_SUCCESS(200, "보낸 메시지 조회에 성공하였습니다.", "SUCCESS"),
     GET_RECEIVED_MESSAGE_SUCCESS(200, "받은 메시지 조회에 성공하였습니다.", "SUCCESS"),
     READ_MESSAGE_SUCCESS(204, "메시지 읽기에 성공하였습니다.", "SUCCESS"),
+
+    // mood, decoration
+    UPDATE_PENGUIN_SUCCESS(204, "펭귄 상태 업데이트에 성공하였습니다.", "SUCCESS"),
     ;
 
     private final int status;
