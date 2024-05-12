@@ -124,7 +124,11 @@ public class User extends BaseEntity {  // 사용자
         this.isDeleted = true;
     }
 
-    public void chageDecoration(String item) {
+    public void changeDecoration(String item) {
         this.decoration = item;
+    }
+
+    public void changeMood(String expression) {
+        this.mood = expression;
     }
 }
