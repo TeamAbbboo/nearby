@@ -55,3 +55,10 @@ export const getDayStoryReq = {
     ],
   },
 };
+
+export const postStoryExpressionReq = {
+  status: 200,
+  message: '소식에 성공적으로 반응했습니다.',
+  code: 'SUCCESS',
+  data: '',
+};

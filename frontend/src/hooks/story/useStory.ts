@@ -1,5 +1,6 @@
-import { getDayStoryReq } from '@/services/story/api';
-import { useQuery } from '@tanstack/react-query';
+import { getDayStoryReq, postStoryExpressionReq } from '@/services/story/api';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { IStoryExpressionReq } from '@/types/story';
 
 export const useStory = () => {
   /* 24시간 이내 소식 */
@@ -20,5 +21,12 @@ export const useStory = () => {
     });
   };
 
-  return { useGetDayStory };
+  const usePostStoryExpression = () => {
+    return useMutation({
+      mutationKey: ['story', 'expression'],
+      mutationFn: async (req: IStoryExpressionReq) => postStoryExpressionReq(req),
+    });
+  };
+
+  return { useGetDayStory, usePostStoryExpression };
 };

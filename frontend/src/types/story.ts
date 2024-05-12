@@ -25,3 +25,9 @@ export interface IReactionItem {
   expression: expressionType;
   createdAt: string;
 }
+
+/* 소식 반응 등록 */
+export interface IStoryExpressionReq {
+  expression: expressionType;
+  storyId: number;
+}
