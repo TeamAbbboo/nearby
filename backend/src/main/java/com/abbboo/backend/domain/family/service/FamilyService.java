@@ -14,5 +14,5 @@ public interface FamilyService {
     FamilyCodeCheckRes getFamilyCode(String kakaoId);
 
     // 가족 정보 조회
-    List<FamilyInfoRes> readFamilyInfo(String createdUserId);
+    List<FamilyInfoRes> readFamilyInfo(String kakaoId);
 }
