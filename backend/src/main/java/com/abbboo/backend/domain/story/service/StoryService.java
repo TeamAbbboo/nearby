@@ -11,16 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface StoryService {
 
-    void createStroy(MultipartFile frontFile, MultipartFile rearFile);
+    void createStroy(String kakaoId, MultipartFile frontFile, MultipartFile rearFile);
 
     void updateIsSaved(Long storyId);
 
-    void createReaction(StoryReactionReq reactionReq, Long storyId);
+    void createReaction(String kakaoId, StoryReactionReq reactionReq, Long storyId);
 
-    DayStoryListRes readDailySavedStory(YearMonthDayParams params);
+    DayStoryListRes readDailySavedStory(String kakaoId, YearMonthDayParams params);
 
-    DayStoryListRes readDayStory(StoriesReq storiesReq);
+    DayStoryListRes readDayStory(String kakaoId);
 
-    List<MonthlyStoryRes> readMonthlyStory(MonthlyStoriesParams monthlyStoriesParams);
+    List<MonthlyStoryRes> readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams);
 
 }
