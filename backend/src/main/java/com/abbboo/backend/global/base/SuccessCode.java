@@ -13,7 +13,7 @@ public enum SuccessCode {
     REACTION_REGIST_SUCCESS(201, "반응을 성공적으로 등록했습니다.", "SUCCESS"),
     DAYSTORY_GET_SUCCESS(200, "24시간 이내 소식 조회에 성공하였습니다.", "SUCCESS"),
     DAILYSTORY_GET_SUCCESS(200, "일자별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
-    MONTLYSTORY_GET_SUCCESS(200, "월 별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
+    MONTLYSTORY_GET_SUCCESS(200, "월별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
 
     // user, token
     USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
@@ -40,6 +40,9 @@ public enum SuccessCode {
     GET_SENT_MESSAGE_SUCCESS(200, "보낸 메시지 조회에 성공하였습니다.", "SUCCESS"),
     GET_RECEIVED_MESSAGE_SUCCESS(200, "받은 메시지 조회에 성공하였습니다.", "SUCCESS"),
     READ_MESSAGE_SUCCESS(204, "메시지 읽기에 성공하였습니다.", "SUCCESS"),
+
+    // mood, decoration
+    UPDATE_PENGUIN_SUCCESS(204, "펭귄 상태 업데이트에 성공하였습니다.", "SUCCESS"),
     ;
 
     private final int status;
