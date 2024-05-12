@@ -22,10 +22,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
 @Builder
+@DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "story")
@@ -37,7 +39,7 @@ public class Story extends BaseEntity { // 소식
 
     // 소식 작성자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 업로드 파일 S3 url - frontFile
@@ -51,7 +53,6 @@ public class Story extends BaseEntity { // 소식
     // 보관 여부
     @Column(name = "is_saved")
     @ColumnDefault("false")
-    @Builder.Default
     private Boolean isSaved = false;
 
     // 소식에 달린 반응

@@ -30,7 +30,7 @@ public class Family extends BaseEntity { // 가족 그룹 정보
     private Integer id;
 
     // 가족 코드
-    @Column(name = "family_code", nullable = false)
+    @Column(name = "family_code", nullable = false, length = 10, unique = true)
     private String familyCode;
 
     // 가족 구성원
