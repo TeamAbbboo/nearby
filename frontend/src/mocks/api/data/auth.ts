@@ -4,9 +4,11 @@ export const postLoginRes = {
   message: '로그인에 성공했습니다.',
   code: 'SUCCESS',
   data: {
-    nickname: '',
-    birthday: '',
-    familyId: null,
+    isFamily: true,
+    nickname: '이희웅',
+    birthday: '2000-01-01',
+    mood: 'NORMAL',
+    decoration: 'GLASSES',
   },
 };
 
@@ -25,7 +27,7 @@ export const patchEnrollFamilyRes = {
   code: 'SUCCESS',
   data: {
     familyId: 1,
-    familyCode: 'Abbo03',
+    familyCode: 'ABBBOO01',
   },
 };
 

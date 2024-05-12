@@ -1,14 +1,23 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
-
+import { useFamily } from '@/hooks/family/useFamily';
 /* libraries */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Group = () => {
-  /* 사용자 정보 가져오기 */
-  const { useEnrollFamilyCode } = useAuth();
-  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
+  /* 가족 코드 조회 */
+  /** 가족 코드가 존재하는데 또 참여하는 것을 방지하는 용도 */
+  const { useGetFamilyCode } = useFamily();
+  const { data, error } = useGetFamilyCode();
+  useEffect(() => {
+    if (data) {
+      if (data.data.familyCode !== null) window.location.replace('/');
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
 
   /* 가족 코드 */
   const [familyCode, setFamilyCode] = useState<string>('');
@@ -18,15 +27,17 @@ const Group = () => {
     setFamilyCode(e.target.value.trim());
   };
 
-  /* Nearby 시작하기 */
+  /* 가족 참여하기 */
+  const { useEnrollFamilyCode } = useAuth();
+  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
       alert('가족 코드에 공백 또는 빈칸이 존재합니다.');
       return;
     }
 
-    if (familyCode.length !== 6) {
-      alert('가족 코드는 6글자 입니다.');
+    if (familyCode.length !== 8) {
+      alert('가족 코드는 8글자 입니다.');
       return;
     }
 
@@ -44,6 +55,26 @@ const Group = () => {
     }
   };
 
+  /* 초대받은 가족코드 조회 */
+  const code = localStorage.getItem('SHARE_FAMILY_CODE');
+  useEffect(() => {
+    if (code && code.length === 8) {
+      doPatchEnrollFamilyReq(code, {
+        onSuccess: () => {
+          alert('가족 그룹 참여에 성공했습니다.');
+          localStorage.removeItem('SHARE_FAMILY_CODE');
+          window.location.replace('/');
+        },
+        onError: () => {
+          alert('가족 코드가 유효하지 않습니다.');
+          localStorage.removeItem('SHARE_FAMILY_CODE');
+          window.location.replace('/');
+          setFamilyCode('');
+        },
+      });
+    }
+  }, [code]);
+
   return (
     <div className="w-full h-full relative flex flex-col">
       {/* 가족 코드 */}
@@ -56,7 +87,7 @@ const Group = () => {
             className="w-full bg-white/0 outline-none text-center text-lg font-bold"
             type="text"
             name="familyCode"
-            maxLength={6}
+            maxLength={8}
             value={familyCode}
             onChange={onChangeFamilyCode}
           />

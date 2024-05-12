@@ -66,9 +66,9 @@ const Solo = () => {
     try {
       if (familyCode !== undefined) {
         window.navigator.clipboard.writeText(familyCode);
-        alert('클립보드에 링크가 복사되었습니다.');
+        alert('가족 코드가 복사되었습니다.');
       } else {
-        alert('복사할 링크가 없습니다.');
+        alert('가족 코드가 없습니다. 잠시 후에 이용해주세요.');
       }
     } catch (e) {
       alert('복사에 실패하였습니다');
@@ -77,7 +77,7 @@ const Solo = () => {
 
   /* 공유 버튼 눌렀을 경우 */
   const shareKakao = () => {
-    if (familyCode.length === 6) {
+    if (familyCode.length === 8) {
       Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
@@ -85,14 +85,16 @@ const Solo = () => {
           description: '우리 가족 그룹에 참여하시겠습니까?',
           imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
           link: {
-            mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
+            mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
+            webUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
           },
         },
         buttons: [
           {
             title: '지금 가족 그룹에 참여하기',
             link: {
-              mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
+              mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
+              webUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
             },
           },
         ],
@@ -104,7 +106,7 @@ const Solo = () => {
 
   /* 광장으로 이동하기 버튼 */
   const goToMainPage = () => {
-    window.location.replace('/');
+    if (window.confirm('광장으로 이동하시겠습니까??')) window.location.replace('/');
   };
 
   /* 가족 코드 입력시 */

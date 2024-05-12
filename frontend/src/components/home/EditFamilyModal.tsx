@@ -91,14 +91,16 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         description: '우리 가족 그룹에 참여하시겠습니까?',
         imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
         link: {
-          mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
+          mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
+          webUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
         },
       },
       buttons: [
         {
           title: '지금 가족 그룹에 참여하기',
           link: {
-            mobileWebUrl: `${import.meta.env.BASE_URL}/login?familyCode=${familyCode}`,
+            mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
+            webUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
           },
         },
       ],
@@ -114,8 +116,8 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
       return;
     }
 
-    if (familyCode.length !== 6) {
-      alert('가족 코드는 6자리 입니다.');
+    if (familyCode.length !== 8) {
+      alert('가족 코드는 8자리 입니다.');
       return;
     }
 
@@ -185,7 +187,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                       : 'w-40 ml-5 text-start outline-none'
                   }
                   value={familyCode}
-                  maxLength={6}
+                  maxLength={8}
                   placeholder={isExistFamilyCode ? '' : '가족이 없습니다.'}
                   readOnly={isExistFamilyCode}
                   onChange={onChangeFamilyCode}
