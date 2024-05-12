@@ -10,6 +10,7 @@ import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
 import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
+import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -20,6 +21,7 @@ import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.ExpEventFactory;
 import com.abbboo.backend.global.util.S3Util;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -148,5 +150,12 @@ public class StoryServiceImpl implements StoryService{
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
         
         return storyRepository.findMonthlyStories(monthlyStoriesParams, familyId);
+    }
+
+    // 소식별 반응 조회하기
+    @Override
+    public List<ReactionRes> readReaction(Long storyId) {
+
+        return reactionRepository.findByStoryId(storyId);
     }
 }
