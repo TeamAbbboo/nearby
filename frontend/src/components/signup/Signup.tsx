@@ -14,6 +14,8 @@ const Signup = () => {
   const location = useLocation();
 
   /* 사용자 정보 가져오기 */
+  const { usePatchSignup } = useAuth();
+  const { mutate: doPatchSignupReq } = usePatchSignup();
 
   /* 닉네임 + 생년월일 */
   const [nickname, setNickname] = useState<string>('');
@@ -71,7 +73,7 @@ const Signup = () => {
     }
 
     if (window.confirm('회원가입을 진행하시겠습니까?')) {
-      doPostSignupReq(
+      doPatchSignupReq(
         {
           nickname,
           birthday: year + 1905 + '-' + month + '-' + date,

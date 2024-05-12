@@ -1,12 +1,12 @@
 /* components */
 import {
   doPostLoginReq,
-  doPostSignupReq,
+  doPatchSignupReq,
   doPatchEnrollFamilyReq,
   doGetUserInfoReq,
   doPatchModifyReq,
-  doPatchLogoutReq,
-  doDeleteUserReq,
+  doPostLogoutReq,
+  doPatchWithdrawalUserReq,
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
 import { IUserInfoReq } from '@/types/auth';
@@ -22,10 +22,10 @@ export const useAuth = () => {
     });
   };
 
-  const usePostSignup = () => {
+  const usePatchSignup = () => {
     return useMutation({
       mutationKey: ['postSignup'],
-      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPostSignupReq({ nickname, birthday }),
+      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPatchSignupReq({ nickname, birthday }),
     });
   };
 
@@ -52,15 +52,15 @@ export const useAuth = () => {
 
   const useLogout = () => {
     return useMutation({
-      mutationKey: ['patchLogout'],
-      mutationFn: async () => doPatchLogoutReq(),
+      mutationKey: ['postLogout'],
+      mutationFn: async () => doPostLogoutReq(),
     });
   };
 
-  const useDeleteUser = () => {
+  const usePatchWithdrawalUser = () => {
     return useMutation({
       mutationKey: ['deleteUser'],
-      mutationFn: async () => doDeleteUserReq(),
+      mutationFn: async () => doPatchWithdrawalUserReq(),
       onSuccess: () => {
         localStorage.setItem('user-store', '');
         window.location.replace('/login');
@@ -81,12 +81,12 @@ export const useAuth = () => {
 
   return {
     usePostLogin,
-    usePostSignup,
+    usePatchSignup,
     useEnrollFamilyCode,
     useGetUserInfo,
     useModifyNickname,
     useLogout,
-    useDeleteUser,
+    usePatchWithdrawalUser,
     useLeaveFamily,
   };
 };
