@@ -13,5 +13,5 @@ import lombok.Setter;
 public class MonthlyStoryRes {
 
     private String yearMonth;                            // 조회한 년도-월, YYYY-MM 형식
-    private List<dayDto> days;            // 일자별 대표 소식 이미지
+    private List<DayDTO> days;            // 일자별 대표 소식 이미지
 }
