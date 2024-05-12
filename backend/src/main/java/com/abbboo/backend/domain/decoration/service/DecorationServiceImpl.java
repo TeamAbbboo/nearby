@@ -35,7 +35,7 @@ public class DecorationServiceImpl implements DecorationService{
 
         // 요청한 아이템 정보 가져오기
         log.info("decoration 아이템 찾기");
-        Decoration decoration = decorationRepository.findByItem(item);
+        Decoration decoration = decorationRepository.findByItemAndIsDeletedFalse(item);
         if (decoration == null){
             throw new NotFoundException(ErrorCode.ITEM_IS_WRONG);
         }
