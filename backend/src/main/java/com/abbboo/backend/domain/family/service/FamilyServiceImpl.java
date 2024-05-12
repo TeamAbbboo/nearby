@@ -2,6 +2,7 @@ package com.abbboo.backend.domain.family.service;
 
 import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
 import com.abbboo.backend.domain.family.dto.res.FamilyCodeCheckRes;
+import com.abbboo.backend.domain.family.dto.res.FamilyInfoRes;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.user.entity.User;
@@ -9,6 +10,7 @@ import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.AlreadyExistException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -73,6 +75,18 @@ public class FamilyServiceImpl implements FamilyService {
                 .familyCode(user.getFamily()==null
                         ? null : user.getFamily().getFamilyCode())
                 .build();
+    }
+
+    // 가족 정보 조회
+    @Override
+    public List<FamilyInfoRes> readFamilyInfo(String kakaoId) {
+
+        // 가족 id 조회
+        int familyId = familyRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+
+        // 가족 정보 조회
+        return userRepository.findByFamilyId(familyId);
     }
 
     // 가족 코드 생성 메서드
