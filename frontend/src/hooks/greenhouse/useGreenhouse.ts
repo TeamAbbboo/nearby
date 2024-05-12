@@ -1,5 +1,5 @@
-import { getCurrentLevelReq, patchLevelUpReq } from '@/services/greenhouse/api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { getCurrentLevelReq, getExpHistoryList, patchLevelUpReq } from '@/services/greenhouse/api';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 
 export const useGreenhouse = () => {
   /* 현재 레벨, 경험치 */
@@ -24,5 +24,24 @@ export const useGreenhouse = () => {
       },
     });
   };
-  return { useGetCurrentLevel, usePatchLevelUp };
+
+  /* 경험치 내역 조회 */
+  const useGetExpHistoryList = (size: number) => {
+    return useInfiniteQuery({
+      queryKey: ['exp', 'list', size],
+      queryFn: ({ pageParam }) => {
+        return getExpHistoryList({ page: pageParam - 1, size });
+      },
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = allPages.length + 1;
+        // 마지막 페이지면
+        if (lastPage.data.histories.last) return;
+
+        return nextPage;
+      },
+    });
+  };
+
+  return { useGetCurrentLevel, usePatchLevelUp, useGetExpHistoryList };
 };
