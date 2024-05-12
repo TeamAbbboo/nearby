@@ -13,6 +13,7 @@ import lombok.Setter;
 public class ReactionRes { // 소식에 반응한 사용자 정보와 반응 응답
 
     private String mood;
+    private String decoration;
     private String nickname;
     private String expression;
     private LocalDateTime createdAt;

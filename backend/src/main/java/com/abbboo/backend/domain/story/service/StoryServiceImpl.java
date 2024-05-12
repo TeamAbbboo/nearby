@@ -8,13 +8,13 @@ import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
 import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
-import com.abbboo.backend.domain.story.dto.req.StoriesReq;
-import com.abbboo.backend.domain.story.dto.StoryReactionReq;
+import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
 import com.abbboo.backend.domain.user.entity.User;
+import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional(readOnly = true)
 public class StoryServiceImpl implements StoryService{
 
+    private final UserRepository userRepository;
     private final S3Util s3Util;
     private final TempUser tempUser;
     private final FamilyRepository familyRepository;
@@ -41,13 +42,15 @@ public class StoryServiceImpl implements StoryService{
     private final ReactionRepository reactionRepository;
     private final ReactionHistoryRepository reactionHistoryRepository;
     private final ApplicationEventPublisher eventPublisher;
+
     @Override
     @Transactional
-    public void createStroy(MultipartFile frontFile, MultipartFile rearFile) {
+    public void createStroy(String kakaoId, MultipartFile frontFile, MultipartFile rearFile) {
+
         log.info("story 등록 서비스 : {}, {}",frontFile.getSize(), rearFile.getSize());
-        // TODO: user 받아오기
-        // 임시 user 데이터
-        User user = tempUser.findById(1L).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
         // 파일 확인
         if (frontFile.isEmpty() || rearFile.isEmpty()){ // 두 개의 파일 중 하나라도 없다면 등록 불가
             throw new BadRequestException(ErrorCode.FILE_IS_NULL);
@@ -69,6 +72,7 @@ public class StoryServiceImpl implements StoryService{
     @Override
     @Transactional
     public void updateIsSaved(Long storyId) {
+
         // id로 story 가져오기
         Story story = storyRepository.findById(storyId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.STORY_NOT_FOUND));
@@ -80,7 +84,8 @@ public class StoryServiceImpl implements StoryService{
 
     @Override
     @Transactional
-    public void createReaction(StoryReactionReq reactionReq, Long storyId) {
+    public void createReaction(String kakaoId, StoryReactionReq reactionReq, Long storyId) {
+
         String expression = reactionReq.getExpression();
         // expression으로 reaction 가져오기
         Reaction reaction = reactionRepository.findByExpression(expression);
@@ -93,8 +98,8 @@ public class StoryServiceImpl implements StoryService{
         Story story = storyRepository.findById(storyId)
             .orElseThrow(()->new NotFoundException(ErrorCode.STORY_NOT_FOUND));
 
-        // TODO : User 가져오기
-        User user = tempUser.findById(1L).orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+        User user = userRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // reaction_history에 저장
         ReactionHistory reactionHistory = ReactionHistory.builder()
@@ -106,9 +111,10 @@ public class StoryServiceImpl implements StoryService{
 
     // 일자별 소식 조회하기
     @Override
-    public DayStoryListRes readDailySavedStory(YearMonthDayParams params) {
-        // TODO: familyId 가져오기
-        int familyId = 1; //임시
+    public DayStoryListRes readDailySavedStory(String kakaoId, YearMonthDayParams params) {
+
+        int familyId = familyRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
 
         // 예외 1 - familyId가 유효하지 않은 경우
         familyRepository.findById(familyId)
@@ -119,9 +125,10 @@ public class StoryServiceImpl implements StoryService{
 
     // 24시간이내 소식 조회하기
     @Override
-    public DayStoryListRes readDayStory(StoriesReq storiesReq) {
+    public DayStoryListRes readDayStory(String kakaoId) {
 
-        int familyId = storiesReq.getFamilyId();
+        int familyId = familyRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
 
         // 예외 1 - familyId가 유효하지 않은 경우
         familyRepository.findById(familyId)
@@ -131,10 +138,14 @@ public class StoryServiceImpl implements StoryService{
     }
 
     @Override
-    public List<MonthlyStoryRes> readMonthlyStory(MonthlyStoriesParams monthlyStoriesParams) {
-        // TODO: userId로 familyId 조회하기
-        // TODO: familId 존재유무에 따라 예외 처리
-        int familyId = 1;
+    public List<MonthlyStoryRes> readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams) {
+
+        int familyId = familyRepository.findByKakaoId(kakaoId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+
+        // 예외 1 - familyId가 유효하지 않은 경우
+        familyRepository.findById(familyId)
+            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
         
         return storyRepository.findMonthlyStories(monthlyStoriesParams, familyId);
     }

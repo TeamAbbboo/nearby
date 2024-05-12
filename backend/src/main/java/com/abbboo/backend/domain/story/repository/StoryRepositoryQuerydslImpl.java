@@ -3,20 +3,17 @@ package com.abbboo.backend.domain.story.repository;
 import static com.abbboo.backend.domain.reaction.entity.QReactionHistory.reactionHistory;
 import static com.abbboo.backend.domain.story.entity.QStory.story;
 
-import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
+import com.abbboo.backend.domain.story.dto.res.DayDTO;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.res.DayStoryRes;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
 import com.abbboo.backend.domain.story.dto.res.ReactionRes;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
-import com.abbboo.backend.domain.story.dto.res.dayDto;
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
@@ -58,6 +55,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
                 story.frontUrl.as("frontUrl"),
                 story.rearUrl.as("rearUrl"),
                 story.user.mood.as("mood"),
+                story.user.decoration.as("decoration"),
                 story.user.nickname.as("nickname"),
                 story.isSaved.as("isSaved"),
                 story.createdAt.as("createdAt")
@@ -89,17 +87,17 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             .fetch();
 
         // 결과 데이터를 월별로 그룹화
-        Map<Integer, List<dayDto>> groupedByMonth = results.stream()
+        Map<Integer, List<DayDTO>> groupedByMonth = results.stream()
             .collect(Collectors.groupingBy(
                 tuple -> tuple.get(0, Integer.class),
-                Collectors.mapping(tuple -> new dayDto(tuple.get(1, Integer.class), tuple.get(2, Long.class), tuple.get(3, String.class)), Collectors.toList())
+                Collectors.mapping(tuple -> new DayDTO(tuple.get(1, Integer.class), tuple.get(2, Long.class), tuple.get(3, String.class)), Collectors.toList())
             ));
 
         // 결과 리스트 생성
         List<MonthlyStoryRes> result = new ArrayList<>();
-        for (Map.Entry<Integer, List<dayDto>> entry : groupedByMonth.entrySet()) {
+        for (Map.Entry<Integer, List<DayDTO>> entry : groupedByMonth.entrySet()) {
             Integer month = entry.getKey();
-            List<dayDto> monthData = entry.getValue();
+            List<DayDTO> monthData = entry.getValue();
             result.add(new MonthlyStoryRes(month.toString(), monthData));
         }
 
@@ -144,6 +142,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         List<ReactionRes> reactionRes = jpaQueryFactory.select(Projections.fields(
             ReactionRes.class,
             reactionHistory.user.mood,
+            reactionHistory.user.decoration,
             reactionHistory.user.nickname,
             reactionHistory.reaction.expression,
             reactionHistory.createdAt
