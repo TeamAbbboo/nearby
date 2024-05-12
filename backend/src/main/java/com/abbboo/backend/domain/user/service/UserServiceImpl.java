@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
 
-    // 토큰 시간 정의
-    private final static int ACCESS_TOKEN_SECONDS = 1000*60*24*3*60;
+    // 토큰 시간 정의 (20초, 24일)
+    private final static int ACCESS_TOKEN_SECONDS = 1000*20;
     private final static int REFRESH_TOKEN_SECONDS = 1000*60*60*24*24;
 
     // 유저 정보 조회
@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("유저 토큰과의 비교 : OK");
 
-        // 토큰 발행 (3일, 24일)
+        // 토큰 발행
         String accessToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),ACCESS_TOKEN_SECONDS);
         String refreshToken = jwtUtil.createJwt(jwtUtil.getCreatedUserId(token),REFRESH_TOKEN_SECONDS);
 
