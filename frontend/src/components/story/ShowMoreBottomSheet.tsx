@@ -13,7 +13,6 @@ const ShowMoreBottomSheet = ({ isOpen, setIsOpen, storyId }: IShowMoreProps) => 
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="flex flex-col gap-5 py-6 text-center items-center">
         <div className=" border-b w-full h-10">보관하기</div>
-        <div className=" border-b w-full h-10">삭제하기</div>
         <div className="w-full h-10" onClick={() => setIsOpen(!isOpen)}>
           취소
         </div>
