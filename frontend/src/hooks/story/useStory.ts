@@ -1,4 +1,4 @@
-import { getDayStoryReq, postStoryExpressionReq } from '@/services/story/api';
+import { postStoryRegister, getDayStoryReq, postStoryExpressionReq } from '@/services/story/api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { IStoryExpressionReq } from '@/types/story';
 
@@ -28,5 +28,12 @@ export const useStory = () => {
     });
   };
 
-  return { useGetDayStory, usePostStoryExpression };
+  const usePostStoryRegister = () => {
+    return useMutation({
+      mutationKey: ['story', 'register'],
+      mutationFn: (req: FormData) => postStoryRegister(req),
+    });
+  };
+
+  return { useGetDayStory, usePostStoryExpression, usePostStoryRegister };
 };
