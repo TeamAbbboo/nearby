@@ -13,7 +13,7 @@ export const getDayStoryReq = {
         mood: 'NORMAL',
         decoration: 'HEARTHAIRBAND',
         nickname: '하하',
-        isSaved: false,
+        isSaved: true,
         createdAt: '2024-05-11T15:06:29.989189',
         reactions: [
           {
@@ -59,6 +59,13 @@ export const getDayStoryReq = {
 export const postStoryExpressionReq = {
   status: 200,
   message: '소식에 성공적으로 반응했습니다.',
+  code: 'SUCCESS',
+  data: '',
+};
+
+export const patchKeepStoryReq = {
+  status: 200,
+  message: '소식 업로드에 성공하였습니다.',
   code: 'SUCCESS',
   data: '',
 };
