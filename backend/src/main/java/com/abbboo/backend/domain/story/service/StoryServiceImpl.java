@@ -5,11 +5,11 @@ import com.abbboo.backend.domain.reaction.entity.Reaction;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.reaction.repository.ReactionHistoryRepository;
 import com.abbboo.backend.domain.reaction.repository.ReactionRepository;
-import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
-import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
-import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
+import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
 import com.abbboo.backend.domain.story.repository.TempUser;
@@ -20,7 +20,6 @@ import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.ExpEventFactory;
 import com.abbboo.backend.global.util.S3Util;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -137,8 +136,9 @@ public class StoryServiceImpl implements StoryService{
         return storyRepository.findDayStoriesByFamilyId(familyId);
     }
 
+    // 월별 소식 조회하기
     @Override
-    public List<MonthlyStoryRes> readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams) {
+    public MonthlyStoryList readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams) {
 
         int familyId = familyRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
