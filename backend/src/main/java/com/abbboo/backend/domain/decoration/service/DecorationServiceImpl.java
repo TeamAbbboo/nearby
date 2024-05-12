@@ -42,7 +42,7 @@ public class DecorationServiceImpl implements DecorationService{
         log.info("decoration 아이템 찾기 성공!");
 
         // 사용자 정보 업데이트
-        user.chageDecoration(decoration.getItem());
+        user.changeDecoration(decoration.getItem());
         log.info("사용자의 decoration 업데이트 성공");
 
         // 사용자의 꾸미기 내역 추가
