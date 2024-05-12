@@ -13,7 +13,7 @@ public enum SuccessCode {
     REACTION_REGIST_SUCCESS(201, "반응을 성공적으로 등록했습니다.", "SUCCESS"),
     DAYSTORY_GET_SUCCESS(200, "24시간 이내 소식 조회에 성공하였습니다.", "SUCCESS"),
     DAILYSTORY_GET_SUCCESS(200, "일자별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
-    MONTLYSTORY_GET_SUCCESS(200, "월 별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
+    MONTLYSTORY_GET_SUCCESS(200, "월별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
 
     // user, token
     USER_MODIFY_SUCCESS(204,"유저 정보 수정에 성공하였습니다.","SUCCESS"),
