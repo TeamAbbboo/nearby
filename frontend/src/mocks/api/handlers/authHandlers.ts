@@ -53,7 +53,7 @@ export const authHandlers = [
   }),
 
   /* 로그아웃 */
-  http.patch('/users/logout', () => {
+  http.post('/users/logout', () => {
     const success = HttpResponse.json(patchLogoutRes, {
       status: 200,
     });
@@ -61,7 +61,7 @@ export const authHandlers = [
   }),
 
   /* 회원 탈퇴 */
-  http.delete('/users', () => {
+  http.patch('/users/withdrawal', () => {
     const success = HttpResponse.json(deleteUserRes, {
       status: 200,
     });
