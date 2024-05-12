@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.story.controller;
 import static com.abbboo.backend.global.base.SuccessCode.DAILYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.DAYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.MONTLYSTORY_GET_SUCCESS;
+import static com.abbboo.backend.global.base.SuccessCode.REACTION_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
@@ -12,6 +13,7 @@ import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
+import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.base.BaseResponse;
@@ -91,7 +93,7 @@ public class StoryController {
         return ResponseEntity.ok(BaseResponse.of(DAILYSTORY_GET_SUCCESS, dailySavedStory));
     }
 
-    @Operation(summary = "보관된 소식을 캘린더에서 월 별 조회")
+    @Operation(summary = "보관된 소식을 캘린더에서 월별 조회")
     @GetMapping("/monthly")
     public ResponseEntity<BaseResponse> getMonthlyStory(
         @ModelAttribute @ParameterObject @Valid MonthlyStoriesParams monthlyStoriesParams,
@@ -99,5 +101,14 @@ public class StoryController {
 
         List<MonthlyStoryRes> monthlyStoryListRes = storyService.readMonthlyStory(customOAuth2User.getCreatedUserId(), monthlyStoriesParams);
         return ResponseEntity.ok(BaseResponse.of(MONTLYSTORY_GET_SUCCESS, monthlyStoryListRes));
+    }
+
+    @Operation(summary = "소식별 반응 목록 조회")
+    @GetMapping("/{storyId}/reactions")
+    public ResponseEntity<BaseResponse> getReactions(
+        @PathVariable("storyId") Long storyId){
+
+        List<ReactionRes> reactionResList = storyService.readReaction(storyId);
+        return ResponseEntity.ok(BaseResponse.of(REACTION_GET_SUCCESS, reactionResList));
     }
 }
