@@ -1,4 +1,4 @@
-import { IReceivedMessageListRes, ISentMessageListRes } from '@/types/message';
+import { IReceivedMessageItem, IReceivedMessageListRes, ISentMessageListRes } from '@/types/message';
 import { APIResponse } from '@/types/model';
 
 export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
@@ -8,6 +8,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
   data: {
     content: [
       {
+        messageId: 0,
         fromId: 1,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -17,6 +18,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'ANGRY',
       },
       {
+        messageId: 0,
         fromId: 2,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -27,6 +29,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'PASSION',
       },
       {
+        messageId: 0,
         fromId: 3,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -37,6 +40,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 4,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -47,6 +51,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 5,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -57,6 +62,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 6,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -67,6 +73,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 7,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -77,6 +84,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 8,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -87,6 +95,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 9,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -97,6 +106,7 @@ export const receivedMessageListRes: APIResponse<IReceivedMessageListRes> = {
         mood: 'SAD',
       },
       {
+        messageId: 0,
         fromId: 10,
         nickname: '엄마',
         ttsUrl: 'url',
@@ -250,4 +260,21 @@ export const postMessageSendRes: APIResponse<string> = {
   message: '메시지 전송에 성공하였습니다.',
   code: 'SUCCESS',
   data: '',
+};
+
+export const getUnReadMessageRes: APIResponse<IReceivedMessageItem> = {
+  status: 200,
+  message: '받은 메시지 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: {
+    messageId: 0,
+    fromId: 1,
+    nickname: '엄마',
+    ttsUrl: 'url',
+    content:
+      '엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..엄마다..',
+    isRead: true,
+    createdAt: '2024-04-19 12:00:15',
+    mood: 'SAD',
+  },
 };

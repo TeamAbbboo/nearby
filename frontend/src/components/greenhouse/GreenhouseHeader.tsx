@@ -58,7 +58,7 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionSt
       </div>
       {isExpOpen && <ExpHistory />}
       <div className={`w-full flex flex-col items-end pt-5 gap-3 ${isExpOpen ? 'invisible' : 'visible'}`}>
-        <div onClick={() => navigate('/playground')} className="flex flex-col items-center">
+        <div onClick={() => navigate('/splashPlayground')} className="flex flex-col items-center">
           <img src={playground} width={44} />
           <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
             <p className="text-[9px]">광장</p>

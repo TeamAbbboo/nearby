@@ -9,13 +9,13 @@ const refresh = async (error: AxiosError) => {
   if (error.response?.status === 401) {
     localStorage.removeItem('ACCESS_TOKEN');
     window.location.replace('/login');
-    alert('로그아웃!!');
+    alert('로그아웃 되었습니다. 다시 로그인해 주세요.');
   }
 
   // access 토큰이 만료되었을 경우 -> 재발급 요청
   else if (error.response?.status === 403) {
-    const { headers } = await axiosWithCredentialInstance.patch('/users/reissue');
-    localStorage.setItem('ACCESS_TOKEN', headers.authorization.split('Bearer ')[1]);
+    const { headers } = await axiosWithCredentialInstance.post('/users/reissue');
+    localStorage.setItem('ACCESS_TOKEN', headers.authorization);
     return Promise.resolve();
   }
 

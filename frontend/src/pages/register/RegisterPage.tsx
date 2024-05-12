@@ -47,7 +47,7 @@ const RegisterPage = () => {
   /* Solo 또는 Group 버튼 */
   const onClickHandler = (link: string) => {
     // 생일 데이터 유무로 (회원가입 or 등록) 페이지로 이동
-    if (birthday !== '') {
+    if (birthday !== null) {
       navigate('/' + link);
     } else {
       navigate('/signup', {
@@ -61,7 +61,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
+    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col font-NPSfontBold">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

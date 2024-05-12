@@ -15,7 +15,7 @@ const KakaoLogin = () => {
     <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={loginHandler}>
       <div className="flex items-center">
         <img className="absolute pl-10" src={kakao}></img>
-        <div className="w-full bg-white/0 text-center text-lg font-bold">
+        <div className="w-full bg-white/0 pl-5 text-center text-lg font-NPSfontBold">
           <p>카카오로 시작하기</p>
         </div>
       </div>
