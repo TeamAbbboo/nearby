@@ -31,18 +31,18 @@ public class DecorationServiceImpl implements DecorationService{
         User user = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        String expression = req.getDecoration();
+        String item = req.getDecoration();
 
         // 요청한 아이템 정보 가져오기
         log.info("decoration 아이템 찾기");
-        Decoration decoration = decorationRepository.findByExpression(expression);
+        Decoration decoration = decorationRepository.findByItem(item);
         if (decoration == null){
-            throw new NotFoundException(ErrorCode.EXPRESSION_IS_WRONG);
+            throw new NotFoundException(ErrorCode.ITEM_IS_WRONG);
         }
         log.info("decoration 아이템 찾기 성공!");
 
         // 사용자 정보 업데이트
-        user.chageDecoration(expression);
+        user.chageDecoration(decoration.getItem());
         log.info("사용자의 decoration 업데이트 성공");
 
         // 사용자의 꾸미기 내역 추가

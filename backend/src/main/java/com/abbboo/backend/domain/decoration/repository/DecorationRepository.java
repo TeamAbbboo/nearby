@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DecorationRepository extends JpaRepository<Decoration, Integer> {
 
-    Decoration findByExpression(String expression);
+    Decoration findByItem(String expression);
 
 }
