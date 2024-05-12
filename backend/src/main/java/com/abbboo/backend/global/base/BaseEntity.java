@@ -17,16 +17,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BaseEntity {
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(updatable = false)
+    @Column(updatable = false, nullable = false)
     private String createdIp;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
+    @Column(nullable = false)
     private String updatedIp;
 }

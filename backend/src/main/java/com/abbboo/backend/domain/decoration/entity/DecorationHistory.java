@@ -31,11 +31,11 @@ public class DecorationHistory extends BaseEntity { // 펭귄 꾸미기 아이�
 
     // 아이템을 사용한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "decoration_id")
+    @JoinColumn(name = "decoration_id", nullable = false)
     private Decoration decoration;
 
 }
