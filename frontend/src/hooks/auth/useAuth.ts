@@ -9,7 +9,7 @@ import {
   doPatchWithdrawalUserReq,
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
-import { IUserInfoReq } from '@/types/auth';
+import { ISignUpReq } from '@/types/auth';
 
 /* libraries */
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -25,7 +25,7 @@ export const useAuth = () => {
   const usePatchSignup = () => {
     return useMutation({
       mutationKey: ['postSignup'],
-      mutationFn: async ({ nickname, birthday }: IUserInfoReq) => doPatchSignupReq({ nickname, birthday }),
+      mutationFn: async ({ nickname, birthday }: ISignUpReq) => doPatchSignupReq({ nickname, birthday }),
     });
   };
 
