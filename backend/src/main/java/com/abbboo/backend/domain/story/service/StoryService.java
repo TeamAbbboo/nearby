@@ -1,11 +1,10 @@
 package com.abbboo.backend.domain.story.service;
 
-import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
-import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
-import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
-import java.util.List;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
+import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface StoryService {
@@ -20,6 +19,7 @@ public interface StoryService {
 
     DayStoryListRes readDayStory(String kakaoId);
 
-    List<MonthlyStoryRes> readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams);
+    // 월별 소식 조회하기
+    MonthlyStoryList readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams);
 
 }

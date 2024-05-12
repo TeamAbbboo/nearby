@@ -8,6 +8,7 @@ import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.res.DayDTO;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.res.DayStoryRes;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
 import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.querydsl.core.Tuple;
@@ -73,8 +74,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
 
     // 월 별 소식 조회
     @Override
-    public List<MonthlyStoryRes> findMonthlyStories(MonthlyStoriesParams params, int familyId) {
-        // TODO: 페이징 무한스크롤 추후 클라이언트와 협의 후 구현
+    public MonthlyStoryList findMonthlyStories(MonthlyStoriesParams params, int familyId) {
 
         List<Tuple> results = jpaQueryFactory.select(
                 story.createdAt.yearMonth(),
@@ -93,13 +93,21 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
                 Collectors.mapping(tuple -> new DayDTO(tuple.get(1, Integer.class), tuple.get(2, Long.class), tuple.get(3, String.class)), Collectors.toList())
             ));
 
-        // 결과 리스트 생성
-        List<MonthlyStoryRes> result = new ArrayList<>();
+        // 무한스크롤 - 마지막 페이지 여부
+        boolean last = groupedByMonth.size() < params.getSize();
+        log.info("월별 조회 마지막 : {} , {} => {}", groupedByMonth.size(), params.getSize(), last);
+
+        // 월별 조회한 소식 결과 리스트 생성
+        List<MonthlyStoryRes> monthly = new ArrayList<>();
         for (Map.Entry<Integer, List<DayDTO>> entry : groupedByMonth.entrySet()) {
             Integer month = entry.getKey();
             List<DayDTO> monthData = entry.getValue();
-            result.add(new MonthlyStoryRes(month.toString(), monthData));
+            monthly.add(new MonthlyStoryRes(month.toString(), monthData));
         }
+        
+        // 응답 객체에 데이터 넣기
+        MonthlyStoryList result = MonthlyStoryList.builder()
+            .monthlyStoryResList(monthly).last(last).build();
 
         return result;
     }
@@ -117,7 +125,6 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         // param 기준 연도-월 생성
         YearMonth yearMonth = YearMonth.of(year, month);
 
-        // TODO: 추후 paging 무한스크롤 처리로 변경 가능한 부분
         LocalDateTime startDateTime = yearMonth.minusMonths(params.getSize() -1).atDay(1).atStartOfDay();
         LocalDateTime endDateTime = yearMonth.atDay(yearMonth.lengthOfMonth()).atTime(23,59,59);
 
