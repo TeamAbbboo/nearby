@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class dayDto {
+public class DayDTO {
 
     private int day;
     private long storyId;
