@@ -9,8 +9,8 @@ export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
 };
 
 /* 회원 가입 */
-export const doPostSignupReq = async ({ nickname, birthday }: IUserInfoReq): Promise<APIResponse<void>> => {
-  const { data } = await axiosWithCredentialInstance.post('/users/signup', {
+export const doPatchSignupReq = async ({ nickname, birthday }: IUserInfoReq): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.patch('/users/signup', {
     nickname: nickname,
     birthday: birthday,
   });
@@ -40,14 +40,14 @@ export const doPatchModifyReq = async (nickname: string): Promise<APIResponse<vo
 };
 
 /* 로그아웃 */
-export const doPatchLogoutReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosWithCredentialInstance.patch('/users/logout');
+export const doPostLogoutReq = async (): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.post('/users/logout');
   return data;
 };
 
 /* 회원 탈퇴 */
-export const doDeleteUserReq = async (): Promise<APIResponse<void>> => {
-  const { data } = await axiosWithCredentialInstance.delete('/users');
+export const doPatchWithdrawalUserReq = async (): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.patch('/users/withdrawal');
   return data;
 };
 

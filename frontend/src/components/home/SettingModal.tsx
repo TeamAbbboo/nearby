@@ -15,10 +15,10 @@ interface ISettingModalProps {
 const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHandler }: ISettingModalProps) => {
   /* 로그아웃 */
   const { useLogout } = useAuth();
-  const { mutate: doPatchLogoutReq } = useLogout();
+  const { mutate: doPostLogoutReq } = useLogout();
   const onLogoutButton = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      doPatchLogoutReq(undefined, {
+      doPostLogoutReq(undefined, {
         onSuccess: () => {
           localStorage.removeItem('ACCESS_TOKEN');
           window.location.replace('/login');

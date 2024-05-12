@@ -33,8 +33,8 @@ const PenguinModal = () => {
                 <p className="text-xs text-black/50">{familyInfo.birthday}</p>
               </div>
             </div>
-            <div className="w-12 h-12 rounded-full bg-slate-100 border">
-              <img src={send} className="" />
+            <div onClick={() => setIsSendMessageModalOpen(true)} className="w-12 h-12 rounded-full bg-slate-100 border">
+              <img src={send} />
             </div>
           </div>
         </div>

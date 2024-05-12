@@ -3,17 +3,22 @@ import { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import story from '@/assets/icons/story.png';
 import playground from '@/assets/icons/playground.png';
+import { useGreenhouse } from '@/hooks/greenhouse/useGreenhouse';
 
 interface IDandelionState {
   level: number; // 레벨
-  exp: number; // 모은 경험치
-  expMax: number; // 해당 레벨의 경험치 전체 크기
+  currentExp: number; // 모은 경험치
+  maxExp: number; // 해당 레벨의 경험치 전체 크기
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) => {
+const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionState) => {
+  /*레벨업*/
+  const { usePatchLevelUp } = useGreenhouse();
+  const { mutate } = usePatchLevelUp();
+
   const navigate = useNavigate();
-  const progressPercentage = (exp / expMax) * 100 >= 100 ? 100 : (exp / expMax) * 100;
+  const progressPercentage = (currentExp / maxExp) * 100 >= 100 ? 100 : (currentExp / maxExp) * 100;
 
   const goAlbum = () => {
     navigate('/album');
@@ -31,6 +36,7 @@ const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) =>
             <button
               className="hover:bg-gray-100 w-10 h-5 font-semibold text-[10px] bg-white border-[1px] rounded-xl shadow-md"
               onClick={() => {
+                mutate(level);
                 firework();
                 setIsOpen(true);
               }}
@@ -44,7 +50,7 @@ const GreenhouseHeader = ({ level, exp, expMax, setIsOpen }: IDandelionState) =>
         </div>
       </div>
       <div className="w-full flex flex-col items-end pt-5 gap-3">
-        <div onClick={() => navigate('/playground')} className="flex flex-col items-center">
+        <div onClick={() => navigate('/splashPlayground')} className="flex flex-col items-center">
           <img src={playground} width={44} />
           <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
             <p className="text-[9px]">광장</p>
