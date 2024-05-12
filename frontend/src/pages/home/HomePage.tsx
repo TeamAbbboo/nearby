@@ -7,6 +7,7 @@ import { useMessage } from '@/hooks/message/useMessage';
 // import userStore from '@/stores/userStore';
 import messagePenguin from '@/assets/mood/messagePenguin.png';
 import UnReadMessageModal from '@/components/home/UnReadMessageModal';
+import { motion } from 'framer-motion';
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,7 +18,13 @@ const HomePage = () => {
   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="relative w-full h-full">
+    <motion.div
+      className="relative w-full h-full font-NPSfontBold"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <img src={home} className="w-full h-full" />
       <div className="absolute left-0 right-0 bottom-[18%] flex justify-center">
         {unReadMessage?.data === null ? (
@@ -33,7 +40,7 @@ const HomePage = () => {
       {isSendMessageModalOpen && unReadMessage && (
         <UnReadMessageModal unReadMessage={unReadMessage.data!} setIsSendMessageModalOpen={setIsSendMessageModalOpen} />
       )}
-    </div>
+    </motion.div>
   );
 };
 
