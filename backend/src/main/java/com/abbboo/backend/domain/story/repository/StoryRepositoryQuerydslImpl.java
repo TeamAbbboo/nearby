@@ -72,7 +72,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         return new DayStoryListRes(dayStoryResList);
     }
 
-    // 월 별 소식 조회
+    // 월별 소식 조회
     @Override
     public MonthlyStoryList findMonthlyStories(MonthlyStoriesParams params, int familyId) {
 
@@ -156,6 +156,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         ))
             .from(reactionHistory)
             .where(reactionHistory.story.id.eq(dayStoryRes.getStoryId()))    // 각 소식 id
+            .orderBy(reactionHistory.createdAt.desc())
             .fetch();
 
         dayStoryRes.setReactions(reactionRes);

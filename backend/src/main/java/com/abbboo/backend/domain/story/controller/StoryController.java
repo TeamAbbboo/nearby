@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.story.controller;
 import static com.abbboo.backend.global.base.SuccessCode.DAILYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.DAYSTORY_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.MONTLYSTORY_GET_SUCCESS;
+import static com.abbboo.backend.global.base.SuccessCode.REACTION_GET_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
@@ -12,12 +13,14 @@ import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
 import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
+import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.base.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
@@ -98,5 +101,14 @@ public class StoryController {
 
         MonthlyStoryList monthlyStoryListRes = storyService.readMonthlyStory(customOAuth2User.getCreatedUserId(), monthlyStoriesParams);
         return ResponseEntity.ok(BaseResponse.of(MONTLYSTORY_GET_SUCCESS, monthlyStoryListRes));
+    }
+
+    @Operation(summary = "소식별 반응 목록 조회")
+    @GetMapping("/{storyId}/reactions")
+    public ResponseEntity<BaseResponse> getReactions(
+        @PathVariable("storyId") Long storyId){
+
+        List<ReactionRes> reactionResList = storyService.readReaction(storyId);
+        return ResponseEntity.ok(BaseResponse.of(REACTION_GET_SUCCESS, reactionResList));
     }
 }
