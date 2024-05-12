@@ -29,7 +29,7 @@ export interface ISentMessageItem {
   createdAt: string;
 }
 
-interface IInfiniteScrollRes {
+export interface IInfiniteScrollRes {
   content: unknown[];
   pageable: {
     pageNumber: number;
