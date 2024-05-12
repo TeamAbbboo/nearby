@@ -2,17 +2,22 @@ package com.abbboo.backend.domain.family.controller;
 
 import com.abbboo.backend.domain.family.dto.res.FamilyCodeCheckRes;
 import com.abbboo.backend.domain.family.dto.res.FamilyGenerateRes;
+import com.abbboo.backend.domain.family.dto.res.FamilyInfoRes;
 import com.abbboo.backend.domain.family.service.FamilyService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
 import com.abbboo.backend.global.base.BaseResponse;
 import com.abbboo.backend.global.base.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -49,5 +54,18 @@ public class FamilyController {
         log.info("가족 코드 조회 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_CODE_CHECK_SUCCESS,familyCodeCheckRes));
+    }
+
+    @Operation(summary = "모든 가족 구성원의 정보 조회 API")
+    @GetMapping("/info")
+    public ResponseEntity<BaseResponse> getFamiliesInfo(
+        @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+
+        log.info("가족 구성원의 정보 조회 조회 URL 맵핑 : OK");
+
+        log.info("가족 구성원의 정보 조회 : START");
+        List<FamilyInfoRes> familyInfoResList = familyService.readFamilyInfo(customOAuth2User.getCreatedUserId());
+        log.info("가족 구성원의 정보 조회 : COMPLETE");
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.FAMILY_INFO_GET_SUCCESS, familyInfoResList));
     }
 }
