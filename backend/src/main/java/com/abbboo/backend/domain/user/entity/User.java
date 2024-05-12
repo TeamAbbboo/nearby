@@ -46,11 +46,11 @@ public class User extends BaseEntity {  // 사용자
     private Family family;
 
     // 카카오 아이디
-    @Column(name = "kakao_id", unique = true)
+    @Column(name = "kakao_id", unique = true, length = 20)
     private String kakaoId;
 
     // 닉네임
-    @Column(name = "nickname")
+    @Column(name = "nickname", length = 10)
     private String nickname;
 
     // 생일
@@ -58,7 +58,7 @@ public class User extends BaseEntity {  // 사용자
     private LocalDate birthday;
 
     // 펭귄 상태
-    @Column(name = "mood", length = 10)
+    @Column(name = "mood", length = 20)
     @ColumnDefault("NORMAL")
     private String mood;
 
@@ -70,6 +70,10 @@ public class User extends BaseEntity {  // 사용자
     // 리프레시 토큰
     @Column(name = "refresh_token")
     private String refreshToken;
+
+    // fcm 토큰
+    @Column(name = "fcm_token")
+    private String fcmToken;
 
     // 회원 탈퇴 여부
     @Column(name = "is_deleted")
@@ -124,7 +128,11 @@ public class User extends BaseEntity {  // 사용자
         this.isDeleted = true;
     }
 
-    public void chageDecoration(String item) {
+    public void changeDecoration(String item) {
         this.decoration = item;
+    }
+
+    public void changeMood(String expression) {
+        this.mood = expression;
     }
 }
