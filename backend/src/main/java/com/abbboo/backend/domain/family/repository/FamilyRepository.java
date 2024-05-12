@@ -1,11 +1,10 @@
 package com.abbboo.backend.domain.family.repository;
 
 import com.abbboo.backend.domain.family.entity.Family;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.Optional;
 
 
 public interface FamilyRepository extends JpaRepository<Family, Integer> {
