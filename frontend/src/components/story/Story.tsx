@@ -91,15 +91,19 @@ const Story: React.FC<IStoryProps> = isSaved => {
       {isReactHistoryOpen && (
         <ReactHistoryBottomSheet
           setIsOpen={setIsReactHistoryOpen}
-          storyId={selectedStoryId!}
           reactionList={dayStoryList?.data.dayStoryResList[activeImage - 1].reactions}
         />
       )}
       {/* 반응 하기 */}
       {isSendReactOpen && <SendReactModal setIsOpen={setIsSendReactOpen} storyId={selectedStoryId!} />}
       {/* 더보기 */}
-      {isShowMoreOpen && (
-        <ShowMoreBottomSheet isOpen={isShowMoreOpen} setIsOpen={setIsShowMoreOpen} storyId={selectedStoryId!} />
+      {isShowMoreOpen && dayStoryList && (
+        <ShowMoreBottomSheet
+          isOpen={isShowMoreOpen}
+          setIsOpen={setIsShowMoreOpen}
+          storyId={selectedStoryId!}
+          isSaved={dayStoryList.data.dayStoryResList[activeImage - 1].isSaved}
+        />
       )}
 
       {/* 스토리 프로그래스 바 */}
@@ -121,15 +125,17 @@ const Story: React.FC<IStoryProps> = isSaved => {
                 decoration={image.decoration}
               />
               {/* 스토리 하단 메뉴 */}
-              <div className="visible">
-                <StoryBottom
-                  setIsReactHistoryOpen={setIsReactHistoryOpen}
-                  setIsSendReactOpen={setIsSendReactOpen}
-                  setIsShowMoreOpen={setIsShowMoreOpen}
-                  setSelectedStoryId={setSelectedStoryId}
-                  storyId={image.storyId}
-                />
-              </div>
+              {isSaved && (
+                <div>
+                  <StoryBottom
+                    setIsReactHistoryOpen={setIsReactHistoryOpen}
+                    setIsSendReactOpen={setIsSendReactOpen}
+                    setIsShowMoreOpen={setIsShowMoreOpen}
+                    setSelectedStoryId={setSelectedStoryId}
+                    storyId={image.storyId}
+                  />
+                </div>
+              )}
             </>
           )}
           <div

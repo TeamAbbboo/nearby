@@ -29,3 +29,9 @@ export const postStoryRegister = async (req: FormData): Promise<APIResponse<stri
   console.log(data);
   return data;
 };
+
+/* 소식 보관 */
+export const patchKeepStoryReq = async (storyId: number): Promise<APIResponse<void>> => {
+  const { data } = await axiosWithCredentialInstance.patch(`/stories/${storyId}`);
+  return data;
+};
