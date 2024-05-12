@@ -1,4 +1,4 @@
-import { decoType, moodType } from '@/types/model';
+import { moodType } from '@/types/model';
 import angry from '@/assets/mood/angry.gif';
 import cheering from '@/assets/mood/cheering.gif';
 import normal from '@/assets/mood/normal.gif';
@@ -17,12 +17,14 @@ import poop from '@/assets/deco/poop.png';
 import tie from '@/assets/deco/tie.png';
 import mustache from '@/assets/deco/mustache.png';
 
+export type simpleDecoType = 'ALIEN' | 'BEE' | 'GLASSES' | 'HAT' | 'HEARTHAIRBAND' | 'POOP' | 'TIE' | 'MUSTACHE';
+
 type Mood = {
   [key in moodType]: JSX.Element;
 };
 
 type Deco = {
-  [key in decoType]: JSX.Element;
+  [key in simpleDecoType]: JSX.Element;
 };
 
 export const moodInfo: Mood = {
@@ -45,5 +47,4 @@ export const decoInfo: Deco = {
   POOP: <img src={poop} />,
   TIE: <img src={tie} />,
   MUSTACHE: <img src={mustache} />,
-  '': <></>,
 };
