@@ -9,6 +9,7 @@ import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,8 @@ public class MoodServiceImpl implements MoodService{
         log.info("변경 전 사용자의 mood : {}", user.getMood());
 
         // expression으로 mood 찾기
-        Mood mood = moodRepository.findByExpressionAndIsDeletedFalse(req.getMood());
-        if (mood == null){
-            throw new NotFoundException(ErrorCode.ITEM_IS_WRONG);
-        }
+        Mood mood = moodRepository.findByExpressionAndIsDeletedFalse(req.getMood())
+            .orElseThrow(() -> new NotFoundException(ErrorCode.ITEM_IS_WRONG));
 
         // 사용자의 mood 업데이트
         log.info("expression : {} , userId : {}",mood.getExpression(), user.getId());
