@@ -26,7 +26,7 @@ public class Notification extends BaseEntity { // 알림
 
     // 알림 대상
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 알림 제목
@@ -34,7 +34,7 @@ public class Notification extends BaseEntity { // 알림
     private String title;
 
     // 알림 내용
-    @Column(name = "content", length = 300)
+    @Column(name = "content", nullable = false, length = 300)
     private String content;
 
     // 알림 읽음 여부

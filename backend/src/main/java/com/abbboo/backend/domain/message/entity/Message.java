@@ -34,12 +34,12 @@ public class Message extends BaseEntity { // 쪽지
 
     // 수신인
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
 
     // 발신인
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "sender_id", nullable = false)
     private User sender;
 
     // 쪽지 읽음 여부
@@ -48,12 +48,17 @@ public class Message extends BaseEntity { // 쪽지
     private Boolean isRead;
 
     // 쪽지 내용
-    @Column(name = "content", length = 100)
+    @Column(name = "content", length = 100, nullable = false)
     private String content;
 
     // tts 파일 저장 url
-    @Column(name = "tts_url", length = 2000)
+    @Column(name = "tts_url", length = 2000, nullable = false)
     private String ttsUrl;
+
+    // 자동 메시지 여부
+    @Column(name = "is_auto")
+    @ColumnDefault("false")
+    private Boolean isAuto;
 
     public void changeIsRead(){
         this.isRead = true;
