@@ -58,6 +58,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
                 story.frontUrl.as("frontUrl"),
                 story.rearUrl.as("rearUrl"),
                 story.user.mood.as("mood"),
+                story.user.decoration.as("decoration"),
                 story.user.nickname.as("nickname"),
                 story.isSaved.as("isSaved"),
                 story.createdAt.as("createdAt")
@@ -144,6 +145,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         List<ReactionRes> reactionRes = jpaQueryFactory.select(Projections.fields(
             ReactionRes.class,
             reactionHistory.user.mood,
+            reactionHistory.user.decoration,
             reactionHistory.user.nickname,
             reactionHistory.reaction.expression,
             reactionHistory.createdAt
