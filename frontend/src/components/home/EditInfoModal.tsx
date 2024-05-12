@@ -1,6 +1,7 @@
 /* components */
 import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
+import userStore from '@/stores/userStore';
 
 /* libraries */
 import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
@@ -66,6 +67,9 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
           setNickname(nickname);
           setPreNickname(nickname);
           setIsModifiyNickname(false);
+          userStore.setState({
+            nickname: nickname,
+          });
           alert('변경 완료!');
         },
         onError: () => {

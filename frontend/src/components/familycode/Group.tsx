@@ -1,14 +1,23 @@
 /* components */
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
-
+import { useFamily } from '@/hooks/family/useFamily';
 /* libraries */
 import { useEffect, useState } from 'react';
 
 const Group = () => {
-  /* 사용자 정보 가져오기 */
-  const { useEnrollFamilyCode } = useAuth();
-  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
+  /* 가족 코드 조회 */
+  /** 가족 코드가 존재하는데 또 참여하는 것을 방지하는 용도 */
+  const { useGetFamilyCode } = useFamily();
+  const { data, error } = useGetFamilyCode();
+  useEffect(() => {
+    if (data) {
+      if (data.data.familyCode !== null) window.location.replace('/');
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
 
   /* 가족 코드 */
   const [familyCode, setFamilyCode] = useState<string>('');
@@ -18,7 +27,9 @@ const Group = () => {
     setFamilyCode(e.target.value.trim());
   };
 
-  /* Nearby 시작하기 */
+  /* 가족 참여하기 */
+  const { useEnrollFamilyCode } = useAuth();
+  const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
       alert('가족 코드에 공백 또는 빈칸이 존재합니다.');

@@ -66,9 +66,9 @@ const Solo = () => {
     try {
       if (familyCode !== undefined) {
         window.navigator.clipboard.writeText(familyCode);
-        alert('클립보드에 링크가 복사되었습니다.');
+        alert('가족 코드가 복사되었습니다.');
       } else {
-        alert('복사할 링크가 없습니다.');
+        alert('가족 코드가 없습니다. 잠시 후에 이용해주세요.');
       }
     } catch (e) {
       alert('복사에 실패하였습니다');

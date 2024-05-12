@@ -2,19 +2,34 @@
 import './Style.css';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
+import userStore from '@/stores/userStore.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
 
 /* libraries */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const Signup = () => {
-  const location = useLocation();
-
   /* 사용자 정보 가져오기 */
-  const { usePatchSignup } = useAuth();
-  const { mutate: doPatchSignupReq } = usePatchSignup();
+  const { usePostLogin } = useAuth();
+  const { mutate: doPostLoginReq } = usePostLogin();
+
+  useEffect(() => {
+    doPostLoginReq(undefined, {
+      onSuccess: res => {
+        const { nickname, birthday } = res.data;
+
+        if (nickname || birthday) window.location.replace('/');
+      },
+      onError: error => {
+        console.log('KakaoLoginRedirectPage Error : ' + error);
+        window.location.replace('/login');
+      },
+    });
+  }, []);
+
+  const location = useLocation();
 
   /* 닉네임 + 생년월일 */
   const [nickname, setNickname] = useState<string>('');
@@ -63,6 +78,8 @@ const Signup = () => {
   };
 
   /* 회원가입 */
+  const { usePatchSignup } = useAuth();
+  const { mutate: doPatchSignupReq } = usePatchSignup();
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
       alert('닉네임 입력 칸에 빈 문자열 또는 공백이 존재합니다!!');
@@ -70,20 +87,31 @@ const Signup = () => {
     }
 
     if (window.confirm('회원가입을 진행하시겠습니까?')) {
+      // 월과 일이 두 자리라면, 앞에 0 붙이기
+      const formattedMonth = String(month).padStart(2, '0');
+      const formattedDate = String(date).padStart(2, '0');
+
       doPatchSignupReq(
         {
           nickname,
-          birthday: year + 1 + '-' + month + '-' + date,
+          birthday: year + 1905 + '-' + formattedMonth + '-' + formattedDate,
         },
         {
           onSuccess: () => {
-            // userStore.setState({
-            //   nickname: nickname,
-            //   birthday: year + 1 + '-' + month + '-' + date,
-            // });
-            const code = localStorage.getItem('SHARE_FAMILY_CODE');
-            if (code && code.length === 8) window.location.replace('/group');
-            else window.location.replace('/' + location.state.data.selectPenguinOption);
+            userStore.setState({
+              nickname: nickname,
+              birthday: year + 1905 + '-' + formattedMonth + '-' + formattedDate,
+            });
+
+            try {
+              const code = localStorage.getItem('SHARE_FAMILY_CODE');
+              if (code && code.length === 8) window.location.replace('/group');
+              else window.location.replace('/' + location.state.data.selectPenguinOption);
+            } catch (e) {
+              alert('잘못된 접근!!');
+              window.location.replace('/');
+              return;
+            }
 
             alert('회원가입에 성공했습니다.');
           },
