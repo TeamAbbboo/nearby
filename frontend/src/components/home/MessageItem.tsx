@@ -1,16 +1,29 @@
 import { IReceivedMessageItem, ISentMessageItem } from '@/types/message';
 import Penguin from '../@common/Penguin';
+import { useRef, useState } from 'react';
 
 interface IMessageItemProps {
   messageItem: ISentMessageItem | IReceivedMessageItem;
 }
 
 const MessageItem = ({ messageItem }: IMessageItemProps) => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [play, setPlay] = useState<boolean>(false);
   const { content, mood, nickname, createdAt } = messageItem;
   const tts = 'ttsUrl' in messageItem ? messageItem.ttsUrl : ''; // in 연산자를 활용하여 type guard
 
   const playTTSAudio = () => {
-    console.log('tts audio 재생');
+    if (audioRef.current) {
+      if (play) {
+        // 재생중이라면
+        audioRef.current.pause();
+        setPlay(false);
+      } else {
+        // 정지중이라면
+        audioRef.current.play();
+        setPlay(true);
+      }
+    }
   };
 
   return (
@@ -23,13 +36,16 @@ const MessageItem = ({ messageItem }: IMessageItemProps) => {
           <div className="w-full flex justify-between">
             <p>{nickname}</p>
             {tts && (
-              <img
-                onClick={() => playTTSAudio}
-                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Speaker%20High%20Volume.png"
-                alt="Speaker High Volume"
-                width="20"
-                height="20"
-              />
+              <>
+                <audio src={tts} ref={audioRef} />
+                <img
+                  onClick={() => playTTSAudio()}
+                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Speaker%20High%20Volume.png"
+                  alt="Speaker High Volume"
+                  width="20"
+                  height="20"
+                />
+              </>
             )}
           </div>
           <p className="text-xs pt-1 text-UNIMPORTANT">{createdAt}</p>
