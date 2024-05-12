@@ -1,7 +1,7 @@
 import { axiosCommonInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
 
-// 메시지 전송 API
+// 소식 등록 API
 export const postStoryRegister = async (req: FormData): Promise<APIResponse<string>> => {
   const { data } = await axiosCommonInstance.post(`/stories`, req, {
     headers: {
