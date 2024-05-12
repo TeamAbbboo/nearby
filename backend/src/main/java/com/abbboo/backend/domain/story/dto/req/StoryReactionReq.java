@@ -1,4 +1,4 @@
-package com.abbboo.backend.domain.story.dto;
+package com.abbboo.backend.domain.story.dto.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
