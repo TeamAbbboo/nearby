@@ -19,9 +19,9 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
   const [birthday, setBirthday] = useState<string>(''); // 생년월일 (수정 불가)
 
   /* 사용자 정보 가져오기 */
-  const { useGetUserInfo, useModifyNickname, useDeleteUser } = useAuth();
+  const { useGetUserInfo, useModifyNickname, usePatchWithdrawalUser } = useAuth();
   const { mutate: doPatchModifyReq } = useModifyNickname();
-  const { mutate: doDeleteUserReq } = useDeleteUser();
+  const { mutate: doPatchWithdrawalUserReq } = usePatchWithdrawalUser();
 
   /* 유저 정보 조회 */
   const { data, error } = useGetUserInfo();
@@ -39,7 +39,7 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
   /* 회원 탈퇴 */
   const onLeaveButton = () => {
     if (window.confirm('정말 탈퇴하시겠습니까?')) {
-      doDeleteUserReq();
+      doPatchWithdrawalUserReq();
     }
   };
 
