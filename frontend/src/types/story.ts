@@ -8,18 +8,20 @@ export interface IDayStoryListRes {
 export interface IDayStoryItem {
   storyId: number;
   userId: number;
-  url: string;
+  frontUrl: string; //전면카메라 URL
+  rearUrl: string; //후면카메라 URL
   mood: moodType;
   decoration: decoType;
   nickname: string;
   isSaved: boolean;
+  createdAt: string;
   reactions: IReactionItem[];
 }
 
 export interface IReactionItem {
-  userId: number;
   mood: moodType;
   decoration: decoType;
   nickname: string;
   expression: expressionType;
+  createdAt: string;
 }
