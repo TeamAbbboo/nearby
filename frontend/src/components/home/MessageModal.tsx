@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import Modal from '../@common/Modal';
 import MessageItem from './MessageItem';
 import { useMessage } from '@/hooks/message/useMessage';
-import { useIntersectionObserver } from '@/hooks/@common/useIntersecctionObserver';
+import { useIntersectionObserver } from '@/hooks/@common/useIntersectionObserver';
 
 interface IMessageModalProps {
   setIsMessageModalOpen: Dispatch<SetStateAction<boolean>>;
