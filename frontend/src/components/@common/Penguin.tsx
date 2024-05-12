@@ -1,4 +1,4 @@
-import { decoInfo, moodInfo } from '@/constants/penguinState';
+import { decoInfo, moodInfo, simpleDecoType } from '@/constants/penguinState';
 import { decoType, moodType } from '@/types/model';
 
 interface IPenguinProps {
@@ -13,7 +13,11 @@ const Penguin = ({ width, mood, decoration, onClick }: IPenguinProps) => {
     <>
       <div onClick={onClick} className={`${width} relative z-10`}>
         {moodInfo[mood as moodType]}
-        <div className={`${width} absolute top-0 bottom-0 left-0 right-0`}>{decoInfo[decoration as decoType]}</div>
+        {decoration !== 'NORMAL' && (
+          <div className={`${width} absolute top-0 bottom-0 left-0 right-0`}>
+            {decoInfo[decoration as simpleDecoType]}
+          </div>
+        )}
       </div>
     </>
   );

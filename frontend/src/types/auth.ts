@@ -14,4 +14,12 @@ export interface IPostLoginRes {
 export interface IUserInfoReq {
   nickname: string;
   birthday: string;
+  mood: moodType;
+  decoration: decoType;
+}
+
+/* 회원가입 정보 */
+export interface ISignUpReq {
+  nickname: string;
+  birthday: string;
 }
