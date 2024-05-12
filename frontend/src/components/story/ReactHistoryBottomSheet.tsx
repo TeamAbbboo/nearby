@@ -4,14 +4,11 @@ import ReactHistoryItem from './ReactHistoryItem';
 import { IReactionItem } from '@/types/story';
 
 interface IReactHistoryProps {
-  storyId: number;
   reactionList?: IReactionItem[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ReactHistoryBottomSheet = ({ setIsOpen, storyId, reactionList }: IReactHistoryProps) => {
-  console.log('반응 히스토리: storyId', storyId);
-
+const ReactHistoryBottomSheet = ({ setIsOpen, reactionList }: IReactHistoryProps) => {
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="w-full h-80 overflow-auto">
