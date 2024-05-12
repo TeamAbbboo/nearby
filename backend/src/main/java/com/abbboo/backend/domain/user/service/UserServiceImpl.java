@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final CookieUtil cookieUtil;
 
-    // 토큰 시간 정의 (20초, 24일)
-    private final static int ACCESS_TOKEN_SECONDS = 1000*20;
+    // 토큰 시간 정의 (3일, 24일)
+    private final static int ACCESS_TOKEN_SECONDS = 1000*60*60*24*3;
     private final static int REFRESH_TOKEN_SECONDS = 1000*60*60*24*24;
 
     // 유저 정보 조회
@@ -53,6 +53,8 @@ public class UserServiceImpl implements UserService {
         return UserCheckRes.builder()
                 .nickname(user.getNickname())
                 .birthday(user.getBirthday())
+                .mood(user.getMood())
+                .decoration(user.getDecoration())
                 .build();
     }
 

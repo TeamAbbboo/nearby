@@ -12,11 +12,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "mood_history")
 public class MoodHistory extends BaseEntity { // 사용자의 기분 상태 등록 내역
@@ -27,12 +31,12 @@ public class MoodHistory extends BaseEntity { // 사용자의 기분 상태 등�
 
     // 상태를 등록한 사용자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     // 등록한 감정
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mood_id")
+    @JoinColumn(name = "mood_id", nullable = false)
     private Mood mood;
 
 }

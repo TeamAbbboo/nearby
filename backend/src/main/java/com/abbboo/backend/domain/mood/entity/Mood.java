@@ -23,7 +23,7 @@ public class Mood extends BaseEntity { // 기분 상태
     private Integer id;
 
     // 기분 상태 정보
-    @Column(name = "expression", length = 10)
+    @Column(name = "expression", length = 20, nullable = false)
     private String expression;
 
     // 삭제 여부

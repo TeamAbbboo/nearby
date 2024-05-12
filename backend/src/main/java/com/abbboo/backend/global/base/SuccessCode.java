@@ -11,6 +11,7 @@ public enum SuccessCode {
     STORY_UPLOAD_SUCCESS(201, "소식 업로드에 성공하였습니다.", "SUCCESS"),
     STORY_SAVE_SUCCESS(204, "소식 보관에 성공하였습니다.", "SUCCESS"),
     REACTION_REGIST_SUCCESS(201, "반응을 성공적으로 등록했습니다.", "SUCCESS"),
+    REACTION_GET_SUCCESS(201, "반응을 성공적으로 등록했습니다.", "SUCCESS"),
     DAYSTORY_GET_SUCCESS(200, "24시간 이내 소식 조회에 성공하였습니다.", "SUCCESS"),
     DAILYSTORY_GET_SUCCESS(200, "일자별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
     MONTLYSTORY_GET_SUCCESS(200, "월별 보관된 소식 조회에 성공하였습니다.", "SUCCESS"),
@@ -29,6 +30,7 @@ public enum SuccessCode {
     // family
     FAMILY_CREATE_SUCCESS(201,"가족 코드 생성에 성공하였습니다.","SUCCESS"),
     FAMILY_CODE_CHECK_SUCCESS(200,"가족 코드 조회에 성공하였습니다.","SUCCESS"),
+    FAMILY_INFO_GET_SUCCESS(200,"가족 정보 조회에 성공하였습니다.","SUCCESS"),
 
     // exp
     EXPHISTORY_GET_SUCCESS(200,"경험치 조회에 성공하였습니다.","SUCCESS"),
