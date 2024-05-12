@@ -18,3 +18,14 @@ export const postStoryExpressionReq = async ({
   const { data } = await axiosWithCredentialInstance.post(`stories/${storyId}/reactions`, { expression: expression });
   return data;
 };
+
+// 소식 등록 API
+export const postStoryRegister = async (req: FormData): Promise<APIResponse<string>> => {
+  const { data } = await axiosWithCredentialInstance.post(`/stories`, req, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  console.log(data);
+  return data;
+};
