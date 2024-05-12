@@ -14,6 +14,5 @@ public class MonthlyStoriesParams {
     private Integer year;    // 년도
     @Pattern(regexp = "^(0[1-9]|1[0-2])$", message = "월은 MM 형식이어야 합니다.")
     private Integer month;   // 월
-    private Integer page;   // 현재 페이지
     private Integer size;   // 페이지 별 조회할 데이터 개수
 }
