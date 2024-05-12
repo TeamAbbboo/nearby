@@ -4,9 +4,11 @@ import BottomSheet from '../@common/BottomSheet';
 interface IShowMoreProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  storyId: number;
 }
 
-const ShowMoreBottomSheet = ({ isOpen, setIsOpen }: IShowMoreProps) => {
+const ShowMoreBottomSheet = ({ isOpen, setIsOpen, storyId }: IShowMoreProps) => {
+  console.log('더보기 storyId:', storyId);
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="flex flex-col gap-5 py-6 text-center items-center">
