@@ -18,8 +18,11 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -121,7 +124,7 @@ public class User extends BaseEntity {  // 사용자
         this.isDeleted = true;
     }
 
-    public void chageDecoration(String expression) {
-        this.decoration = expression;
+    public void chageDecoration(String item) {
+        this.decoration = item;
     }
 }
