@@ -75,6 +75,7 @@ public class MessageController {
     public ResponseEntity<BaseResponse> getUnreadMessage(
         @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
 
+        log.info("안 읽은 메시지 중 가장 최근 메시지 조회 시작");
         ReceivedMessageRes unreadMessageRes = messageService.findUnreadMessage(
             customOAuth2User.getCreatedUserId());
         log.info("안 읽은 메시지 중 가장 최근 메시지 조회 성공!!");
