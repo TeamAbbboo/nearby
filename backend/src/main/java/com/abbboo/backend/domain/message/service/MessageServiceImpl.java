@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.message.service;
 
+import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.message.dto.req.SendMessageReq;
 import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
@@ -13,7 +14,9 @@ import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.util.ClovaUtil;
 import com.abbboo.backend.global.util.S3Util;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +34,7 @@ public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final FamilyRepository familyRepository;
     private final ClovaUtil clovaUtil;
     private final S3Util s3Util;
 
@@ -78,13 +82,14 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public Slice<SentMessageRes> findSentMessage(String kakaoId, PagenationReq req) {
 
+        log.info("가족에게 보낸 메시지 조회 시작");
         // sender 조건에 들어갈 사용자 정보
         User sender = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-
         log.info("보낸 사람 정보 조회 성공: id - {}", sender.getId());
+
         int userId = sender.getId();
-        int familyId = sender.getFamily().getId();
+        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
         // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC,"createdAt"));
@@ -97,13 +102,14 @@ public class MessageServiceImpl implements MessageService{
     @Transactional
     public Slice<ReceivedMessageRes> findReceivedMessage(String kakaoId, PagenationReq req) {
 
+        log.info("가족에게 받은 메시지 조회 시작");
         // receiver 조건에 들어갈 사용자 정보
         User receiver = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-
         log.info("받은 사람 정보 조회 성공: id - {}", receiver.getId());
+        
         int userId = receiver.getId();
-        int familyId = receiver.getFamily().getId();
+        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
         // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC, "createdAt"));
@@ -142,12 +148,8 @@ public class MessageServiceImpl implements MessageService{
 
         log.info("사용자 정보 조회 성공: id - {}", receiver.getId());
         int userId = receiver.getId();
-        Integer familyId = receiver.getFamily().getId();
+        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
-        // 가족이 없는 경우
-        if (familyId == null){
-            return null;
-        }
         return messageRepository.findUnreadMessage(userId, familyId);
     }
 
