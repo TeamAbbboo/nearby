@@ -18,6 +18,7 @@ import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import ViewStoryPage from './pages/story/ViewStoryPage';
 
 const router = createBrowserRouter([
   {
@@ -109,6 +110,14 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <RegisterStoryPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/stories',
+    element: (
+      <PrivateRoute>
+        <ViewStoryPage />
       </PrivateRoute>
     ),
   },
