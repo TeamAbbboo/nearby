@@ -191,7 +191,8 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
     private BooleanExpression twentyfourHoursCondition(int familyId){
 
         LocalDateTime dayAgo = LocalDateTime.now().minusHours(24);
-        return (story.user.family.id.eq(familyId)).and(story.createdAt.after(dayAgo));
+        return (story.user.family.id.eq(familyId))
+            .and(story.createdAt.after(dayAgo)).and(story.isSaved.eq(true));
     }
 
     // 동등 조건 : 생성일자가 요청된 일자(YYYY-MM-dd)와 일치하는 조건 생성
@@ -199,6 +200,6 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         YearMonth yearMonth = YearMonth.of(params.getYear(), params.getMonth());
         LocalDate requestDay = yearMonth.atDay(params.getDay());
         return (Expressions.dateTemplate(LocalDate.class, "DATE({0})", story.createdAt)
-            .eq(requestDay)).and(story.user.family.id.eq(familyId));
+            .eq(requestDay)).and(story.user.family.id.eq(familyId)).and(story.isSaved.eq(true));
     }
 }
