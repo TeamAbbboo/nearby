@@ -12,9 +12,17 @@ interface IDandelionState {
   maxExp: number; // 해당 레벨의 경험치 전체 크기
   startDate: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsDandelionVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const GreenhouseHeader = ({ level, currentExp, maxExp, startDate, setIsOpen }: IDandelionState) => {
+const GreenhouseHeader = ({
+  level,
+  currentExp,
+  maxExp,
+  startDate,
+  setIsOpen,
+  setIsDandelionVisible,
+}: IDandelionState) => {
   console.log(startDate);
   /*레벨업*/
   const { usePatchLevelUp } = useGreenhouse();
@@ -34,12 +42,18 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, startDate, setIsOpen }: I
     <div className="p-5">
       <div
         className="w-full h-24 bg-white rounded-3xl shadow-xl flex flex-col justify-center gap-2 px-5"
-        onClick={() => setIsExpOpen(!isExpOpen)}
+        onClick={() => {
+          setIsExpOpen(!isExpOpen);
+          setIsDandelionVisible(isExpOpen);
+        }}
       >
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <p className="font-semibold text-lg ">모은 아띠</p>
             <p className="font-normal text-xs pt-1">단계 {level}</p>
+            <p className="text-xs pt-1 text-UNIMPORTANT">
+              ({currentExp} / {maxExp})
+            </p>
           </div>
           <div className={`${progressPercentage >= 100 ? 'visible' : 'invisible'}`}>
             <button

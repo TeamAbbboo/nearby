@@ -12,7 +12,7 @@ const ExpHistory = () => {
   });
 
   return (
-    <div className="flex flex-col p-5 w-full h-48 bg-white rounded-3xl shadow-xl overflow-y-auto">
+    <div className="relative flex flex-col p-5 w-full h-[500px] bg-white rounded-3xl shadow-xl overflow-y-auto">
       {expHistoryList?.pages.map(
         item =>
           item.data.histories.content &&
