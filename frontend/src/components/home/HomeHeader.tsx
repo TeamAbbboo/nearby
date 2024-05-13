@@ -56,10 +56,10 @@ const HomeHeader = () => {
         </div>
         {/* 오른쪽 네비바 */}
         <div className="flex flex-col gap-3">
-          <div onClick={() => navigate('/splashPlayground')} className="flex flex-col items-center">
+          <div onClick={() => navigate('/')} className="flex flex-col items-center">
             <img src={playground} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
-              <p className="text-[9px]">광장</p>
+              <p className="text-[9px]">우리집</p>
             </div>
           </div>
           <div onClick={() => setIsMessageModalOpen(true)} className="flex flex-col items-center">
