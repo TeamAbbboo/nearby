@@ -13,11 +13,12 @@ import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 import SplashHomePage from '@/pages/splash/SplashHomePage';
 import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
-
 import PrivateRoute from '@/pages/private/PrivateRoute ';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -114,7 +115,12 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
