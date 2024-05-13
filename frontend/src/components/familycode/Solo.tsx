@@ -2,6 +2,7 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import hold_on_letter from '@/assets/hold_on_letter.png';
 import { useFamily } from '@/hooks/family/useFamily';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { useEffect, useState } from 'react';
@@ -44,11 +45,11 @@ const Solo = () => {
         onSuccess: ({ data }) => {
           setFamilyCode(data.familyCode);
           setInputVisible(true);
-          alert('가족코드 생성이 성공하였습니다.');
+          Toast.success('가족코드 생성 성공');
         },
         onError: () => {
           setInputVisible(false);
-          alert('가족코드 생성이 실패했습니다.');
+          Toast.error('가족코드 생성 실패');
         },
       });
     }
@@ -66,12 +67,12 @@ const Solo = () => {
     try {
       if (familyCode !== undefined) {
         window.navigator.clipboard.writeText(familyCode);
-        alert('가족 코드가 복사되었습니다.');
+        Toast.success('복사 성공');
       } else {
-        alert('가족 코드가 없습니다. 잠시 후에 이용해주세요.');
+        Toast.error('복사 실패');
       }
     } catch (e) {
-      alert('복사에 실패하였습니다');
+      Toast.error('복사 실패');
     }
   };
 
@@ -100,7 +101,7 @@ const Solo = () => {
         ],
       });
     } else {
-      alert('가족코드 없습니다. 잠시 후 다시 이용해주세요.');
+      Toast.error('가족코드 없음');
     }
   };
 

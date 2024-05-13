@@ -10,6 +10,7 @@ import {
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
 import { ISignUpReq } from '@/types/auth';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -70,12 +71,13 @@ export const useAuth = () => {
       mutationKey: ['deleteUser'],
       mutationFn: async () => doPatchWithdrawalUserReq(),
       onSuccess: () => {
-        localStorage.setItem('user-store', '');
+        localStorage.removeItem('user-store');
+        localStorage.removeItem('ACCESS_TOKEN');
         window.location.replace('/login');
-        alert('회원 탈퇴에 성공했습니다.');
+        Toast.success('회원 탈퇴 성공');
       },
       onError: () => {
-        alert('회원 탈퇴 실패했습니다.');
+        Toast.error('회원 탈퇴 실패');
       },
     });
   };
