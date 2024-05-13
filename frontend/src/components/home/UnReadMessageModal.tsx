@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import Modal from '../@common/Modal';
 import Penguin from '../@common/Penguin';
 import { IReceivedMessageItem } from '@/types/message';
@@ -13,16 +13,35 @@ const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnRea
   const { usePatchUnreadMessage } = useMessage();
   const { mutate } = usePatchUnreadMessage();
 
-  useEffect(() => {
-    mutate(unReadMessage.messageId); // 페이지 진입시 읽음 처리
-  }, []);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [play, setPlay] = useState<boolean>(false);
 
   const playTTSAudio = () => {
-    console.log('play tts video');
+    if (audioRef.current) {
+      if (play) {
+        // 재생중이라면
+        audioRef.current.pause();
+        setPlay(false);
+      } else {
+        // 정지중이라면
+        audioRef.current.play();
+        setPlay(true);
+      }
+    }
   };
 
+  useEffect(() => {
+    console.log(unReadMessage);
+  }, [unReadMessage]);
+
   return (
-    <Modal onClose={() => setIsSendMessageModalOpen(false)} width="w-4/5">
+    <Modal
+      onClose={() => {
+        setIsSendMessageModalOpen(false);
+        mutate(unReadMessage.messageId);
+      }}
+      width="w-4/5"
+    >
       <>
         <div className="absolute top-0 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-SUB2 rounded-full z-10 shadow-lg">
           <Penguin mood={unReadMessage.mood} />
@@ -30,13 +49,16 @@ const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnRea
         <div className="w-full bg-white rounded-2xl p-5 pt-16 ">
           <div className="absolute right-5 top-5">
             {unReadMessage.ttsUrl && (
-              <img
-                onClick={() => playTTSAudio}
-                src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Speaker%20High%20Volume.png"
-                alt="Speaker High Volume"
-                width="24"
-                height="24s"
-              />
+              <>
+                <audio src={unReadMessage.ttsUrl} ref={audioRef} />
+                <img
+                  onClick={() => playTTSAudio()}
+                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Speaker%20High%20Volume.png"
+                  alt="Speaker High Volume"
+                  width="20"
+                  height="20"
+                />
+              </>
             )}
           </div>
           <div className="bg-SUB2 w-full h-44 rounded-xl p-5">
@@ -47,7 +69,10 @@ const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnRea
         </div>
         <div className="flex justify-center mt-3">
           <div
-            onClick={() => setIsSendMessageModalOpen(false)}
+            onClick={() => {
+              setIsSendMessageModalOpen(false);
+              mutate(unReadMessage.messageId);
+            }}
             className="w-12 h-12 bg-white rounded-full flex justify-center items-center"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000000" viewBox="0 0 256 256">
