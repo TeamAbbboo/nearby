@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { getCurrentLevelReq, getExpHistoryListRes, patchLevelUpReq } from '../data/greenhouse';
+import { getCurrentLevelReq, getExpHistoryListRes, patchLevelUpReq, getMonthlyStoryListRes } from '../data/greenhouse';
 
 export const greenhouseHandlers = [
   http.get('/exp/level', () => {
@@ -17,6 +17,12 @@ export const greenhouseHandlers = [
 
   http.get('/exp', () => {
     return HttpResponse.json(getExpHistoryListRes, {
+      status: 200,
+    });
+  }),
+
+  http.get('/stories/monthly?year=2024&month=5&size=1', () => {
+    return HttpResponse.json(getMonthlyStoryListRes, {
       status: 200,
     });
   }),
