@@ -13,16 +13,13 @@ const defaultToastOption: ToastOptions = {
 
 const Toast = {
   info: (message: ReactNode, options: ToastOptions = {}) => {
-    toast.info(message, { ...defaultToastOption, icon: true, ...options });
+    toast.info(message, { ...defaultToastOption, icon: false, ...options });
   },
   success: (message: ReactNode, options: ToastOptions = {}) => {
-    toast.success(message, { ...defaultToastOption, icon: true, ...options });
+    toast.success(message, { ...defaultToastOption, icon: false, ...options });
   },
   error: (message: ReactNode, options: ToastOptions = {}) => {
-    toast.error(message, { ...defaultToastOption, icon: true, ...options });
-  },
-  default: (message: ReactNode, options: ToastOptions = {}) => {
-    toast.default(message, { ...defaultToastOption, icon: true, ...options });
+    toast.error(message, { ...defaultToastOption, icon: false, ...options });
   },
 };
 
