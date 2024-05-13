@@ -10,7 +10,9 @@ import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.AlreadyExistException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -82,8 +84,21 @@ public class FamilyServiceImpl implements FamilyService {
     public List<FamilyInfoRes> readFamilyInfo(String kakaoId) {
 
         // 가족 id 조회
-        int familyId = familyRepository.findByKakaoId(kakaoId)
-            .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
+
+        // 가족이 없는 경우 본인 정보만 조회
+        if (familyId.isEmpty()){
+            User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+            FamilyInfoRes res = FamilyInfoRes.builder()
+                .birthday(user.getBirthday()).userId(user.getId()).mood(user.getMood())
+                .nickname(user.getNickname()).decoration(user.getDecoration())
+                .build();
+            List<FamilyInfoRes> result = new ArrayList<>();
+            result.add(res);
+            return result;
+        }
 
         // 가족 정보 조회
         return userRepository.findByFamilyId(familyId);
