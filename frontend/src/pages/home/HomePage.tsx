@@ -1,23 +1,27 @@
 import Penguin from '@/components/@common/Penguin';
 import HomeHeader from '@/components/home/HomeHeader';
 import PenguinDecoBottomSheet from '@/components/home/PenguinBottomSheet';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import home from '@/assets/background_home.png';
 import { useMessage } from '@/hooks/message/useMessage';
 import messagePenguin from '@/assets/mood/messagePenguin.png';
 import UnReadMessageModal from '@/components/home/UnReadMessageModal';
 import { motion } from 'framer-motion';
-import userStore from '@/stores/userStore';
 import { useAuth } from '@/hooks/auth/useAuth';
+import userStore from '@/stores/userStore';
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { useGetUnreadMessage } = useMessage();
-  const { data: unReadMessage } = useGetUnreadMessage();
-  const { mood, decoration } = userStore();
   const { useGetUserInfo } = useAuth();
+  const { data: unReadMessage } = useGetUnreadMessage();
+  const { data: userInfo, isSuccess } = useGetUserInfo();
   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
-  useGetUserInfo();
+  const { loginUser } = userStore();
+
+  useEffect(() => {
+    isSuccess && loginUser(userInfo.data);
+  }, [isSuccess]);
 
   return (
     <motion.div
@@ -29,8 +33,13 @@ const HomePage = () => {
     >
       <img src={home} className="w-full h-full" />
       <div className="absolute left-0 right-0 bottom-[18%] flex justify-center">
-        {unReadMessage?.data === null ? (
-          <Penguin mood={mood} decoration={decoration} width="w-[17rem]" onClick={() => setIsOpen(true)} />
+        {userInfo && unReadMessage?.data === null ? (
+          <Penguin
+            mood={userInfo.data.mood}
+            decoration={userInfo.data.decoration}
+            width="w-[17rem]"
+            onClick={() => setIsOpen(true)}
+          />
         ) : (
           <div
             onClick={() => {
