@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import BottomSheet from '../@common/BottomSheet';
-import { decoInfo, moodInfo } from '@/constants/penguinState';
+import { decoInfo, moodInfo, simpleDecoType } from '@/constants/penguinState';
 import { decoType, moodType } from '@/types/model';
 import { getMoodMeaning } from '@/utils/getMoodMeaning';
 import { getDecoMeaning } from '@/utils/getDecoMeaning';
+import { usePenguin } from '@/hooks/my/usePenguin';
+import userStore from '@/stores/userStore';
 
 interface IPenguinDecoProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -11,7 +13,10 @@ interface IPenguinDecoProps {
 
 const PenguinBottomSheet = ({ setIsOpen }: IPenguinDecoProps) => {
   const [tab, setTab] = useState<'mood' | 'deco'>('mood');
-
+  const { usePatchPenguinMood, usePatchPenguinDecoration } = usePenguin();
+  const { mutate: patchDecoration } = usePatchPenguinDecoration();
+  const { mutate: patchMood } = usePatchPenguinMood();
+  const { mood, decoration } = userStore();
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="px-5 pb-10">
@@ -35,8 +40,20 @@ const PenguinBottomSheet = ({ setIsOpen }: IPenguinDecoProps) => {
           <div className="grid grid-cols-4 pt-3">
             {Object.keys(moodInfo).map((value, idx) => {
               return (
-                <div key={idx} className="flex flex-col items-center text-xs">
-                  {moodInfo[value as moodType]}
+                <div key={idx} className="text-center text-xs">
+                  <div
+                    onClick={() => {
+                      patchMood(value as moodType);
+                      setIsOpen(false);
+                    }}
+                    className="relative"
+                  >
+                    {moodInfo[value as moodType]}
+                    <div className={`absolute top-0 bottom-0 left-0 right-0 `}>{decoInfo[value as simpleDecoType]}</div>
+                    {value === mood && (
+                      <div className="absolute top-0 bottom-0 left-0 right-0 rounded-full bg-SUB2 -z-10"></div>
+                    )}
+                  </div>
                   <p>{getMoodMeaning(value as moodType)}</p>
                 </div>
               );
@@ -44,17 +61,26 @@ const PenguinBottomSheet = ({ setIsOpen }: IPenguinDecoProps) => {
           </div>
         ) : (
           <div className="grid grid-cols-4 pt-3">
-            {Object.keys(decoInfo)
-              .filter(value => value !== '')
-              .map((value, idx) => {
-                return (
-                  <div key={idx} className="relative flex flex-col items-center text-xs">
+            {Object.keys(decoInfo).map((value, idx) => {
+              return (
+                <div key={idx} className="text-center text-xs">
+                  <div
+                    onClick={() => {
+                      value === decoration ? patchDecoration('NORMAL') : patchDecoration(value as decoType);
+                      setIsOpen(false);
+                    }}
+                    className="relative"
+                  >
                     {moodInfo.NORMAL}
-                    <div className={`absolute top-0 bottom-0 left-0 right-0`}>{decoInfo[value as decoType]}</div>
-                    <p>{getDecoMeaning(value as decoType)}</p>
+                    <div className={`absolute top-0 bottom-0 left-0 right-0 `}>{decoInfo[value as simpleDecoType]}</div>
+                    {value === decoration && (
+                      <div className="absolute top-0 bottom-0 left-0 right-0 rounded-full bg-SUB2 -z-10"></div>
+                    )}
                   </div>
-                );
-              })}
+                  <p>{getDecoMeaning(value as simpleDecoType)}</p>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

@@ -1,8 +1,12 @@
+import { useStory } from '@/hooks/story/useStory';
+import { dataURLtoFile } from '@/utils/dataURLtoFile';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const RegisterStoryPage = () => {
   const navigate = useNavigate();
+  const { usePostStoryRegister } = useStory();
+  const { mutate: postStory } = usePostStoryRegister();
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,7 +31,7 @@ const RegisterStoryPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [facingMode]);
 
   const captureImage = () => {
     const videoElement = videoRef.current;
@@ -61,6 +65,7 @@ const RegisterStoryPage = () => {
   };
 
   const toggleFacingMode = () => {
+    console.log(facingMode);
     setFacingMode(facingMode === 'user' ? 'environment' : 'user');
   };
 
@@ -84,8 +89,17 @@ const RegisterStoryPage = () => {
     }
   };
 
+  const handleRegisterClick = () => {
+    const formData = new FormData();
+
+    formData.append('front', dataURLtoFile(frontImage));
+    formData.append('rear', dataURLtoFile(backImage));
+
+    postStory(formData);
+    navigate('/home');
+  };
+
   useEffect(() => {
-    console.log(stream);
     // 아직 media stream이 설정되지 않았다면 호출
     if (!stream) {
       getMediaPermission();
@@ -103,7 +117,7 @@ const RegisterStoryPage = () => {
     <>
       <canvas ref={canvasRef} className="hidden" />
 
-      <div className={`relative w-full h-screen ${captured && 'animate-captureEnter'}`}>
+      <div className={`relative w-full h-full ${captured && 'animate-captureEnter'}`}>
         <div className="absolute left-0 right-0 bottom-0 top-0 w-full h-full">
           {backImage && <img src={backImage} className="w-full h-full object-cover" />}
         </div>
@@ -142,7 +156,10 @@ const RegisterStoryPage = () => {
               </svg>
             </div>
             {backImage && (
-              <div className="w-12 h-12 bg-black/60 rounded-full flex justify-center items-center m-3 z-10">
+              <div
+                onClick={() => handleRegisterClick()}
+                className="w-12 h-12 bg-black/60 rounded-full flex justify-center items-center m-3 z-10"
+              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
                   <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
                 </svg>
@@ -150,20 +167,16 @@ const RegisterStoryPage = () => {
             )}
           </div>
         </div>
-        {/* playsInline muted */}
-        {/* {stream ? ( */}
-        <video ref={videoRef} className="w-full h-full object-cover" autoPlay />
-        {/* ) : ( */}
-        {/* <div className="w-full h-full bg-black"></div> */}
-        {/* )} */}
+        {!stream && <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-full bg-black"></div>}
 
+        <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
         {/* 캡쳐버튼 */}
         {frontImage && backImage ? (
           <></>
         ) : (
           <div onClick={() => captureImage()} className="absolute left-1/2 -translate-x-1/2 bottom-5">
-            <div className="w-[72px] h-[72px] border-[3px] border-white rounded-full flex justify-center items-center">
-              <div className="w-[60px] h-[60px] bg-white rounded-full"></div>
+            <div className="w-[60px] h-[60px] border-[5px] border-white rounded-full flex justify-center items-center">
+              <div className="w-[50px] h-[50px] bg-[#e34077] rounded-full"></div>
             </div>
           </div>
         )}

@@ -7,4 +7,6 @@ export interface APIResponse<T> {
 
 export type moodType = 'NORMAL' | 'ANGRY' | 'CHEERUP' | 'TIRED' | 'WORRY' | 'SAD' | 'THINK' | 'PASSION';
 
-export type decoType = '' | 'ALIEN' | 'BEE' | 'GLASSES' | 'HAT' | 'HEARTHAIRBAND' | 'POOP' | 'TIE' | 'MUSTACHE';
+export type decoType = 'NORMAL' | 'ALIEN' | 'BEE' | 'GLASSES' | 'HAT' | 'HEARTHAIRBAND' | 'POOP' | 'TIE' | 'MUSTACHE';
+
+export type expressionType = 'LOL' | 'SAD' | 'OOPS' | 'COOL' | 'LOVE' | 'PRETTY' | 'GOOD' | 'BEST';

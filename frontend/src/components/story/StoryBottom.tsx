@@ -4,26 +4,39 @@ interface IStoryBottomProps {
   setIsReactHistoryOpen: Dispatch<SetStateAction<boolean>>;
   setIsSendReactOpen: Dispatch<SetStateAction<boolean>>;
   setIsShowMoreOpen: Dispatch<SetStateAction<boolean>>;
+  setSelectedStoryId: Dispatch<SetStateAction<number>>;
+  storyId: number;
 }
 
-const StoryBottom = ({ setIsReactHistoryOpen, setIsSendReactOpen, setIsShowMoreOpen }: IStoryBottomProps) => {
+const StoryBottom = ({
+  setIsReactHistoryOpen,
+  setIsSendReactOpen,
+  setIsShowMoreOpen,
+  setSelectedStoryId,
+  storyId,
+}: IStoryBottomProps) => {
+  console.log('storyId', storyId);
+
   const showReactHistory = () => {
-    console.log('반응 기록 보기');
+    console.log('반응 기록 보기', storyId);
     setIsReactHistoryOpen(true);
+    setSelectedStoryId(storyId);
   };
 
   const sendReact = () => {
-    console.log('반응하기');
+    console.log('반응하기', storyId);
     setIsSendReactOpen(true);
+    setSelectedStoryId(storyId);
   };
 
   const showMore = () => {
-    console.log('더보기');
+    console.log('더보기', storyId);
     setIsShowMoreOpen(true);
+    setSelectedStoryId(storyId);
   };
 
   return (
-    <div className="text-white fixed bottom-0 w-full h-fit flex flex-row justify-between p-5 text-xs bg-gradient-to-t from-black/40">
+    <div className="text-white fixed bottom-0 w-full h-fit flex flex-row justify-between p-5 text-xs bg-gradient-to-t from-black/40 z-10">
       <div className="flex flex-row gap-4">
         <div className="grid justify-items-center" onClick={showReactHistory}>
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
