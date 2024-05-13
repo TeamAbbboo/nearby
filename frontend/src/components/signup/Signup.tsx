@@ -4,6 +4,7 @@ import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
 import userStore from '@/stores/userStore.tsx';
 import { useAuth } from '@/hooks/auth/useAuth';
+import Toast from '@/components/@common/Toast/Toast.tsx';
 
 /* libraries */
 import { useState, useEffect } from 'react';
@@ -82,7 +83,7 @@ const Signup = () => {
   const { mutate: doPatchSignupReq } = usePatchSignup();
   const startAtti = () => {
     if (nickname === '' || nickname.includes(' ')) {
-      alert('닉네임 입력 칸에 빈 문자열 또는 공백이 존재합니다!!');
+      Toast.error('닉네임 입력 칸에 공백 존재');
       return;
     }
 
@@ -108,15 +109,15 @@ const Signup = () => {
               if (code && code.length === 8) window.location.replace('/group');
               else window.location.replace('/' + location.state.data.selectPenguinOption);
             } catch (e) {
-              alert('잘못된 접근!!');
+              Toast.error('잘못된 접근');
               window.location.replace('/');
               return;
             }
 
-            alert('회원가입에 성공했습니다.');
+            Toast.success('회원가입 성공');
           },
           onError: () => {
-            alert('회원가입에 실패했습니다. 잠시 후에 이용해주세요.');
+            Toast.error('회원가입 실패');
           },
         },
       );
