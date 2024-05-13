@@ -49,7 +49,7 @@ const GreenhouseHeader = ({
       >
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <p className="font-semibold text-lg ">모은 아띠</p>
+            <p className="font-semibold text-lg ">가까움</p>
             <p className="font-normal text-xs pt-1">단계 {level}</p>
             <p className="text-xs pt-1 text-UNIMPORTANT">
               ({currentExp} / {maxExp})

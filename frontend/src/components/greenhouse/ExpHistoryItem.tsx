@@ -23,7 +23,7 @@ const ExpHistoryItem = ({ expHistoryItem }: IExpHistoryProp) => {
         <div className="flex flex-col gap-1">
           <p className="text-sm">{expHistoryItem.nickname} 펭귄</p>
           <p className="text-black text-xs">{expHistoryItem.content}</p>
-          <p className="text-xs text-gray-400">level {expHistoryItem.level}</p>
+          <p className="text-xs text-gray-400">단계 {expHistoryItem.level}</p>
         </div>
       </div>
     </div>
