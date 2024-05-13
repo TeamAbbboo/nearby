@@ -1,19 +1,22 @@
 import { Dispatch, SetStateAction } from 'react';
 import BottomSheet from '@/components/@common/BottomSheet';
 import ReactHistoryItem from './ReactHistoryItem';
-import { IReactionItem } from '@/types/story';
+import { useStory } from '@/hooks/story/useStory';
 
 interface IReactHistoryProps {
-  reactionList?: IReactionItem[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  storyId: number;
 }
 
-const ReactHistoryBottomSheet = ({ setIsOpen, reactionList }: IReactHistoryProps) => {
+const ReactHistoryBottomSheet = ({ setIsOpen, storyId }: IReactHistoryProps) => {
+  const { useGetStoryExpression } = useStory();
+  const { data: reactionList } = useGetStoryExpression(storyId);
+
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
       <div className="w-full h-80 overflow-auto">
-        {reactionList && reactionList.length > 0 ? (
-          reactionList.map((value, index) => <ReactHistoryItem key={index} reactionItem={value} />)
+        {reactionList?.data && reactionList.data.length > 0 ? (
+          reactionList.data.map((value, index) => <ReactHistoryItem key={index} reactionItem={value} />)
         ) : (
           <div className="p-5 justify-center text-center">
             <p>반응 내역이 없습니다.</p>

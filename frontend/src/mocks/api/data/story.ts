@@ -69,3 +69,47 @@ export const patchKeepStoryReq = {
   code: 'SUCCESS',
   data: '',
 };
+
+export const getStoryExpression = {
+  status: 200,
+  message: '소식별 반응 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: [
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'BEST',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'LOVE',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+  ],
+};
+
+export const getStoryExpression2 = {
+  status: 200,
+  message: '소식별 반응 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: [
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'SAD',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'SAD',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+  ],
+};
