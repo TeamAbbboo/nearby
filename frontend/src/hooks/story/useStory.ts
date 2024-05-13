@@ -1,4 +1,10 @@
-import { postStoryRegister, getDayStoryReq, postStoryExpressionReq } from '@/services/story/api';
+import {
+  postStoryRegister,
+  getDayStoryReq,
+  postStoryExpressionReq,
+  patchKeepStoryReq,
+  getStoryExpression,
+} from '@/services/story/api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { IStoryExpressionReq } from '@/types/story';
 
@@ -21,10 +27,28 @@ export const useStory = () => {
     });
   };
 
+  /* 소식 반응 등록 */
   const usePostStoryExpression = () => {
     return useMutation({
       mutationKey: ['story', 'expression'],
       mutationFn: async (req: IStoryExpressionReq) => postStoryExpressionReq(req),
+    });
+  };
+
+  /* 소식 반응 조회 */
+  const useGetStoryExpression = (storyId: number) => {
+    return useQuery({
+      queryKey: ['story', 'expression', storyId],
+      queryFn: () => getStoryExpression(storyId),
+      enabled: true,
+    });
+  };
+
+  /* 소식 보관 */
+  const usePatchKeepStory = () => {
+    return useMutation({
+      mutationKey: ['story', 'keep'],
+      mutationFn: (storyId: number) => patchKeepStoryReq(storyId),
     });
   };
 
@@ -35,5 +59,5 @@ export const useStory = () => {
     });
   };
 
-  return { useGetDayStory, usePostStoryExpression, usePostStoryRegister };
+  return { useGetDayStory, usePostStoryExpression, usePostStoryRegister, usePatchKeepStory, useGetStoryExpression };
 };

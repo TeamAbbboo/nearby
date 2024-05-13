@@ -23,7 +23,7 @@ const Story: React.FC<IStoryProps> = isSaved => {
 
   const [activeImage, setActiveImage] = useState(1); //현재 보여지는 사진
   const [progressBars, setProgressBars] = useState<number[]>([]); //프로그래스 바 진행 상태
-  const [selectedStoryId, setSelectedStoryId] = useState<number>(0);
+  const [selectedStoryId, setSelectedStoryId] = useState<number>(0); //선택된 스토리 id
   const { toggleModal } = useModal();
 
   const [isReactHistoryOpen, setIsReactHistoryOpen] = useState<boolean>(false); //반응 보기
@@ -88,18 +88,17 @@ const Story: React.FC<IStoryProps> = isSaved => {
     <>
       {/* 하단 메뉴 모달 */}
       {/* 반응 보기*/}
-      {isReactHistoryOpen && (
-        <ReactHistoryBottomSheet
-          setIsOpen={setIsReactHistoryOpen}
-          storyId={selectedStoryId!}
-          reactionList={dayStoryList?.data.dayStoryResList[activeImage - 1].reactions}
-        />
-      )}
+      {isReactHistoryOpen && <ReactHistoryBottomSheet setIsOpen={setIsReactHistoryOpen} storyId={selectedStoryId} />}
       {/* 반응 하기 */}
       {isSendReactOpen && <SendReactModal setIsOpen={setIsSendReactOpen} storyId={selectedStoryId!} />}
       {/* 더보기 */}
-      {isShowMoreOpen && (
-        <ShowMoreBottomSheet isOpen={isShowMoreOpen} setIsOpen={setIsShowMoreOpen} storyId={selectedStoryId!} />
+      {isShowMoreOpen && dayStoryList && (
+        <ShowMoreBottomSheet
+          isOpen={isShowMoreOpen}
+          setIsOpen={setIsShowMoreOpen}
+          storyId={selectedStoryId!}
+          isSaved={dayStoryList.data.dayStoryResList[activeImage - 1].isSaved}
+        />
       )}
 
       {/* 스토리 프로그래스 바 */}
@@ -121,15 +120,17 @@ const Story: React.FC<IStoryProps> = isSaved => {
                 decoration={image.decoration}
               />
               {/* 스토리 하단 메뉴 */}
-              <div className="visible">
-                <StoryBottom
-                  setIsReactHistoryOpen={setIsReactHistoryOpen}
-                  setIsSendReactOpen={setIsSendReactOpen}
-                  setIsShowMoreOpen={setIsShowMoreOpen}
-                  setSelectedStoryId={setSelectedStoryId}
-                  storyId={image.storyId}
-                />
-              </div>
+              {isSaved && (
+                <div>
+                  <StoryBottom
+                    setIsReactHistoryOpen={setIsReactHistoryOpen}
+                    setIsSendReactOpen={setIsSendReactOpen}
+                    setIsShowMoreOpen={setIsShowMoreOpen}
+                    setSelectedStoryId={setSelectedStoryId}
+                    storyId={image.storyId}
+                  />
+                </div>
+              )}
             </>
           )}
           <div
