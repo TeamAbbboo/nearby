@@ -1,12 +1,12 @@
 /* components */
-import HomePage from '@/pages/home/HomePage';
+import MyPage from '@/pages/my/MyPage';
 import LoginPage from '@/pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
 import SignupPage from '@/pages/signup/SignUpPage';
 import RegisterPage from '@/pages/register/RegisterPage';
 import SoloPage from '@/pages/familycode/SoloPage';
 import GroupPage from '@/pages/familycode/GroupPage';
-import PlaygroundPage from '@/pages/playground/PlaygroundPage';
+import HomePage from '@/pages/home/HomePage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
@@ -26,10 +26,10 @@ const router = createBrowserRouter([
     element: <SplashHomePage />,
   },
   {
-    path: '/home',
+    path: '/my',
     element: (
       <PrivateRoute>
-        <HomePage />
+        <MyPage />
       </PrivateRoute>
     ),
   },
@@ -74,14 +74,14 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/splashPlayground',
+    path: '/splashMy',
     element: <SplashPlaygroundPage />,
   },
   {
-    path: '/playground',
+    path: '/home',
     element: (
       <PrivateRoute>
-        <PlaygroundPage />
+        <HomePage />
       </PrivateRoute>
     ),
   },
