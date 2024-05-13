@@ -8,14 +8,16 @@ import messagePenguin from '@/assets/mood/messagePenguin.png';
 import UnReadMessageModal from '@/components/home/UnReadMessageModal';
 import { motion } from 'framer-motion';
 import userStore from '@/stores/userStore';
+import { useAuth } from '@/hooks/auth/useAuth';
 
 const HomePage = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { useGetUnreadMessage } = useMessage();
   const { data: unReadMessage } = useGetUnreadMessage();
   const { mood, decoration } = userStore();
-
+  const { useGetUserInfo } = useAuth();
   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
+  useGetUserInfo();
 
   return (
     <motion.div
