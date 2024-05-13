@@ -5,6 +5,7 @@ export interface IGetCurrentLevelRes {
   level: number;
   currentExp: number;
   maxExp: number;
+  startDate: string;
 }
 
 /* 경험치 내역 */

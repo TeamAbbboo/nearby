@@ -1,27 +1,42 @@
 import { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
-import groupPenguin from '@/assets/background_home.png';
 import { useModal } from '@/components/story/ModalContext';
+import { IMonthlyStoryDayRes } from '@/types/greenhouse';
+import dayjs from 'dayjs';
 
 interface ICurrentDate {
-  renderMonth: Date;
-  //   selectedDate: Date;
+  renderMonth: dayjs.Dayjs;
+  daysList?: IMonthlyStoryDayRes[];
 }
 
-interface IDays {
-  [key: string]: string;
+interface DaysMap {
+  [key: number]: {
+    storyId: number;
+    rearUrl: string;
+  };
 }
 
-const CalenderCells = ({ renderMonth }: ICurrentDate) => {
-  const days: IDays = {
-    11: groupPenguin,
-    12: groupPenguin,
-    13: groupPenguin,
-    14: groupPenguin,
-    15: groupPenguin,
-    16: groupPenguin,
-    17: groupPenguin,
-    20: groupPenguin,
+const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
+  const date = ['일', '월', '화', '수', '목', '금', '토'];
+  const [days, setDays] = useState<DaysMap>({});
+
+  // console.log('calendercells', daysList);
+
+  useEffect(() => {
+    if (daysList) {
+      const daysMap = convertArrayToObject(daysList);
+      setDays(daysMap);
+    }
+  }, [daysList]);
+
+  const convertArrayToObject = (array: IMonthlyStoryDayRes[]): DaysMap => {
+    const result: DaysMap = {};
+
+    array.forEach(item => {
+      const { day, ...rest } = item;
+      result[day] = { ...rest };
+    });
+
+    return result;
   };
 
   const initArr = (firstDay: number, daysInMonth: number) => {
@@ -44,23 +59,35 @@ const CalenderCells = ({ renderMonth }: ICurrentDate) => {
   }, [renderMonth]);
 
   const { toggleModal } = useModal();
-  const goDetail = (date: string) => {
-    console.log(date);
+  const goDetail = (storyId: number) => {
+    console.log(storyId);
     toggleModal(); //모달 띄우기
   };
 
   return (
     <>
+      <div className="grid grid-cols-7 pt-5 pb-2 gap-1">
+        {date.map((day, i) => {
+          return (
+            <p className="text-sm text-gray-700" key={i}>
+              {day}
+            </p>
+          );
+        })}
+      </div>
       <div className="grid grid-cols-7 gap-1">
         {arr.map((v, i) => {
           const dayOfMonth = v ? dayjs(v).date() : null;
-          const isSaved = dayOfMonth !== null && Object.prototype.hasOwnProperty.call(days, dayOfMonth);
+          const isSaved = dayOfMonth !== null && days && Object.prototype.hasOwnProperty.call(days, dayOfMonth);
 
           return (
             <div key={i} className="flex items-center text-sm font-bold justify-center">
               {v && isSaved ? (
-                <div onClick={() => goDetail(v)} className={`flex justify-center items-center w-10 h-10`}>
-                  <img src={days[dayOfMonth]} className="w-full h-full object-cover rounded-full" />
+                <div
+                  onClick={() => goDetail(days[dayOfMonth].storyId)}
+                  className={`flex justify-center items-center w-10 h-10`}
+                >
+                  <img src={days[dayOfMonth].rearUrl} className="w-full h-full object-cover rounded-full" />
                   <div className="bg-black/30 w-10 h-10 absolute rounded-full"></div>
                   <p className="text-white absolute">{dayjs(v).date()}</p>
                 </div>

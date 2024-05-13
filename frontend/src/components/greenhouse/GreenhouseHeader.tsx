@@ -10,10 +10,12 @@ interface IDandelionState {
   level: number; // 레벨
   currentExp: number; // 모은 경험치
   maxExp: number; // 해당 레벨의 경험치 전체 크기
+  startDate: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionState) => {
+const GreenhouseHeader = ({ level, currentExp, maxExp, startDate, setIsOpen }: IDandelionState) => {
+  console.log(startDate);
   /*레벨업*/
   const { usePatchLevelUp } = useGreenhouse();
   const { mutate } = usePatchLevelUp();
@@ -25,7 +27,7 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, setIsOpen }: IDandelionSt
   const progressPercentage = (currentExp / maxExp) * 100 >= 100 ? 100 : (currentExp / maxExp) * 100;
 
   const goAlbum = () => {
-    navigate('/album');
+    navigate('/album', { state: startDate });
   };
 
   return (
