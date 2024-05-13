@@ -1,9 +1,6 @@
 server:
   servlet:
     context-path: /api
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
 
 spring:
   config:
@@ -19,6 +16,9 @@ spring:
     include:
       - key
       - db
+  servlet:
+    multipart:
+      max-file-size: 10MB
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
