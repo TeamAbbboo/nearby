@@ -12,9 +12,9 @@ import java.util.Formatter;
 @Builder
 @AllArgsConstructor
 public class GetLevelAndExpSumRes {
-    int level;
-    int currentExp;
-    int maxExp;
+    private int level;
+    private int currentExp;
+    private int maxExp;
     // 가족이 생성된 날짜
-    String startDate;
+    private String startDate;
 }
