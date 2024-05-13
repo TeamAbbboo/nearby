@@ -1,5 +1,6 @@
 /* components */
 import { axiosWithCredentialInstance } from './axiosInstance';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { AxiosError } from 'axios';
@@ -9,7 +10,7 @@ const refresh = async (error: AxiosError) => {
   if (error.response?.status === 401) {
     localStorage.removeItem('ACCESS_TOKEN');
     window.location.replace('/login');
-    alert('로그아웃 되었습니다. 다시 로그인해 주세요.');
+    Toast.success('로그아웃 되었습니다. 다시 로그인해 주세요.');
   }
 
   // access 토큰이 만료되었을 경우 -> 재발급 요청

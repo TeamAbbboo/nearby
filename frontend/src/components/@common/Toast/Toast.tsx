@@ -3,11 +3,11 @@ import { Flip, ToastOptions, toast } from 'react-toastify';
 import './Toast.css';
 
 const defaultToastOption: ToastOptions = {
-  autoClose: 2000,
-  hideProgressBar: true,
+  autoClose: 1000,
+  hideProgressBar: false,
   pauseOnHover: false,
   closeButton: false,
-  delay: 500,
+  delay: 100,
   transition: Flip,
 };
 

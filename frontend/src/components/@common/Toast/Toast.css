@@ -1,9 +1,10 @@
 .Toastify__toast {
-  position: fixed;
-  top: 25px;
-  left: 0px;
-  right: 0px;
-  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 20px;
   color: white;
   text-align: center;
   margin: auto;
@@ -11,7 +12,7 @@
   padding: 0px 10px;
   height: auto;
   font-size: 15px;
-  font-family: 'Pretendard-Regular';
+  font-family: 'NPSfontBold';
 }
 
 .Toastify__toast--info {
