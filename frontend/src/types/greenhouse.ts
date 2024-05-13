@@ -20,7 +20,7 @@ export interface IExpHistoriesItem extends IInfiniteScrollRes {
 
 export interface IExpHistoriesContentItem {
   expId: number;
-  userId: number;
+  nickname: string;
   level: number;
   point: number;
   content: string;
