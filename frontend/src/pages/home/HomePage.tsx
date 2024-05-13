@@ -30,15 +30,20 @@ const HomePage = () => {
         {unReadMessage?.data === null ? (
           <Penguin mood={mood} decoration={decoration} width="w-[17rem]" onClick={() => setIsOpen(true)} />
         ) : (
-          <div onClick={() => setIsSendMessageModalOpen(true)} className={`w-[17rem] relative z-10`}>
+          <div
+            onClick={() => {
+              setIsSendMessageModalOpen(true);
+            }}
+            className={`w-[17rem] relative z-10`}
+          >
             <img src={messagePenguin} />
           </div>
         )}
       </div>
       <HomeHeader />
       {isOpen && <PenguinDecoBottomSheet setIsOpen={setIsOpen} />}
-      {isSendMessageModalOpen && unReadMessage && (
-        <UnReadMessageModal unReadMessage={unReadMessage.data!} setIsSendMessageModalOpen={setIsSendMessageModalOpen} />
+      {isSendMessageModalOpen && unReadMessage && unReadMessage.data && (
+        <UnReadMessageModal unReadMessage={unReadMessage.data} setIsSendMessageModalOpen={setIsSendMessageModalOpen} />
       )}
     </motion.div>
   );
