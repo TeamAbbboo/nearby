@@ -57,8 +57,6 @@ const RegisterStoryPage = () => {
         }
         setCaptured(false);
       }, 250);
-
-      console.log(image);
     }
 
     toggleFacingMode();
@@ -67,9 +65,8 @@ const RegisterStoryPage = () => {
   const toggleFacingMode = () => {
     console.log(facingMode);
 
-    stream?.getTracks().forEach(track => track.stop());
-
     setFacingMode(facingMode === 'user' ? 'environment' : 'user');
+    getMediaPermission();
   };
 
   const imgRef = useRef<HTMLInputElement>(null);
