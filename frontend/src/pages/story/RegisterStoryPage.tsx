@@ -12,7 +12,7 @@ const RegisterStoryPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
+  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment'); // 카메라 전면, 후면 상태 관리
   const [frontImage, setFrontImage] = useState<string>('');
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
@@ -96,7 +96,7 @@ const RegisterStoryPage = () => {
     formData.append('rear', dataURLtoFile(backImage));
 
     postStory(formData);
-    navigate('/home');
+    navigate('/');
   };
 
   useEffect(() => {
