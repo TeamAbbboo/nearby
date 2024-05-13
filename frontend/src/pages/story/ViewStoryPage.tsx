@@ -18,7 +18,7 @@ const ViewStoryPage = () => {
   console.log('년 월 일:', year, month, day);
   return (
     <div className="relative w-full h-full bg-white">
-      <Story isSaved={isSaved} />
+      <Story year={year} month={month} day={day} isSaved={isSaved} />
     </div>
   );
 };
