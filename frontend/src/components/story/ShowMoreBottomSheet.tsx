@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import BottomSheet from '../@common/BottomSheet';
 import { useStory } from '@/hooks/story/useStory';
+import Toast from '@/components/@common/Toast/Toast';
 
 interface IShowMoreProps {
   isOpen: boolean;
@@ -16,9 +17,9 @@ const ShowMoreBottomSheet = ({ isOpen, setIsOpen, storyId, isSaved }: IShowMoreP
   const keepStory = (storyId: number, isSaved: boolean) => {
     mutate(storyId);
     if (isSaved) {
-      alert('소식 보관이 취소되었습니다.');
+      Toast.error('소식 보관 취소');
     } else {
-      alert('소식이 보관되었습니다.');
+      Toast.success('소식 보관 완료');
     }
     setIsOpen(false);
   };
