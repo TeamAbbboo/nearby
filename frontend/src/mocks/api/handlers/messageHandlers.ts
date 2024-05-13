@@ -1,5 +1,5 @@
 import { HttpResponse, http } from 'msw';
-import { receivedMessageListRes, sentMessageListRes, postMessageSendRes } from '../data/message';
+import { receivedMessageListRes, sentMessageListRes, postMessageSendRes, getUnReadMessageRes } from '../data/message';
 
 export const messageHandlers = [
   http.get('/messages/received', () => {
@@ -10,7 +10,9 @@ export const messageHandlers = [
   }),
   http.post('/messages', ({ request }) => {
     console.log(request);
-
     return HttpResponse.json(postMessageSendRes, { status: 201 });
+  }),
+  http.get('/messages/unread', () => {
+    return HttpResponse.json(getUnReadMessageRes, { status: 201 });
   }),
 ];

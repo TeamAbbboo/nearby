@@ -1,8 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import Modal from '../@common/Modal';
 import MessageItem from './MessageItem';
 import { useMessage } from '@/hooks/message/useMessage';
-import { useIntersectionObserver } from '@/hooks/@common/useIntersecctionObserver';
+import { useIntersectionObserver } from '@/hooks/@common/useIntersectionObserver';
 
 interface IMessageModalProps {
   setIsMessageModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -10,23 +10,24 @@ interface IMessageModalProps {
 
 const MessageModal = ({ setIsMessageModalOpen }: IMessageModalProps) => {
   const { useGetReceivedMessageList, useGetSentMessageList } = useMessage();
-  const { data: receivedList, fetchNextPage, hasNextPage } = useGetReceivedMessageList({ page: 0, size: 5 });
-  const { data: sentList } = useGetSentMessageList({ page: 0, size: 5 });
+  const {
+    data: receivedList,
+    fetchNextPage: receivedFetchNextPage,
+    hasNextPage: receivedHasNextPage,
+  } = useGetReceivedMessageList(5);
+  const { data: sentList, fetchNextPage: sentFetchNextPage, hasNextPage: sentHasNextPage } = useGetSentMessageList(5);
 
   const [tab, setTab] = useState<'received' | 'sent'>('received');
 
-  const { setTarget } = useIntersectionObserver({
-    hasNextPage,
-    fetchNextPage,
+  const { setTarget: setReceivedTarget } = useIntersectionObserver({
+    fetchNextPage: receivedFetchNextPage,
+    hasNextPage: receivedHasNextPage,
   });
 
-  useEffect(() => {
-    console.log(sentList);
-  }, [sentList]);
-
-  useEffect(() => {
-    console.log(receivedList);
-  }, [receivedList]);
+  const { setTarget: setSentTarget } = useIntersectionObserver({
+    fetchNextPage: sentFetchNextPage,
+    hasNextPage: sentHasNextPage,
+  });
 
   return (
     <Modal onClose={() => setIsMessageModalOpen(false)} width="w-4/5">
@@ -50,18 +51,27 @@ const MessageModal = ({ setIsMessageModalOpen }: IMessageModalProps) => {
             ? receivedList?.pages.map(
                 item =>
                   item.data.content &&
-                  item.data.content.map((value, index) => {
-                    return <MessageItem key={index} messageItem={value} />;
+                  item.data.content.map(value => {
+                    return (
+                      <div key={value.messageId}>
+                        <MessageItem messageItem={value} />
+                        <div ref={setReceivedTarget} className="h-[1rem]"></div>
+                      </div>
+                    );
                   }),
               )
             : sentList?.pages.map(
                 item =>
                   item.data.content &&
                   item.data.content.map((value, index) => {
-                    return <MessageItem key={index} messageItem={value} />;
+                    return (
+                      <div key={index}>
+                        <MessageItem key={index} messageItem={value} />
+                        <div ref={setSentTarget} className="h-[1rem]"></div>
+                      </div>
+                    );
                   }),
               )}
-          <div ref={setTarget} className="h-[1rem]"></div>
         </div>
       </div>
     </Modal>
