@@ -8,11 +8,11 @@ import static com.abbboo.backend.global.base.SuccessCode.REACTION_REGIST_SUCCESS
 import static com.abbboo.backend.global.base.SuccessCode.STORY_SAVE_SUCCESS;
 import static com.abbboo.backend.global.base.SuccessCode.STORY_UPLOAD_SUCCESS;
 
-import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
-import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
 import com.abbboo.backend.domain.story.dto.req.StoryReactionReq;
-import com.abbboo.backend.domain.story.dto.res.MonthlyStoryRes;
+import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
+import com.abbboo.backend.domain.story.dto.res.DayStoryListRes;
+import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
 import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.service.StoryService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -99,7 +99,7 @@ public class StoryController {
         @ModelAttribute @ParameterObject @Valid MonthlyStoriesParams monthlyStoriesParams,
         @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
 
-        List<MonthlyStoryRes> monthlyStoryListRes = storyService.readMonthlyStory(customOAuth2User.getCreatedUserId(), monthlyStoriesParams);
+        MonthlyStoryList monthlyStoryListRes = storyService.readMonthlyStory(customOAuth2User.getCreatedUserId(), monthlyStoriesParams);
         return ResponseEntity.ok(BaseResponse.of(MONTLYSTORY_GET_SUCCESS, monthlyStoryListRes));
     }
 
