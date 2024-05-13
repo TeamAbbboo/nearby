@@ -16,9 +16,9 @@ interface IStoryProps {
   isSaved: boolean;
 }
 
-const Story: React.FC<IStoryProps> = isSaved => {
+const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps) => {
   const { useGetDayStory } = useStory();
-  const { data: dayStoryList } = useGetDayStory(isSaved.isSaved);
+  const { data: dayStoryList } = useGetDayStory({ year, month, day, isSaved });
 
   // console.log('isSaved:', isSaved.isSaved);
   // console.log('DayStoryData:', dayStoryList?.data.dayStoryResList);
