@@ -11,7 +11,9 @@ const Dandelion = ({ level, visible }: IDandelionState) => {
   return (
     <>
       {visible && (
-        <img src={selectDandelion(level)} className={`absolute bottom-[20%] left-1/2 -translate-x-1/2 w-2/4`}></img>
+        <>
+          <img src={selectDandelion(level)} className="absolute bottom-0"></img>
+        </>
       )}
     </>
   );
