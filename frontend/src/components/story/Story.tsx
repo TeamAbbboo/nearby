@@ -122,7 +122,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
                 decoration={image.decoration}
               />
               {/* 스토리 하단 메뉴 */}
-              {isSaved && (
+              {!isSaved && (
                 <div>
                   <StoryBottom
                     setIsReactHistoryOpen={setIsReactHistoryOpen}
