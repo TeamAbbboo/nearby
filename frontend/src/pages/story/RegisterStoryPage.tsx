@@ -12,12 +12,12 @@ const RegisterStoryPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
+  // const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
   const [frontImage, setFrontImage] = useState<string>('');
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
 
-  const getMediaPermission = useCallback(async () => {
+  const getMediaPermission = useCallback(async (facingMode: 'environment' | 'user') => {
     try {
       const video = { video: { facingMode: facingMode } };
 
@@ -31,7 +31,7 @@ const RegisterStoryPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [facingMode]);
+  }, []);
 
   const captureImage = () => {
     const videoElement = videoRef.current;
@@ -63,10 +63,10 @@ const RegisterStoryPage = () => {
   };
 
   const toggleFacingMode = () => {
-    console.log(facingMode);
+    // console.log(facingMode);
 
-    setFacingMode(facingMode === 'user' ? 'environment' : 'user');
-    getMediaPermission();
+    // setFacingMode(facingMode === 'user' ? 'environment' : 'user');
+    getMediaPermission('environment');
   };
 
   const imgRef = useRef<HTMLInputElement>(null);
@@ -102,7 +102,7 @@ const RegisterStoryPage = () => {
   useEffect(() => {
     // 아직 media stream이 설정되지 않았다면 호출
     if (!stream) {
-      getMediaPermission();
+      getMediaPermission('user');
     }
 
     // 페이지 이탈 또는 컴포넌트 언마운트 시 미디어 스트림 정지
