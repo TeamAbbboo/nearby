@@ -13,7 +13,6 @@ import com.abbboo.backend.domain.story.dto.res.MonthlyStoryList;
 import com.abbboo.backend.domain.story.dto.res.ReactionRes;
 import com.abbboo.backend.domain.story.entity.Story;
 import com.abbboo.backend.domain.story.repository.StoryRepository;
-import com.abbboo.backend.domain.story.repository.TempUser;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
@@ -37,7 +36,6 @@ public class StoryServiceImpl implements StoryService{
 
     private final UserRepository userRepository;
     private final S3Util s3Util;
-    private final TempUser tempUser;
     private final FamilyRepository familyRepository;
     private final StoryRepository storyRepository;
     private final ReactionRepository reactionRepository;
@@ -140,7 +138,7 @@ public class StoryServiceImpl implements StoryService{
 
     // 월별 소식 조회하기
     @Override
-    public MonthlyStoryList readMonthlyStory(String kakaoId, MonthlyStoriesParams monthlyStoriesParams) {
+    public MonthlyStoryList readMonthlyStory(String kakaoId, MonthlyStoriesParams params) {
 
         int familyId = familyRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
@@ -148,8 +146,9 @@ public class StoryServiceImpl implements StoryService{
         // 예외 1 - familyId가 유효하지 않은 경우
         familyRepository.findById(familyId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
-        
-        return storyRepository.findMonthlyStories(monthlyStoriesParams, familyId);
+
+        // 월별 - 날짜별 소식 캘린더 형식 조회
+        return storyRepository.findMonthlyStories(params, familyId);
     }
 
     // 소식별 반응 조회하기

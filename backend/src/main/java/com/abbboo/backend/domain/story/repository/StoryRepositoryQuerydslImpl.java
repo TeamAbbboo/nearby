@@ -2,6 +2,7 @@ package com.abbboo.backend.domain.story.repository;
 
 import static com.abbboo.backend.domain.reaction.entity.QReactionHistory.reactionHistory;
 import static com.abbboo.backend.domain.story.entity.QStory.story;
+import static com.querydsl.core.types.ExpressionUtils.count;
 
 import com.abbboo.backend.domain.story.dto.req.MonthlyStoriesParams;
 import com.abbboo.backend.domain.story.dto.req.YearMonthDayParams;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -84,32 +86,55 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             )
             .from(story)
             .where(MonthlyCondition(params,familyId))
+            .orderBy(story.createdAt.desc())
             .fetch();
 
         // 결과 데이터를 월별로 그룹화
         Map<Integer, List<DayDTO>> groupedByMonth = results.stream()
             .collect(Collectors.groupingBy(
                 tuple -> tuple.get(0, Integer.class),
-                Collectors.mapping(tuple -> new DayDTO(tuple.get(1, Integer.class), tuple.get(2, Long.class), tuple.get(3, String.class)), Collectors.toList())
+                LinkedHashMap::new,
+                Collectors.mapping(
+                    tuple -> new DayDTO(
+                        tuple.get(1, Integer.class),
+                        tuple.get(2, Long.class),
+                        tuple.get(3, String.class)
+                    ),
+                    Collectors.toList()
+                )
             ));
 
-        // 무한스크롤 - 마지막 페이지 여부
-        boolean last = groupedByMonth.size() < params.getSize();
-        log.info("월별 조회 마지막 : {} , {} => {}", groupedByMonth.size(), params.getSize(), last);
-
         // 월별 조회한 소식 결과 리스트 생성
-        List<MonthlyStoryRes> monthly = new ArrayList<>();
+        List<MonthlyStoryRes> result = new ArrayList<>();
         for (Map.Entry<Integer, List<DayDTO>> entry : groupedByMonth.entrySet()) {
             Integer month = entry.getKey();
             List<DayDTO> monthData = entry.getValue();
-            monthly.add(new MonthlyStoryRes(month.toString(), monthData));
+            result.add(new MonthlyStoryRes(month.toString(), monthData));
         }
-        
-        // 응답 객체에 데이터 넣기
-        MonthlyStoryList result = MonthlyStoryList.builder()
-            .monthlyStoryResList(monthly).last(last).build();
 
-        return result;
+        // 마지막 페이지 여부
+        boolean last = MonthlyPaging(params, familyId);
+
+        return MonthlyStoryList.builder().monthlyStoryResList(result).last(last).build();
+    }
+
+    // 월별 소식 조회 페이징 - 마지막 페이지 여부
+    private boolean MonthlyPaging(MonthlyStoriesParams params, int familyId) {
+
+        // 조회하는 기간의 마지막 날짜 이후
+        YearMonth yearMonth = YearMonth.of(params.getYear(), params.getMonth());
+        LocalDateTime nextMonth = yearMonth.minusMonths(params.getSize()-1).atDay(1).atTime(23,59,59);
+
+        log.info("nextMonth : {} 이전", nextMonth);
+        // 마지막으로 조회한 다음달에 데이터의 개수를 조회
+        Long count = jpaQueryFactory.select(
+            count(story.id))
+            .from(story)
+            .where(story.user.family.id.eq(familyId).and(story.createdAt.loe(nextMonth)))
+            .fetchOne();
+
+        // count == 0 이면 last = true
+        return count == 0;
     }
 
     // 월 별 소식 조회의 where 절 조건
