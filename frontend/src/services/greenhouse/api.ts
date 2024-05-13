@@ -39,8 +39,11 @@ export const getExpHistoryList = async ({
 export const getMonthlyStoryReq = async (params: IMonthlyStoryReq): Promise<APIResponse<IMonthlyStoryListRes>> => {
   const { data } = await axiosWithCredentialInstance.get('/stories/monthly', {
     params: {
-      params,
+      year: params.year,
+      month: params.month,
+      size: params.size,
     },
   });
+  console.log('월별 스토리 조회:', data);
   return data;
 };
