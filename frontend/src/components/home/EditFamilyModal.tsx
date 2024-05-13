@@ -2,6 +2,7 @@
 import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useFamily } from '@/hooks/family/useFamily';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
@@ -59,11 +60,11 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: data => {
           setFamilyCode(data.data.familyCode);
           setIsExistFamilyCode(true);
-          alert('생성 성공!!');
+          Toast.success('생성 성공');
         },
         onError: () => {
           setIsExistFamilyCode(false);
-          alert('생성 실패!!');
+          Toast.error('생성 실패');
         },
       });
     }
@@ -74,11 +75,11 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
     try {
       if (familyCode !== undefined) {
         window.navigator.clipboard.writeText(familyCode);
-        alert('클립보드에 링크가 복사되었습니다.');
+        Toast.success('복사 성공');
       }
     } catch (e) {
       console.log(e);
-      alert('복사에 실패하였습니다');
+      Toast.error('복사 실패');
     }
   };
 
@@ -112,12 +113,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const onParticipateButton = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
-      alert('가족 코드 입력칸에 빈칸 또는 공백이 존재합니다.');
+      Toast.error('가족 코드 입력 칸에 빈칸 또는 공백이 존재', { className: 'font-NPSfontBold' });
       return;
     }
 
     if (familyCode.length !== 8) {
-      alert('가족 코드는 8자리 입니다.');
+      Toast.error('가족 코드는 8자리');
       return;
     }
 
@@ -126,12 +127,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: () => {
           setFamilyCode(familyCode);
           setIsExistFamilyCode(true);
-          alert('참여 성공!!');
+          Toast.success('참여 성공');
         },
         onError: error => {
           console.log(error);
           setFamilyCode('');
-          alert('존재하지 않는 코드입니다!!');
+          Toast.error('존재하지 않는 코드');
         },
       });
     }
@@ -146,10 +147,10 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: () => {
           setIsExistFamilyCode(false);
           setFamilyCode('');
-          alert('가족 떠나기 성공!!');
+          Toast.success('가족 떠나기 성공');
         },
         onError: () => {
-          alert('가족 떠나기 실패!!');
+          Toast.error('가족 떠나기 실패');
         },
       });
     }
