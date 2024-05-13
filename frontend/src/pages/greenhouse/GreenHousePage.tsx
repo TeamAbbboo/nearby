@@ -31,7 +31,11 @@ const GreenHousePage = () => {
           {isOpen && (
             <div className="absolute top-0 w-full h-full flex">
               <div className="absolute w-full h-full bg-black opacity-70"></div>
-              <DandelionGrowth level={currentLevel?.data.level} setIsOpen={setIsOpen} />
+              <DandelionGrowth
+                level={currentLevel?.data.level}
+                setIsOpen={setIsOpen}
+                setIsDandelionVisible={setIsDandelionVisible}
+              />
             </div>
           )}
           <Dandelion level={currentLevel.data.level} visible={isDandelionVisible} />
