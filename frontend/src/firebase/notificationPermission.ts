@@ -1,6 +1,7 @@
 import { getToken, getMessaging } from 'firebase/messaging';
 import { registerServiceWorker } from './registerServiceWorker';
 import { app } from './initFirebase';
+import Toast from '@/components/@common/Toast/Toast';
 
 export async function handleAllowNotification() {
   registerServiceWorker(); // serviceWorker 등록
