@@ -2,6 +2,8 @@
 import TransparentButton from '@/components/@common/TransparentButton';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useFamily } from '@/hooks/family/useFamily';
+import Toast from '@/components/@common/Toast/Toast';
+
 /* libraries */
 import { useEffect, useState } from 'react';
 
@@ -32,23 +34,23 @@ const Group = () => {
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const startNearby = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
-      alert('가족 코드에 공백 또는 빈칸이 존재합니다.');
+      Toast.error('가족 코드에 공백 또는 빈칸이 존재');
       return;
     }
 
     if (familyCode.length !== 8) {
-      alert('가족 코드는 8글자 입니다.');
+      Toast.error('가족 코드는 8글자');
       return;
     }
 
     if (window.confirm(familyCode + '로 참여하시겠습니까?')) {
       doPatchEnrollFamilyReq(familyCode, {
         onSuccess: () => {
-          alert('가족 그룹 참여에 성공했습니다.');
+          Toast.success('가족 그룹 참여 성공');
           window.location.replace('/');
         },
         onError: () => {
-          alert('가족 코드가 유효하지 않습니다.');
+          Toast.error('올바르지 않은 가족 코드');
           setFamilyCode('');
         },
       });
@@ -61,12 +63,12 @@ const Group = () => {
     if (code && code.length === 8) {
       doPatchEnrollFamilyReq(code, {
         onSuccess: () => {
-          alert('가족 그룹 참여에 성공했습니다.');
+          Toast.success('가족 그룹 참여 성공');
           localStorage.removeItem('SHARE_FAMILY_CODE');
           window.location.replace('/');
         },
         onError: () => {
-          alert('가족 코드가 유효하지 않습니다.');
+          Toast.error('올바르지 않은 가족 코드');
           localStorage.removeItem('SHARE_FAMILY_CODE');
           window.location.replace('/');
           setFamilyCode('');
