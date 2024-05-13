@@ -2,6 +2,7 @@
 import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
 import userStore from '@/stores/userStore';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
@@ -51,7 +52,7 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
   /* 변경 */
   const onChangeButton = () => {
     if (nickname === '' || nickname.includes(' ')) {
-      alert('변경 또는 허용되지 않은 문자열이 있습니다.');
+      Toast.error('변경 또는 허용되지 않은 문자열');
       return;
     }
 
@@ -70,12 +71,12 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
           userStore.setState({
             nickname: nickname,
           });
-          alert('변경 완료!');
+          Toast.success('변경 완료');
         },
         onError: () => {
           setNickname(preNickname);
           setIsModifiyNickname(false);
-          alert('변경 실패');
+          Toast.error('변경 실패');
         },
       });
     }
