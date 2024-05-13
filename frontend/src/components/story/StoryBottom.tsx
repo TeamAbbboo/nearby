@@ -15,7 +15,7 @@ const StoryBottom = ({
   setSelectedStoryId,
   storyId,
 }: IStoryBottomProps) => {
-  console.log('storyId', storyId);
+  // console.log('storyId', storyId);
 
   const showReactHistory = () => {
     console.log('반응 기록 보기', storyId);

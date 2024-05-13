@@ -12,8 +12,6 @@ interface ISendReactProps {
 }
 
 const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
-  console.log('반응하기 storyId', storyId);
-
   const { usePostStoryExpression } = useStory();
   const { mutate } = usePostStoryExpression();
 
