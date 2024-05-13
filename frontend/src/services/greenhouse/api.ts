@@ -44,6 +44,7 @@ export const getMonthlyStoryReq = async (params: IMonthlyStoryReq): Promise<APIR
       size: params.size,
     },
   });
+  console.log('월별 스토리 조회 params:', params);
   console.log('월별 스토리 조회:', data);
   return data;
 };

@@ -46,7 +46,7 @@ export const useGreenhouse = () => {
 
   /* 월별 소식 조회 */
   const useGetMonthlyStoryList = (props: IMonthlyStoryReq) => {
-    console.log('useGetMonthlyStoryList props:', props);
+    // console.log('useGetMonthlyStoryList props:', props);
     return useQuery({
       queryKey: ['stories', props],
       queryFn: () => getMonthlyStoryReq(props),
