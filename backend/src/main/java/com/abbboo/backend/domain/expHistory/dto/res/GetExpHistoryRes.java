@@ -9,6 +9,6 @@ import org.springframework.data.domain.Slice;
 @Getter
 @AllArgsConstructor
 public class GetExpHistoryRes {
-    int sum;
-    Slice<ExpHistoryDto> histories;
+    private int sum;
+    private Slice<ExpHistoryDto> histories;
 }

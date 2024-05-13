@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface ExpHistoryRepository extends JpaRepository<ExpHistory,Long> {
     //우리 가족의 경험치 기록 페이지
     @Query("select new com.abbboo.backend.domain.expHistory.dto.res.ExpHistoryDto" +
-            "(e.id,e.user.id,e.level,e.point,e.content,e.createdAt) " +
+            "(e.id,e.user.nickname,e.level,e.point,e.content,e.createdAt) " +
             "from ExpHistory e where e.user.family.id= :familyId")
     Slice<ExpHistoryDto> findAllByFamilyId(@Param("familyId") int familyId, Pageable pageable);
 

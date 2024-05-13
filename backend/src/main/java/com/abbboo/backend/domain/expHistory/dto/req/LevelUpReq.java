@@ -7,5 +7,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LevelUpReq {
-    int level;
+    private int level;
 }
