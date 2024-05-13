@@ -23,6 +23,9 @@ const PlaygroundPage = () => {
         {familyInfo && <PenguinFamily familyInfo={familyInfo.data} />}
         <PlaygroundHeader />
         <ModalContent />
+        <div className="absolute bottom-3 right-5 text-lg text-white">
+          <p>가까이</p>
+        </div>
       </motion.div>
     </ModalProvider>
   );

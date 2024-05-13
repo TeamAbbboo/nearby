@@ -52,6 +52,9 @@ const HomePage = () => {
         )}
       </div>
       <HomeHeader />
+      <div className="absolute bottom-3 right-5 text-lg text-white">
+        <p>가까이</p>
+      </div>
       {isOpen && <PenguinDecoBottomSheet setIsOpen={setIsOpen} />}
       {isSendMessageModalOpen && unReadMessage && unReadMessage.data && (
         <UnReadMessageModal unReadMessage={unReadMessage.data} setIsSendMessageModalOpen={setIsSendMessageModalOpen} />
