@@ -136,13 +136,18 @@ public class MessageServiceImpl implements MessageService{
     public ReceivedMessageRes findUnreadMessage(String kakaoId) {
         
         // receiver 조건에 들어갈 사용자 정보
+        log.info("사용자 정보 조회 시작");
         User receiver = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("받은 사람 정보 조회 성공: id - {}", receiver.getId());
+        log.info("사용자 정보 조회 성공: id - {}", receiver.getId());
         int userId = receiver.getId();
-        int familyId = receiver.getFamily().getId();
+        Integer familyId = receiver.getFamily().getId();
 
+        // 가족이 없는 경우
+        if (familyId == null){
+            return null;
+        }
         return messageRepository.findUnreadMessage(userId, familyId);
     }
 
