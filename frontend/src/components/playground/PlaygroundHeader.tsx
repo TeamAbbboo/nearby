@@ -4,12 +4,16 @@ import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import { useModal } from '@/components/story/ModalContext';
+
+interface IStoryProps {
+  year?: number;
+  month?: number;
+  day?: number;
+  isSaved: boolean;
+}
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
-
-  const { toggleModal, setIsSaved } = useModal();
 
   return (
     <header className="w-full absolute top-0">
@@ -45,8 +49,10 @@ const PlaygroundHeader = () => {
           </div>
           <div
             onClick={() => {
-              toggleModal();
-              setIsSaved(false);
+              const props: IStoryProps = {
+                isSaved: false,
+              };
+              navigate('/stories', { state: props });
             }}
             className="flex flex-col items-center"
           >

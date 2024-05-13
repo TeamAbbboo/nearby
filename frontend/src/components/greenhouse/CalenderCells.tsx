@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useModal } from '@/components/story/ModalContext';
 import { IMonthlyStoryDayRes } from '@/types/greenhouse';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 interface ICurrentDate {
   renderMonth: dayjs.Dayjs;
@@ -13,6 +13,13 @@ interface DaysMap {
     storyId: number;
     rearUrl: string;
   };
+}
+
+interface IStoryProps {
+  year: number;
+  month: number;
+  day: number;
+  isSaved: boolean;
 }
 
 const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
@@ -51,6 +58,7 @@ const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
   };
 
   const [arr, setArr] = useState<(string | null)[]>([null]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const firstDay = dayjs(renderMonth).startOf('month').day();
@@ -58,10 +66,15 @@ const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
     setArr(initArr(firstDay, daysInMonth));
   }, [renderMonth]);
 
-  const { toggleModal } = useModal();
-  const goDetail = (storyId: number) => {
-    console.log(storyId);
-    toggleModal(); //모달 띄우기
+  const goDetail = (day: number) => {
+    const props: IStoryProps = {
+      year: renderMonth.get('year'),
+      month: renderMonth.get('month'),
+      day: day,
+      isSaved: true,
+    };
+
+    navigate('/stories', { state: props });
   };
 
   return (
@@ -83,10 +96,7 @@ const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
           return (
             <div key={i} className="flex items-center text-sm font-bold justify-center">
               {v && isSaved ? (
-                <div
-                  onClick={() => goDetail(days[dayOfMonth].storyId)}
-                  className={`flex justify-center items-center w-10 h-10`}
-                >
+                <div onClick={() => goDetail(dayjs(v).date())} className={`flex justify-center items-center w-10 h-10`}>
                   <img src={days[dayOfMonth].rearUrl} className="w-full h-full object-cover rounded-full" />
                   <div className="bg-black/30 w-10 h-10 absolute rounded-full"></div>
                   <p className="text-white absolute">{dayjs(v).date()}</p>
