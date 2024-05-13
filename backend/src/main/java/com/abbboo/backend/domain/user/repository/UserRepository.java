@@ -20,6 +20,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // 가족 구성원의 정보 가져오기
     @Query("select new com.abbboo.backend.domain.family.dto.res.FamilyInfoRes(" +
             "u.id, u.nickname, u.birthday, u.mood, u.decoration)" +
-            "from User u where u.family.id= :familyId")
-    List<FamilyInfoRes> findByFamilyId(@Param("familyId") int familyId);
+            "from User u where u.family.id= :familyId and u.isDeleted=false")
+    List<FamilyInfoRes> findByFamilyId(@Param("familyId") Optional<Integer> familyId);
 }
