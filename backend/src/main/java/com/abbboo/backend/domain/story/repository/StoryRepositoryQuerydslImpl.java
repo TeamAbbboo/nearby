@@ -65,7 +65,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             ))
             .from(story)
             .where(condition)
-            .orderBy(story.createdAt.asc())
+            .orderBy(story.createdAt.desc())
             .fetch();
 
         // 각 소식 별 반응 목록 넣기
