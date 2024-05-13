@@ -22,10 +22,10 @@ const SettingHomeModal = ({ setIsSettingModalOpen, editInfoHandler, editFamilyHa
         onSuccess: () => {
           localStorage.removeItem('ACCESS_TOKEN');
           window.location.replace('/login');
-          alert('로그아웃 성공!!');
         },
         onError: () => {
-          alert('로그아웃 실패!!');
+          localStorage.removeItem('ACCESS_TOKEN');
+          window.location.replace('/login');
         },
       });
     }

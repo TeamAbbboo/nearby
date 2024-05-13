@@ -1,0 +1,29 @@
+.Toastify__toast {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  margin: auto;
+  width: 280px;
+  padding: 0px 10px;
+  height: auto;
+  font-size: 15px;
+  font-family: 'NPSfontBold';
+}
+
+.Toastify__toast--info {
+  background-color: rgb(73, 73, 73);
+}
+
+.Toastify__toast--success {
+  background-color: #f6f9ff;
+  color: #3273ff;
+}
+
+.Toastify__toast--error {
+  background-color: rgb(255, 114, 114);
+}
