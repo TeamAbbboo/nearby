@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class ExpHistoryDto {
     long expId;
-    int userId;
+    String nickname;
     int level;
     int point;
     String content;
