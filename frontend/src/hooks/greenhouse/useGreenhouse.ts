@@ -1,5 +1,6 @@
-import { getCurrentLevelReq, getExpHistoryList, patchLevelUpReq } from '@/services/greenhouse/api';
+import { getCurrentLevelReq, getExpHistoryList, patchLevelUpReq, getMonthlyStoryReq } from '@/services/greenhouse/api';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { IMonthlyStoryReq } from '@/types/greenhouse';
 
 export const useGreenhouse = () => {
   /* 현재 레벨, 경험치 */
@@ -43,5 +44,15 @@ export const useGreenhouse = () => {
     });
   };
 
-  return { useGetCurrentLevel, usePatchLevelUp, useGetExpHistoryList };
+  /* 월별 소식 조회 */
+  const useGetMonthlyStoryList = (props: IMonthlyStoryReq) => {
+    console.log('useGetMonthlyStoryList props:', props);
+    return useQuery({
+      queryKey: ['stories', props],
+      queryFn: () => getMonthlyStoryReq(props),
+      select: data => data.data,
+    });
+  };
+
+  return { useGetCurrentLevel, usePatchLevelUp, useGetExpHistoryList, useGetMonthlyStoryList };
 };
