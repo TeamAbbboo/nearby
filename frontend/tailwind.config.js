@@ -20,6 +20,7 @@ export default {
         GREENHOUSE: 'url(@/assets/background_greenhouse.png)',
         LOGIN: 'url(@/assets/background_login.png)',
         PLAYGROUND: 'url(@/assets/background_playground.jpg)',
+        SPLASH_GREENGOUSE: 'url(@/assets/background_splash_greenhouse.png)',
       },
       keyframes: {
         fadeIn: {
