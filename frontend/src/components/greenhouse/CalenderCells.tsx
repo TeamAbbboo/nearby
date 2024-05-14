@@ -26,8 +26,6 @@ const CalenderCells = ({ renderMonth, daysList }: ICurrentDate) => {
   const date = ['일', '월', '화', '수', '목', '금', '토'];
   const [days, setDays] = useState<DaysMap>({});
 
-  // console.log('calendercells', daysList);
-
   useEffect(() => {
     if (daysList) {
       const daysMap = convertArrayToObject(daysList);

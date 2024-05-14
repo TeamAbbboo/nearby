@@ -25,10 +25,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   const { useGetDayStory } = useStory();
   const { data: dayStoryList } = useGetDayStory({ year, month, day, isSaved });
 
-  // console.log('isSaved:', isSaved.isSaved);
-  // console.log('DayStoryData:', dayStoryList?.data.dayStoryResList);
-  // console.log('DayStoryDataLength:', dayStoryList?.data.dayStoryResList.length);
-
   const [existStory, setExistStory] = useState<boolean>(true); // 소식이 있는지 확인하는 상태
   const [sec, setSec] = useState<number>(3); // 몇 초뒤에 떠나는지 확인하는 상태
 
@@ -43,7 +39,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    console.log(dayStoryList?.data.dayStoryResList.length);
     if (dayStoryList?.data.dayStoryResList.length === 0) {
       setExistStory(false);
       onExitStory();
@@ -55,7 +50,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   const navigate = useNavigate();
   useEffect(() => {
     if (dayStoryList) {
-      console.log('progressBars:', progressBars, 'DayStoryDataLength:', dayStoryList?.data.dayStoryResList.length);
       const intervalTime = 5000; //이미지가 변경되기까지의 시간
       const updateInterval = 100; //프로그래스바 업데이트 주기 (0.01초)
       const progressStep = (updateInterval / intervalTime) * 100; //각 업데이트마다 증가할 progress 값
@@ -71,8 +65,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
             clearInterval(intervalRef.current!);
             const nextImage = activeImage + 1;
 
-            console.log('activeImage', activeImage);
-            console.log('dayStoryList길이', dayStoryList?.data.dayStoryResList.length);
             if (activeImage === dayStoryList?.data.dayStoryResList.length) {
               navigate(-1);
             } else {

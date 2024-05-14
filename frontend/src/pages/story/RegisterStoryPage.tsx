@@ -23,7 +23,6 @@ const RegisterStoryPage = () => {
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
-      console.log(videoStream);
 
       if (videoRef.current) {
         videoRef.current.srcObject = videoStream;
@@ -63,8 +62,6 @@ const RegisterStoryPage = () => {
   };
 
   const toggleFacingMode = () => {
-    // console.log(facingMode);
-
     // setFacingMode(facingMode === 'user' ? 'environment' : 'user');
     getMediaPermission('environment');
   };
