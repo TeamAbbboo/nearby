@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.expHistory.entity;
 
+import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.base.BaseEntity;
 import jakarta.persistence.Column;
@@ -29,6 +30,11 @@ public class ExpHistory extends BaseEntity { // 경험치 내역
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // 경험치 등록 시점 가족
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id", nullable = false)
+    private Family family;
 
     // 경험치 증가 시점의 가족 레벨 (경험치는 해당 레벨에만 반영됨)
     @Column(name = "level", nullable = false)
