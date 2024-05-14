@@ -43,7 +43,7 @@ const KakaoLoginRedircet = () => {
             if (isFamily) {
               // 초대한 가족 그룹으로 참여 O
               if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
-                // window.location.replace('/group');
+                window.location.replace('/group');
               }
               // 초대한 가족 그룹으로 참여 X
               else {
