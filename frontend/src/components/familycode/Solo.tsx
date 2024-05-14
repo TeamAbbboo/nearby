@@ -83,7 +83,7 @@ const Solo = () => {
         objectType: 'feed',
         content: {
           title: 'Nearby',
-          description: '우리 가족 그룹에 참여하시겠습니까? (IOS는 사파리로 접속해 주세요.)',
+          description: '우리 가족 그룹에 참여하시겠습니까?',
           imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
           link: {
             mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
