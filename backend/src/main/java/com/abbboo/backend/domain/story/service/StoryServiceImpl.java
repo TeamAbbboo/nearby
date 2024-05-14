@@ -47,6 +47,7 @@ public class StoryServiceImpl implements StoryService{
     public void createStroy(String kakaoId, MultipartFile frontFile, MultipartFile rearFile) {
 
         log.info("story 등록 서비스 : {}, {}",frontFile.getSize(), rearFile.getSize());
+        // user 확인
         User user = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
@@ -61,6 +62,7 @@ public class StoryServiceImpl implements StoryService{
             .user(user)
             .frontUrl(frontUrl)
             .rearUrl(rearUrl)
+            .family(user.getFamily())
             .build();
 
         //경험치 추가 이벤트 발생
@@ -68,6 +70,7 @@ public class StoryServiceImpl implements StoryService{
         storyRepository.save(story);
     }
 
+    // 소식 보관하기
     @Override
     @Transactional
     public void updateIsSaved(Long storyId) {
@@ -81,6 +84,7 @@ public class StoryServiceImpl implements StoryService{
         log.info("변경 isSaved : {}",story.getIsSaved());
     }
 
+    // 반응 등록하기
     @Override
     @Transactional
     public void createReaction(String kakaoId, StoryReactionReq reactionReq, Long storyId) {
@@ -118,7 +122,7 @@ public class StoryServiceImpl implements StoryService{
         // 예외 1 - familyId가 유효하지 않은 경우
         familyRepository.findById(familyId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
-        
+        log.info("user의 familyId : {}", familyId);
         return storyRepository.findDailySavedStoriesByFamilyId(params, familyId);
     }
 
