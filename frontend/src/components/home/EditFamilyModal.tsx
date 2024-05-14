@@ -89,7 +89,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
       objectType: 'feed',
       content: {
         title: 'Nearby',
-        description: '우리 가족 그룹에 참여하시겠습니까?',
+        description: '우리 가족 그룹에 참여하시겠습니까? (IOS는 사파리로 접속해 주세요.)',
         imageUrl: 'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/story/hold_on_letter.png', // S3 이미지?
         link: {
           mobileWebUrl: `${import.meta.env.VITE_FRONT_URL}/login?code=${familyCode}`,
@@ -139,22 +139,22 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   };
 
   /* 가족 떠나기 */
-  const { useLeaveFamily } = useAuth();
-  const { mutate: doPatchLeaveFamilyReq } = useLeaveFamily();
-  const onLeaveButton = () => {
-    if (window.confirm('정말 가족을 떠나시겠습니까?')) {
-      doPatchLeaveFamilyReq(undefined, {
-        onSuccess: () => {
-          setIsExistFamilyCode(false);
-          setFamilyCode('');
-          Toast.success('가족 떠나기 성공');
-        },
-        onError: () => {
-          Toast.error('가족 떠나기 실패');
-        },
-      });
-    }
-  };
+  // const { useLeaveFamily } = useAuth();
+  // const { mutate: doPatchLeaveFamilyReq } = useLeaveFamily();
+  // const onLeaveButton = () => {
+  //   if (window.confirm('정말 가족을 떠나시겠습니까?')) {
+  //     doPatchLeaveFamilyReq(undefined, {
+  //       onSuccess: () => {
+  //         setIsExistFamilyCode(false);
+  //         setFamilyCode('');
+  //         Toast.success('가족 떠나기 성공');
+  //       },
+  //       onError: () => {
+  //         Toast.error('가족 떠나기 실패');
+  //       },
+  //     });
+  //   }
+  // };
 
   /* 가족 코드 입력시 */
   const onChangeFamilyCode = (e: ChangeEvent<HTMLInputElement>) => {
@@ -216,7 +216,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                 {isExistFamilyCode ? <>가족 코드 공유하기</> : <>가족 코드로 참여하기</>}
               </button>
             </div>
-            {isExistFamilyCode ? (
+            {/* {isExistFamilyCode ? (
               <div>
                 <button onClick={onLeaveButton} className="w-60 h-12 bg-rose-200 rounded-xl shadow-xl">
                   가족 떠나기
@@ -224,7 +224,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
               </div>
             ) : (
               <></>
-            )}
+            )} */}
           </div>
           <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
             <button
