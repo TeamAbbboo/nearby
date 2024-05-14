@@ -19,7 +19,7 @@ const StoryHeader = ({ nickname, createdAt, mood, decoration }: IStoryHeaderProp
   const navigate = useNavigate();
 
   return (
-    <div className="absolute top-0 flex w-full h-fit justify-between pt-6 pb-2 px-3 items-center bg-gradient-to-b from-black/40 z-10">
+    <div className="absolute top-0 flex w-full h-fit justify-between pt-6 pb-2 px-3 items-center bg-gradient-to-b from-black/40 z-10 font-NPSfontBold">
       <div className="flex flex-row gap-2 items-center text-white text-sm">
         <div className="bg-white w-8 h-8 rounded-full">
           <Penguin mood={mood} decoration={decoration} />
