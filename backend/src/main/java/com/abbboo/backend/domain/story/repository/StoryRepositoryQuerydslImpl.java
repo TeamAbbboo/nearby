@@ -192,7 +192,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
 
         LocalDateTime dayAgo = LocalDateTime.now().minusHours(24);
         return (story.user.family.id.eq(familyId))
-            .and(story.createdAt.after(dayAgo)).and(story.isSaved.eq(true));
+            .and(story.createdAt.after(dayAgo));
     }
 
     // 동등 조건 : 생성일자가 요청된 일자(YYYY-MM-dd)와 일치하는 조건 생성
