@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '@/components/story/ModalContext';
 import { useState, useEffect } from 'react';
 import MessageModal from '../home/MessageModal';
 import home from '@/assets/icons/home.png';
@@ -10,11 +9,13 @@ import notification from '@/assets/icons/notification.png';
 import { useModal } from '@/components/story/ModalContext';
 import { useFamily } from '@/hooks/family/useFamily';
 import Toast from '@/components/@common/Toast/Toast';
+import message from '@/assets/icons/message.png';
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
 
   const { toggleModal, setIsSaved } = useModal();
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   /* 가족 코드 */
   const [familyCode, setFamilyCode] = useState<string>('');
@@ -35,7 +36,6 @@ const PlaygroundHeader = () => {
   const onPreventClick = () => {
     Toast.error('가족을 생성해주세요.');
   };
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   return (
     <header className="w-full">
