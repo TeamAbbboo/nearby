@@ -20,7 +20,9 @@ const PenguinModal = () => {
       <Modal onClose={modalClose} width="w-4/5" backgroundColor="bg-black/20 backdrop-blur-[4px]">
         <div className="flex justify-center items-center">
           <Penguin
-            onClick={() => setIsPokeModalOpen(true)}
+            onClick={() => {
+              nickname !== familyInfo.nickname && setIsPokeModalOpen(true);
+            }}
             mood={familyInfo.mood}
             decoration={familyInfo.decoration}
             width="w-[18rem]"

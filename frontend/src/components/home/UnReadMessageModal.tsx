@@ -61,10 +61,11 @@ const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnRea
               </>
             )}
           </div>
-          <div className="bg-SUB2 w-full h-44 rounded-xl p-5">
-            <p className="bg-SUB2 outline-none w-full h-full resize-none border-none text-sm">
+          <div className="bg-SUB2 w-full h-44 rounded-xl px-4 py-3 text-right flex flex-col">
+            <p className="outline-none w-full h-full resize-none border-none text-sm text-left">
               {unReadMessage.content}
             </p>
+            <p className="text-xs test-right">-{unReadMessage.nickname} 펭귄-</p>
           </div>
         </div>
         <div className="flex justify-center mt-3">
