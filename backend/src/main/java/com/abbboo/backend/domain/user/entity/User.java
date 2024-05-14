@@ -96,9 +96,14 @@ public class User extends BaseEntity {  // 사용자
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications = new ArrayList<>();
 
-    // 토큰 갱신 메서드
+    // 리프레쉬 토큰 갱신 메서드
     public void changeRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    // FCM 토큰 갱신 메서드
+    public void changeFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
     // 닉네임 변경 메서드
@@ -128,10 +133,12 @@ public class User extends BaseEntity {  // 사용자
         this.isDeleted = true;
     }
 
+    // 유저 펭귄 상태 변경 메서드
     public void changeDecoration(String item) {
         this.decoration = item;
     }
 
+    // 유저 펭귄 꾸미기 변경 메서드
     public void changeMood(String expression) {
         this.mood = expression;
     }
