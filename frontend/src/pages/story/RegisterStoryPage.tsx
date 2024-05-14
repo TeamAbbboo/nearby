@@ -96,7 +96,7 @@ const RegisterStoryPage = () => {
     formData.append('rear', dataURLtoFile(backImage));
 
     postStory(formData);
-    navigate('/');
+    navigate(-1);
   };
 
   useEffect(() => {
