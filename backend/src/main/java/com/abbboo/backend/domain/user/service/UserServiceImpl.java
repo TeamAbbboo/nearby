@@ -162,8 +162,7 @@ public class UserServiceImpl implements UserService {
 
         // 유저 로그인 응답 반환
         return UserLoginRes.builder()
-                .familyId(user.getFamily()==null
-                        ? null : user.getFamily().getId())
+                .isFamily(user.getFamily()!=null)
                 .nickname(user.getNickname())
                 .birthday(user.getBirthday())
                 .build();
