@@ -1,18 +1,19 @@
 /* components */
-import HomePage from '@/pages/home/HomePage';
+import MyPage from '@/pages/my/MyPage';
 import LoginPage from '@/pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
 import SignupPage from '@/pages/signup/SignUpPage';
 import RegisterPage from '@/pages/register/RegisterPage';
 import SoloPage from '@/pages/familycode/SoloPage';
 import GroupPage from '@/pages/familycode/GroupPage';
-import PlaygroundPage from '@/pages/playground/PlaygroundPage';
+import HomePage from '@/pages/home/HomePage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 import SplashHomePage from '@/pages/splash/SplashHomePage';
 import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
+import PreventRoute from '@/pages/private/PreventRoute';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
 import ViewStoryPage from '@/pages/story/ViewStoryPage';
 
@@ -28,10 +29,10 @@ const router = createBrowserRouter([
     element: <SplashHomePage />,
   },
   {
-    path: '/home',
+    path: '/my',
     element: (
       <PrivateRoute>
-        <HomePage />
+        <MyPage />
       </PrivateRoute>
     ),
   },
@@ -76,43 +77,59 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/splashPlayground',
-    element: <SplashPlaygroundPage />,
-  },
-  {
-    path: '/playground',
+    path: '/splashMy',
     element: (
       <PrivateRoute>
-        <PlaygroundPage />
+        <SplashPlaygroundPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/home',
+    element: (
+      <PrivateRoute>
+        <HomePage />
       </PrivateRoute>
     ),
   },
   {
     path: '/splashGreenhouse',
-    element: <SplashGreenhousePage />,
+    element: (
+      <PreventRoute>
+        <PrivateRoute>
+          <SplashGreenhousePage />
+        </PrivateRoute>
+      </PreventRoute>
+    ),
   },
   {
     path: '/greenhouse',
     element: (
-      <PrivateRoute>
-        <GreenHousePage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <GreenHousePage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/album',
     element: (
-      <PrivateRoute>
-        <AlbumPage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <AlbumPage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/story',
     element: (
-      <PrivateRoute>
-        <RegisterStoryPage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <RegisterStoryPage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
