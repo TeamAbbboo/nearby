@@ -6,10 +6,12 @@ import {
   getStoryExpression,
   getSavedStoryReq,
 } from '@/services/story/api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IStoryExpressionReq } from '@/types/story';
 
 export const useStory = () => {
+  const queryClient = useQueryClient();
+
   /* 24시간 이내 소식 */
   const useGetDayStory = ({
     year,
@@ -45,6 +47,9 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'expression'],
       mutationFn: async (req: IStoryExpressionReq) => postStoryExpressionReq(req),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['story', 'expression'] });
+      },
     });
   };
 
@@ -62,6 +67,9 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'keep'],
       mutationFn: (storyId: number) => patchKeepStoryReq(storyId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['today', 'story'] });
+      },
     });
   };
 
