@@ -4,24 +4,39 @@ import {
   postStoryExpressionReq,
   patchKeepStoryReq,
   getStoryExpression,
+  getSavedStoryReq,
 } from '@/services/story/api';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IStoryExpressionReq } from '@/types/story';
 import Toast from '@/components/@common/Toast/Toast';
 
 export const useStory = () => {
+  const queryClient = useQueryClient();
+
   /* 24시간 이내 소식 */
-  const useGetDayStory = (isSaved: boolean) => {
+  const useGetDayStory = ({
+    year,
+    month,
+    day,
+    isSaved,
+  }: {
+    year?: number;
+    month?: number;
+    day?: number;
+    isSaved: boolean;
+  }) => {
     return useQuery({
-      queryKey: ['today', 'story'],
+      queryKey: ['today', 'story', isSaved],
       queryFn: () => {
         if (!isSaved) {
-          console.log('24시 이내 스토리 조회');
+          /* 24시 이내 스토리 조회 */
           return getDayStoryReq();
         } else {
-          /* 보관된 스토리 조회 api로 변경 예정 */
-          console.log('보관된 스토리 조회');
-          return getDayStoryReq();
+          /* 보관된 스토리 조회 */
+          if (year && month && day) {
+            month += 1;
+            return getSavedStoryReq({ year, month, day });
+          }
         }
       },
       enabled: isSaved !== undefined,
@@ -33,6 +48,9 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'expression'],
       mutationFn: async (req: IStoryExpressionReq) => postStoryExpressionReq(req),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['story', 'expression'] });
+      },
     });
   };
 
@@ -50,6 +68,9 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'keep'],
       mutationFn: (storyId: number) => patchKeepStoryReq(storyId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['today', 'story'] });
+      },
     });
   };
 

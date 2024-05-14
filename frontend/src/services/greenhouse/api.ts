@@ -1,6 +1,6 @@
 import { axiosWithCredentialInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
-import { IGetCurrentLevelRes, IExpHistoryListRes } from '@/types/greenhouse';
+import { IGetCurrentLevelRes, IExpHistoryListRes, IMonthlyStoryListRes, IMonthlyStoryReq } from '@/types/greenhouse';
 
 /*현재 레벨, 경험치 */
 export const getCurrentLevelReq = async (): Promise<APIResponse<IGetCurrentLevelRes>> => {
@@ -32,5 +32,19 @@ export const getExpHistoryList = async ({
     },
   });
   console.log('경험치 내역:', data);
+  return data;
+};
+
+/* 월별 스토리 조회*/
+export const getMonthlyStoryReq = async (params: IMonthlyStoryReq): Promise<APIResponse<IMonthlyStoryListRes>> => {
+  const { data } = await axiosWithCredentialInstance.get('/stories/monthly', {
+    params: {
+      year: params.year,
+      month: params.month,
+      size: params.size,
+    },
+  });
+  console.log('월별 스토리 조회 params:', params);
+  console.log('월별 스토리 조회:', data);
   return data;
 };

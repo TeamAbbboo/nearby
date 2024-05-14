@@ -10,6 +10,26 @@ export const getDayStoryReq = async (): Promise<APIResponse<IDayStoryListRes>> =
   return data;
 };
 
+export const getSavedStoryReq = async ({
+  year,
+  month,
+  day,
+}: {
+  year: number;
+  month: number;
+  day: number;
+}): Promise<APIResponse<IDayStoryListRes>> => {
+  const { data } = await axiosWithCredentialInstance.get('/stories/daily', {
+    params: {
+      year: year,
+      month: month,
+      day: day,
+    },
+  });
+  console.log('보관된 스토리 조회', data);
+  return data;
+};
+
 /* 소식 반응 등록 */
 export const postStoryExpressionReq = async ({
   storyId,
