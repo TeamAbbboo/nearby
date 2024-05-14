@@ -42,11 +42,14 @@ const KakaoLoginRedircet = () => {
             // 가족 그룹 존재 O
             if (isFamily) {
               // 초대한 가족 그룹으로 참여 O
+              console.log('in1');
               if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
+                console.log('in2');
                 window.location.replace('/group');
               }
               // 초대한 가족 그룹으로 참여 X
               else {
+                console.log('in3');
                 localStorage.removeItem('SHARE_FAMILY_CODE');
                 window.location.replace(`${import.meta.env.BASE_URL}`);
               }
