@@ -5,6 +5,7 @@ import { expressionType } from '@/types/model';
 import { useStory } from '@/hooks/story/useStory';
 import { IStoryExpressionReq } from '@/types/story';
 import { getExpressionMeaning } from '@/utils/getExpressionMeaning';
+import Toast from '../@common/Toast/Toast';
 
 interface ISendReactProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -12,8 +13,6 @@ interface ISendReactProps {
 }
 
 const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
-  console.log('반응하기 storyId', storyId);
-
   const { usePostStoryExpression } = useStory();
   const { mutate } = usePostStoryExpression();
 
@@ -24,13 +23,13 @@ const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
     };
 
     mutate(req);
-    alert(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
+    Toast.success(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
     setIsOpen(false);
   };
 
   return (
     <Modal onClose={() => setIsOpen(false)} width="w-4/5">
-      <div className="p-5 flex flex-col bg-white w-full h-fit rounded-2xl justify-center font-bold text-center">
+      <div className="p-5 flex flex-col bg-white w-full h-fit rounded-2xl justify-center font-bold text-center font-NPSfontBold">
         <p>반응하기</p>
         <div className="grid grid-cols-2">
           <PenguinExpression expression="LOL" onClick={() => sendReaction('LOL')} />

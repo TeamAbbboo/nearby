@@ -14,7 +14,7 @@ const PenguinFamily = ({ familyInfo }: IPenguinFamilyProps) => {
   const { isModalOpen } = playgroundPenguinStore();
 
   return (
-    <div className="absolute left-0 right-0 top-0 bottom-0 ">
+    <div className="">
       {isModalOpen && <PenguinModal />}
 
       <div className="w-full absolute left-0 right-0 bottom-32 flex justify-center">

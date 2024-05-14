@@ -2,6 +2,7 @@
 import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
 import userStore from '@/stores/userStore';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
@@ -19,9 +20,8 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
   const [birthday, setBirthday] = useState<string>(''); // 생년월일 (수정 불가)
 
   /* 사용자 정보 가져오기 */
-  const { useGetUserInfo, useModifyNickname, usePatchWithdrawalUser } = useAuth();
+  const { useGetUserInfo, useModifyNickname } = useAuth();
   const { mutate: doPatchModifyReq } = useModifyNickname();
-  const { mutate: doPatchWithdrawalUserReq } = usePatchWithdrawalUser();
 
   /* 유저 정보 조회 */
   const { data, error } = useGetUserInfo();
@@ -36,13 +36,6 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
     }
   }, [data, error]);
 
-  /* 회원 탈퇴 */
-  const onLeaveButton = () => {
-    if (window.confirm('정말 탈퇴하시겠습니까?')) {
-      doPatchWithdrawalUserReq();
-    }
-  };
-
   /* 수정 */
   const onModifiyButton = () => {
     setIsModifiyNickname(true);
@@ -51,7 +44,7 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
   /* 변경 */
   const onChangeButton = () => {
     if (nickname === '' || nickname.includes(' ')) {
-      alert('변경 또는 허용되지 않은 문자열이 있습니다.');
+      Toast.error('변경 또는 허용되지 않은 문자열');
       return;
     }
 
@@ -70,12 +63,12 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
           userStore.setState({
             nickname: nickname,
           });
-          alert('변경 완료!');
+          Toast.success('변경 완료');
         },
         onError: () => {
           setNickname(preNickname);
           setIsModifiyNickname(false);
-          alert('변경 실패');
+          Toast.error('변경 실패');
         },
       });
     }
@@ -88,38 +81,30 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
 
   return (
     <Modal onClose={() => setIsEditInfoModalOpen(false)} width="w-4/5">
-      <div className="bg-white flex flex-col justify-center items-center text-center font-bold rounded-2xl">
+      <div className="bg-white flex flex-col justify-center items-center text-center font-bold rounded-2xl text-sm">
         {/* 헤더 */}
-        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl align-middle  text-lg">
+        <div className="w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl text-base">
           <p>내 정보 수정</p>
         </div>
 
         {/* 바디 */}
-        <div className="flex flex-col gap-10 py-5 items-center w-full h-full overflow-y-auto">
+        <div className="flex flex-col gap-5 py-5 items-center w-full h-full overflow-y-auto">
           <div>
-            <p className="ml-2 text-start text-sm">닉네임</p>
+            <p className="ml-2 text-start text-xs">닉네임</p>
 
             <div
-              className={
-                isModifiyNickname
-                  ? 'flex flex-row mt-1 w-60 h-14 border-2 border-slate-400 rounded-xl items-center'
-                  : 'flex flex-row mt-1 w-60 h-14 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center'
-              }
+              className={`flex flex-row mt-1 w-60 h-12 border-2 border-slate-300 rounded-xl items-center ${isModifiyNickname ? '' : 'bg-zinc-100'}`}
             >
               <input
                 value={nickname}
                 readOnly={!isModifiyNickname}
-                className={
-                  isModifiyNickname
-                    ? 'w-full ml-5 text-start outline-none'
-                    : 'w-full ml-5 bg-zinc-200 text-start outline-none'
-                }
+                className={`w-full pl-4 outline-none ${isModifiyNickname ? '' : 'bg-zinc-100'}`}
                 maxLength={7}
                 onChange={onChangeNickname}
               />
               <button
                 onClick={isModifiyNickname ? onChangeButton : onModifiyButton}
-                className="w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl"
+                className="py-2 w-16 mr-1 bg-rose-200 rounded-xl text-xs"
               >
                 {isModifiyNickname ? <>변경</> : <>수정</>}
               </button>
@@ -127,24 +112,21 @@ const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModa
           </div>
 
           <div>
-            <p className="ml-2 text-start text-sm">생년월일 (수정 불가)</p>
-            <div className="flex flex-row mt-1 w-60 h-14 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center">
-              <input value={birthday} readOnly={true} className="w-full ml-5 bg-zinc-200 text-start outline-none" />
+            <p className="ml-2 text-start text-xs">생년월일</p>
+            <div className="flex flex-row mt-1 w-60 h-12 bg-zinc-100 border-2 border-slate-300 rounded-xl items-center">
+              <input value={birthday} readOnly={true} className="w-full pl-4 bg-zinc-100 outline-none" />
             </div>
-          </div>
-
-          <div>
-            <button onClick={onLeaveButton} className="w-36 h-10 bg-rose-200 rounded-xl shadow-xl">
-              회원 탈퇴하기
-            </button>
           </div>
         </div>
 
         {/* 바텀 */}
         <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
-          <button onClick={settingHandler}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#000000" viewBox="0 0 256 256">
-              <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H107.31l18.35,18.34a8,8,0,0,1-11.32,11.32l-32-32a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,11.32L107.31,120H168A8,8,0,0,1,176,128Z"></path>
+          <button
+            onClick={settingHandler}
+            className="w-11 h-8 bg-white rounded-full flex justify-center items-center shadow-xl border-2 border-black/10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#000000" viewBox="0 0 256 256">
+              <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
             </svg>
           </button>
         </div>

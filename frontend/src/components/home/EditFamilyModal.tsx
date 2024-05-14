@@ -2,6 +2,7 @@
 import Modal from '@/components/@common/Modal';
 import { useAuth } from '@/hooks/auth/useAuth';
 import { useFamily } from '@/hooks/family/useFamily';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
 import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
@@ -59,11 +60,11 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: data => {
           setFamilyCode(data.data.familyCode);
           setIsExistFamilyCode(true);
-          alert('생성 성공!!');
+          Toast.success('생성 성공');
         },
         onError: () => {
           setIsExistFamilyCode(false);
-          alert('생성 실패!!');
+          Toast.error('생성 실패');
         },
       });
     }
@@ -74,11 +75,11 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
     try {
       if (familyCode !== undefined) {
         window.navigator.clipboard.writeText(familyCode);
-        alert('클립보드에 링크가 복사되었습니다.');
+        Toast.success('복사 성공');
       }
     } catch (e) {
       console.log(e);
-      alert('복사에 실패하였습니다');
+      Toast.error('복사 실패');
     }
   };
 
@@ -112,12 +113,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const onParticipateButton = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
-      alert('가족 코드 입력칸에 빈칸 또는 공백이 존재합니다.');
+      Toast.error('가족 코드 입력 칸에 빈칸 또는 공백이 존재', { className: 'font-NPSfontBold' });
       return;
     }
 
     if (familyCode.length !== 8) {
-      alert('가족 코드는 8자리 입니다.');
+      Toast.error('가족 코드는 8자리');
       return;
     }
 
@@ -126,12 +127,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: () => {
           setFamilyCode(familyCode);
           setIsExistFamilyCode(true);
-          alert('참여 성공!!');
+          Toast.success('참여 성공');
         },
         onError: error => {
           console.log(error);
           setFamilyCode('');
-          alert('존재하지 않는 코드입니다!!');
+          Toast.error('존재하지 않는 코드');
         },
       });
     }
@@ -146,10 +147,10 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
         onSuccess: () => {
           setIsExistFamilyCode(false);
           setFamilyCode('');
-          alert('가족 떠나기 성공!!');
+          Toast.success('가족 떠나기 성공');
         },
         onError: () => {
-          alert('가족 떠나기 실패!!');
+          Toast.error('가족 떠나기 실패');
         },
       });
     }
@@ -162,30 +163,22 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
 
   return (
     <Modal onClose={() => setIsEditFamilyModalOpen(false)} width="w-4/5">
-      <div className="bg-white flex flex-col justify-center items-center font-bold rounded-2xl">
+      <div className="bg-white flex flex-col justify-center items-center font-bold rounded-2xl text-sm">
         {/* 헤더 */}
-        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl align-middle text-lg">
+        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl align-middle text-base">
           <p>가족 코드</p>
         </div>
 
         {/* 가족 코드 존재한다면 공유 및 수정, 떠나기*/}
         <>
-          <div className="flex flex-col gap-10 py-5 items-center w-full h-full overflow-y-auto">
+          <div className="flex flex-col gap-5 py-5 items-center w-full h-full overflow-y-auto">
             <div>
-              <p className="ml-2 text-start text-sm">내 가족 코드</p>
+              <p className="ml-2 text-start text-xs">내 가족 코드</p>
               <div
-                className={
-                  isExistFamilyCode
-                    ? 'flex flex-row mt-1 w-60 h-16 bg-zinc-200 border-2 border-slate-400 rounded-xl items-center'
-                    : 'flex flex-row mt-1 w-60 h-16 border-2 border-slate-400 rounded-xl items-center justify-center'
-                }
+                className={`flex flex-row mt-1 w-60 h-12 border-2 border-slate-300 rounded-xl items-center  ${isExistFamilyCode ? 'bg-zinc-100' : ''}`}
               >
                 <input
-                  className={
-                    isExistFamilyCode
-                      ? 'w-40 bg-zinc-200 ml-5 text-start outline-none'
-                      : 'w-40 ml-5 text-start outline-none'
-                  }
+                  className={`w-full pl-4 outline-none ${isExistFamilyCode ? 'bg-zinc-100' : ''}`}
                   value={familyCode}
                   maxLength={8}
                   placeholder={isExistFamilyCode ? '' : '가족이 없습니다.'}
@@ -194,21 +187,20 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
                 />
                 <button
                   onClick={isExistFamilyCode ? onCopyClick : createFamilyCode}
-                  className={isExistFamilyCode ? '' : 'w-20 h-10 mr-1 bg-rose-200 rounded-xl shadow-xl'}
+                  className={isExistFamilyCode ? '' : 'py-2 w-16 mr-1 bg-rose-200 rounded-xl text-xs'}
                 >
                   {isExistFamilyCode ? (
-                    <>
+                    <div className="pr-4">
                       <svg
-                        className="ml-2 self-center"
                         xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
+                        width="20"
+                        height="20"
                         fill="#000000"
                         viewBox="0 0 256 256"
                       >
                         <path d="M216,28H88A12,12,0,0,0,76,40V76H40A12,12,0,0,0,28,88V216a12,12,0,0,0,12,12H168a12,12,0,0,0,12-12V180h36a12,12,0,0,0,12-12V40A12,12,0,0,0,216,28ZM156,204H52V100H156Zm48-48H180V88a12,12,0,0,0-12-12H100V52H204Z"></path>
                       </svg>
-                    </>
+                    </div>
                   ) : (
                     <>생성</>
                   )}
@@ -219,14 +211,14 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
             <div>
               <button
                 onClick={isExistFamilyCode ? shareKakao : onParticipateButton}
-                className="w-60 h-16 bg-white/40 border-2 border-rose-200 rounded-xl shadow-xl"
+                className="w-60 h-12 border-2 border-rose-200 rounded-xl"
               >
                 {isExistFamilyCode ? <>가족 코드 공유하기</> : <>가족 코드로 참여하기</>}
               </button>
             </div>
             {isExistFamilyCode ? (
               <div>
-                <button onClick={onLeaveButton} className="w-36 h-10 bg-rose-200 rounded-xl shadow-xl">
+                <button onClick={onLeaveButton} className="w-60 h-12 bg-rose-200 rounded-xl shadow-xl">
                   가족 떠나기
                 </button>
               </div>
@@ -235,9 +227,12 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
             )}
           </div>
           <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
-            <button onClick={settingHandler}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#000000" viewBox="0 0 256 256">
-                <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm48-88a8,8,0,0,1-8,8H107.31l18.35,18.34a8,8,0,0,1-11.32,11.32l-32-32a8,8,0,0,1,0-11.32l32-32a8,8,0,0,1,11.32,11.32L107.31,120H168A8,8,0,0,1,176,128Z"></path>
+            <button
+              onClick={settingHandler}
+              className="w-11 h-8 bg-white rounded-full flex justify-center items-center shadow-xl border-2 border-black/10"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#000000" viewBox="0 0 256 256">
+                <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
               </svg>
             </button>
           </div>

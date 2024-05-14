@@ -10,11 +10,14 @@ import {
   doPatchLeaveFamilyReq,
 } from '@/services/auth/api';
 import { ISignUpReq } from '@/types/auth';
+import Toast from '@/components/@common/Toast/Toast';
 
 /* libraries */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useAuth = () => {
+  const queryClient = useQueryClient();
+
   const usePostLogin = () => {
     return useMutation({
       mutationKey: ['postLogin'],
@@ -33,6 +36,9 @@ export const useAuth = () => {
     return useMutation({
       mutationKey: ['patchEnrollFamilyCode'],
       mutationFn: async (familyCode: string) => doPatchEnrollFamilyReq(familyCode),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+      },
     });
   };
 
@@ -47,6 +53,9 @@ export const useAuth = () => {
     return useMutation({
       mutationKey: ['patchModifyNickname'],
       mutationFn: async (nickname: string) => doPatchModifyReq(nickname),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+      },
     });
   };
 
@@ -62,12 +71,13 @@ export const useAuth = () => {
       mutationKey: ['deleteUser'],
       mutationFn: async () => doPatchWithdrawalUserReq(),
       onSuccess: () => {
-        localStorage.setItem('user-store', '');
+        localStorage.removeItem('user-store');
+        localStorage.removeItem('ACCESS_TOKEN');
         window.location.replace('/login');
-        alert('회원 탈퇴에 성공했습니다.');
+        Toast.success('회원 탈퇴 성공');
       },
       onError: () => {
-        alert('회원 탈퇴 실패했습니다.');
+        Toast.error('회원 탈퇴 실패');
       },
     });
   };
@@ -76,6 +86,9 @@ export const useAuth = () => {
     return useMutation({
       mutationKey: ['patchLeaveFamily'],
       mutationFn: async () => doPatchLeaveFamilyReq(),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['familyCode'] });
+      },
     });
   };
 

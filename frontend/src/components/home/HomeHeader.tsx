@@ -3,19 +3,41 @@ import MessageModal from './MessageModal';
 import SettingModal from './SettingModal';
 import EditInfoModal from './EditInfoModal';
 import EditFamilyModal from './EditFamilyModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import playground from '@/assets/icons/playground.png';
 import message from '@/assets/icons/message.png';
 import setting from '@/assets/icons/setting.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
+import Toast from '../@common/Toast/Toast';
+import { useFamily } from '@/hooks/family/useFamily';
 import circle_red from '@/assets/circle_red.png';
 
 const HomeHeader = () => {
+  /* 가족 코드 */
+  const [familyCode, setFamilyCode] = useState<string>('');
+
+  /* 가족 코드 조회 */
+  /** 가족 코드가 존재하는데 또 참여하는 것을 방지하는 용도 */
+  const { useGetFamilyCode } = useFamily();
+  const { data, error } = useGetFamilyCode();
+  useEffect(() => {
+    if (data) {
+      setFamilyCode(data.data.familyCode);
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
+
+  const onPreventClick = () => {
+    Toast.error('가족을 생성해주세요.');
+  };
+
   const navigate = useNavigate();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState<boolean>(false); // 알림 모달
-  const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 알림이 왔는지 확인
+  // const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 알림이 왔는지 확인
 
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
@@ -52,20 +74,16 @@ const HomeHeader = () => {
       <nav className="w-full p-5 flex justify-between font-bold">
         {/* 왼쪽 네비바 */}
         <div className="flex flex-col gap-3">
-          <div onClick={() => navigate('/story')} className="flex flex-col items-center">
+          <div
+            onClick={familyCode !== null ? () => navigate('/story') : onPreventClick}
+            className="flex flex-col items-center"
+          >
             <img src={camera} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-
-          <div
-            onClick={() => {
-              setIsExistNotification(false);
-              setIsNotificationModalOpen(true);
-            }}
-            className="flex flex-col items-center gap-1"
-          >
+          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center gap-1">
             <div className="relative">
               <img className="z-10" src={notification} width={44} />
               {isExistNotification && (
@@ -83,10 +101,10 @@ const HomeHeader = () => {
 
         {/* 오른쪽 네비바 */}
         <div className="flex flex-col gap-3">
-          <div onClick={() => navigate('/splashPlayground')} className="flex flex-col items-center">
+          <div onClick={() => navigate('/')} className="flex flex-col items-center">
             <img src={playground} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
-              <p className="text-[9px]">광장</p>
+              <p className="text-[9px]">우리집</p>
             </div>
           </div>
 
