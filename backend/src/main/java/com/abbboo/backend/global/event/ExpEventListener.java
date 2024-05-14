@@ -35,7 +35,7 @@ public class ExpEventListener implements ApplicationListener<ExpEvent> {
             }
         }
         ExpHistory expHistory = ExpHistory.builder()
-                .user(event.user).level(event.user.getFamily().getLevel()).point(event.expType.point).content(event.expType.content)
+                .user(event.user).level(event.user.getFamily().getLevel()).point(event.expType.point).content(event.expType.content).family(event.user.getFamily())
                 .build();
         expHistoryRepository.save(expHistory);
 
