@@ -1,21 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import MessageModal from '../home/MessageModal';
 import home from '@/assets/icons/home.png';
 import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import { useModal } from '@/components/story/ModalContext';
+import Toast from '../@common/Toast/Toast';
 import { useFamily } from '@/hooks/family/useFamily';
-import Toast from '@/components/@common/Toast/Toast';
-import message from '@/assets/icons/message.png';
+
+interface IStoryProps {
+  year?: number;
+  month?: number;
+  day?: number;
+  isSaved: boolean;
+}
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
-
-  const { toggleModal, setIsSaved } = useModal();
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   /* 가족 코드 */
   const [familyCode, setFamilyCode] = useState<string>('');
@@ -51,7 +52,7 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => console.log('알림 확인하기')} className="flex flex-col items-center">
+          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center">
             <img src={notification} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">알림</p>
@@ -79,8 +80,10 @@ const PlaygroundHeader = () => {
             onClick={
               familyCode !== null
                 ? () => {
-                    toggleModal();
-                    setIsSaved(false);
+                    const props: IStoryProps = {
+                      isSaved: false,
+                    };
+                    navigate('/stories', { state: props });
                   }
                 : onPreventClick
             }
@@ -91,15 +94,8 @@ const PlaygroundHeader = () => {
               <p className="text-[9px] ">소식 확인</p>
             </div>
           </div>
-          <div onClick={() => setIsMessageModalOpen(true)} className="flex flex-col items-center">
-            <img src={message} width={44} />
-            <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
-              <p className="text-[9px]">마음함</p>
-            </div>
-          </div>
         </div>
       </nav>
-      {isMessageModalOpen && <MessageModal setIsMessageModalOpen={setIsMessageModalOpen} />}
     </header>
   );
 };

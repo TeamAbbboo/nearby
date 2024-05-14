@@ -1,3 +1,4 @@
+import Toast from '@/components/@common/Toast/Toast';
 import {
   getReceivedMessageList,
   getSentMessageList,
@@ -49,6 +50,8 @@ export const useMessage = () => {
     return useMutation({
       mutationKey: ['message', 'send'],
       mutationFn: (req: IMessageSendReq) => postSendMessage(req),
+      onSuccess: data => Toast.success(data.message),
+      onError: () => Toast.error('TTS 변환 오류로 인해 메시지 전송에 실패했습니다'),
     });
   };
 
