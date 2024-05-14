@@ -11,13 +11,12 @@ interface ISendMessageModalProps {
 const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps) => {
   const { userId, familyInfo } = playgroundPenguinStore();
   const { usePostSendMessage } = useMessage();
-  const { data, mutate, isSuccess } = usePostSendMessage();
+  const { mutate, isSuccess } = usePostSendMessage();
   const [content, setContent] = useState<string>('');
 
   useEffect(() => {
     if (isSuccess) {
       setIsSendMessageModalOpen(false);
-      alert(data.message);
     }
   }, [isSuccess]);
 

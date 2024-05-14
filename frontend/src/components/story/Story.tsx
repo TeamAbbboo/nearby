@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useModal } from '@/components/story/ModalContext';
 import StoryHeader from '@/components/story/StoryHeader';
 import StoryBottom from './StoryBottom';
 import ShowMoreBottomSheet from './ShowMoreBottomSheet';
@@ -7,15 +6,19 @@ import ReactHistoryBottomSheet from './ReactHistoryBottomSheet';
 import SendReactModal from './SendReactModal';
 import { useStory } from '@/hooks/story/useStory';
 import ProgressBar from './ProgressBar';
+import { useNavigate } from 'react-router-dom';
 
 /* 저장한거 보는건지 24시간 이내 스토리 보는건지 여부 */
 interface IStoryProps {
+  year?: number;
+  month?: number;
+  day?: number;
   isSaved: boolean;
 }
 
-const Story: React.FC<IStoryProps> = isSaved => {
+const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps) => {
   const { useGetDayStory } = useStory();
-  const { data: dayStoryList } = useGetDayStory(isSaved.isSaved);
+  const { data: dayStoryList } = useGetDayStory({ year, month, day, isSaved });
 
   // console.log('isSaved:', isSaved.isSaved);
   // console.log('DayStoryData:', dayStoryList?.data.dayStoryResList);
@@ -24,7 +27,6 @@ const Story: React.FC<IStoryProps> = isSaved => {
   const [activeImage, setActiveImage] = useState(1); //현재 보여지는 사진
   const [progressBars, setProgressBars] = useState<number[]>([]); //프로그래스 바 진행 상태
   const [selectedStoryId, setSelectedStoryId] = useState<number>(0); //선택된 스토리 id
-  const { toggleModal } = useModal();
 
   const [isReactHistoryOpen, setIsReactHistoryOpen] = useState<boolean>(false); //반응 보기
   const [isSendReactOpen, setIsSendReactOpen] = useState<boolean>(false); //반응 남기기
@@ -36,6 +38,7 @@ const Story: React.FC<IStoryProps> = isSaved => {
     dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
   }, [dayStoryList]);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (dayStoryList) {
       console.log('progressBars:', progressBars, 'DayStoryDataLength:', dayStoryList?.data.dayStoryResList.length);
@@ -57,7 +60,7 @@ const Story: React.FC<IStoryProps> = isSaved => {
             console.log('activeImage', activeImage);
             console.log('dayStoryList길이', dayStoryList?.data.dayStoryResList.length);
             if (activeImage === dayStoryList?.data.dayStoryResList.length) {
-              toggleModal(); //마지막 이미지에서 모달 닫기
+              navigate(-1);
             } else {
               newProgressBars[activeImage - 1] = 100;
               setActiveImage(nextImage);
@@ -77,7 +80,6 @@ const Story: React.FC<IStoryProps> = isSaved => {
   }, [
     activeImage,
     dayStoryList?.data.dayStoryResList.length,
-    toggleModal,
     dayStoryList,
     isReactHistoryOpen,
     isSendReactOpen,
@@ -102,7 +104,7 @@ const Story: React.FC<IStoryProps> = isSaved => {
       )}
 
       {/* 스토리 프로그래스 바 */}
-      <div className="fixed top-0 p-3 w-full flex flex-row gap-1 z-20">
+      <div className="absolute top-0 p-3 w-full flex flex-row gap-1 z-20">
         {progressBars.map((progress, index) => (
           <ProgressBar key={index} progress={progress} />
         ))}
@@ -120,7 +122,7 @@ const Story: React.FC<IStoryProps> = isSaved => {
                 decoration={image.decoration}
               />
               {/* 스토리 하단 메뉴 */}
-              {isSaved && (
+              {!isSaved && (
                 <div>
                   <StoryBottom
                     setIsReactHistoryOpen={setIsReactHistoryOpen}
@@ -145,13 +147,13 @@ const Story: React.FC<IStoryProps> = isSaved => {
                 setActiveImage(activeImage);
               }
             }}
-            className={`fixed top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
           >
             <img className="object-cover w-full h-full" src={image.rearUrl} alt={`Carousel ${index + 1}`} />
             <div
-              className={`fixed bottom-0 right-0 w-48 h-auto bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute bottom-5 right-5 w-28 h-48 bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
             >
-              <img src={image.frontUrl} alt={`Carousel ${index + 1}`} />
+              <img src={image.frontUrl} alt={`Carousel ${index + 1}`} className="w-full h-full object-cover" />
             </div>
           </div>
         </>
