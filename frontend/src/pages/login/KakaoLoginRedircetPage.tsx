@@ -24,7 +24,7 @@ const KakaoLoginRedircet = () => {
       /* 로그인 */
       doPostLoginReq(undefined, {
         onSuccess: res => {
-          const { isFamily, nickname, birthday, mood, decoration } = res.data;
+          const { existFamily, nickname, birthday, mood, decoration } = res.data;
 
           // 사용자 정보 userStore에 저장
           userStore.setState({
@@ -40,7 +40,7 @@ const KakaoLoginRedircet = () => {
           // 초대 코드 O
           if (code && code.length === 8) {
             // 가족 그룹 존재 O
-            if (isFamily) {
+            if (existFamily) {
               // 초대한 가족 그룹으로 참여 O
               if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
                 window.location.replace('/group');
