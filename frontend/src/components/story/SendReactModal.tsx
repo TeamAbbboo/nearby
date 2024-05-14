@@ -5,6 +5,7 @@ import { expressionType } from '@/types/model';
 import { useStory } from '@/hooks/story/useStory';
 import { IStoryExpressionReq } from '@/types/story';
 import { getExpressionMeaning } from '@/utils/getExpressionMeaning';
+import Toast from '../@common/Toast/Toast';
 
 interface ISendReactProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -22,7 +23,7 @@ const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
     };
 
     mutate(req);
-    alert(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
+    Toast.success(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
     setIsOpen(false);
   };
 

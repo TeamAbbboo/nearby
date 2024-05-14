@@ -9,6 +9,7 @@ import message from '@/assets/icons/message.png';
 import setting from '@/assets/icons/setting.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
+import Toast from '../@common/Toast/Toast';
 
 const HomeHeader = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const HomeHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => console.log('알림 확인하기')} className="flex flex-col items-center">
+          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center">
             <img src={notification} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">알림</p>
