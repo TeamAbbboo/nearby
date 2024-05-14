@@ -15,9 +15,11 @@ import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
 import PreventRoute from '@/pages/private/PreventRoute';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
+import ViewStoryPage from '@/pages/story/ViewStoryPage';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -128,6 +130,14 @@ const router = createBrowserRouter([
           <RegisterStoryPage />
         </PrivateRoute>
       </PreventRoute>
+    ),
+  },
+  {
+    path: '/stories',
+    element: (
+      <PrivateRoute>
+        <ViewStoryPage />
+      </PrivateRoute>
     ),
   },
 ]);

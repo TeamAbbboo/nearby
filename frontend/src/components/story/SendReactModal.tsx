@@ -28,7 +28,7 @@ const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
 
   return (
     <Modal onClose={() => setIsOpen(false)} width="w-4/5">
-      <div className="p-5 flex flex-col bg-white w-full h-fit rounded-2xl justify-center font-bold text-center">
+      <div className="p-5 flex flex-col bg-white w-full h-fit rounded-2xl justify-center font-bold text-center font-NPSfontBold">
         <p>반응하기</p>
         <div className="grid grid-cols-2">
           <PenguinExpression expression="LOL" onClick={() => sendReaction('LOL')} />
