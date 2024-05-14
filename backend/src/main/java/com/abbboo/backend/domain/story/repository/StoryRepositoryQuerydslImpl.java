@@ -130,7 +130,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         Long count = jpaQueryFactory.select(
             count(story.id))
             .from(story)
-            .where(story.user.family.id.eq(familyId).and(story.createdAt.loe(nextMonth)))
+            .where(story.family.id.eq(familyId).and(story.createdAt.loe(nextMonth)))
             .fetchOne();
 
         // count == 0 이면 last = true
@@ -164,7 +164,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             JPAExpressions
                 .select(story.id.min())
                 .from(story)
-                .where(story.user.family.id.eq(familyId), story.isSaved.isTrue())
+                .where(story.family.id.eq(familyId), story.isSaved.isTrue())
                 .groupBy(story.createdAt.yearMonth(), story.createdAt.dayOfYear())
         );
     }
@@ -191,8 +191,8 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
     private BooleanExpression twentyfourHoursCondition(int familyId){
 
         LocalDateTime dayAgo = LocalDateTime.now().minusHours(24);
-        return (story.user.family.id.eq(familyId))
-            .and(story.createdAt.after(dayAgo)).and(story.isSaved.eq(true));
+        return (story.family.id.eq(familyId))
+            .and(story.createdAt.after(dayAgo));
     }
 
     // 동등 조건 : 생성일자가 요청된 일자(YYYY-MM-dd)와 일치하는 조건 생성
@@ -200,6 +200,6 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         YearMonth yearMonth = YearMonth.of(params.getYear(), params.getMonth());
         LocalDate requestDay = yearMonth.atDay(params.getDay());
         return (Expressions.dateTemplate(LocalDate.class, "DATE({0})", story.createdAt)
-            .eq(requestDay)).and(story.user.family.id.eq(familyId)).and(story.isSaved.eq(true));
+            .eq(requestDay)).and(story.family.id.eq(familyId)).and(story.isSaved.eq(true));
     }
 }
