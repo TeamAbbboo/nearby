@@ -63,7 +63,7 @@ const KakaoLoginRedircet = () => {
           // 초대 코드 X
           else {
             // 회원가입 O (OR) 가족 그룹 존재 O
-            if ((nickname && birthday) || isFamily) window.location.replace(`${import.meta.env.BASE_URL}`);
+            if ((nickname && birthday) || existFamily) window.location.replace(`${import.meta.env.BASE_URL}`);
             // 회원가입 X (AND) 가족 그룹 존재 X
             else window.location.replace('/register');
           }
