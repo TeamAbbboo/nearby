@@ -1,7 +1,7 @@
 /* components */
-import normal from '@/assets/mood/normal.gif';
+// import normal from '@/assets/mood/normal.gif';
 import thinking from '@/assets/mood/thinking.gif';
-import cheering from '@/assets/mood/cheering.gif';
+// import cheering from '@/assets/mood/cheering.gif';
 
 /* libraries */
 import { useState, useEffect } from 'react';
@@ -20,7 +20,7 @@ const SplashScreen = ({ text, routerPath, imgSrc }: ISplashProps) => {
   useEffect(() => {
     setTimeout(() => {
       window.location.replace(routerPath ? routerPath : '');
-    }, 2600);
+    }, 1500);
 
     const interval = setInterval(() => {
       setDots(prevDots => {
@@ -40,10 +40,13 @@ const SplashScreen = ({ text, routerPath, imgSrc }: ISplashProps) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className={imgSrc === 'home' ? 'bg-HOME' : imgSrc === 'playground' ? 'bg-PLAYGROUND' : 'bg-GREENHOUSE'}
+        className={imgSrc === 'home' ? 'bg-HOME' : imgSrc === 'playground' ? 'bg-PLAYGROUND' : 'bg-SPLASH_GREENGOUSE'}
       >
         <div className="w-full h-screen flex flex-col justify-center items-center">
-          <img className="w-72 h-72" src={imgSrc === 'home' ? normal : imgSrc === 'playground' ? thinking : cheering} />
+          <img
+            className="w-72 h-72"
+            src={imgSrc === 'home' ? thinking : imgSrc === 'playground' ? thinking : thinking}
+          />
           <div className="font-Ownglyph_meetme text-2xl">
             {text}
             {dots}
