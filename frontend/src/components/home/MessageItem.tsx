@@ -1,12 +1,14 @@
 import { IReceivedMessageItem, ISentMessageItem } from '@/types/message';
 import Penguin from '../@common/Penguin';
 import { useRef, useState } from 'react';
+import { simpleDecoType } from '@/constants/penguinState';
 
 interface IMessageItemProps {
   messageItem: ISentMessageItem | IReceivedMessageItem;
+  decoration?: simpleDecoType;
 }
 
-const MessageItem = ({ messageItem }: IMessageItemProps) => {
+const MessageItem = ({ messageItem, decoration }: IMessageItemProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [play, setPlay] = useState<boolean>(false);
   const { content, mood, nickname, createdAt } = messageItem;
@@ -30,7 +32,7 @@ const MessageItem = ({ messageItem }: IMessageItemProps) => {
     <div className="py-2 border-b">
       <div className="flex items-center gap-3 ">
         <div className="w-14 h-14 rounded-full bg-SUB2">
-          <Penguin mood={mood} />
+          <Penguin mood={mood} decoration={decoration} />
         </div>
         <div className="flex-1">
           <div className="w-full flex justify-between">
@@ -51,7 +53,7 @@ const MessageItem = ({ messageItem }: IMessageItemProps) => {
           <p className="text-xs pt-1 text-UNIMPORTANT">{createdAt}</p>
         </div>
       </div>
-      <p className="p-2">{content}</p>
+      <p className="p-2 whitespace-pre-wrap">{content}</p>
     </div>
   );
 };

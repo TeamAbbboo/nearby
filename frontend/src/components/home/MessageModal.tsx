@@ -72,6 +72,23 @@ const MessageModal = ({ setIsMessageModalOpen }: IMessageModalProps) => {
                     );
                   }),
               )}
+          {tab === 'received' && (
+            <MessageItem
+              messageItem={{
+                content: '🍀가까이🍀에 온 걸 환영해!! \n가까이에서 가족들과 즐겁고 소중한 시간을 쌓아가길 바라. ',
+                nickname: '대장 펭귄',
+                createdAt: '가까이',
+                isRead: false,
+                mood: 'PASSION',
+                fromId: -1,
+                messageId: -1,
+                receiverId: -1,
+                ttsUrl:
+                  'https://abbboo-nearby.s3.ap-northeast-2.amazonaws.com/tts/8bf988f5-2366-40b1-84c9-afaa7e802b60-tts.mp3',
+              }}
+              decoration="TIE"
+            />
+          )}
         </div>
       </div>
     </Modal>
