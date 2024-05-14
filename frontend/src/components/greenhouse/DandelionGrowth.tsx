@@ -5,9 +5,9 @@ import { Dispatch, SetStateAction } from 'react';
 interface IDandelionState {
   level: number;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsDandelionVisible: Dispatch<SetStateAction<boolean>>;
 }
-
-const DandelionGrowth = ({ level, setIsOpen }: IDandelionState) => {
+const DandelionGrowth = ({ level, setIsOpen, setIsDandelionVisible }: IDandelionState) => {
   console.log(selectDandelion(level));
 
   return (
@@ -22,7 +22,10 @@ const DandelionGrowth = ({ level, setIsOpen }: IDandelionState) => {
       <div className="absolute bottom-20 w-full px-5">
         <button
           className="w-full h-16 bg-MAIN1 rounded-3xl shadow-md text-white font-bold"
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            setIsDandelionVisible(true);
+          }}
         >
           확인
         </button>

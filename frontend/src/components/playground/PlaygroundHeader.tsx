@@ -6,15 +6,20 @@ import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import { useModal } from '@/components/story/ModalContext';
 import { useFamily } from '@/hooks/family/useFamily';
 import Toast from '@/components/@common/Toast/Toast';
 import message from '@/assets/icons/message.png';
 
+interface IStoryProps {
+  year?: number;
+  month?: number;
+  day?: number;
+  isSaved: boolean;
+}
+
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
 
-  const { toggleModal, setIsSaved } = useModal();
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   /* 가족 코드 */
@@ -79,8 +84,10 @@ const PlaygroundHeader = () => {
             onClick={
               familyCode !== null
                 ? () => {
-                    toggleModal();
-                    setIsSaved(false);
+                    const props: IStoryProps = {
+                      isSaved: false,
+                    };
+                    navigate('/stories', { state: props });
                   }
                 : onPreventClick
             }
