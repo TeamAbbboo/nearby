@@ -1,13 +1,18 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+/* components */
 import home from '@/assets/icons/home.png';
 import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import Toast from '../@common/Toast/Toast';
+import Toast from '@/components/@common/Toast/Toast';
 import { useFamily } from '@/hooks/family/useFamily';
+import { useAuth } from '@/hooks/auth/useAuth';
 
+/* libraries */
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+/* interface */
 interface IStoryProps {
   year?: number;
   month?: number;
@@ -17,6 +22,35 @@ interface IStoryProps {
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
+
+  /* 로그아웃 */
+  const { useLogout } = useAuth();
+  const { mutate: doPostLogoutReq } = useLogout();
+
+  /* 유저 정보 조회 */
+  /** 비정상적인 유저를 잡는 용도 */
+  /** EX) 카카오 로그인 후에 Register 페이지에서 탭 닫기 한 경우 */
+  const { useGetUserInfo } = useAuth();
+  const { data: userData, error: userError } = useGetUserInfo();
+  useEffect(() => {
+    if (userData) {
+      if (userData.data.birthday === null) {
+        doPostLogoutReq(undefined, {
+          onSuccess: () => {
+            localStorage.removeItem('ACCESS_TOKEN');
+            window.location.replace('/login');
+          },
+          onError: () => {
+            localStorage.removeItem('ACCESS_TOKEN');
+            window.location.replace('/login');
+          },
+        });
+      }
+    }
+    if (userError) {
+      console.log('유저 정보 받아오기 실패 : ' + userError);
+    }
+  }, [userData, userError]);
 
   /* 가족 코드 */
   const [familyCode, setFamilyCode] = useState<string>('');
