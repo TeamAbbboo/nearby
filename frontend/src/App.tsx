@@ -13,10 +13,13 @@ import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 import SplashHomePage from '@/pages/splash/SplashHomePage';
 import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
+import PreventRoute from '@/pages/private/PreventRoute';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
+import ViewStoryPage from '@/pages/story/ViewStoryPage';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -75,7 +78,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/splashMy',
-    element: <SplashPlaygroundPage />,
+    element: (
+      <PrivateRoute>
+        <SplashPlaygroundPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: '/home',
@@ -87,29 +94,49 @@ const router = createBrowserRouter([
   },
   {
     path: '/splashGreenhouse',
-    element: <SplashGreenhousePage />,
+    element: (
+      <PreventRoute>
+        <PrivateRoute>
+          <SplashGreenhousePage />
+        </PrivateRoute>
+      </PreventRoute>
+    ),
   },
   {
     path: '/greenhouse',
     element: (
-      <PrivateRoute>
-        <GreenHousePage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <GreenHousePage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/album',
     element: (
-      <PrivateRoute>
-        <AlbumPage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <AlbumPage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/story',
     element: (
+      <PreventRoute>
+        <PrivateRoute>
+          <RegisterStoryPage />
+        </PrivateRoute>
+      </PreventRoute>
+    ),
+  },
+  {
+    path: '/stories',
+    element: (
       <PrivateRoute>
-        <RegisterStoryPage />
+        <ViewStoryPage />
       </PrivateRoute>
     ),
   },
