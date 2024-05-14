@@ -5,7 +5,6 @@ import { IGetCurrentLevelRes, IExpHistoryListRes, IMonthlyStoryListRes, IMonthly
 /*현재 레벨, 경험치 */
 export const getCurrentLevelReq = async (): Promise<APIResponse<IGetCurrentLevelRes>> => {
   const { data } = await axiosWithCredentialInstance.get('/exp/level');
-  console.log(data);
   return data;
 };
 
@@ -31,7 +30,6 @@ export const getExpHistoryList = async ({
       size,
     },
   });
-  console.log('경험치 내역:', data);
   return data;
 };
 
@@ -44,7 +42,5 @@ export const getMonthlyStoryReq = async (params: IMonthlyStoryReq): Promise<APIR
       size: params.size,
     },
   });
-  console.log('월별 스토리 조회 params:', params);
-  console.log('월별 스토리 조회:', data);
   return data;
 };
