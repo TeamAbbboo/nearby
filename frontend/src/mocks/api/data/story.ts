@@ -13,7 +13,7 @@ export const getDayStoryReq = {
         mood: 'NORMAL',
         decoration: 'HEARTHAIRBAND',
         nickname: '하하',
-        isSaved: false,
+        isSaved: true,
         createdAt: '2024-05-11T15:06:29.989189',
         reactions: [
           {
@@ -61,4 +61,55 @@ export const postStoryExpressionReq = {
   message: '소식에 성공적으로 반응했습니다.',
   code: 'SUCCESS',
   data: '',
+};
+
+export const patchKeepStoryReq = {
+  status: 200,
+  message: '소식 업로드에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: '',
+};
+
+export const getStoryExpression = {
+  status: 200,
+  message: '소식별 반응 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: [
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'BEST',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'LOVE',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+  ],
+};
+
+export const getStoryExpression2 = {
+  status: 200,
+  message: '소식별 반응 조회에 성공하였습니다.',
+  code: 'SUCCESS',
+  data: [
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'SAD',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+    {
+      mood: 'PASSION',
+      decoration: 'GLASSES',
+      nickname: '헤헤헤',
+      expression: 'SAD',
+      createdAt: '2024-04-03T14:49:15.912215',
+    },
+  ],
 };

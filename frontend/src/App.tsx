@@ -1,23 +1,28 @@
 /* components */
-import HomePage from '@/pages/home/HomePage';
+import MyPage from '@/pages/my/MyPage';
 import LoginPage from '@/pages/login/LoginPage';
 import KakaoLoginRedircetPage from '@/pages/login/KakaoLoginRedircetPage';
 import SignupPage from '@/pages/signup/SignUpPage';
 import RegisterPage from '@/pages/register/RegisterPage';
 import SoloPage from '@/pages/familycode/SoloPage';
 import GroupPage from '@/pages/familycode/GroupPage';
-import PlaygroundPage from '@/pages/playground/PlaygroundPage';
+import HomePage from '@/pages/home/HomePage';
 import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 import SplashHomePage from '@/pages/splash/SplashHomePage';
-import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
+import SplashMyPage from '@/pages/splash/SplashMyPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
-
+import PreventRoute from '@/pages/private/PreventRoute';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
+import ViewStoryPage from '@/pages/story/ViewStoryPage';
 
 /* libraries */
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ErrorPage from './pages/error/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -25,10 +30,10 @@ const router = createBrowserRouter([
     element: <SplashHomePage />,
   },
   {
-    path: '/home',
+    path: '/my',
     element: (
       <PrivateRoute>
-        <HomePage />
+        <MyPage />
       </PrivateRoute>
     ),
   },
@@ -73,48 +78,81 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '/splashPlayground',
-    element: <SplashPlaygroundPage />,
-  },
-  {
-    path: '/playground',
+    path: '/splashMy',
     element: (
       <PrivateRoute>
-        <PlaygroundPage />
+        <SplashMyPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/home',
+    element: (
+      <PrivateRoute>
+        <HomePage />
       </PrivateRoute>
     ),
   },
   {
     path: '/splashGreenhouse',
-    element: <SplashGreenhousePage />,
+    element: (
+      <PreventRoute>
+        <PrivateRoute>
+          <SplashGreenhousePage />
+        </PrivateRoute>
+      </PreventRoute>
+    ),
   },
   {
     path: '/greenhouse',
     element: (
-      <PrivateRoute>
-        <GreenHousePage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <GreenHousePage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/album',
     element: (
-      <PrivateRoute>
-        <AlbumPage />
-      </PrivateRoute>
+      <PreventRoute>
+        <PrivateRoute>
+          <AlbumPage />
+        </PrivateRoute>
+      </PreventRoute>
     ),
   },
   {
     path: '/story',
     element: (
+      <PreventRoute>
+        <PrivateRoute>
+          <RegisterStoryPage />
+        </PrivateRoute>
+      </PreventRoute>
+    ),
+  },
+  {
+    path: '/stories',
+    element: (
       <PrivateRoute>
-        <RegisterStoryPage />
+        <ViewStoryPage />
       </PrivateRoute>
     ),
   },
+  {
+    path: '/*',
+    element: <ErrorPage />,
+  },
 ]);
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer className={'font-bold'} position="top-center" />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;

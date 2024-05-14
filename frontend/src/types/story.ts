@@ -31,3 +31,12 @@ export interface IStoryExpressionReq {
   expression: expressionType;
   storyId: number;
 }
+
+/* 소식 반응 조회 */
+export interface IStoryExpressionRes {
+  mood: moodType;
+  decoration: decoType;
+  nickname: string;
+  expression: expressionType;
+  createdAt: string;
+}

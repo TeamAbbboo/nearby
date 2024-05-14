@@ -1,21 +1,12 @@
-import Penguin from '@/components/@common/Penguin';
-import HomeHeader from '@/components/home/HomeHeader';
-import PenguinDecoBottomSheet from '@/components/home/PenguinBottomSheet';
-import { useState } from 'react';
-import home from '@/assets/background_home.png';
-import { useMessage } from '@/hooks/message/useMessage';
-import messagePenguin from '@/assets/mood/messagePenguin.png';
-import UnReadMessageModal from '@/components/home/UnReadMessageModal';
+import PenguinFamily from '@/components/playground/PenguinFamily';
+import PlaygroundHeader from '@/components/playground/PlaygroundHeader';
+import PLAYGROUND from '@/assets/background_playground.jpg';
+import { usePlayground } from '@/hooks/playground/usePlayground';
 import { motion } from 'framer-motion';
-import userStore from '@/stores/userStore';
 
 const HomePage = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { useGetUnreadMessage } = useMessage();
-  const { data: unReadMessage } = useGetUnreadMessage();
-  const { mood, decoration } = userStore();
-
-  const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState<boolean>(false);
+  const { useGetFamilyInfoList } = usePlayground();
+  const { data: familyInfo } = useGetFamilyInfoList();
 
   return (
     <motion.div
@@ -25,26 +16,12 @@ const HomePage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <img src={home} className="w-full h-full" />
-      <div className="absolute left-0 right-0 bottom-[18%] flex justify-center">
-        {unReadMessage?.data === null ? (
-          <Penguin mood={mood} decoration={decoration} width="w-[17rem]" onClick={() => setIsOpen(true)} />
-        ) : (
-          <div
-            onClick={() => {
-              setIsSendMessageModalOpen(true);
-            }}
-            className={`w-[17rem] relative z-10`}
-          >
-            <img src={messagePenguin} />
-          </div>
-        )}
+      <img src={PLAYGROUND} className="w-full h-full absolute top-0 -z-10" />
+      <PlaygroundHeader />
+      {familyInfo && <PenguinFamily familyInfo={familyInfo.data} />}
+      <div className="absolute bottom-3 right-5 text-lg text-white">
+        <p>가까이</p>
       </div>
-      <HomeHeader />
-      {isOpen && <PenguinDecoBottomSheet setIsOpen={setIsOpen} />}
-      {isSendMessageModalOpen && unReadMessage && unReadMessage.data && (
-        <UnReadMessageModal unReadMessage={unReadMessage.data} setIsSendMessageModalOpen={setIsSendMessageModalOpen} />
-      )}
     </motion.div>
   );
 };
