@@ -42,14 +42,14 @@ const KakaoLoginRedircet = () => {
             // 가족 그룹 존재 O
             if (isFamily) {
               // 초대한 가족 그룹으로 참여 O
-              if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
-                window.location.replace('/group');
-              }
+              // if (window.confirm('이미 가족이 존재합니다. 초대받은 가족으로 떠나시겠습니까?')) {
+              //   window.location.replace('/group');
+              // }
               // 초대한 가족 그룹으로 참여 X
-              else {
-                localStorage.removeItem('SHARE_FAMILY_CODE');
-                window.location.replace(`${import.meta.env.BASE_URL}`);
-              }
+              // else {
+              localStorage.removeItem('SHARE_FAMILY_CODE');
+              window.location.replace(`${import.meta.env.BASE_URL}`);
+              // }
             }
             // 가족 그룹 존재 X (AND) 초대한 가족 그룹으로 참여 O (AND) 회원가입 O
             else if (nickname && birthday) {

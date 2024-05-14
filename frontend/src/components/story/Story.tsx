@@ -29,7 +29,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   // console.log('DayStoryData:', dayStoryList?.data.dayStoryResList);
   // console.log('DayStoryDataLength:', dayStoryList?.data.dayStoryResList.length);
 
-  const [existStory, setExistStory] = useState<boolean>('true'); // 소식이 있는지 확인하는 상태
+  const [existStory, setExistStory] = useState<boolean>(true); // 소식이 있는지 확인하는 상태
   const [sec, setSec] = useState<number>(3); // 몇 초뒤에 떠나는지 확인하는 상태
 
   const [activeImage, setActiveImage] = useState(1); //현재 보여지는 사진
