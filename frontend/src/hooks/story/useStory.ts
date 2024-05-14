@@ -67,6 +67,9 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'keep'],
       mutationFn: (storyId: number) => patchKeepStoryReq(storyId),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['today', 'story'] });
+      },
     });
   };
 
