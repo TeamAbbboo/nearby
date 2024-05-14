@@ -151,9 +151,9 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
           >
             <img className="object-cover w-full h-full" src={image.rearUrl} alt={`Carousel ${index + 1}`} />
             <div
-              className={`absolute bottom-0 right-0 w-48 h-auto bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
+              className={`absolute bottom-5 right-5 w-28 h-48 bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
             >
-              <img src={image.frontUrl} alt={`Carousel ${index + 1}`} />
+              <img src={image.frontUrl} alt={`Carousel ${index + 1}`} className="w-full h-full object-cover" />
             </div>
           </div>
         </>
