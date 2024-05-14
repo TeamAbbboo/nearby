@@ -18,7 +18,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "from Message m join User u on u.id = m.receiver.id " +
             "where m.sender.id= :senderId")
     Slice<SentMessageRes> findSentMessage(@Param("senderId") int senderId,
-        @Param("familyId") Optional<Integer> familyId, PageRequest pageRequest);
+        PageRequest pageRequest);
 
     // 받은 메시지 조회
     @Query("select new com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes(" +
@@ -26,7 +26,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "from Message m join User u on u.id = m.sender.id " +
             "where m.receiver.id= :receiverId")
     Slice<ReceivedMessageRes> findReceivedMessage(@Param("receiverId") int receiverId,
-        @Param("familyId") Optional<Integer> familyId, PageRequest pageRequest);
+        PageRequest pageRequest);
 
     // 읽지 않은 메시지 중 가장 최근 메시지 조회
     @Query("select new com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes(" +
@@ -34,6 +34,5 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
         "from Message m join User u on u.id = m.sender.id " +
         "where m.receiver.id= :receiverId and m.isRead = false " +
         "order by m.createdAt limit 1")
-    ReceivedMessageRes findUnreadMessage(@Param("receiverId") int receiverId,
-        @Param("familyId") Optional<Integer> familyId);
+    ReceivedMessageRes findUnreadMessage(@Param("receiverId") int receiverId);
 }

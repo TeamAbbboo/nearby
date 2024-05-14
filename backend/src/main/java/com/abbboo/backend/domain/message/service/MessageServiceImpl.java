@@ -89,12 +89,11 @@ public class MessageServiceImpl implements MessageService{
         log.info("보낸 사람 정보 조회 성공: id - {}", sender.getId());
 
         int userId = sender.getId();
-        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
         // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC,"createdAt"));
 
-        return messageRepository.findSentMessage(userId, familyId, pageRequest);
+        return messageRepository.findSentMessage(userId, pageRequest);
     }
 
     // 가족에게 받은 메시지 조회
@@ -107,14 +106,13 @@ public class MessageServiceImpl implements MessageService{
         User receiver = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
         log.info("받은 사람 정보 조회 성공: id - {}", receiver.getId());
-        
+
         int userId = receiver.getId();
-        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
         // 페이징
         PageRequest pageRequest = PageRequest.of(req.getPage(), req.getSize(), Sort.by(Direction.DESC, "createdAt"));
 
-        Slice<ReceivedMessageRes> receivedMessages = messageRepository.findReceivedMessage(userId, familyId, pageRequest);
+        Slice<ReceivedMessageRes> receivedMessages = messageRepository.findReceivedMessage(userId, pageRequest);
 
         // 안 읽은 메시지 찾기
         List<Message> messages = receiver.getReceivedMessages().stream()
@@ -146,11 +144,11 @@ public class MessageServiceImpl implements MessageService{
         User receiver = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        log.info("사용자 정보 조회 성공: id - {}", receiver.getId());
         int userId = receiver.getId();
-        Optional<Integer> familyId = familyRepository.findByKakaoId(kakaoId);
 
-        return messageRepository.findUnreadMessage(userId, familyId);
+        log.info("사용자 정보 조회 성공: id - {}", receiver.getId());
+
+        return messageRepository.findUnreadMessage(userId);
     }
 
     // 메시지 읽음 처리
