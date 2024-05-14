@@ -7,6 +7,7 @@ import {
 } from '@/services/story/api';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { IStoryExpressionReq } from '@/types/story';
+import Toast from '@/components/@common/Toast/Toast';
 
 export const useStory = () => {
   /* 24시간 이내 소식 */
@@ -56,6 +57,12 @@ export const useStory = () => {
     return useMutation({
       mutationKey: ['story', 'register'],
       mutationFn: (req: FormData) => postStoryRegister(req),
+      onSuccess: () => {
+        Toast.success('소식이 성공적으로 등록되었습니다');
+      },
+      onError: () => {
+        Toast.error('소식 등록에 실패했습니다 다시 확인해주세요');
+      },
     });
   };
 
