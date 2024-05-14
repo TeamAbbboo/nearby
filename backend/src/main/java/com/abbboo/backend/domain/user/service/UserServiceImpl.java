@@ -3,6 +3,7 @@ package com.abbboo.backend.domain.user.service;
 import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.user.dto.req.UserEnrollFamilyReq;
+import com.abbboo.backend.domain.user.dto.req.UserLoginReq;
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
@@ -150,13 +151,16 @@ public class UserServiceImpl implements UserService {
     // 유저 로그인
     @Override
     @Transactional
-    public UserLoginRes getUserAll(String kakaoId) {
+    public UserLoginRes getUserAll(String kakaoId, UserLoginReq userLoginReq) {
 
         // 유저 조회
         User user = userRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         log.info("유저 ID : {}",user.getId());
+
+        // FCM 토큰 갱신
+        user.changeFcmToken(userLoginReq.getFcmToken());
 
         eventPublisher.publishEvent(ExpEventFactory.createLoginEvent(this,user));
 
