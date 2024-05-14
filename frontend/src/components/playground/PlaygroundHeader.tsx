@@ -1,19 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/components/story/ModalContext';
-import { useState } from 'react';
-import MessageModal from '../home/MessageModal';
 import home from '@/assets/icons/home.png';
 import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import message from '@/assets/icons/message.png';
+import Toast from '../@common/Toast/Toast';
 
 const PlaygroundHeader = () => {
   const navigate = useNavigate();
 
   const { toggleModal, setIsSaved } = useModal();
-  const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
   return (
     <header className="w-full">
@@ -26,7 +23,7 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => console.log('알림 확인하기')} className="flex flex-col items-center">
+          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center">
             <img src={notification} width={44} />
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">알림</p>
@@ -59,15 +56,8 @@ const PlaygroundHeader = () => {
               <p className="text-[9px] ">소식 확인</p>
             </div>
           </div>
-          <div onClick={() => setIsMessageModalOpen(true)} className="flex flex-col items-center">
-            <img src={message} width={44} />
-            <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
-              <p className="text-[9px]">마음함</p>
-            </div>
-          </div>
         </div>
       </nav>
-      {isMessageModalOpen && <MessageModal setIsMessageModalOpen={setIsMessageModalOpen} />}
     </header>
   );
 };
