@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.story.entity;
 
+import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.reaction.entity.ReactionHistory;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.global.base.BaseEntity;
@@ -54,6 +55,11 @@ public class Story extends BaseEntity { // 소식
     @Column(name = "is_saved")
     @ColumnDefault("false")
     private Boolean isSaved = false;
+
+    // 가족 id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id", nullable = false)
+    private Family family;
 
     // 소식에 달린 반응
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
