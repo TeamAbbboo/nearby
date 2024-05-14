@@ -21,7 +21,7 @@ const RegisterPage = () => {
   const { data: userData, error: userError } = useGetUserInfo();
   useEffect(() => {
     if (userData) {
-      setBirthday(userData.data.birthday);
+      if (userData.data.birthday !== null) setBirthday(userData.data.birthday);
     }
     if (userError) {
       console.log('유저 정보 받아오기 실패 : ' + userError);
@@ -34,7 +34,6 @@ const RegisterPage = () => {
   const { data: familyData, error: familyError } = useGetFamilyCode();
   useEffect(() => {
     if (familyData) {
-      console.log(familyData);
       if (familyData.data.familyCode !== null) {
         window.location.replace('/');
       }
@@ -47,7 +46,7 @@ const RegisterPage = () => {
   /* Solo 또는 Group 버튼 */
   const onClickHandler = (link: string) => {
     // 생일 데이터 유무로 (회원가입 or 등록) 페이지로 이동
-    if (birthday !== null) {
+    if (birthday !== '') {
       navigate('/' + link);
     } else {
       navigate('/signup', {

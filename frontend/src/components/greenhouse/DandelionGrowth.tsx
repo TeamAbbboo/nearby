@@ -8,8 +8,6 @@ interface IDandelionState {
   setIsDandelionVisible: Dispatch<SetStateAction<boolean>>;
 }
 const DandelionGrowth = ({ level, setIsOpen, setIsDandelionVisible }: IDandelionState) => {
-  console.log(selectDandelion(level));
-
   return (
     <div className="flex items-center">
       <div className="absolute px-5 left-0 right-0">

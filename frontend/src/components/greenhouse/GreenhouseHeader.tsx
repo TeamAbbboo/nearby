@@ -23,7 +23,6 @@ const GreenhouseHeader = ({
   setIsOpen,
   setIsDandelionVisible,
 }: IDandelionState) => {
-  console.log(startDate);
   /*레벨업*/
   const { usePatchLevelUp } = useGreenhouse();
   const { mutate } = usePatchLevelUp();

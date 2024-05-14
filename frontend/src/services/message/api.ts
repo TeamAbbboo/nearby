@@ -16,7 +16,6 @@ export const getReceivedMessageList = async ({
       size,
     },
   });
-  console.log(data);
   return data;
 };
 
@@ -34,21 +33,18 @@ export const getSentMessageList = async ({
       size,
     },
   });
-  console.log(data);
   return data;
 };
 
 // 메시지 전송 API
 export const postSendMessage = async (req: IMessageSendReq): Promise<APIResponse<string>> => {
   const { data } = await axiosCommonInstance.post(`/messages`, req);
-  console.log(data);
   return data;
 };
 
 // 안 읽은 메시지 조회 API
 export const getUnreadMessage = async (): Promise<APIResponse<IReceivedMessageItem | null>> => {
   const { data } = await axiosCommonInstance.get(`/messages/unread`);
-  console.log(data);
   return data;
 };
 
@@ -57,6 +53,5 @@ export const patchUnreadMessage = async (messageId: number): Promise<APIResponse
   const { data } = await axiosCommonInstance.patch(`/messages`, {
     messageId,
   });
-  console.log(data);
   return data;
 };

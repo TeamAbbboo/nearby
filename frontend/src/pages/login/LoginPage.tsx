@@ -6,14 +6,6 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const LoginPage = () => {
-  // 만약 우리 서버의 Access 토큰이 존재하게 되면, 로그인 된 상태로 처리
-  // if (
-  //   localStorage.getItem('ACCESS_TOKEN') &&
-  //   localStorage.getItem('ACCESS_TOKEN')?.startsWith('eyJhbGciOiJIUzI1NiJ9')
-  // ) {
-  //   window.location.replace('/');
-  // }
-
   /* 공유 링크로 들어왔다면, 가족 코드 저장 */
   /** 안전하게 해쉬 값 또는 암호화 값으로 디코드해서 가져올 수 있는지 찾아보기 */
   const queryParams = new URLSearchParams(location.search);
