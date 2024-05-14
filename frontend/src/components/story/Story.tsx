@@ -43,6 +43,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
+    console.log(dayStoryList?.data.dayStoryResList.length);
     if (dayStoryList?.data.dayStoryResList.length === 0) {
       setExistStory(false);
       onExitStory();
