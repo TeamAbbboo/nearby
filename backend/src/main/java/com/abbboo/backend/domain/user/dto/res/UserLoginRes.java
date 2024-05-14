@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class UserLoginRes {
 
     // 가족 식별 ID
-    private Integer familyId;
+    private boolean isFamily;
 
     // 닉네임
     private String nickname;
@@ -17,8 +17,8 @@ public class UserLoginRes {
     private LocalDate birthday;
 
     @Builder
-    public UserLoginRes(Integer familyId, String nickname, LocalDate birthday) {
-        this.familyId = familyId;
+    public UserLoginRes(boolean isFamily, String nickname, LocalDate birthday) {
+        this.isFamily = isFamily;
         this.nickname = nickname;
         this.birthday = birthday;
     }
