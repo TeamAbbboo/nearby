@@ -12,6 +12,7 @@ import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
+import com.abbboo.backend.global.event.ExpEventFactory;
 import com.abbboo.backend.global.util.ClovaUtil;
 import com.abbboo.backend.global.util.S3Util;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -37,7 +39,7 @@ public class MessageServiceImpl implements MessageService{
     private final FamilyRepository familyRepository;
     private final ClovaUtil clovaUtil;
     private final S3Util s3Util;
-
+    private final ApplicationEventPublisher eventPublisher;
     // 메시지 전송
     @Override
     @Transactional
@@ -76,6 +78,11 @@ public class MessageServiceImpl implements MessageService{
             .build();
 
         messageRepository.save(message);
+
+        //경험치 추가 이벤트 발생
+        if(req.getContent().length()>=20) {
+            eventPublisher.publishEvent(ExpEventFactory.createLetterEvent(this, sender));
+        }
     }
 
     // 가족에게 보낸 메시지 조회
