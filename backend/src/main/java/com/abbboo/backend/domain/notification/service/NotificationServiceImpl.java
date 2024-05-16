@@ -1,13 +1,11 @@
 package com.abbboo.backend.domain.notification.service;
 
 import com.abbboo.backend.domain.notification.dto.req.NotificationPokeActionReq;
-import com.abbboo.backend.domain.notification.dto.res.NotificationPokeActionRes;
 import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.NotFoundException;
-import com.abbboo.backend.global.event.NotificationEvent;
-import com.abbboo.backend.global.event.NotificationEventType;
+import com.abbboo.backend.global.event.NotificationEventFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -37,18 +35,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         log.info("꾸욱 누른 유저 ID : {} -> 찌름 당한 유저 ID : {}",sender.getId(),receiver.getId());
 
-        // 꾸욱 누르기 이벤트 정보 객체 생성
-        NotificationPokeActionRes notificationPokeActionRes
-                = NotificationPokeActionRes.builder()
-                .sender(sender)
-                .receiver(receiver)
-                .title(sender.getNickname()+"펭귄")
-                .notificationEventType(NotificationEventType.POKE)
-                .build();
-
-        log.info("꾸욱 누르기 - 이벤트 정보 객체 생성 : OK");
-
         // 꾸욱 누르기 이벤트 알림 발생
-        eventPublisher.publishEvent(new NotificationEvent(this,notificationPokeActionRes));
+        eventPublisher.publishEvent(NotificationEventFactory.createPokeEvent(this,sender,receiver));
     }
 }
