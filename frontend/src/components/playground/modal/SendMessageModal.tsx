@@ -3,6 +3,7 @@ import Modal from '../../@common/Modal';
 import Penguin from '../../@common/Penguin';
 import playgroundPenguinStore from '@/stores/playgroundPenguinStore';
 import { useMessage } from '@/hooks/message/useMessage';
+import Toast from '@/components/@common/Toast/Toast';
 
 interface ISendMessageModalProps {
   setIsSendMessageModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -19,6 +20,17 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
       setIsSendMessageModalOpen(false);
     }
   }, [isSuccess]);
+
+  const sendMessageHandleClick = () => {
+    if (content) {
+      mutate({
+        content: content,
+        receiverId: userId,
+      });
+    } else {
+      Toast.error('메시지를 정확히 입력해주세요');
+    }
+  };
 
   return (
     <Modal onClose={() => setIsSendMessageModalOpen(false)} width="w-4/5">
@@ -39,15 +51,7 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
             <button onClick={() => setIsSendMessageModalOpen(false)} className="bg-white border rounded-2xl w-24 ">
               취소
             </button>
-            <button
-              onClick={() =>
-                mutate({
-                  content: content,
-                  receiverId: userId,
-                })
-              }
-              className="bg-white border rounded-2xl w-24"
-            >
+            <button onClick={() => sendMessageHandleClick} className="bg-white border rounded-2xl w-24">
               전송하기
             </button>
           </div>
