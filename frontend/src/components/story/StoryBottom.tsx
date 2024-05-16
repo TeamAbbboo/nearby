@@ -15,22 +15,17 @@ const StoryBottom = ({
   setSelectedStoryId,
   storyId,
 }: IStoryBottomProps) => {
-  // console.log('storyId', storyId);
-
   const showReactHistory = () => {
-    console.log('반응 기록 보기', storyId);
     setIsReactHistoryOpen(true);
     setSelectedStoryId(storyId);
   };
 
   const sendReact = () => {
-    console.log('반응하기', storyId);
     setIsSendReactOpen(true);
     setSelectedStoryId(storyId);
   };
 
   const showMore = () => {
-    console.log('더보기', storyId);
     setIsShowMoreOpen(true);
     setSelectedStoryId(storyId);
   };

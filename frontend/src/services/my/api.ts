@@ -5,7 +5,6 @@ export const patchPenguinDecoration = async (decoration: decoType): Promise<APIR
   const { data } = await axiosCommonInstance.patch(`/decoration`, {
     decoration,
   });
-  console.log(data);
   return data;
 };
 
@@ -13,6 +12,5 @@ export const patchPenguinMood = async (mood: moodType): Promise<APIResponse<stri
   const { data } = await axiosCommonInstance.patch(`/mood`, {
     mood,
   });
-  console.log(data);
   return data;
 };

@@ -6,7 +6,6 @@ import { IStoryExpressionReq } from '@/types/story';
 /* 24시 이내 소식 조회 */
 export const getDayStoryReq = async (): Promise<APIResponse<IDayStoryListRes>> => {
   const { data } = await axiosWithCredentialInstance.get('/stories/day');
-  console.log('24시간 이내 소식 조회 ', data);
   return data;
 };
 
@@ -26,7 +25,6 @@ export const getSavedStoryReq = async ({
       day: day,
     },
   });
-  console.log('보관된 스토리 조회', data);
   return data;
 };
 
@@ -42,7 +40,6 @@ export const postStoryExpressionReq = async ({
 /* 소식 반응 조회 */
 export const getStoryExpression = async (storyId: number): Promise<APIResponse<IStoryExpressionRes[]>> => {
   const { data } = await axiosWithCredentialInstance.get(`/stories/${storyId}/reactions`);
-  console.log('소식 반응 조회', data);
   return data;
 };
 
@@ -53,7 +50,6 @@ export const postStoryRegister = async (req: FormData): Promise<APIResponse<stri
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log(data);
   return data;
 };
 

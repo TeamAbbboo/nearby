@@ -6,8 +6,6 @@ interface IDandelionState {
 }
 
 const Dandelion = ({ level, visible }: IDandelionState) => {
-  // console.log(selectDandelion(level));
-
   return (
     <>
       {visible && (
