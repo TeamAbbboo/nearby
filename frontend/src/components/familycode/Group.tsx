@@ -80,7 +80,7 @@ const Group = () => {
   return (
     <div className="w-full h-full relative flex flex-col">
       {/* 가족 코드 */}
-      <div className="px-5">
+      <div className="px-5 z-10">
         <div className="text-lg font-bold text-start pt-[100px]">
           <p>가족 코드</p>
         </div>
@@ -96,7 +96,7 @@ const Group = () => {
         </div>
       </div>
 
-      <div className="absolute w-full bottom-5 px-5">
+      <div className="absolute w-full pt-[60vh] px-5">
         <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startNearby}>
           <div>
             <div className="text-lg font-bold">
