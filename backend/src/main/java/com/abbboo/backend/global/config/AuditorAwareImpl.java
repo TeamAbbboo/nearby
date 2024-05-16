@@ -14,7 +14,16 @@ public class AuditorAwareImpl implements AuditorAware<String> {
     @Override
     public @NonNull Optional<String> getCurrentAuditor() {
 
-        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+        ServletRequestAttributes requestAttributes;
+
+        try {
+            requestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        } catch (IllegalStateException e) {
+            // 스케줄링된 작업 또는 요청 컨텍스트가 없는 다른 경우 "system" 반환
+            return Optional.of("system");
+        }
+
+        HttpServletRequest request = requestAttributes.getRequest();
 
         log.info("request url: {}", request.getRequestURL());
         log.info("request url: {}", request.getRemoteAddr());
