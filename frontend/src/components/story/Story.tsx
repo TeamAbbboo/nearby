@@ -108,10 +108,37 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
     return () => clearInterval(interval);
   };
 
+  /* 이전 소식으로 가기 */
+  const goPrevious = () => {
+    if (activeImage !== 1) {
+      setProgressBars(prevProgressBars => {
+        const newProgressBars = [...prevProgressBars];
+        newProgressBars[activeImage - 1] = 0; // 현재 progressBar 상태 0으로 만들기
+        newProgressBars[activeImage - 2] = 0; // 이전 progressBar 상태 0으로 만들기
+        return newProgressBars;
+      });
+      setActiveImage(activeImage - 1);
+    }
+  };
+
+  /* 다음 소식으로 가기 */
+  const goNext = () => {
+    if (activeImage !== dayStoryList?.data.dayStoryResList.length) {
+      setProgressBars(prevProgressBars => {
+        const newProgressBars = [...prevProgressBars];
+        newProgressBars[activeImage - 1] = 100;
+        return newProgressBars;
+      });
+      setActiveImage(activeImage);
+    }
+  };
+
   return (
     <>
       {existStory ? (
         <>
+          <div className="absolute w-1/2 h-full z-10" onClick={() => goPrevious()}></div>
+          <div className="absolute w-1/2 h-full right-0 z-10" onClick={() => goNext()}></div>
           {/* 하단 메뉴 모달 */}
           {/* 반응 보기*/}
           {isReactHistoryOpen && (
@@ -163,16 +190,9 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
               )}
               <div
                 key={index}
-                onClick={() => {
-                  if (activeImage !== dayStoryList?.data.dayStoryResList.length) {
-                    setProgressBars(prevProgressBars => {
-                      const newProgressBars = [...prevProgressBars];
-                      newProgressBars[activeImage - 1] = 100;
-                      return newProgressBars;
-                    });
-                    setActiveImage(activeImage);
-                  }
-                }}
+                // onClick={() => {
+                //   goPrevious();
+                // }}
                 className={`absolute top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
               >
                 <img className="object-cover w-full h-full" src={image.rearUrl} alt={`Carousel ${index + 1}`} />
