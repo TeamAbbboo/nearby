@@ -14,15 +14,19 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
   const { usePostSendMessage } = useMessage();
   const { mutate, isSuccess } = usePostSendMessage();
   const [content, setContent] = useState<string>('');
+  const [isSend, setIsSend] = useState<boolean>(true);
 
   useEffect(() => {
     if (isSuccess) {
+      setIsSend(true);
       setIsSendMessageModalOpen(false);
     }
   }, [isSuccess]);
 
   const sendMessageHandleClick = () => {
+    if (!isSend) return;
     if (content) {
+      setIsSend(false);
       mutate({
         content: content,
         receiverId: userId,
@@ -51,7 +55,7 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
             <button onClick={() => setIsSendMessageModalOpen(false)} className="bg-white border rounded-2xl w-24 ">
               취소
             </button>
-            <button onClick={() => sendMessageHandleClick} className="bg-white border rounded-2xl w-24">
+            <button onClick={() => sendMessageHandleClick()} className="bg-white border rounded-2xl w-24">
               전송하기
             </button>
           </div>
