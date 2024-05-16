@@ -8,6 +8,7 @@ import { getMoodMeaning } from '@/utils/getMoodMeaning';
 import { moodType } from '@/types/model';
 import send from '@/assets/icons/send.png';
 import userStore from '@/stores/userStore';
+import Toast from '@/components/@common/Toast/Toast';
 
 const PenguinModal = () => {
   const { modalClose, familyInfo } = playgroundPenguinStore();
@@ -21,7 +22,9 @@ const PenguinModal = () => {
         <div className="flex justify-center items-center">
           <Penguin
             onClick={() => {
-              nickname !== familyInfo.nickname && setIsPokeModalOpen(true);
+              nickname !== familyInfo.nickname && Toast.info('펭귄 꾸욱 누르기는 아직 준비되지 않은 서비스입니다.');
+              // setIsPokeModalOpen(true);
+              // @TODO 꾸욱 누르기 해야함
             }}
             mood={familyInfo.mood}
             decoration={familyInfo.decoration}
