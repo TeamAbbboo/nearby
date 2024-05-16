@@ -71,8 +71,8 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
             clearInterval(intervalRef.current!);
             const nextImage = activeImage + 1;
 
-            console.log('activeImage', activeImage);
-            console.log('dayStoryList길이', dayStoryList?.data.dayStoryResList.length);
+            // console.log('activeImage', activeImage);
+            // console.log('dayStoryList길이', dayStoryList?.data.dayStoryResList.length);
             if (activeImage === dayStoryList?.data.dayStoryResList.length) {
               navigate(-1);
             } else {
@@ -83,7 +83,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
 
           return newProgressBars;
         });
-      }, updateInterval); //3초씩 사진 보여주기
+      }, updateInterval); //5초씩 사진 보여주기
 
       return () => {
         if (intervalRef.current) {
