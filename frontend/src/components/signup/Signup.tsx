@@ -172,8 +172,8 @@ const Signup = () => {
             <p>생년월일</p>
           </div>
 
-          <div className="w-full h-[28vh] bg-white/40 rounded-2xl shadow-xl flex mt-2 px-5 relative">
-            <div className="absolute bg-gray-300 rounded-3xl left-5 right-5 top-[11.5vh] bottom-[80px] h-[35px]"></div>
+          <div className="w-full h-[150px] bg-white/40 rounded-2xl shadow-xl flex mt-2 px-5 relative">
+            <div className="absolute bg-gray-300 rounded-3xl left-5 right-5 top-[55px] bottom-[4vh] h-[35px]"></div>
             {/* 년 */}
             <Wheel
               initIdx={95}
@@ -211,7 +211,7 @@ const Signup = () => {
 
       {/* 아띠 시작하기 */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
-        <div className="absolute w-full px-5 bottom-5">
+        <div className="absolute w-full px-5 pt-7">
           <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={startAtti}>
             <div>
               <div className="text-lg font-bold">
