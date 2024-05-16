@@ -86,6 +86,9 @@ export const useAuth = () => {
     return useMutation({
       mutationKey: ['patchLeaveFamily'],
       mutationFn: async () => doPatchLeaveFamilyReq(),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['familyCode'] });
+      },
     });
   };
 

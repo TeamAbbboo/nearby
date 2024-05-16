@@ -15,7 +15,6 @@ const ViewStoryPage = () => {
     state: { isSaved, year, month, day },
   } = useLocation() as IRouteState;
 
-  console.log('년 월 일:', year, month, day);
   return (
     <div className="relative w-full h-full bg-white">
       <Story year={year} month={month} day={day} isSaved={isSaved} />

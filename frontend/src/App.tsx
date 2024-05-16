@@ -11,7 +11,7 @@ import GreenHousePage from '@/pages/greenhouse/GreenHousePage';
 import AlbumPage from '@/pages/greenhouse/AlbumPage';
 import RegisterStoryPage from '@/pages/story/RegisterStoryPage';
 import SplashHomePage from '@/pages/splash/SplashHomePage';
-import SplashPlaygroundPage from '@/pages/splash/SplashPlaygroundPage';
+import SplashMyPage from '@/pages/splash/SplashMyPage';
 import SplashGreenhousePage from '@/pages/splash/SplashGreenhousePage';
 import PreventRoute from '@/pages/private/PreventRoute';
 import PrivateRoute from '@/pages/private/PrivateRoute ';
@@ -81,7 +81,7 @@ const router = createBrowserRouter([
     path: '/splashMy',
     element: (
       <PrivateRoute>
-        <SplashPlaygroundPage />
+        <SplashMyPage />
       </PrivateRoute>
     ),
   },

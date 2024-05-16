@@ -3,7 +3,7 @@ import { moodType, decoType } from './model';
 
 /* 로그인 응답 */
 export interface IPostLoginRes {
-  isFamily: boolean;
+  existFamily: boolean;
   nickname: string;
   birthday: string;
   mood: moodType;
