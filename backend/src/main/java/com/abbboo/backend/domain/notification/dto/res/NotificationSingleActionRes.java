@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class NotificationPokeActionRes {
+public class NotificationSingleActionRes {
     
     // 보내는 유저
     private User sender;
@@ -21,7 +21,7 @@ public class NotificationPokeActionRes {
     private NotificationEventType notificationEventType;
 
     @Builder
-    public NotificationPokeActionRes(User sender, User receiver, String title, NotificationEventType notificationEventType) {
+    public NotificationSingleActionRes(User sender, User receiver, String title, NotificationEventType notificationEventType) {
         this.sender = sender;
         this.receiver = receiver;
         this.title = title;
