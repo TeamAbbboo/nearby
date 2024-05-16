@@ -39,7 +39,13 @@ const GreenhouseHeader = ({
 
   return (
     <div className="p-5">
-      <div className="w-full h-24 bg-white rounded-3xl shadow-xl flex flex-col justify-center gap-2 px-5">
+      <div
+        className="w-full h-24 bg-white rounded-3xl shadow-xl flex flex-col justify-center gap-2 px-5"
+        onClick={() => {
+          setIsExpOpen(!isExpOpen);
+          setIsDandelionVisible(isExpOpen);
+        }}
+      >
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <p className="font-semibold text-lg ">가까움</p>
@@ -51,24 +57,20 @@ const GreenhouseHeader = ({
           <div className={`${progressPercentage >= 100 ? 'visible' : 'invisible'}`}>
             <button
               className="hover:bg-gray-100 w-10 h-5 font-semibold text-[10px] bg-white border-[1px] rounded-xl shadow-md"
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation();
                 mutate(level);
                 firework();
                 setIsOpen(true);
                 setIsDandelionVisible(false);
               }}
+              disabled={!(progressPercentage >= 100)}
             >
               성장
             </button>
           </div>
         </div>
-        <div
-          className="w-full h-4 bg-SUB1 rounded-3xl"
-          onClick={() => {
-            setIsExpOpen(!isExpOpen);
-            setIsDandelionVisible(isExpOpen);
-          }}
-        >
+        <div className="w-full h-4 bg-SUB1 rounded-3xl">
           <div className="h-full bg-MAIN1 rounded-3xl" style={{ width: `${progressPercentage}%` }}></div>
         </div>
       </div>
