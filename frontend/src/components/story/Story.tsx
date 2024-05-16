@@ -54,6 +54,8 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
       const updateInterval = 100; //프로그래스바 업데이트 주기 (0.01초)
       const progressStep = (updateInterval / intervalTime) * 100; //각 업데이트마다 증가할 progress 값
 
+      keepProgressBar();
+
       intervalRef.current = setInterval(() => {
         setProgressBars(currentProgressBars => {
           const newProgressBars = [...currentProgressBars];
@@ -133,6 +135,18 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
     }
   };
 
+  /* 현재 보여지는 이미지에 따라 상태바  이전 것 100 유지 */
+  const keepProgressBar = () => {
+    console.log('호출');
+    setProgressBars(prevProgressBars => {
+      const newProgressBars = [...prevProgressBars];
+      for (let i = 0; i < activeImage - 1; i++) {
+        newProgressBars[i] = 100;
+      }
+      return newProgressBars;
+    });
+  };
+
   return (
     <>
       {existStory ? (
@@ -190,9 +204,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
               )}
               <div
                 key={index}
-                // onClick={() => {
-                //   goPrevious();
-                // }}
                 className={`absolute top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
               >
                 <img className="object-cover w-full h-full" src={image.rearUrl} alt={`Carousel ${index + 1}`} />
