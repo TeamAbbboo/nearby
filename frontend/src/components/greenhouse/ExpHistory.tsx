@@ -12,15 +12,17 @@ const ExpHistory = () => {
   });
 
   return (
-    <div className="relative flex flex-col p-5 w-full h-[500px] bg-white rounded-3xl shadow-xl overflow-y-auto">
-      {expHistoryList?.pages.map(
-        item =>
-          item.data.histories.content &&
-          item.data.histories.content.map((value, index) => {
-            return <ExpHistoryItem key={index} expHistoryItem={value} />;
-          }),
-      )}
-      <div ref={setTarget} className="h-1"></div>
+    <div className="relative z-10 py-2">
+      <div className="absolute flex flex-col p-5 w-full h-[500px] bg-white rounded-3xl shadow-xl overflow-y-auto">
+        {expHistoryList?.pages.map(
+          item =>
+            item.data.histories.content &&
+            item.data.histories.content.map((value, index) => {
+              return <ExpHistoryItem key={index} expHistoryItem={value} />;
+            }),
+        )}
+        <div ref={setTarget} className="h-1"></div>
+      </div>
     </div>
   );
 };
