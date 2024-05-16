@@ -43,13 +43,13 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    console.log(dayStoryList?.data.dayStoryResList.length);
+    // console.log(dayStoryList?.data.dayStoryResList.length);
     if (dayStoryList?.data.dayStoryResList.length === 0) {
       setExistStory(false);
       onExitStory();
+    } else {
+      dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
     }
-
-    dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
   }, [dayStoryList]);
 
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
             // console.log('activeImage', activeImage);
             // console.log('dayStoryList길이', dayStoryList?.data.dayStoryResList.length);
             if (activeImage === dayStoryList?.data.dayStoryResList.length) {
-              navigate(-1);
+              navigate('/home');
             } else {
               newProgressBars[activeImage - 1] = 100;
               setActiveImage(nextImage);
@@ -102,7 +102,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
 
   const onExitStory = () => {
     setTimeout(() => {
-      window.location.replace('/home');
+      navigate('/home');
     }, 3000);
 
     const interval = setInterval(() => {
