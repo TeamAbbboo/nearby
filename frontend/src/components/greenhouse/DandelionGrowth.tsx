@@ -15,7 +15,7 @@ const DandelionGrowth = ({ level, setIsOpen, setIsDandelionVisible }: IDandelion
           <img src={selectDandelion(level)} className="w-40"></img>
         </div>
         <div className="text-white text-lg font-bold text-center">축하합니다!</div>
-        <div className="text-white text-lg font-bold text-center">아띠가 성장했어요</div>
+        <div className="text-white text-lg font-bold text-center">민들레가 성장했어요</div>
       </div>
       <div className="absolute bottom-20 w-full px-5">
         <button
