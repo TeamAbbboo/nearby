@@ -20,7 +20,7 @@ const Calender = ({ startDate }: IstartDateProp) => {
   };
 
   const [props, setProps] = useState<IMonthlyStoryReq>(initProps);
-  const [renderDate, setRenderDate] = useState<dayjs.Dayjs>(dayjs().set('date', dayjs().daysInMonth())); //화면에 렌더링 된 날
+  const [renderDate, setRenderDate] = useState<dayjs.Dayjs>(dayjs().set('date', dayjs(today).daysInMonth())); //화면에 렌더링 된 날
   const { data: monthlyStoryList } = useGetMonthlyStoryList(props);
 
   const yearMonth = dayjs(renderDate).format('YYYYMM');
@@ -44,24 +44,24 @@ const Calender = ({ startDate }: IstartDateProp) => {
 
   const isBeforeStart = () => {
     //가족 생성일자랑 년 월 같거나 이하면 < 없어야 함
-    if (
-      (start.get('year') === renderDate.get('year') && start.get('month') === renderDate.get('month')) ||
-      start.isBefore(renderDate)
-    ) {
+    if (start.get('year') === renderDate.get('year') && start.get('month') === renderDate.get('month')) {
+      return false;
+    } else if (start.isBefore(renderDate)) {
+      return true;
+    } else {
       return false;
     }
-    return true;
   };
 
   const isAfterToday = () => {
     //오늘 날짜보다 렌더링된 날짜가 이후면 > 없어야 함
-    if (
-      (today.get('year') === renderDate.get('year') && today.get('month') === renderDate.get('month')) ||
-      today.isBefore(renderDate)
-    ) {
+    if (today.get('year') === renderDate.get('year') && today.get('month') === renderDate.get('month')) {
+      return false;
+    } else if (today.isAfter(renderDate)) {
+      return true;
+    } else {
       return false;
     }
-    return true;
   };
 
   const prevMonth = () => {
@@ -78,7 +78,7 @@ const Calender = ({ startDate }: IstartDateProp) => {
         <div className="flex flex-row justify-between px-3">
           <div className="font-bold">{dayjs(renderDate).format('YYYY년 MM월')}</div>
           <div className="flex flex-row gap-6">
-            <div className={`flex flex-row ${isBeforeStart() ? 'invisible' : 'visible'}`} onClick={prevMonth}>
+            <div className={`flex flex-row ${isBeforeStart() ? 'visible' : 'invisible'}`} onClick={prevMonth}>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
                   <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>

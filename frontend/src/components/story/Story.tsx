@@ -42,9 +42,9 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
     if (dayStoryList?.data.dayStoryResList.length === 0) {
       setExistStory(false);
       onExitStory();
+    } else {
+      dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
     }
-
-    dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
   }, [dayStoryList]);
 
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
             const nextImage = activeImage + 1;
 
             if (activeImage === dayStoryList?.data.dayStoryResList.length) {
-              navigate(-1);
+              navigate('/home');
             } else {
               newProgressBars[activeImage - 1] = 100;
               setActiveImage(nextImage);
@@ -75,7 +75,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
 
           return newProgressBars;
         });
-      }, updateInterval); //3초씩 사진 보여주기
+      }, updateInterval); //5초씩 사진 보여주기
 
       return () => {
         if (intervalRef.current) {
@@ -94,7 +94,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
 
   const onExitStory = () => {
     setTimeout(() => {
-      window.location.replace('/home');
+      navigate('/home');
     }, 3000);
 
     const interval = setInterval(() => {

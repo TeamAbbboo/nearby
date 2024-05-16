@@ -37,7 +37,7 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
   };
 
   return (
-    <Modal onClose={() => setIsSendMessageModalOpen(false)} width="w-4/5">
+    <Modal width="w-4/5">
       <>
         <div className="absolute top-0 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-SUB2 rounded-full z-10 shadow-lg">
           <Penguin mood={familyInfo.mood} />
