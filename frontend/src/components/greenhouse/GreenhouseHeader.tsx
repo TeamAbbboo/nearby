@@ -31,7 +31,7 @@ const GreenhouseHeader = ({ level, currentExp, maxExp, startDate, setIsOpen }: I
 
   return (
     <>
-      {isExpOpen && <div className="absolute w-full h-full z-10" onClick={() => setIsExpOpen(false)}></div>}
+      {isExpOpen && <div className="absolute w-full h-full z-10 bg-black/60" onClick={() => setIsExpOpen(false)}></div>}
       <div className="p-5">
         <div
           className="w-full h-24 bg-white rounded-3xl shadow-xl flex flex-col justify-center gap-2 px-5"
