@@ -18,7 +18,9 @@ public class ScheduleUtil {
     private final MessageService messageService;
 
     // 랜덤 메시지 전송
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(cron = "0 0 9 * * ?")   // 아침 9시
+    @Scheduled(cron = "0 0 13 * * ?")  // 점심 13시
+    @Scheduled(cron = "0 0 19 * * ?")  // 저녁 19시
     public void createRandomMessage() {
         log.info("랜덤 메시지 전송을 위한 스케줄러 시작");
 
