@@ -24,6 +24,12 @@ public class NotificationSingleEventListener implements ApplicationListener<Noti
     @Override
     public void onApplicationEvent(NotificationSingleEvent event) {
 
+        // 스스로에게 보내는 알림 처리
+        if(event.getSender().equals(event.getReceiver())) {
+            log.info("스스로에게 보내는 알림 확인 : OK");
+            return;
+        }
+
         // 알림 이력 저장
         Notification notification = Notification.builder()
                 .user(event.getReceiver())
