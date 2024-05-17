@@ -4,8 +4,6 @@ import KakaoLogin from '@/components/login/KakaoLogin';
 /* libraries */
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getFirebaseToken } from '@/utils/foregroundMessage';
-import fcmStore from '@/stores/fcmStore';
 
 const LoginPage = () => {
   /* 공유 링크로 들어왔다면, 가족 코드 저장 */
@@ -16,16 +14,6 @@ const LoginPage = () => {
     if (familyCode?.length === 8) localStorage.setItem('SHARE_FAMILY_CODE', familyCode);
     else if (familyCode) localStorage.removeItem('SHARE_FAMILY_CODE');
   }, [familyCode]);
-
-  const { setToken } = fcmStore();
-
-  useEffect(() => {
-    const getToken = async () => {
-      const token = await getFirebaseToken();
-      setToken({ fcmToken: token });
-    };
-    getToken();
-  }, []);
 
   return (
     <div className="w-full h-full bg-LOGIN bg-cover flex flex-col font-NPSfontBold">
