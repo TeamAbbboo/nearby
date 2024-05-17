@@ -1,12 +1,22 @@
 import { Dispatch, SetStateAction } from 'react';
 import Modal from '../../@common/Modal';
+import { usePlayground } from '@/hooks/playground/usePlayground';
 
 interface IPokeModalProps {
   nickname: string;
+  receiverId: number;
   setIsPokeModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const PokeModal = ({ nickname, setIsPokeModalOpen }: IPokeModalProps) => {
+const PokeModal = ({ nickname, receiverId, setIsPokeModalOpen }: IPokeModalProps) => {
+  const { usePokeNotifications } = usePlayground();
+  const { mutate: pokeNotifications } = usePokeNotifications();
+
+  const handlePokeClick = () => {
+    pokeNotifications(receiverId);
+    setIsPokeModalOpen(false);
+  };
+
   return (
     <Modal onClose={() => setIsPokeModalOpen(false)} width="w-4/5">
       <div className="w-full bg-white h-56 rounded-2xl p-5 flex flex-col justify-between ">
@@ -34,7 +44,9 @@ const PokeModal = ({ nickname, setIsPokeModalOpen }: IPokeModalProps) => {
           <button onClick={() => setIsPokeModalOpen(false)} className="bg-[rgb(255,215,234)] rounded-2xl w-24">
             아니요
           </button>
-          <button className="bg-[rgb(247,159,202)] rounded-2xl w-24 ">예</button>
+          <button onClick={() => handlePokeClick()} className="bg-[rgb(247,159,202)] rounded-2xl w-24 ">
+            예
+          </button>
         </div>
       </div>
     </Modal>
