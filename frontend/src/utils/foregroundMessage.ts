@@ -32,16 +32,20 @@ onMessage(messaging, payload => {
 
 async function requestPermission() {
   try {
-    const permission = await Notification.requestPermission(); // 권한 설정
+    let permission = '';
+
+    Notification.requestPermission().then(notificationPermission => {
+      // 권한 설정
+      console.log(notificationPermission);
+      permission = notificationPermission;
+    });
     const messaging = getMessaging(app);
-    console.log(permission);
     if (permission === 'granted') {
       const token = await getToken(messaging, {
         vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
       });
       if (token) {
         // console.log(token);
-        // sendTokenToServer(token); // (토큰을 서버로 전송하는 로직)
       } else {
         Toast.error('토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요');
       }
