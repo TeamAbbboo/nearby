@@ -1,5 +1,6 @@
 package com.abbboo.backend.domain.user.repository;
 
+import static com.abbboo.backend.domain.story.entity.QStory.story;
 import static com.abbboo.backend.domain.user.entity.QUser.user;
 
 import com.querydsl.core.types.dsl.Expressions;
@@ -22,7 +23,8 @@ public class UserRepositoryQuerydslImpl implements UserRepositoryQuerydsl{
         Integer receiverId = jpaQueryFactory.select(
             user.id)
             .from(user)
-            .where(user.family.id.eq(familyId).and(user.id.notIn(senderId)))
+            .where(user.family.id.eq(familyId).and(user.id.notIn(senderId))
+                .and(story.user.isDeleted.eq(false)))
             .orderBy(Expressions.numberTemplate(Double.class, "rand()").asc())
             .limit(1)
             .fetchOne();
