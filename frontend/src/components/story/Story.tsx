@@ -5,11 +5,11 @@ import ShowMoreBottomSheet from './ShowMoreBottomSheet';
 import ReactHistoryBottomSheet from './ReactHistoryBottomSheet';
 import SendReactModal from './SendReactModal';
 import ProgressBar from './ProgressBar';
-import noStory from '@/assets/background_no_stories.png';
+import noStory from '@/assets/background_no_stories.jpg';
 import { useStory } from '@/hooks/story/useStory';
 
 /* libraries */
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -24,6 +24,7 @@ interface IStoryProps {
 const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps) => {
   const { useGetDayStory } = useStory();
   const { data: dayStoryList } = useGetDayStory({ year, month, day, isSaved });
+  const navigate = useNavigate();
 
   const [existStory, setExistStory] = useState<boolean>(true); // 소식이 있는지 확인하는 상태
   const [sec, setSec] = useState<number>(3); // 몇 초뒤에 떠나는지 확인하는 상태
@@ -38,60 +39,62 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const updateProgressBars = useCallback(
+    (progressStep: number) => {
+      setProgressBars(currentProgressBars => {
+        const newProgressBars = [...currentProgressBars];
+        if (!isReactHistoryOpen && !isSendReactOpen && !isShowMoreOpen) {
+          newProgressBars[activeImage - 1] += progressStep;
+        }
+        if (newProgressBars[activeImage - 1] >= 100) {
+          clearInterval(intervalRef.current!);
+          if (activeImage === dayStoryList?.data.dayStoryResList.length) {
+            navigate('/home');
+          } else {
+            newProgressBars[activeImage - 1] = 100;
+            setActiveImage(activeImage + 1);
+          }
+        }
+        return newProgressBars;
+      });
+    },
+    [activeImage, dayStoryList, isReactHistoryOpen, isSendReactOpen, isShowMoreOpen, navigate],
+  );
+
+  /* 스토리 보관 시 이전 상태 바 100 유지 */
+  const keepProgressBar = useCallback(() => {
+    setProgressBars(prevProgressBars => {
+      const newProgressBars = prevProgressBars.map((progress, index) => (index < activeImage - 1 ? 100 : progress));
+      return newProgressBars;
+    });
+  }, [activeImage]);
+
+  /* 스토리 존재 여부 파악 */
   useEffect(() => {
     if (dayStoryList?.data.dayStoryResList.length === 0) {
       setExistStory(false);
       onExitStory();
     } else {
-      dayStoryList && setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
+      setProgressBars(new Array(dayStoryList?.data.dayStoryResList.length).fill(0));
     }
   }, [dayStoryList]);
 
-  const navigate = useNavigate();
+  /* 상태 바 특정 시간동안 채워지게 */
   useEffect(() => {
     if (dayStoryList) {
-      const intervalTime = 5000; //이미지가 변경되기까지의 시간
-      const updateInterval = 100; //프로그래스바 업데이트 주기 (0.01초)
-      const progressStep = (updateInterval / intervalTime) * 100; //각 업데이트마다 증가할 progress 값
+      const intervalTime = 5000;
+      const updateInterval = 100;
+      const progressStep = (updateInterval / intervalTime) * 100;
 
-      intervalRef.current = setInterval(() => {
-        setProgressBars(currentProgressBars => {
-          const newProgressBars = [...currentProgressBars];
+      keepProgressBar();
 
-          if (!isReactHistoryOpen && !isSendReactOpen && !isShowMoreOpen) {
-            newProgressBars[activeImage - 1] += progressStep;
-          }
-          if (newProgressBars[activeImage - 1] >= 100) {
-            clearInterval(intervalRef.current!);
-            const nextImage = activeImage + 1;
+      intervalRef.current = setInterval(() => updateProgressBars(progressStep), updateInterval);
 
-            if (activeImage === dayStoryList?.data.dayStoryResList.length) {
-              navigate('/home');
-            } else {
-              newProgressBars[activeImage - 1] = 100;
-              setActiveImage(nextImage);
-            }
-          }
-
-          return newProgressBars;
-        });
-      }, updateInterval); //5초씩 사진 보여주기
-
-      return () => {
-        if (intervalRef.current) {
-          clearInterval(intervalRef.current);
-        }
-      };
+      return () => clearInterval(intervalRef.current!);
     }
-  }, [
-    activeImage,
-    dayStoryList?.data.dayStoryResList.length,
-    dayStoryList,
-    isReactHistoryOpen,
-    isSendReactOpen,
-    isShowMoreOpen,
-  ]);
+  }, [activeImage, dayStoryList, updateProgressBars, keepProgressBar]);
 
+  /* 스토리 없을 때 처리 */
   const onExitStory = () => {
     setTimeout(() => {
       navigate('/home');
@@ -108,10 +111,37 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
     return () => clearInterval(interval);
   };
 
+  /* 이전 소식으로 가기 */
+  const goPrevious = () => {
+    if (activeImage !== 1) {
+      setProgressBars(prevProgressBars => {
+        const newProgressBars = [...prevProgressBars];
+        newProgressBars[activeImage - 1] = 0; // 현재 progressBar 상태 0으로 만들기
+        newProgressBars[activeImage - 2] = 0; // 이전 progressBar 상태 0으로 만들기
+        return newProgressBars;
+      });
+      setActiveImage(activeImage - 1);
+    }
+  };
+
+  /* 다음 소식으로 가기 */
+  const goNext = () => {
+    if (activeImage !== dayStoryList?.data.dayStoryResList.length) {
+      setProgressBars(prevProgressBars => {
+        const newProgressBars = [...prevProgressBars];
+        newProgressBars[activeImage - 1] = 100;
+        return newProgressBars;
+      });
+      setActiveImage(activeImage);
+    }
+  };
+
   return (
     <>
       {existStory ? (
         <>
+          <div className="absolute w-1/2 h-full z-10" onClick={() => goPrevious()}></div>
+          <div className="absolute w-1/2 h-full right-0 z-10" onClick={() => goNext()}></div>
           {/* 하단 메뉴 모달 */}
           {/* 반응 보기*/}
           {isReactHistoryOpen && (
@@ -163,16 +193,6 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
               )}
               <div
                 key={index}
-                onClick={() => {
-                  if (activeImage !== dayStoryList?.data.dayStoryResList.length) {
-                    setProgressBars(prevProgressBars => {
-                      const newProgressBars = [...prevProgressBars];
-                      newProgressBars[activeImage - 1] = 100;
-                      return newProgressBars;
-                    });
-                    setActiveImage(activeImage);
-                  }
-                }}
                 className={`absolute top-0 bottom-0 right-0 left-0 w-full h-dvh bg-black ${activeImage === index + 1 ? 'opacity-100' : 'opacity-0'}`}
               >
                 <img className="object-cover w-full h-full" src={image.rearUrl} alt={`Carousel ${index + 1}`} />
