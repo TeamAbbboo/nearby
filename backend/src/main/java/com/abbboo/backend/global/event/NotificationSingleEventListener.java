@@ -34,14 +34,15 @@ public class NotificationSingleEventListener implements ApplicationListener<Noti
         try {
             notificationRepository.save(notification);
 
-            log.info("꾸욱 누르기 - 알림 이력 저장 : OK");
+            log.info("알림 이력 저장 : OK");
 
             // 알림 보내기
             sendSingleNotification(notification,event.getReceiver().getFcmToken());
 
-            log.info("꾸욱 누르기 - 알림 보내기 : OK");
+            log.info("알림 보내기 : OK");
 
         } catch (FirebaseMessagingException e) {
+            log.info("단건 알림 보내기 실패 : FAIL");
             throw new BadRequestException(ErrorCode.NOTIFICATION_SEND_FAIL);
         }
     }
