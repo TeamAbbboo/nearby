@@ -18,6 +18,10 @@ const StoryHeader = ({ nickname, createdAt, mood, decoration }: IStoryHeaderProp
   dayjs.locale('ko');
   const navigate = useNavigate();
 
+  // 24시간 이상인지 확인
+  const isOver24Hours = dayjs().diff(createdAt, 'hour') >= 24;
+  const displayTime = isOver24Hours ? dayjs(createdAt).format('YYYY.MM.DD (HH:mm)') : dayjs(createdAt).fromNow();
+
   return (
     <div className="absolute top-0 flex w-full h-fit justify-between pt-6 pb-2 px-3 items-center bg-gradient-to-b from-black/40 z-10 font-NPSfontBold">
       <div className="flex flex-row gap-2 items-center text-white text-sm">
@@ -25,7 +29,7 @@ const StoryHeader = ({ nickname, createdAt, mood, decoration }: IStoryHeaderProp
           <Penguin mood={mood} decoration={decoration} />
         </div>
         <p className="font-bold">{nickname}</p>
-        <p>{dayjs(createdAt).fromNow()}</p>
+        <p>{displayTime}</p>
       </div>
       <div onClick={() => navigate(-1)}>
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#ffffff" viewBox="0 0 256 256">
