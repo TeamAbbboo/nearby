@@ -6,6 +6,7 @@ import { getFirebaseToken } from '@/firebase/foregroundMessage';
 /* 로그인 */
 export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
   const token = getFirebaseToken();
+  console.log(token);
   const { data } = await axiosCommonInstance.post('/users/login', {
     fcmToken: token,
   });
