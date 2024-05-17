@@ -25,9 +25,8 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(payload => {
-  // 백그라운드 메세지 핸들러, 백그라운드 메세지는 Service-worker에서만 작동함!
+  // 백그라운드 메세지 핸들러
   console.log('payload : ', payload.data);
-  // const notificationTitle = 'Background Message Title'; // 메세지 제목
   const { body, title } = payload.data;
   const notificationOptions = {
     body: body, // 매세지 내용
