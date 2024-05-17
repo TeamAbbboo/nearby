@@ -45,6 +45,9 @@ public enum SuccessCode {
 
     // mood, decoration
     UPDATE_PENGUIN_SUCCESS(204, "펭귄 상태 업데이트에 성공하였습니다.", "SUCCESS"),
+
+    // notification
+    POKE_CREATE_SUCCESS(201,"꾸욱 누르기에 성공하였습니다.","SUCCESS")
     ;
 
     private final int status;
