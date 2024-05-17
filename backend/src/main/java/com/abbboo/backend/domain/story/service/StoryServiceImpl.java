@@ -19,6 +19,7 @@ import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.ExpEventFactory;
+import com.abbboo.backend.global.event.NotificationEventFactory;
 import com.abbboo.backend.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,8 @@ public class StoryServiceImpl implements StoryService{
         User user = userRepository.findByKakaoId(kakaoId)
             .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        log.info("유저 ID : {}",user.getId());
+
         // 파일 확인
         if (frontFile.isEmpty() || rearFile.isEmpty()){ // 두 개의 파일 중 하나라도 없다면 등록 불가
             throw new BadRequestException(ErrorCode.FILE_IS_NULL);
@@ -65,8 +68,9 @@ public class StoryServiceImpl implements StoryService{
             .family(user.getFamily())
             .build();
 
-        //경험치 추가 이벤트 발생
+        // 경험치 추가, 꾸욱 누르기 이벤트 발생
         eventPublisher.publishEvent(ExpEventFactory.createStoryEvent(this,user));
+        eventPublisher.publishEvent(NotificationEventFactory.createStoryEvent(this,user));
         storyRepository.save(story);
     }
 
