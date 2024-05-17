@@ -2,7 +2,7 @@
 import './Style.css';
 import TransparentButton from '@/components/@common/TransparentButton';
 import Wheel from './Wheel.tsx';
-import userStore from '@/stores/userStore.tsx';
+import userStore from '@/stores/userStore.ts';
 import { useAuth } from '@/hooks/auth/useAuth';
 import Toast from '@/components/@common/Toast/Toast.tsx';
 
