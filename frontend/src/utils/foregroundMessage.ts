@@ -50,7 +50,7 @@ async function requestPermission() {
         vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
       });
       if (token) {
-        // console.log(token);
+        localStorage.setItem('FCM_TOKEN', token);
       } else {
         Toast.error('토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요');
       }

@@ -9,12 +9,20 @@ const KakaoLogin = () => {
   const link = `${import.meta.env.VITE_BASE_URL}/oauth2/authorization/kakao`;
 
   const loginHandler = () => {
-    requestPermission();
     window.location.replace(link);
   };
 
   return (
-    <TransparentButton width="w-full" height="h-20" rounded="rounded-3xl" shadow="shadow-xl" onClick={loginHandler}>
+    <TransparentButton
+      width="w-full"
+      height="h-20"
+      rounded="rounded-3xl"
+      shadow="shadow-xl"
+      onClick={() => {
+        requestPermission();
+        loginHandler();
+      }}
+    >
       <div className="flex items-center">
         <img className="absolute pl-10" src={kakao}></img>
         <div className="w-full bg-white/0 pl-5 text-center text-lg font-NPSfontBold">
