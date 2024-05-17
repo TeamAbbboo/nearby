@@ -44,6 +44,23 @@ public class NotificationEventFactory {
         return new NotificationSingleEvent(source, notificationSingleActionRes);
     }
 
+    // 단건 - 반응 등록 이벤트 알림
+    public static ApplicationEvent createReactionEvent(Object source, User sender, User receiver) {
+
+        // 메시지 수신 이벤트 정보 객체 생성
+        NotificationSingleActionRes notificationSingleActionRes
+                = NotificationSingleActionRes.builder()
+                .sender(sender)
+                .receiver(receiver)
+                .title(sender.getNickname()+"펭귄")
+                .notificationEventType(NotificationEventType.CREATE_REACTION)
+                .build();
+
+        log.info("반응 등록 - 이벤트 정보 객체 생성 : OK");
+
+        return new NotificationSingleEvent(source, notificationSingleActionRes);
+    }
+
     // 다건 - 스토리 등록 이벤트 알림
     public static ApplicationEvent createStoryEvent(Object source, User sender) {
 
