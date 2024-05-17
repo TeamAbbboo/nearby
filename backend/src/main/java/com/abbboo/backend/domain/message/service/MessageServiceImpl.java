@@ -13,11 +13,10 @@ import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.ExpEventFactory;
+import com.abbboo.backend.global.event.NotificationEventFactory;
 import com.abbboo.backend.global.util.ClovaUtil;
 import com.abbboo.backend.global.util.S3Util;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -79,10 +78,13 @@ public class MessageServiceImpl implements MessageService{
 
         messageRepository.save(message);
 
-        //경험치 추가 이벤트 발생
+        // 경험치 추가 이벤트 발생
         if(req.getContent().length()>=20) {
             eventPublisher.publishEvent(ExpEventFactory.createLetterEvent(this, sender));
         }
+
+        // 메시지 수신 알림 이벤트 발생
+        eventPublisher.publishEvent(NotificationEventFactory.createLetterEvent(this,sender,receiver));
     }
 
     // 가족에게 보낸 메시지 조회
