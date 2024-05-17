@@ -19,8 +19,9 @@ const KakaoLogin = () => {
       rounded="rounded-3xl"
       shadow="shadow-xl"
       onClick={() => {
-        requestPermission();
-        loginHandler();
+        requestPermission().then(() => {
+          loginHandler();
+        });
       }}
     >
       <div className="flex items-center">
