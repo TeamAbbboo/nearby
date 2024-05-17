@@ -114,6 +114,9 @@ public class StoryServiceImpl implements StoryService{
             .build();
 
         reactionHistoryRepository.save(reactionHistory);
+
+        // 반응 등록 이벤트 발생
+        eventPublisher.publishEvent(NotificationEventFactory.createReactionEvent(this,user,story.getUser()));
     }
 
     // 일자별 소식 조회하기
