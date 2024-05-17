@@ -4,6 +4,7 @@ import KakaoLogin from '@/components/login/KakaoLogin';
 /* libraries */
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { requestPermission } from '@/utils/foregroundMessage';
 
 const LoginPage = () => {
   /* 공유 링크로 들어왔다면, 가족 코드 저장 */
@@ -31,7 +32,7 @@ const LoginPage = () => {
           </p>
         </motion.div>
       </div>
-
+      <button onClick={() => requestPermission()}>알림허용</button>
       <div className="w-full h-full flex flex-col justify-end pb-20 px-5">
         <motion.div
           initial={{ opacity: 0 }}
