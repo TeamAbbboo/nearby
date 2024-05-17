@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.user.service;
 
 import com.abbboo.backend.domain.user.dto.req.UserEnrollFamilyReq;
+import com.abbboo.backend.domain.user.dto.req.UserLoginReq;
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
@@ -30,7 +31,7 @@ public interface UserService {
     void deleteUser(String kakaoId);
 
     // 유저 로그인
-    UserLoginRes getUserAll(String kakaoId);
+    UserLoginRes getUserAll(String kakaoId, UserLoginReq userLoginReq);
 
     // 유저 로그아웃
     void deleteUserState(String kakaoId, HttpServletResponse response);

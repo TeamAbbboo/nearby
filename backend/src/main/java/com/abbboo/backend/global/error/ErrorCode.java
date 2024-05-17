@@ -53,8 +53,10 @@ public enum ErrorCode {
     LACK_OF_EXP(400,"경험치가 아직 부족합니다.","L-002",""),
 
     // Mood, Decoration (펭귄의 STATUS)
-    ITEM_IS_WRONG(400,"일치하는 표현이 없습니다.","ST-001","")
+    ITEM_IS_WRONG(400,"일치하는 표현이 없습니다.","ST-001",""),
 
+    // Notification
+    NOTIFICATION_SEND_FAIL(500,"알림 전송에 실패했습니다.","N-001","")
     ;
 
     private final int status;
