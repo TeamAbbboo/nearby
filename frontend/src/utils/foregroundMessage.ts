@@ -34,7 +34,7 @@ async function requestPermission() {
   try {
     let permission = '';
 
-    Notification.requestPermission().then(notificationPermission => {
+    await Notification.requestPermission().then(notificationPermission => {
       // 권한 설정
       console.log(notificationPermission);
       permission = notificationPermission;
