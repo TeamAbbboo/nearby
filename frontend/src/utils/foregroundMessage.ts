@@ -18,7 +18,7 @@ const messaging = getMessaging(app);
 
 onMessage(messaging, payload => {
   console.log('알림 도착 ', payload.data);
-  Toast.success(payload.data?.title);
+  Toast.success(payload.data?.body);
 
   const { body, title } = payload.data!;
   const notificationOptions = {
@@ -31,31 +31,47 @@ onMessage(messaging, payload => {
 });
 
 async function requestPermission() {
-  try {
-    let permission = '';
-
-    await Notification.requestPermission().then(notificationPermission => {
-      // 권한 설정
-      console.log(notificationPermission);
-      permission = notificationPermission;
-    });
-    const messaging = getMessaging(app);
-    if (permission === 'granted') {
-      const token = await getToken(messaging, {
-        vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
-      });
-      if (token) {
-        // console.log(token);
-      } else {
-        Toast.error('토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요');
-      }
-    } else if (permission === 'denied') {
-      Toast.error('web push 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요');
-    }
-  } catch (error) {
-    console.error('푸시 토큰 가져오는 중에 에러 발생', error);
+  // 브라우저 지원 여부 체크
+  if (!('Notification' in window)) {
+    alert('데스크톱 알림을 지원하지 않는 브라우저입니다.');
   }
+  // 데스크탑 알림 권한 요청
+  Notification.requestPermission(function (result) {
+    // 권한 거절
+    if (result == 'denied') {
+      Notification.requestPermission();
+      alert('알림을 차단하셨습니다.\n브라우저의 사이트 설정에서 변경하실 수 있습니다.');
+      return false;
+    } else if (result == 'granted') {
+      alert('알림을 허용하셨습니다.');
+    }
+  });
 }
+// try {
+//   let permission = '';
+
+//   await Notification.requestPermission().then(notificationPermission => {
+//     // 권한 설정
+//     console.log(notificationPermission);
+//     permission = notificationPermission;
+//   });
+//   const messaging = getMessaging(app);
+//   if (permission === 'granted') {
+//     const token = await getToken(messaging, {
+//       vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
+//     });
+//     if (token) {
+//       // console.log(token);
+//     } else {
+//       Toast.error('토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요');
+//     }
+//   } else if (permission === 'denied') {
+//     Toast.error('web push 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요');
+//   }
+// } catch (error) {
+//   console.error('푸시 토큰 가져오는 중에 에러 발생', error);
+// }
+// }
 
 const getFirebaseToken = async () => {
   const token = await getToken(messaging, {
