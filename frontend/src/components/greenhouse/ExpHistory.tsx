@@ -13,7 +13,7 @@ const ExpHistory = () => {
 
   return (
     <div className="relative z-10 py-2">
-      <div className="absolute flex flex-col p-5 w-full h-[600px] bg-white rounded-3xl shadow-xl overflow-y-auto">
+      <div className="absolute flex flex-col p-5 w-full h-[500px] bg-white rounded-3xl shadow-xl overflow-y-auto">
         {expHistoryList?.pages.map(
           item =>
             item.data.histories.content &&
