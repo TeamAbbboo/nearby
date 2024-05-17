@@ -2,12 +2,14 @@
 /* components */
 import kakao from '@/assets/kakao.png';
 import TransparentButton from '@/components/@common/TransparentButton';
+import { requestPermission } from '@/utils/foregroundMessage';
 
 const KakaoLogin = () => {
   /* 카카오 하이퍼 링크 */
   const link = `${import.meta.env.VITE_BASE_URL}/oauth2/authorization/kakao`;
 
   const loginHandler = () => {
+    requestPermission();
     window.location.replace(link);
   };
 
