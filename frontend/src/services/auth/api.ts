@@ -1,10 +1,15 @@
 import { axiosCommonInstance, axiosWithCredentialInstance } from '@/apis/axiosInstance';
 import { APIResponse } from '@/types/model';
 import { IPostLoginRes, ISignUpReq, IUserInfoReq } from '@/types/auth';
+import { getFirebaseToken } from '@/utils/foregroundMessage';
 
 /* 로그인 */
 export const doPostLoginReq = async (): Promise<APIResponse<IPostLoginRes>> => {
-  const { data } = await axiosCommonInstance.post('/users/login');
+  const token = getFirebaseToken();
+  console.log(token);
+  const { data } = await axiosCommonInstance.post('/users/login', {
+    fcmToken: token,
+  });
   return data;
 };
 

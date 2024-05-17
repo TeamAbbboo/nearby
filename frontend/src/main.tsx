@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// fcm 관련 import
-import '@/firebase/initFirebase.ts';
-import '@/firebase/foregroundMessage';
-import { handleAllowNotification } from '@/firebase/notificationPermission';
+import { requestPermission } from './utils/foregroundMessage.ts';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
@@ -20,8 +16,7 @@ async function enableMocking() {
 }
 
 const client = new QueryClient();
-
-handleAllowNotification();
+requestPermission();
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
