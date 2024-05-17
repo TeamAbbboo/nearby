@@ -12,7 +12,7 @@ const RegisterStoryPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
+  // const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
   const [frontImage, setFrontImage] = useState<string>('');
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
@@ -62,8 +62,13 @@ const RegisterStoryPage = () => {
   };
 
   const toggleFacingMode = () => {
-    setFacingMode(facingMode === 'user' ? 'environment' : 'user');
-    getMediaPermission(facingMode);
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+
+    // setFacingMode(facingMode === 'user' ? 'environment' : 'user');
+    getMediaPermission('environment');
   };
 
   const imgRef = useRef<HTMLInputElement>(null);
