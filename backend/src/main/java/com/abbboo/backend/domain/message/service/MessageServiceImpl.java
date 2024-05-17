@@ -1,6 +1,5 @@
 package com.abbboo.backend.domain.message.service;
 
-import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.message.dto.req.SendMessageReq;
 import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
@@ -14,9 +13,7 @@ import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.util.ClovaUtil;
 import com.abbboo.backend.global.util.S3Util;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +31,6 @@ public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
-    private final FamilyRepository familyRepository;
     private final ClovaUtil clovaUtil;
     private final S3Util s3Util;
 
@@ -172,5 +168,56 @@ public class MessageServiceImpl implements MessageService{
 
         // 메시지의 isRead를 true로 변경
         message.changeIsRead();
+    }
+
+    @Transactional
+    @Override
+    public void sendMessage(User sender, User receiver, String content) {
+
+        String ttsUrl = "";
+        // naver clova에 tts 파일 변환 요청
+        try {
+            log.info("tts 파일 요청 시작");
+            ttsUrl = s3Util.uploadFile(clovaUtil.createTTS(content), 1);
+            log.info("tts 파일 요청 완료");
+        } catch (Exception e) {
+            log.info("exception");
+            throw new RuntimeException(e);
+        }
+
+        Message message = Message.builder()
+            .sender(sender).receiver(receiver).content(content)
+            .ttsUrl(ttsUrl)
+            .isAuto(true)
+            .build();
+
+        messageRepository.save(message);
+    }
+
+    // 랜덤 메시지 세팅 (조회된 사용자의 가족 랜덤 조회, 메시지 랜덤 조회)
+    @Override
+    public void setRandomMessage(Integer senderId) {
+
+        // 조회된 사용자의 가족 id 찾기
+        User sender = userRepository.findById(senderId).orElse(null);
+        if(sender == null) return;
+        Integer familyId = sender.getFamily().getId();
+
+        // 같은 familyId 중에서 senderId를 제외한 구성원 Id 하나 찾기
+        Integer receiverId = userRepository.findRandomUser(familyId, senderId).orElse(null);
+        if(receiverId == null) return;    // 가족 id는 있지만 가족이 없는 경우
+        User receiver = userRepository.findById(receiverId).orElse(null);
+        if(receiver == null) return;
+        log.info("가족 구성원 중 랜덤 조회 완료 : {}", receiver.getNickname());
+
+        // 메시지 템플릿 디비에서 랜덤 조회
+        String content = messageRepository.findRandeomTemplate();
+
+        // 템플릿에 sender, receiver를 replace
+        content = content.replace("{sender}", sender.getNickname())
+            .replace("{receiver}", receiver.getNickname());
+
+        // TODO: refactoring 필요
+        sendMessage(sender, receiver, content);
     }
 }
