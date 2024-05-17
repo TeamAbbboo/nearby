@@ -17,6 +17,7 @@
     "firebase": "^10.11.1",
     "framer-motion": "^11.1.9",
     "keen-slider": "^6.8.6",
+    "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",

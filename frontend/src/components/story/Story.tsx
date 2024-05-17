@@ -186,6 +186,9 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
                         setIsShowMoreOpen={setIsShowMoreOpen}
                         setSelectedStoryId={setSelectedStoryId}
                         storyId={image.storyId}
+                        dayStoryList={
+                          dayStoryList.data.dayStoryResList.filter(item => item.storyId == image.storyId)[0]
+                        }
                       />
                     </div>
                   )}
