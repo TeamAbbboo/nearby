@@ -19,7 +19,7 @@ const RegisterStoryPage = () => {
 
   const getMediaPermission = useCallback(async (facingMode: 'environment' | 'user') => {
     try {
-      const video = { video: { facingMode: facingMode } };
+      const video = { video: { facingMode: { exact: facingMode } } };
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
