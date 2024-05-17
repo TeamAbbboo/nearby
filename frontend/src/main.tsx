@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { requestPermission } from './firebase/foregroundMessage.ts';
+import { requestPermission } from './utils/foregroundMessage.ts';
 
 async function enableMocking() {
   if (import.meta.env.VITE_NODE_ENV !== 'development') {
