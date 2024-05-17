@@ -128,7 +128,7 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
             story.user.id)
             .from(story)
             .groupBy(story.user.id)
-            .having(story.createdAt.max().loe(LocalDateTime.now().minusDays(1)));
+            .having(story.createdAt.max().between(LocalDateTime.now().minusMonths(1), LocalDateTime.now().minusDays(1)));
 
         return users.stream().toList();
     }
