@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.user.controller;
 
 import com.abbboo.backend.domain.user.dto.req.UserEnrollFamilyReq;
+import com.abbboo.backend.domain.user.dto.req.UserLoginReq;
 import com.abbboo.backend.domain.user.dto.req.UserModifyReq;
 import com.abbboo.backend.domain.user.dto.req.UserRegistReq;
 import com.abbboo.backend.domain.user.dto.res.UserCheckRes;
@@ -120,12 +121,13 @@ public class UserController {
     @Operation(summary = "유저 로그인")
     @PostMapping("/login")
     public ResponseEntity<BaseResponse> loginUserMe(
+            @RequestBody UserLoginReq userLoginReq,
             @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
 
         log.info("유저 로그인 URL 맵핑 : OK");
 
         log.info("유저 로그인 : START");
-        UserLoginRes userLoginRes = userService.getUserAll(customOAuth2User.getCreatedUserId());
+        UserLoginRes userLoginRes = userService.getUserAll(customOAuth2User.getCreatedUserId(),userLoginReq);
         log.info("유저 로그인 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.USER_LOGIN_SUCCESS,userLoginRes));
