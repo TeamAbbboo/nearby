@@ -1,8 +1,8 @@
-import dandelion_1 from '@/assets/dandelion_1.png';
-import dandelion_2 from '@/assets/dandelion_2.png';
-import dandelion_3 from '@/assets/dandelion_3.png';
-import dandelion_4 from '@/assets/dandelion_4.png';
-import dandelion_5 from '@/assets/dandelion_5.png';
+import dandelion_1 from '@/assets/dandelion/dandelion_1.png';
+import dandelion_2 from '@/assets/dandelion/dandelion_2.png';
+import dandelion_3 from '@/assets/dandelion/dandelion_3.png';
+import dandelion_4 from '@/assets/dandelion/dandelion_4.png';
+import dandelion_5 from '@/assets/dandelion/dandelion_5.png';
 
 export function selectDandelion(level: number): string {
   switch (level % 5) {
