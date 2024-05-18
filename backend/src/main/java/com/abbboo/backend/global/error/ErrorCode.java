@@ -56,7 +56,9 @@ public enum ErrorCode {
     ITEM_IS_WRONG(400,"일치하는 표현이 없습니다.","ST-001",""),
 
     // Notification
-    NOTIFICATION_SEND_FAIL(500,"알림 전송에 실패했습니다.","N-001","")
+    NOTIFICATION_SEND_FAIL(500,"알림 전송에 실패했습니다.","N-001",""),
+    NOTIFICATION_NOT_FOUND(404, "해당 알림을 찾을 수 없습니다.", "N-002", ""),
+    NOTIFICATION_RECEIVER_NOT_CORRECT(400, "수신자와 사용자가 일치하지 않습니다.", "N-003", ""),
     ;
 
     private final int status;
