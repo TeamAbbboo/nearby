@@ -9,7 +9,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> , UserRepositoryQuerydsl{
 
 
     // 카카오 아이디로 유저 찾기

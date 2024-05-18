@@ -17,6 +17,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -116,6 +117,21 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         boolean last = MonthlyPaging(params, familyId);
 
         return MonthlyStoryList.builder().monthlyStoryResList(result).last(last).build();
+    }
+
+    // 마지막 소식 등록이 24시간 초과한 사용자 조회
+    @Override
+    public List<Integer> findOverOneday() {
+
+        // 마지막 소식 등록이 24시간 초과한 사용자 조회
+        JPAQuery<Integer> users = jpaQueryFactory.select(
+            story.user.id)
+            .from(story)
+            .groupBy(story.user.id)
+            .having(story.user.isDeleted.eq(false)
+                .and(story.createdAt.max().between(LocalDateTime.now().minusMonths(1), LocalDateTime.now().minusDays(1))));
+
+        return users.stream().toList();
     }
 
     // 월별 소식 조회 페이징 - 마지막 페이지 여부
