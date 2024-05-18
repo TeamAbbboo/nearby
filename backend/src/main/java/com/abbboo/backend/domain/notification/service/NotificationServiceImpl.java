@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.notification.service;
 
 import com.abbboo.backend.domain.notification.dto.req.NotificationPokeActionReq;
+import com.abbboo.backend.domain.notification.dto.req.NotificationReadReq;
 import com.abbboo.backend.domain.notification.dto.res.ReceivedNotificationRes;
 import com.abbboo.backend.domain.notification.entity.Notification;
 import com.abbboo.backend.domain.notification.repository.NotificationRepository;
@@ -8,6 +9,7 @@ import com.abbboo.backend.domain.user.entity.User;
 import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.base.PagenationReq;
 import com.abbboo.backend.global.error.ErrorCode;
+import com.abbboo.backend.global.error.exception.BadRequestException;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import com.abbboo.backend.global.event.NotificationEventFactory;
 import lombok.RequiredArgsConstructor;
@@ -91,6 +93,37 @@ public class NotificationServiceImpl implements NotificationService {
         log.info("유저 ID : {}", receiver.getId());
 
         return notificationRepository.findUnreadNotification(receiver.getId());
+    }
+
+    // 알림 읽음 처리
+    @Override
+    @Transactional
+    public void updateReadNotification(String kakaoId, NotificationReadReq notificationReadReq) {
+
+        // 유저 조회
+        User receiver = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}", receiver.getId());
+
+        // 요청 알림 가져오기
+        Notification notification = notificationRepository.findById(notificationReadReq.getNotificationId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOTIFICATION_NOT_FOUND));
+
+        log.info("요청 알림 조회 : OK");
+
+        // 요청한 사용자가 해당 메시지의 수신자가 맞는지 검증
+        if(!notification.getReceiver().getId().equals(receiver.getId())){
+            log.info("요청자, 수신자 비교 : FAIL");
+            throw new BadRequestException(ErrorCode.NOTIFICATION_RECEIVER_NOT_CORRECT);
+        }
+
+        log.info("요청자, 수신자 비교 : OK");
+
+        // 알림 읽음 처리 수행
+        notification.changeIsRead();
+
+        log.info("알림 읽음 처리 수행 : OK");
     }
 
     // 꾸욱 누르기
