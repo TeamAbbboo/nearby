@@ -57,4 +57,9 @@ public class Notification extends BaseEntity { // 알림
         this.title = title;
         this.content = content;
     }
+
+    // 알림 읽음 처리 메서드 
+    public void changeIsRead(){
+        this.isRead = true;
+    }
 }
