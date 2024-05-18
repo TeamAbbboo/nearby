@@ -17,4 +17,12 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
             "where n.receiver.id= :receiverId")
     Slice<ReceivedNotificationRes> findReceivedNotification(@Param("receiverId") int receiverId,
                                                        PageRequest pageRequest);
+
+    // 읽지 않은 알림 중 가장 최근 알림 조회
+    @Query("select new com.abbboo.backend.domain.notification.dto.res.ReceivedNotificationRes(" +
+            "n.id,u.id, u.nickname, u.mood, n.title, n.content, n.createdAt, n.isRead)" +
+            "from Notification n join User u on u.id = n.sender.id " +
+            "where n.receiver.id= :receiverId and n.isRead = false " +
+            "order by n.createdAt limit 1")
+    ReceivedNotificationRes findUnreadNotification(@Param("receiverId") int receiverId);
 }

@@ -42,6 +42,21 @@ public class NotificationController {
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_NOTIFICATION_SUCCESS,receivedNotifications));
     }
 
+    @Operation(summary = "읽지 않은 알림 조회")
+    @GetMapping("/unread")
+    public ResponseEntity<BaseResponse> getUnreadNotification(
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+
+        log.info("읽지 않은 알림 조회 URL 맵핑 : OK");
+
+        log.info("읽지 않은 알림 조회 : START");
+        ReceivedNotificationRes unreadNotification =
+                notificationService.findUnreadNotification(customOAuth2User.getCreatedUserId());
+        log.info("읽지 않은 알림 조회 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_NOTIFICATION_SUCCESS,unreadNotification));
+    }
+
     @Operation(summary = "꾸욱 누르기")
     @PostMapping("/poke")
     public ResponseEntity<BaseResponse> pokeUserOne(
