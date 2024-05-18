@@ -1,6 +1,7 @@
 package com.abbboo.backend.domain.notification.controller;
 
 import com.abbboo.backend.domain.notification.dto.req.NotificationPokeActionReq;
+import com.abbboo.backend.domain.notification.dto.req.NotificationReadReq;
 import com.abbboo.backend.domain.notification.dto.res.ReceivedNotificationRes;
 import com.abbboo.backend.domain.notification.service.NotificationService;
 import com.abbboo.backend.global.auth.CustomOAuth2User;
@@ -55,6 +56,21 @@ public class NotificationController {
         log.info("읽지 않은 알림 조회 : COMPLETE");
 
         return ResponseEntity.ok(BaseResponse.of(SuccessCode.GET_RECEIVED_NOTIFICATION_SUCCESS,unreadNotification));
+    }
+
+    @Operation(summary = "알림 읽음 처리")
+    @PatchMapping("")
+    public ResponseEntity<BaseResponse> modifyReadNotification(
+            @RequestBody NotificationReadReq notificationReadReq,
+            @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+
+        log.info("알림 읽음 처리 URL 맵핑 : OK");
+
+        log.info("알림 읽음 처리 : START");
+        notificationService.updateReadNotification(customOAuth2User.getCreatedUserId(), notificationReadReq);
+        log.info("알림 읽음 처리 : COMPLETE");
+
+        return ResponseEntity.ok(BaseResponse.of(SuccessCode.READ_NOTIFICATION_SUCCESS));
     }
 
     @Operation(summary = "꾸욱 누르기")
