@@ -1,18 +1,22 @@
-import NotificationModal from './NotificationModal';
-import MessageModal from './MessageModal';
-import SettingModal from './SettingModal';
-import EditInfoModal from './EditInfoModal';
-import EditFamilyModal from './EditFamilyModal';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+/* components */
 import playground from '@/assets/icons/playground.png';
 import message from '@/assets/icons/message.png';
 import setting from '@/assets/icons/setting.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
-import Toast from '../@common/Toast/Toast';
-import { useFamily } from '@/hooks/family/useFamily';
 import circle_red from '@/assets/circle_red.png';
+import NotificationModal from './NotificationModal';
+import MessageModal from './MessageModal';
+import SettingModal from './SettingModal';
+import EditInfoModal from './EditInfoModal';
+import EditFamilyModal from './EditFamilyModal';
+import Toast from '@/components/@common/Toast/Toast';
+import { useFamily } from '@/hooks/family/useFamily';
+import { useMessage } from '@/hooks/message/useMessage';
+
+/* libraries */
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HomeHeader = () => {
   /* 가족 코드 */
@@ -37,7 +41,8 @@ const HomeHeader = () => {
 
   const navigate = useNavigate();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState<boolean>(false); // 알림 모달
-  // const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 알림이 왔는지 확인
+  const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 안 읽은 알림이 존재하는지 확인
+  const [isExistMessage, setIsExistMessage] = useState<boolean>(false); // 안 읽은 메시지가 존재하는지 확인
 
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
 
@@ -47,6 +52,20 @@ const HomeHeader = () => {
 
   /* 알림 조회 */
   /** 안 읽은 알림이 존재할 경우 isExistNotification를 true설정하는 용도 */
+
+  /* 메시지 조회 */
+  /** 안 읽은 메시지가 존재할 경우 setIsExistMessage true설정하는 용도 */
+  const { useGetUnreadMessage } = useMessage();
+  const { data: userMessage, error: userMessageError } = useGetUnreadMessage();
+  useEffect(() => {
+    if (userMessage) {
+      console.log(userMessage);
+      if (userMessage.data !== null) setIsExistMessage(true);
+    }
+    if (userMessageError) {
+      console.log('안 읽은 메시지 존재 에러 : ' + userMessageError);
+    }
+  }, [userMessage, userMessageError]);
 
   // 리팩토링 필요(1)
   const settingHandler = () => {
@@ -110,6 +129,12 @@ const HomeHeader = () => {
 
           <div onClick={() => setIsMessageModalOpen(true)} className="flex flex-col items-center">
             <img src={message} width={44} />
+            {isExistMessage && (
+              <>
+                <img className="absolute right-4 top-[93px] z-5" src={circle_red} width={26} />
+                <img className="animate-ping absolute right-4 top-[93px] z-5" src={circle_red} width={26} />
+              </>
+            )}
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">마음함</p>
             </div>
