@@ -76,4 +76,20 @@ public class NotificationEventFactory {
 
         return new NotificationMultipleEvent(source, notificationMultipleActionRes);
     }
+
+    // 다건 - 온실 레벨 업 이벤트 알림
+    public static ApplicationEvent createLevelUpEvent(Object source, User sender) {
+
+        // 온실 레벨 업 이벤트 정보 객체 생성
+        NotificationMultipleActionRes notificationMultipleActionRes
+                = NotificationMultipleActionRes.builder()
+                .sender(sender)
+                .title(sender.getNickname()+"펭귄")
+                .notificationEventType(NotificationEventType.LEVEL_UP_GREENHOUSE)
+                .build();
+
+        log.info("온실 레벨 업 - 이벤트 정보 객체 생성 : OK");
+
+        return new NotificationMultipleEvent(source, notificationMultipleActionRes);
+    }
 }
