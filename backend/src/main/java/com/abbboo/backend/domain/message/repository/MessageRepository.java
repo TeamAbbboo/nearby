@@ -3,14 +3,13 @@ package com.abbboo.backend.domain.message.repository;
 import com.abbboo.backend.domain.message.dto.res.ReceivedMessageRes;
 import com.abbboo.backend.domain.message.dto.res.SentMessageRes;
 import com.abbboo.backend.domain.message.entity.Message;
-import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface MessageRepository extends JpaRepository<Message, Long> {
+public interface MessageRepository extends JpaRepository<Message, Long>, MessageRepositoryQuerydsl{
 
     // 보낸 메시지 조회
     @Query("select new com.abbboo.backend.domain.message.dto.res.SentMessageRes(" +
