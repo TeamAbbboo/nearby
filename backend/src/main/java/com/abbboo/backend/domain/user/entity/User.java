@@ -92,9 +92,9 @@ public class User extends BaseEntity {  // 사용자
     @OneToMany(mappedBy = "user")
     private List<Story> stories = new ArrayList<>();
 
-    // 알림 목록
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications = new ArrayList<>();
+    // 수신 알람 목록
+    @OneToMany(mappedBy = "receiver")
+    private List<Notification> receivedNotifications = new ArrayList<>();
 
     // 리프레쉬 토큰 갱신 메서드
     public void changeRefreshToken(String refreshToken) {

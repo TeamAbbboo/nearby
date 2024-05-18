@@ -27,10 +27,15 @@ public class Notification extends BaseEntity { // 알림
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 알림 대상
+    // 알림 발신자
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
+
+    // 알림 수신자
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
 
     // 알림 제목
     @Column(name = "title", nullable = false, length = 20)
@@ -46,8 +51,9 @@ public class Notification extends BaseEntity { // 알림
     private Boolean isRead;
 
     @Builder
-    public Notification(User user, String title, String content) {
-        this.user = user;
+    public Notification(User sender, User receiver, String title, String content) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.title = title;
         this.content = content;
     }
