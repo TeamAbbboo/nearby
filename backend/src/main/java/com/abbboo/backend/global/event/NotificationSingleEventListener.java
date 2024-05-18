@@ -32,7 +32,8 @@ public class NotificationSingleEventListener implements ApplicationListener<Noti
 
         // 알림 이력 저장
         Notification notification = Notification.builder()
-                .user(event.getReceiver())
+                .sender(event.getSender())
+                .receiver(event.getReceiver())
                 .title(event.getTitle())
                 .content(event.getNotificationEventType().getMessage())
                 .build();

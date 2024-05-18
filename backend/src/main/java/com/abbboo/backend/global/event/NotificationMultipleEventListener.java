@@ -44,8 +44,9 @@ public class NotificationMultipleEventListener implements ApplicationListener<No
 
                 // 알림 이력 저장
                 Notification notification = Notification.builder()
-                        .user(user)
-                        .title(event.getSender().getNickname() + "펭귄")
+                        .sender(event.getSender())
+                        .receiver(user)
+                        .title(event.getTitle())
                         .content(event.getNotificationEventType().getMessage())
                         .build();
 
