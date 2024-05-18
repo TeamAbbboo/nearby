@@ -1,7 +1,5 @@
 /* components */
-// import normal from '@/assets/mood/normal.gif';
-import thinking from '@/assets/mood/thinking.gif';
-// import cheering from '@/assets/mood/cheering.gif';
+import loading from '@/assets/loading.gif';
 
 /* libraries */
 import { useState, useEffect } from 'react';
@@ -44,8 +42,8 @@ const SplashScreen = ({ text, routerPath, imgSrc }: ISplashProps) => {
       >
         <div className="w-full h-screen flex flex-col justify-center items-center">
           <img
-            className="w-72 h-72"
-            src={imgSrc === 'home' ? thinking : imgSrc === 'playground' ? thinking : thinking}
+            className="w-52 h-auto"
+            src={imgSrc === 'home' ? loading : imgSrc === 'playground' ? loading : loading}
           />
           <div className="font-Ownglyph_meetme text-2xl">
             {text}

@@ -48,7 +48,13 @@ const PenguinModal = () => {
           </div>
         </div>
       </Modal>
-      {isPokeModalOpen && <PokeModal setIsPokeModalOpen={setIsPokeModalOpen} nickname={familyInfo.nickname} />}
+      {isPokeModalOpen && (
+        <PokeModal
+          setIsPokeModalOpen={setIsPokeModalOpen}
+          nickname={familyInfo.nickname}
+          receiverId={familyInfo.userId}
+        />
+      )}
       {isSendMessageModalOpen && <SendMessageModal setIsSendMessageModalOpen={setIsSendMessageModalOpen} />}
     </>
   );

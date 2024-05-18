@@ -1,4 +1,4 @@
-import fire from '@/assets/fire.png';
+import fire from '@/assets/fire.gif';
 import PlaygroundPenguin from './PlaygroundPenguin';
 import { IFamilyInfoRes } from '@/types/playground';
 import PenguinModal from './modal/PenguinModal';

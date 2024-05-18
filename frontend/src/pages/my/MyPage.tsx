@@ -2,7 +2,9 @@ import Penguin from '@/components/@common/Penguin';
 import HomeHeader from '@/components/home/HomeHeader';
 import PenguinDecoBottomSheet from '@/components/home/PenguinBottomSheet';
 import { useEffect, useState } from 'react';
-import home from '@/assets/background_home.png';
+import EVENING from '@/assets/mybackground/evening.jpg';
+import MORNING from '@/assets/mybackground/morning.jpg';
+import NIGHT from '@/assets/mybackground/night.jpg';
 import { useMessage } from '@/hooks/message/useMessage';
 import messagePenguin from '@/assets/mood/messagePenguin.png';
 import UnReadMessageModal from '@/components/home/UnReadMessageModal';
@@ -23,6 +25,20 @@ const MyPage = () => {
     isSuccess && loginUser(userInfo.data);
   }, [isSuccess]);
 
+  const [background, setBackground] = useState<string>('');
+
+  useEffect(() => {
+    const hours = new Date().getHours();
+
+    if (hours >= 5 && hours <= 12) {
+      setBackground('MORNING');
+    } else if (hours >= 13 && hours <= 20) {
+      setBackground('EVENING');
+    } else if (hours >= 21 && hours <= 4) {
+      setBackground('NIGHT');
+    }
+  }, []);
+
   return (
     <motion.div
       className="relative w-full h-full font-NPSfontBold"
@@ -31,7 +47,10 @@ const MyPage = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <img src={home} className="w-full h-full" />
+      <img
+        src={background === 'MORNING' ? MORNING : background === 'EVENING' ? EVENING : NIGHT}
+        className="w-full h-full"
+      />
       <div className="absolute left-0 right-0 bottom-[18%] flex justify-center">
         {userInfo && unReadMessage?.data === null ? (
           <Penguin

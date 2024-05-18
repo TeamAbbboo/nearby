@@ -3,6 +3,7 @@ import Modal from '../../@common/Modal';
 import Penguin from '../../@common/Penguin';
 import playgroundPenguinStore from '@/stores/playgroundPenguinStore';
 import { useMessage } from '@/hooks/message/useMessage';
+import Toast from '@/components/@common/Toast/Toast';
 
 interface ISendMessageModalProps {
   setIsSendMessageModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,15 +14,30 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
   const { usePostSendMessage } = useMessage();
   const { mutate, isSuccess } = usePostSendMessage();
   const [content, setContent] = useState<string>('');
+  const [isSend, setIsSend] = useState<boolean>(true);
 
   useEffect(() => {
     if (isSuccess) {
+      setIsSend(true);
       setIsSendMessageModalOpen(false);
     }
   }, [isSuccess]);
 
+  const sendMessageHandleClick = () => {
+    if (!isSend) return;
+    if (content) {
+      setIsSend(false);
+      mutate({
+        content: content,
+        receiverId: userId,
+      });
+    } else {
+      Toast.error('메시지를 정확히 입력해주세요');
+    }
+  };
+
   return (
-    <Modal onClose={() => setIsSendMessageModalOpen(false)} width="w-4/5">
+    <Modal width="w-4/5">
       <>
         <div className="absolute top-0 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-SUB2 rounded-full z-10 shadow-lg">
           <Penguin mood={familyInfo.mood} />
@@ -39,15 +55,7 @@ const SendMessageModal = ({ setIsSendMessageModalOpen }: ISendMessageModalProps)
             <button onClick={() => setIsSendMessageModalOpen(false)} className="bg-white border rounded-2xl w-24 ">
               취소
             </button>
-            <button
-              onClick={() =>
-                mutate({
-                  content: content,
-                  receiverId: userId,
-                })
-              }
-              className="bg-white border rounded-2xl w-24"
-            >
+            <button onClick={() => sendMessageHandleClick()} className="bg-white border rounded-2xl w-24">
               전송하기
             </button>
           </div>

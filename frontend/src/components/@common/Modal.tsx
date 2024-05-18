@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 interface IModalProps {
   width: string;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
   backgroundColor?: string;
 }
@@ -11,10 +11,10 @@ const Modal = ({ width, onClose, children, backgroundColor = 'bg-black/60' }: IM
   const [isRendering, setIsRendering] = useState<boolean>(true);
 
   const handleClose = () => {
-    setIsRendering(false);
+    onClose && setIsRendering(false);
 
     setTimeout(() => {
-      onClose();
+      onClose && onClose();
     }, 250);
   };
 
