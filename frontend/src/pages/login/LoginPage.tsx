@@ -31,7 +31,6 @@ const LoginPage = () => {
           </p>
         </motion.div>
       </div>
-
       <div className="w-full h-full flex flex-col justify-end pb-20 px-5">
         <motion.div
           initial={{ opacity: 0 }}

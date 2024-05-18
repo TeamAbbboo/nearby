@@ -4,6 +4,12 @@
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js');
 
+self.addEventListener('install', function (e) {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', function (e) {});
+
 const firebaseConfig = {
   apiKey: 'AIzaSyBDc7Gj5CBAy2sDZ3ZS_ghDUdoI-uBvwbY',
   authDomain: 'nearby-1439d.firebaseapp.com',
@@ -16,24 +22,19 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-self.addEventListener('install', function (e) {
-  self.skipWaiting();
-});
+const messaging = firebase.messaging();
 
-self.addEventListener('activate', function (e) {});
-
-// 알림 왔을 때
-self.addEventListener('push', function (e) {
-  if (!e.data.json()) return;
-
-  const resultData = e.data.json().notification;
-  const notificationTitle = resultData.title;
-
+messaging.onBackgroundMessage(payload => {
+  // 백그라운드 메세지 핸들러
+  console.log('payload : ', payload.data);
+  const { body, title } = payload.data;
   const notificationOptions = {
-    body: resultData.body,
+    body: body, // 매세지 내용
+    icon: '/src/assets/favicon.ico', // 로고 이미지 들어가는곳
+    data: payload.data,
   };
 
-  e.waitUntil(self.registration.showNotification(notificationTitle, notificationOptions));
+  self.registration.showNotification(title, notificationOptions);
 });
 
 // 알림 클릭시

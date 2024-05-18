@@ -1,6 +1,6 @@
 import { useStory } from '@/hooks/story/useStory';
 import { dataURLtoFile } from '@/utils/dataURLtoFile';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 const RegisterStoryPage = () => {
@@ -12,14 +12,14 @@ const RegisterStoryPage = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [stream, setStream] = useState<MediaStream | null>(null);
-  // const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
+  const [facingMode, setFacingMode] = useState<'environment' | 'user'>('user'); // 카메라 전면, 후면 상태 관리
   const [frontImage, setFrontImage] = useState<string>('');
   const [backImage, setBackImage] = useState<string>('');
   const [captured, setCaptured] = useState<boolean>(false);
 
-  const getMediaPermission = useCallback(async (facingMode: 'environment' | 'user') => {
+  const getMediaPermission = async (facingMode: 'environment' | 'user') => {
     try {
-      const video = { video: { facingMode: facingMode } };
+      const video = { video: { facingMode: { exact: facingMode } } };
 
       const videoStream = await navigator.mediaDevices.getUserMedia(video);
       setStream(videoStream);
@@ -30,7 +30,7 @@ const RegisterStoryPage = () => {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  };
 
   const captureImage = () => {
     const videoElement = videoRef.current;
@@ -62,12 +62,15 @@ const RegisterStoryPage = () => {
   };
 
   const toggleFacingMode = () => {
-    // setFacingMode(facingMode === 'user' ? 'environment' : 'user');
-    getMediaPermission('environment');
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+
+    setFacingMode(facingMode === 'user' ? 'environment' : 'user');
   };
 
   const imgRef = useRef<HTMLInputElement>(null);
-
   const [photos, setPhotos] = useState<File>(); // post로 보낼 이미지 파일 관리
   // 이미지 저장 (갤러리에서 선택)
   const saveImgFile = () => {
@@ -99,7 +102,7 @@ const RegisterStoryPage = () => {
   useEffect(() => {
     // 아직 media stream이 설정되지 않았다면 호출
     if (!stream) {
-      getMediaPermission('user');
+      getMediaPermission(facingMode);
     }
 
     // 페이지 이탈 또는 컴포넌트 언마운트 시 미디어 스트림 정지
@@ -108,7 +111,7 @@ const RegisterStoryPage = () => {
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, [stream]);
+  }, [stream, facingMode]);
 
   return (
     <>
