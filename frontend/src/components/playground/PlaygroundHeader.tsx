@@ -4,9 +4,11 @@ import greenhouse from '@/assets/icons/greenhouse.png';
 import story from '@/assets/icons/story.png';
 import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
+import circle_red from '@/assets/circle_red.png';
 import Toast from '@/components/@common/Toast/Toast';
 import { useFamily } from '@/hooks/family/useFamily';
 import { useAuth } from '@/hooks/auth/useAuth';
+import { useMessage } from '@/hooks/message/useMessage';
 
 /* libraries */
 import { useNavigate } from 'react-router-dom';
@@ -72,6 +74,11 @@ const PlaygroundHeader = () => {
     Toast.error('가족을 생성해주세요.');
   };
 
+  const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 안 읽은 알림이 존재하는지 확인
+
+  /* 알림 조회 */
+  /** 안 읽은 알림이 존재할 경우 isExistNotification를 true설정하는 용도 */
+
   return (
     <header className="w-full">
       <nav className="w-full p-5 flex justify-between font-bold">
@@ -88,6 +95,12 @@ const PlaygroundHeader = () => {
           </div>
           <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center">
             <img src={notification} width={44} />
+            {isExistNotification && (
+              <>
+                <img className="absolute left-[52px] top-[90px] z-5" src={circle_red} width={26} />
+                <img className="animate-ping absolute left-[52px] top-[90px] z-5" src={circle_red} width={26} />
+              </>
+            )}
             <div className="bg-black/60 text-white rounded-2xl text-center w-[51px] h-4 flex items-center justify-center">
               <p className="text-[9px]">알림</p>
             </div>
