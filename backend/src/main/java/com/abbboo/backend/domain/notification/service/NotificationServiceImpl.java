@@ -80,6 +80,19 @@ public class NotificationServiceImpl implements NotificationService {
         return receivedNotifications;
     }
 
+    // 읽지 않은 알림 조회
+    @Override
+    public ReceivedNotificationRes findUnreadNotification(String kakaoId) {
+
+        // 유저 조회
+        User receiver = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        log.info("유저 ID : {}", receiver.getId());
+
+        return notificationRepository.findUnreadNotification(receiver.getId());
+    }
+
     // 꾸욱 누르기
     @Override
     @Transactional
