@@ -1,5 +1,8 @@
 package com.abbboo.backend.domain.expHistory.service;
 
+import com.abbboo.backend.domain.user.entity.User;
+import com.abbboo.backend.global.event.NotificationEventFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import com.abbboo.backend.domain.expHistory.dto.req.LevelUpReq;
 import com.abbboo.backend.domain.expHistory.dto.res.ExpHistoryDto;
 import com.abbboo.backend.domain.expHistory.dto.res.GetExpHistoryRes;
@@ -30,6 +33,7 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
     private final FamilyRepository familyRepository;
     private final ExpHistoryRepository expHistoryRepository;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
     @Override
     @Transactional(readOnly = true)
     public GetExpHistoryRes getExpHistory(String kakaoId, PagenationReq pagenationReq) {
@@ -46,6 +50,11 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
     @Override
     @Transactional
     public void updateLevel(String kakaoId, LevelUpReq levelUpReq) {
+
+        // 유저 조회
+        User user = userRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
         int familyId=familyRepository.findByKakaoId(kakaoId).orElseThrow(()->new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
         Family family= familyRepository.findById(familyId).get();
         //현재 db와 다른 값이 들어올
@@ -61,6 +70,9 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
             throw new BadRequestException(ErrorCode.LACK_OF_EXP);
         }
         family.updateLevel(levelUpReq.getLevel()+1);
+
+        // 온실 레벨 업 알림 이벤트 발생
+        eventPublisher.publishEvent(NotificationEventFactory.createLevelUpEvent(this,user));
     }
 
     @Override
