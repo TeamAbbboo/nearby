@@ -48,6 +48,7 @@ public enum SuccessCode {
 
     // notification
     GET_RECEIVED_NOTIFICATION_SUCCESS(200,"알림 내역 조회에 성공하였습니다.","SUCCESS"),
+    READ_NOTIFICATION_SUCCESS(200,"알림 읽기에 성공하였습니다.","SUCCESS"),
     POKE_CREATE_SUCCESS(201,"꾸욱 누르기에 성공하였습니다.","SUCCESS")
     ;
 
