@@ -22,9 +22,9 @@ public class NotificationMultipleActionRes {
     private NotificationEventType notificationEventType;
 
     @Builder
-    public NotificationMultipleActionRes(User sender, String title, NotificationEventType notificationEventType) {
+    public NotificationMultipleActionRes(User sender, Family family, String title, NotificationEventType notificationEventType) {
         this.sender = sender;
-        this.family = sender.getFamily();
+        this.family = family;
         this.title = title;
         this.notificationEventType = notificationEventType;
     }
