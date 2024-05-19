@@ -6,7 +6,7 @@ const AlbumPage = () => {
   const { state: startDate } = useLocation();
   return (
     <>
-      <div className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center font-NPSfontBold">
+      <div className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center">
         <CalenderHeader />
         <div className={`flex flex-col h-full w-full backdrop-blur-md py-20`}>
           <Calender startDate={startDate} />

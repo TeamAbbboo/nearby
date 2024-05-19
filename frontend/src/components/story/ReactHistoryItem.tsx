@@ -10,7 +10,7 @@ interface IReactHistoryItem {
 
 const ReactHistoryItem = ({ reactionItem }: IReactHistoryItem) => {
   return (
-    <div className="flex flex-row font-NPSfontBold">
+    <div className="flex flex-row">
       <div className="w-36">
         <PenguinExpression expression={reactionItem.expression} />
       </div>

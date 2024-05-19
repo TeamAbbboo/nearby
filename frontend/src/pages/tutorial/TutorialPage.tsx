@@ -30,7 +30,7 @@ const TutorialPage = () => {
   };
 
   return (
-    <div className="w-full h-full font-NPSfontBold flex flex-col items-center text-center bg-gray-50 overflow-hidden">
+    <div className="w-full h-full flex flex-col items-center text-center bg-gray-50 overflow-hidden">
       <div className="flex gap-2 py-8">
         {[0, 1, 2, 3].map(value => {
           return (

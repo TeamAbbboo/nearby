@@ -14,7 +14,7 @@ const GreenHousePage = () => {
 
   return (
     <motion.div
-      className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center font-NPSfontBold"
+      className="relative w-full h-full bg-GREENHOUSE bg-cover bg-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

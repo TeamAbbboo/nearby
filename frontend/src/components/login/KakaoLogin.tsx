@@ -26,7 +26,7 @@ const KakaoLogin = () => {
     >
       <div className="flex items-center">
         <img className="absolute pl-10" src={kakao}></img>
-        <div className="w-full bg-white/0 pl-5 text-center text-lg font-NPSfontBold">
+        <div className="w-full bg-white/0 pl-5 text-center text-lg">
           <p>카카오로 시작하기</p>
         </div>
       </div>

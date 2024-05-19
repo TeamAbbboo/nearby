@@ -14,7 +14,7 @@ const ReactHistoryBottomSheet = ({ setIsOpen, storyId }: IReactHistoryProps) => 
 
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
-      <div className="w-full h-80 overflow-auto font-NPSfontBold">
+      <div className="w-full h-80 overflow-auto">
         {reactionList?.data && reactionList.data.length > 0 ? (
           reactionList.data.map((value, index) => <ReactHistoryItem key={index} reactionItem={value} />)
         ) : (

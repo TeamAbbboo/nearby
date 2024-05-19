@@ -113,7 +113,7 @@ const EditFamilyModal = ({ setIsEditFamilyModalOpen, settingHandler }: IEditFami
   const { mutate: doPatchEnrollFamilyReq } = useEnrollFamilyCode();
   const onParticipateButton = () => {
     if (familyCode === '' || familyCode.includes(' ')) {
-      Toast.error('가족 코드 입력 칸에 빈칸 또는 공백이 존재', { className: 'font-NPSfontBold' });
+      Toast.error('가족 코드 입력 칸에 빈칸 또는 공백이 존재');
       return;
     }
 

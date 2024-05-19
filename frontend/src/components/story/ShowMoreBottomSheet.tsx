@@ -26,7 +26,7 @@ const ShowMoreBottomSheet = ({ isOpen, setIsOpen, storyId, isSaved }: IShowMoreP
 
   return (
     <BottomSheet onClose={() => setIsOpen(false)}>
-      <div className="flex flex-col gap-5 py-6 text-center items-center font-NPSfontBold">
+      <div className="flex flex-col gap-5 py-6 text-center items-center">
         <>
           {isSaved ? (
             <div className=" border-b w-full h-10" onClick={() => keepStory(storyId, isSaved)}>
