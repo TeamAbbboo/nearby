@@ -19,7 +19,7 @@ export const getReceivedNotiList = async ({
   });
 
   /* 알림 내역 조회에 맞게 변환 작업 */
-  data.data.content.forEach((item: IReceivedMessageItem) => {
+  data.data.content.forEach((item: IReceivedNotificationItem) => {
     // \n 제거
     item.content = item.content.replace(/\n/g, '');
 
