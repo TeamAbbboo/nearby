@@ -34,7 +34,7 @@ const NotificationModal = ({ setIsNotificationModalOpen }: INotificationModalPro
         </div>
 
         {/* 바디 */}
-        <div className="bg-white rounded-2xl pt-2 text-sm h-96 w-full px-7">
+        <div className="bg-white rounded-2xl pt-2 text-sm h-96 w-full px-3">
           <div className="h-full w-full overflow-y-scroll">
             {receivedList?.pages.map(
               item =>
