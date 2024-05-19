@@ -59,7 +59,7 @@ const MessageItem = ({ messageItem, decoration }: IMessageItemProps) => {
           {tts && (
             <div className="px-1">
               <audio src={tts} ref={audioRef} />
-              <img onClick={() => playTTSAudio()} src={speakerImage} alt="Speaker High Volume" width="40" height="40" />
+              <img onClick={() => playTTSAudio()} src={speakerImage} alt="Speaker High Volume" width="32" height="32" />
             </div>
           )}
         </div>

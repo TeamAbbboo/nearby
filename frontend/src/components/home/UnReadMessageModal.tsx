@@ -3,6 +3,8 @@ import Modal from '../@common/Modal';
 import Penguin from '../@common/Penguin';
 import { IReceivedMessageItem } from '@/types/message';
 import { useMessage } from '@/hooks/message/useMessage';
+import speaker from '@/assets/speaker.png';
+import listening from '@/assets/speaker_listening.gif';
 
 interface IUnReadMessageModalProps {
   unReadMessage: IReceivedMessageItem;
@@ -12,24 +14,25 @@ interface IUnReadMessageModalProps {
 const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnReadMessageModalProps) => {
   const { usePatchUnreadMessage } = useMessage();
   const { mutate } = usePatchUnreadMessage();
-
   const audioRef = useRef<HTMLAudioElement>(null);
   const [play, setPlay] = useState<boolean>(false);
+  const [speakerImage, setSpeakerImage] = useState<string>(speaker);
 
   const playTTSAudio = () => {
     if (audioRef.current) {
       if (play) {
         // 재생중이라면
+        setSpeakerImage(speaker);
         audioRef.current.pause();
         setPlay(false);
       } else {
         // 정지중이라면
+        setSpeakerImage(listening);
         audioRef.current.play();
         setPlay(true);
       }
     }
   };
-
   useEffect(() => {
     console.log(unReadMessage);
   }, [unReadMessage]);
@@ -53,10 +56,10 @@ const UnReadMessageModal = ({ unReadMessage, setIsSendMessageModalOpen }: IUnRea
                 <audio src={unReadMessage.ttsUrl} ref={audioRef} />
                 <img
                   onClick={() => playTTSAudio()}
-                  src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Speaker%20High%20Volume.png"
+                  src={speakerImage}
                   alt="Speaker High Volume"
-                  width="20"
-                  height="20"
+                  width="28"
+                  height="28"
                 />
               </>
             )}
