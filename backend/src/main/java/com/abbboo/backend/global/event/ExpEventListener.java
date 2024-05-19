@@ -2,11 +2,16 @@ package com.abbboo.backend.global.event;
 
 import com.abbboo.backend.domain.expHistory.entity.ExpHistory;
 import com.abbboo.backend.domain.expHistory.repository.ExpHistoryRepository;
+import com.abbboo.backend.domain.family.entity.Family;
+import com.abbboo.backend.domain.family.repository.FamilyRepository;
 import com.abbboo.backend.domain.user.entity.User;
+import com.abbboo.backend.domain.user.repository.UserRepository;
 import com.abbboo.backend.global.error.ErrorCode;
 import com.abbboo.backend.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +24,12 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ExpEventListener implements ApplicationListener<ExpEvent> {
     private final ExpHistoryRepository expHistoryRepository;
+    private final UserRepository userRepository;
+    private final FamilyRepository familyRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    @Value("${notification.auto.user}")
+    private String notificationAutoUser;
 
     @Override
     public void onApplicationEvent(ExpEvent event) {
@@ -39,6 +50,28 @@ public class ExpEventListener implements ApplicationListener<ExpEvent> {
                 .build();
         expHistoryRepository.save(expHistory);
 
+        // 이벤트 이후 경험치 확인
+        int familyId=familyRepository.findByKakaoId(event.user.getKakaoId())
+                .orElseThrow(()->new NotFoundException(ErrorCode.FAMILY_NOT_FOUND));
+        
+        Family family = familyRepository.findById(familyId).get();
+        
+        // 레벨 업 가능한지 확인
+        int sum = expHistoryRepository.getCurrentSum(familyId).orElse(0);
+        int familyCount = userRepository.countByFamilyAndIsDeletedFalse(family);
+        
+        // 레벨 업 가능한 경험치일 경우
+        if(sum>=getMaxExp(family.getLevel(),familyCount)) {
+
+            // 레벨 업 버튼 활성화 이벤트 발생
+            User auto = userRepository.findById(Integer.valueOf(notificationAutoUser)).get();
+            eventPublisher.publishEvent(NotificationEventFactory.createLevelUpButtonActiveEvent(this,auto,family));
+        }
     }
 
+    // 해당 채워야하는 경험치 조회
+    private int getMaxExp(int level,int familyCount)
+    {
+        return familyCount*10*(int)Math.pow(2,level-1);
+    }
 }
