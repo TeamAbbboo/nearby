@@ -1,5 +1,6 @@
 package com.abbboo.backend.global.event;
 
+import com.abbboo.backend.domain.family.entity.Family;
 import com.abbboo.backend.domain.notification.dto.res.NotificationMultipleActionRes;
 import com.abbboo.backend.domain.notification.dto.res.NotificationSingleActionRes;
 import com.abbboo.backend.domain.user.entity.User;
@@ -79,12 +80,13 @@ public class NotificationEventFactory {
     }
 
     // 다건 - 스토리 등록 이벤트 알림
-    public static ApplicationEvent createStoryEvent(Object source, User sender) {
+    public static ApplicationEvent createStoryEvent(Object source, User sender, Family family) {
 
         // 스토리 등록 이벤트 정보 객체 생성
         NotificationMultipleActionRes notificationMultipleActionRes
                 = NotificationMultipleActionRes.builder()
                 .sender(sender)
+                .family(family)
                 .title(sender.getNickname()+"펭귄")
                 .notificationEventType(NotificationEventType.CREATE_STORY)
                 .build();
@@ -95,17 +97,35 @@ public class NotificationEventFactory {
     }
 
     // 다건 - 온실 레벨 업 이벤트 알림
-    public static ApplicationEvent createLevelUpEvent(Object source, User sender) {
+    public static ApplicationEvent createLevelUpEvent(Object source, User sender, Family family) {
 
         // 온실 레벨 업 이벤트 정보 객체 생성
         NotificationMultipleActionRes notificationMultipleActionRes
                 = NotificationMultipleActionRes.builder()
                 .sender(sender)
+                .family(family)
                 .title(sender.getNickname()+"펭귄")
                 .notificationEventType(NotificationEventType.LEVEL_UP_GREENHOUSE)
                 .build();
 
         log.info("온실 레벨 업 - 이벤트 정보 객체 생성 : OK");
+
+        return new NotificationMultipleEvent(source, notificationMultipleActionRes);
+    }
+
+    // 다건 - 온실 레벨 업 버튼 활성화 이벤트 알림
+    public static ApplicationEvent createLevelUpButtonActiveEvent(Object source, User sender, Family family) {
+
+        // 온실 레벨 업 이벤트 정보 객체 생성
+        NotificationMultipleActionRes notificationMultipleActionRes
+                = NotificationMultipleActionRes.builder()
+                .sender(sender)
+                .family(family)
+                .title(sender.getNickname()+"펭귄")
+                .notificationEventType(NotificationEventType.LEVEL_UP_BUTTON_ACTIVE_GREENHOUSE)
+                .build();
+
+        log.info("온실 레벨 업 버튼 활성화 - 이벤트 정보 객체 생성 : OK");
 
         return new NotificationMultipleEvent(source, notificationMultipleActionRes);
     }
