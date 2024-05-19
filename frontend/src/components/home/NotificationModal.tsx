@@ -29,7 +29,7 @@ const NotificationModal = ({ setIsNotificationModalOpen }: INotificationModalPro
     <Modal onClose={() => setIsNotificationModalOpen(false)} width="w-4/5">
       <div className="bg-white flex flex-col justify-center items-center font-bold rounded-2xl">
         {/* 헤더 */}
-        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl align-middle text-lg">
+        <div className="w-full p-4 bg-pink-50 flex justify-center items-center rounded-xl">
           <p>알림</p>
         </div>
 
@@ -43,16 +43,16 @@ const NotificationModal = ({ setIsNotificationModalOpen }: INotificationModalPro
                   return (
                     <div key={value.notificationId}>
                       <NotificationItem notificationItem={value} />
-                      <div ref={setReceivedTarget} className="h-[1rem]"></div>
                     </div>
                   );
                 }),
             )}
+            <div ref={setReceivedTarget} className="h-[1rem]"></div>
           </div>
         </div>
 
         {/* 바텀 */}
-        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
+        <div className="flex-1 w-full px-5 py-4 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
           <button
             onClick={() => {
               setIsNotificationModalOpen(false);

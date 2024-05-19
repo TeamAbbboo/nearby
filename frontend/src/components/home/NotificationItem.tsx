@@ -21,17 +21,17 @@ const NotificationItem = ({ notificationItem }: INotificationItemProps) => {
   const relativeTime = dayjs().to(dayjs(createdAt)); // 데이터 시간 구하기
 
   return (
-    <div className="py-1 border-b">
+    <div className="py-4 border-b">
       <div className="flex items-center gap-2">
-        <div className="w-full flex flex-row">
-          <div className="w-10 h-10 rounded-full bg-SUB2">
+        <div className="w-full flex items-center">
+          <div className="w-12 h-12 rounded-full bg-SUB2">
             <Penguin mood={mood} />
           </div>
-          <div>
-            <p className="text-[11px] pl-3">
+          <div className="flex-1 pl-3">
+            <p className="text-sm">
               {nickname} 님이 {content}
             </p>
-            <p className="text-[9px] pt-1 pl-3 text-UNIMPORTANT">{relativeTime}</p>
+            <p className="text-[10px] pt-1 text-UNIMPORTANT">{relativeTime}</p>
           </div>
         </div>
       </div>
