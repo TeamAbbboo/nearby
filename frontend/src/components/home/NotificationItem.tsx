@@ -24,10 +24,10 @@ const NotificationItem = ({ notificationItem }: INotificationItemProps) => {
     <div className="py-4 border-b">
       <div className="flex items-center gap-2">
         <div className="w-full flex items-center">
-          <div className="w-12 h-12 rounded-full bg-SUB2">
+          <div className="w-14 h-14 rounded-full bg-SUB2">
             <Penguin mood={mood} />
           </div>
-          <div className="flex-1 pl-3">
+          <div className="flex-1 pl-4 pr-5">
             <p className="text-sm">
               {nickname} 님이 {content}
             </p>

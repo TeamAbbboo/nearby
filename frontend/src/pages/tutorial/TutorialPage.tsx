@@ -30,7 +30,7 @@ const TutorialPage = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center text-center bg-gray-50 overflow-hidden">
+    <div className="w-full max-w-[410px] h-full flex flex-col items-center text-center bg-gray-50 overflow-hidden">
       <div className="flex gap-2 py-8">
         {[0, 1, 2, 3].map(value => {
           return (
@@ -53,7 +53,7 @@ const TutorialPage = () => {
           setRead();
           navigate('/');
         }}
-        className="absolute bottom-0 w-full h-14 text-white bg-[#F178B6] flex justify-center items-center"
+        className="absolute bottom-0 w-full max-w-[410px] h-14 text-white bg-[#F178B6] flex justify-center items-center"
       >
         <p>바로 시작하기</p>
       </div>
