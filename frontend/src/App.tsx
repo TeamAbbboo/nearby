@@ -23,6 +23,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ErrorPage from './pages/error/ErrorPage';
+import TutorialPage from './pages/tutorial/TutorialPage';
 
 const router = createBrowserRouter([
   {
@@ -140,6 +141,10 @@ const router = createBrowserRouter([
         <ViewStoryPage />
       </PrivateRoute>
     ),
+  },
+  {
+    path: '/tutorial',
+    element: <TutorialPage />,
   },
   {
     path: '/*',

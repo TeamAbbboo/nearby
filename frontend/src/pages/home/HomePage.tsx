@@ -7,12 +7,22 @@ import EVENING from '@/assets/homebackground/evening.jpg';
 import MORNING from '@/assets/homebackground/morning.jpg';
 import NIGHT from '@/assets/homebackground/night.jpg';
 import { useEffect, useState } from 'react';
+import userTutorialStore from '@/stores/userTutorialStore';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const { useGetFamilyInfoList } = usePlayground();
   const { data: familyInfo } = useGetFamilyInfoList();
-
+  const { isRead } = userTutorialStore();
   const [background, setBackground] = useState<string>('');
+
+  useEffect(() => {
+    if (!isRead) {
+      navigate('/tutorial');
+    }
+  }, []);
+
   useEffect(() => {
     const hours = new Date().getHours();
 
