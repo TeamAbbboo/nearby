@@ -10,18 +10,25 @@ import Toast from '@/components/@common/Toast/Toast.tsx';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import userTutorialStore from '@/stores/userTutorialStore.ts';
 
 const Signup = () => {
   /* 사용자 정보 가져오기 */
   const { usePostLogin } = useAuth();
   const { mutate: doPostLoginReq } = usePostLogin();
-
+  const { isRead } = userTutorialStore();
   useEffect(() => {
     doPostLoginReq(undefined, {
       onSuccess: res => {
         const { nickname, birthday } = res.data;
 
-        if (nickname || birthday) window.location.replace('/');
+        if (nickname || birthday) {
+          if (isRead) {
+            window.location.replace('/');
+          } else {
+            window.location.replace('/tutorial');
+          }
+        }
       },
       onError: error => {
         console.log('KakaoLoginRedirectPage Error : ' + error);
