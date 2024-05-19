@@ -19,8 +19,6 @@ const StoryBottom = ({
   storyId,
   dayStoryList,
 }: IStoryBottomProps) => {
-  console.log('day', dayStoryList);
-
   const showReactHistory = () => {
     setIsReactHistoryOpen(true);
     setSelectedStoryId(storyId);
