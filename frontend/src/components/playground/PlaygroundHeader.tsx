@@ -6,9 +6,10 @@ import camera from '@/assets/icons/camera.png';
 import notification from '@/assets/icons/notification.png';
 import circle_red from '@/assets/circle_red.png';
 import Toast from '@/components/@common/Toast/Toast';
-import { useFamily } from '@/hooks/family/useFamily';
+import NotificationModal from '@/components/home/NotificationModal';
 import { useAuth } from '@/hooks/auth/useAuth';
-import { useMessage } from '@/hooks/message/useMessage';
+import { useFamily } from '@/hooks/family/useFamily';
+import { useNotification } from '@/hooks/notification/useNotification';
 
 /* libraries */
 import { useNavigate } from 'react-router-dom';
@@ -74,10 +75,19 @@ const PlaygroundHeader = () => {
     Toast.error('가족을 생성해주세요.');
   };
 
-  const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 안 읽은 알림이 존재하는지 확인
-
   /* 알림 조회 */
   /** 안 읽은 알림이 존재할 경우 isExistNotification를 true설정하는 용도 */
+  const [isExistNotification, setIsExistNotification] = useState<boolean>(false); // 안 읽은 알림이 존재하는지 확인
+  const { useGetUnreadNoti } = useNotification();
+  const { data: unReadMessage } = useGetUnreadNoti();
+  useEffect(() => {
+    if (unReadMessage) {
+      if (unReadMessage?.data !== null) setIsExistNotification(true);
+      else setIsExistNotification(false);
+    }
+  }, [unReadMessage]);
+
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState<boolean>(false); // 알림 모달
 
   return (
     <header className="w-full">
@@ -93,7 +103,7 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center">
+          <div onClick={() => setIsNotificationModalOpen(true)} className="flex flex-col items-center">
             <img src={notification} width={44} />
             {isExistNotification && (
               <>
@@ -143,6 +153,7 @@ const PlaygroundHeader = () => {
           </div>
         </div>
       </nav>
+      {isNotificationModalOpen && <NotificationModal setIsNotificationModalOpen={setIsNotificationModalOpen} />}
     </header>
   );
 };
