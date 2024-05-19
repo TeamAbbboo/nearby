@@ -23,7 +23,7 @@ public class UserRepositoryQuerydslImpl implements UserRepositoryQuerydsl{
             user.id)
             .from(user)
             .where(user.family.id.eq(familyId).and(user.id.notIn(senderId))
-                .and(user.isDeleted.eq(false)))
+                .and(user.isDeleted.eq(false)).and(user.fcmToken.isNotNull()))
             .orderBy(Expressions.numberTemplate(Double.class, "rand()").asc())
             .limit(1)
             .fetchOne();
