@@ -127,9 +127,9 @@ public class StoryRepositoryQuerydslImpl implements StoryRepositoryQuerydsl{
         JPAQuery<Integer> users = jpaQueryFactory.select(
             story.user.id)
             .from(story)
+            .where(story.user.isDeleted.eq(false))
             .groupBy(story.user.id)
-            .having(story.user.isDeleted.eq(false)
-                .and(story.createdAt.max().between(LocalDateTime.now().minusMonths(1), LocalDateTime.now().minusDays(1))));
+            .having(story.createdAt.max().between(LocalDateTime.now().minusMonths(1), LocalDateTime.now().minusDays(1)));
 
         return users.stream().toList();
     }
