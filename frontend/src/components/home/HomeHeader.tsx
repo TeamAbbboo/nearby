@@ -68,7 +68,6 @@ const HomeHeader = () => {
   const { data: userMessage, error: userMessageError } = useGetUnreadMessage();
   useEffect(() => {
     if (userMessage) {
-      console.log(userMessage);
       if (userMessage.data !== null) setIsExistMessage(true);
     }
     if (userMessageError) {
@@ -111,7 +110,13 @@ const HomeHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => setIsNotificationModalOpen(true)} className="flex flex-col items-center gap-1">
+          <div
+            onClick={() => {
+              setIsExistNotification(false);
+              setIsNotificationModalOpen(true);
+            }}
+            className="flex flex-col items-center gap-1"
+          >
             <div className="relative">
               <img className="z-10" src={notification} width={44} />
               {isExistNotification && (
@@ -136,7 +141,13 @@ const HomeHeader = () => {
             </div>
           </div>
 
-          <div onClick={() => setIsMessageModalOpen(true)} className="flex flex-col items-center">
+          <div
+            onClick={() => {
+              setIsExistMessage(false);
+              setIsMessageModalOpen(true);
+            }}
+            className="flex flex-col items-center"
+          >
             <img src={message} width={44} />
             {isExistMessage && (
               <>

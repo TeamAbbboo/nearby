@@ -103,7 +103,13 @@ const PlaygroundHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => setIsNotificationModalOpen(true)} className="flex flex-col items-center">
+          <div
+            onClick={() => {
+              setIsExistNotification(false);
+              setIsNotificationModalOpen(true);
+            }}
+            className="flex flex-col items-center"
+          >
             <img src={notification} width={44} />
             {isExistNotification && (
               <>

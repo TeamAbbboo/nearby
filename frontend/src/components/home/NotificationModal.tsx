@@ -55,7 +55,7 @@ const NotificationModal = ({ setIsNotificationModalOpen }: INotificationModalPro
         <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
           <button
             onClick={() => {
-              setIsSettingModalOpen(false);
+              setIsNotificationModalOpen(false);
             }}
             className="w-11 h-8 bg-white rounded-full flex justify-center items-center shadow-xl border-2 border-black/10"
           >
