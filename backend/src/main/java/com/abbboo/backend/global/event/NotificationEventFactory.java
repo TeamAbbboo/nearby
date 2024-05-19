@@ -44,6 +44,23 @@ public class NotificationEventFactory {
         return new NotificationSingleEvent(source, notificationSingleActionRes);
     }
 
+    // 단건 - 자동 메시지 수신 이벤트 알림
+    public static ApplicationEvent createAutoLetterEvent(Object source, User sender, User receiver) {
+
+        // 자동 메시지 수신 이벤트 정보 객체 생성
+        NotificationSingleActionRes notificationSingleActionRes
+                = NotificationSingleActionRes.builder()
+                .sender(sender)
+                .receiver(receiver)
+                .title(sender.getNickname()+"펭귄")
+                .notificationEventType(NotificationEventType.CREATE_AUTO_LETTER)
+                .build();
+
+        log.info("자동 메시지 수신 - 이벤트 정보 객체 생성 : OK");
+
+        return new NotificationSingleEvent(source, notificationSingleActionRes);
+    }
+
     // 단건 - 반응 등록 이벤트 알림
     public static ApplicationEvent createReactionEvent(Object source, User sender, User receiver) {
 
