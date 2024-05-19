@@ -50,12 +50,17 @@ export const getReceivedNotiList = async ({
 
     // "두둔"
     if (item.content.includes('두둔')) {
-      item.content = '민들레 성장이 준비됐다고 말합니다.';
+      item.content = '민들레 성장이 준비됐습니다.';
     }
 
     // "뿌뿌"
     if (item.content.includes('뿌뿌')) {
       item.content = '생일을 알리고 있습니다.';
+    }
+
+    // "또롱"
+    if (item.content.includes('또롱')) {
+      item.content = '애정 메시지를 전달했습니다.';
     }
   });
 
