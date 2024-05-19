@@ -25,7 +25,7 @@ const Solo = () => {
   useEffect(() => {
     if (data) {
       if (data.data.familyCode !== null) {
-        window.location.replace('/');
+        window.location.replace('/tutorial');
       } else {
         setInputVisible(false);
         setFamilyCode('');
@@ -107,7 +107,7 @@ const Solo = () => {
 
   /* 광장으로 이동하기 버튼 */
   const goToMainPage = () => {
-    if (window.confirm('광장으로 이동하시겠습니까??')) window.location.replace('/');
+    window.location.replace('/tutorial');
   };
 
   /* 가족 코드 입력시 */
