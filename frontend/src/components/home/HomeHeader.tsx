@@ -13,6 +13,7 @@ import EditFamilyModal from './EditFamilyModal';
 import Toast from '@/components/@common/Toast/Toast';
 import { useFamily } from '@/hooks/family/useFamily';
 import { useMessage } from '@/hooks/message/useMessage';
+import { useNotification } from '@/hooks/notification/useNotification';
 
 /* libraries */
 import { useState, useEffect } from 'react';
@@ -41,7 +42,6 @@ const HomeHeader = () => {
 
   const navigate = useNavigate();
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState<boolean>(false); // 알림 모달
-  const [isExistNotification, setIsExistNotification] = useState<boolean>(true); // 안 읽은 알림이 존재하는지 확인
   const [isExistMessage, setIsExistMessage] = useState<boolean>(false); // 안 읽은 메시지가 존재하는지 확인
 
   const [isMessageModalOpen, setIsMessageModalOpen] = useState<boolean>(false);
@@ -52,6 +52,15 @@ const HomeHeader = () => {
 
   /* 알림 조회 */
   /** 안 읽은 알림이 존재할 경우 isExistNotification를 true설정하는 용도 */
+  const [isExistNotification, setIsExistNotification] = useState<boolean>(false); // 안 읽은 알림이 존재하는지 확인
+  const { useGetUnreadNoti } = useNotification();
+  const { data: unReadMessage } = useGetUnreadNoti();
+  useEffect(() => {
+    if (unReadMessage) {
+      if (unReadMessage?.data !== null) setIsExistNotification(true);
+      else setIsExistNotification(false);
+    }
+  }, [unReadMessage]);
 
   /* 메시지 조회 */
   /** 안 읽은 메시지가 존재할 경우 setIsExistMessage true설정하는 용도 */
@@ -102,7 +111,7 @@ const HomeHeader = () => {
               <p className="text-[9px]">소식 등록</p>
             </div>
           </div>
-          <div onClick={() => Toast.info('준비중인 서비스입니다')} className="flex flex-col items-center gap-1">
+          <div onClick={() => setIsNotificationModalOpen(true)} className="flex flex-col items-center gap-1">
             <div className="relative">
               <img className="z-10" src={notification} width={44} />
               {isExistNotification && (
