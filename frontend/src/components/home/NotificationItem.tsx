@@ -28,7 +28,7 @@ const NotificationItem = ({ notificationItem }: INotificationItemProps) => {
             <Penguin mood={mood} />
           </div>
           <div>
-            <p className="text-[10px] pl-3">
+            <p className="text-[11px] pl-3">
               {nickname} 님이 {content}
             </p>
             <p className="text-[9px] pt-1 pl-3 text-UNIMPORTANT">{relativeTime}</p>
