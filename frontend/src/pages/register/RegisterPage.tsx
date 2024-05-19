@@ -60,7 +60,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col font-NPSfontBold">
+    <div className="w-full h-full bg-LOGIN bg-cover flex flex-col">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

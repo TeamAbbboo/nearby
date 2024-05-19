@@ -12,7 +12,7 @@
   padding: 0px 10px;
   height: auto;
   font-size: 15px;
-  font-family: 'NPSfontBold';
+  /* font-family: 'NPSfontBold'; */
 }
 
 .Toastify__toast--info {
