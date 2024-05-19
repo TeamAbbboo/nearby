@@ -47,7 +47,7 @@ const Group = () => {
       doPatchEnrollFamilyReq(familyCode, {
         onSuccess: () => {
           Toast.success('가족 그룹 참여 성공');
-          window.location.replace('/');
+          window.location.replace('/tutorial');
         },
         onError: () => {
           Toast.error('올바르지 않은 가족 코드');
@@ -65,12 +65,12 @@ const Group = () => {
         onSuccess: () => {
           Toast.success('가족 그룹 참여 성공');
           localStorage.removeItem('SHARE_FAMILY_CODE');
-          window.location.replace('/');
+          window.location.replace('/tutorial');
         },
         onError: () => {
           Toast.error('올바르지 않은 가족 코드');
           localStorage.removeItem('SHARE_FAMILY_CODE');
-          window.location.replace('/');
+          window.location.replace('/tutorial');
           setFamilyCode('');
         },
       });
