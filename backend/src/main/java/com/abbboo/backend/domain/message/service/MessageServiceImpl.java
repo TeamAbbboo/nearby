@@ -18,6 +18,7 @@ import com.abbboo.backend.global.util.S3Util;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -37,6 +38,10 @@ public class MessageServiceImpl implements MessageService{
     private final ClovaUtil clovaUtil;
     private final S3Util s3Util;
     private final ApplicationEventPublisher eventPublisher;
+
+    @Value("${notification.auto.user}")
+    private String notificationAutoUser;
+
     // 메시지 전송
     @Override
     @Transactional
@@ -185,6 +190,10 @@ public class MessageServiceImpl implements MessageService{
     @Override
     public void sendMessage(User sender, User receiver, String content) {
 
+        log.info("유저 정보 : {}", receiver.getId());
+        log.info("유저 FCM TOKEN 여부 : {}"
+                ,receiver.getFcmToken().isBlank());
+
         String ttsUrl = "";
         // naver clova에 tts 파일 변환 요청
         try {
@@ -203,6 +212,14 @@ public class MessageServiceImpl implements MessageService{
             .build();
 
         messageRepository.save(message);
+
+        // 자동 메시지 유저 불러오기
+        User auto = userRepository.findById(Integer.valueOf(notificationAutoUser))
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 메시지 수신 알림 이벤트 발생
+        eventPublisher.publishEvent(NotificationEventFactory.createLetterEvent(this,sender,receiver));
+        eventPublisher.publishEvent(NotificationEventFactory.createAutoLetterEvent(this,auto,sender));
     }
 
     // 랜덤 메시지 세팅 (조회된 사용자의 가족 랜덤 조회, 메시지 랜덤 조회)
