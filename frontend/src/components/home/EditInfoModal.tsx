@@ -1,0 +1,138 @@
+/* components */
+import Modal from '@/components/@common/Modal';
+import { useAuth } from '@/hooks/auth/useAuth';
+import userStore from '@/stores/userStore';
+import Toast from '@/components/@common/Toast/Toast';
+
+/* libraries */
+import { Dispatch, SetStateAction, MouseEventHandler, useState, useEffect, ChangeEvent } from 'react';
+
+/* interface */
+interface IEditInfoModalProps {
+  setIsEditInfoModalOpen: Dispatch<SetStateAction<boolean>>;
+  settingHandler: MouseEventHandler<HTMLButtonElement>;
+}
+
+const EditInfoModal = ({ setIsEditInfoModalOpen, settingHandler }: IEditInfoModalProps) => {
+  const [isModifiyNickname, setIsModifiyNickname] = useState<boolean>(false); // 수정 상태 유무
+  const [preNickname, setPreNickname] = useState<string>(''); // 닉네임
+  const [nickname, setNickname] = useState<string>(''); // 닉네임
+  const [birthday, setBirthday] = useState<string>(''); // 생년월일 (수정 불가)
+
+  /* 사용자 정보 가져오기 */
+  const { useGetUserInfo, useModifyNickname } = useAuth();
+  const { mutate: doPatchModifyReq } = useModifyNickname();
+
+  /* 유저 정보 조회 */
+  const { data, error } = useGetUserInfo();
+  useEffect(() => {
+    if (data) {
+      setNickname(data.data.nickname);
+      setPreNickname(data.data.nickname);
+      setBirthday(data.data.birthday);
+    }
+    if (error) {
+      console.log('유저 정보 받아오기 실패 : ' + error);
+    }
+  }, [data, error]);
+
+  /* 수정 */
+  const onModifiyButton = () => {
+    setIsModifiyNickname(true);
+  };
+
+  /* 변경 */
+  const onChangeButton = () => {
+    if (nickname === '' || nickname.includes(' ')) {
+      Toast.error('변경 또는 허용되지 않은 문자열');
+      return;
+    }
+
+    if (preNickname === nickname) {
+      setIsModifiyNickname(false);
+      return;
+    }
+
+    if (window.confirm(nickname + '을(를) 변경하시겠습니까?')) {
+      // 닉네임 변경 요청
+      doPatchModifyReq(nickname, {
+        onSuccess: () => {
+          setNickname(nickname);
+          setPreNickname(nickname);
+          setIsModifiyNickname(false);
+          userStore.setState({
+            nickname: nickname,
+          });
+          Toast.success('변경 완료');
+        },
+        onError: () => {
+          setNickname(preNickname);
+          setIsModifiyNickname(false);
+          Toast.error('변경 실패');
+        },
+      });
+    }
+  };
+
+  /* 닉네임 입력시 */
+  const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+
+  return (
+    <Modal onClose={() => setIsEditInfoModalOpen(false)} width="w-4/5">
+      <div className="bg-white flex flex-col justify-center items-center text-center font-bold rounded-2xl text-sm">
+        {/* 헤더 */}
+        <div className="w-full h-full p-5 bg-pink-50 flex justify-center items-center rounded-xl text-base">
+          <p>내 정보 수정</p>
+        </div>
+
+        {/* 바디 */}
+        <div className="flex flex-col gap-5 py-5 items-center w-full h-full overflow-y-auto">
+          <div>
+            <p className="ml-2 text-start text-xs">닉네임</p>
+
+            <div
+              className={`flex flex-row mt-1 w-60 h-12 border-2 border-slate-300 rounded-xl items-center ${isModifiyNickname ? '' : 'bg-zinc-100'}`}
+            >
+              <input
+                value={nickname}
+                readOnly={!isModifiyNickname}
+                className={`w-full pl-4 outline-none ${isModifiyNickname ? '' : 'bg-zinc-100'}`}
+                maxLength={7}
+                onChange={onChangeNickname}
+              />
+              <button
+                onClick={isModifiyNickname ? onChangeButton : onModifiyButton}
+                className="py-2 w-16 mr-1 bg-rose-200 rounded-xl text-xs"
+              >
+                {isModifiyNickname ? <>변경</> : <>수정</>}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <p className="ml-2 text-start text-xs">생년월일</p>
+            <div className="flex flex-row mt-1 w-60 h-12 bg-zinc-100 border-2 border-slate-300 rounded-xl items-center">
+              <input value={birthday} readOnly={true} className="w-full pl-4 bg-zinc-100 outline-none" />
+            </div>
+          </div>
+        </div>
+
+        {/* 바텀 */}
+        <div className="flex-1 w-full h-full p-5 bg-pink-50 flex justify-left items-center rounded-b-2xl align-middle">
+          <button
+            onClick={settingHandler}
+            className="w-11 h-8 bg-white rounded-full flex justify-center items-center shadow-xl border-2 border-black/10"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#000000" viewBox="0 0 256 256">
+              <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+};
+
+export default EditInfoModal;
