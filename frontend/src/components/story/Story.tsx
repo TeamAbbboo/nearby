@@ -82,7 +82,7 @@ const Story: React.FC<IStoryProps> = ({ year, month, day, isSaved }: IStoryProps
   /* 상태 바 특정 시간동안 채워지게 */
   useEffect(() => {
     if (dayStoryList) {
-      const intervalTime = 5000;
+      const intervalTime = 10000;
       const updateInterval = 100;
       const progressStep = (updateInterval / intervalTime) * 100;
 
