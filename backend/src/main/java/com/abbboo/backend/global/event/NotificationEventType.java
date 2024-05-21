@@ -13,7 +13,8 @@ public enum NotificationEventType {
     CREATE_LETTER("\"띵동!\" 새로운 메시지가 도착했습니다!! \n마음함을 확인해보세요!"),
     CREATE_AUTO_LETTER("\"또롱!\" 가까이가 대신해서 애정 메시지를 전달했어요!! 소식을 전해주세요!"),
     CREATE_REACTION("\"우와!\" 내 소식에 반응이 달렸어요!! \n 확인해 볼까요?"),
-    LEVEL_UP_GREENHOUSE("\"레벨 업!\" 민들레가 성장했어요!! \n 더 많은 소통 기대할게요!")
+    LEVEL_UP_GREENHOUSE("\"레벨 업!\" 민들레가 성장했어요!! \n 더 많은 소통 기대할게요!"),
+    LEVEL_UP_BUTTON_ACTIVE_GREENHOUSE("\"두둔!\" 레벨 업 버튼이 활성화 되었습니다!! \n 두근두근 다음 민들레를 만나러 가볼까요?")
     ;
 
     private final String message;

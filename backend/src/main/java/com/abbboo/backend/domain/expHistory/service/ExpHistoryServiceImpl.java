@@ -72,7 +72,7 @@ public class ExpHistoryServiceImpl implements ExpHistoryService{
         family.updateLevel(levelUpReq.getLevel()+1);
 
         // 온실 레벨 업 알림 이벤트 발생
-        eventPublisher.publishEvent(NotificationEventFactory.createLevelUpEvent(this,user));
+        eventPublisher.publishEvent(NotificationEventFactory.createLevelUpEvent(this,user,family));
     }
 
     @Override

@@ -70,7 +70,7 @@ public class StoryServiceImpl implements StoryService{
 
         // 경험치 추가, 스토리 등록 이벤트 발생
         eventPublisher.publishEvent(ExpEventFactory.createStoryEvent(this,user));
-        eventPublisher.publishEvent(NotificationEventFactory.createStoryEvent(this,user));
+        eventPublisher.publishEvent(NotificationEventFactory.createStoryEvent(this,user,story.getFamily()));
         storyRepository.save(story);
     }
 
