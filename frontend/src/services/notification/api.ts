@@ -60,7 +60,7 @@ export const getReceivedNotiList = async ({
 
     // "또롱"
     if (item.content.includes('또롱')) {
-      item.content = '애정 메시지를 전달했습니다.';
+      item.content = '애정 메시지를 전달했습니다. 소식을 전해주세요!';
     }
   });
 
