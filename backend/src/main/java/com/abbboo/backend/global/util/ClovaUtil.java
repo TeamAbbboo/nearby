@@ -67,7 +67,7 @@ public class ClovaUtil {  // NAVER AI CLOVA VOICE Config
             log.info("clova API 요청 설정 : http request 설정 성공");
 
             // 음성 합성음 옵션 설정
-            String voiceOptions = "speaker=vdain&volume=0&speed=2&pitch=-2&emotion=2&emotion-strength=2&alpha=-2";
+            String voiceOptions = "speaker=vdain&volume=0&speed=2&pitch=-3&emotion=2&emotion-strength=2&alpha=-3";
 
             String postParams = "&format=mp3&text=" + encodedText;
 
