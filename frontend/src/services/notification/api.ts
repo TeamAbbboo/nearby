@@ -39,7 +39,7 @@ export const getReceivedNotiList = async ({
     }
 
     // "레벨 업"이 포함된 경우
-    if (item.content.includes('레벨 업')) {
+    if (item.content.includes('레벨 업!')) {
       item.content = '레벨 업 버튼을 눌렀습니다.';
     }
 
