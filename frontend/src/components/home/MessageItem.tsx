@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { simpleDecoType } from '@/constants/penguinState';
 import speaker from '@/assets/speaker.png';
 import listening from '@/assets/speaker_listening.gif';
+import dayjs from 'dayjs';
 
 interface IMessageItemProps {
   messageItem: ISentMessageItem | IReceivedMessageItem;
@@ -54,7 +55,7 @@ const MessageItem = ({ messageItem, decoration }: IMessageItemProps) => {
         <div className="flex flex-row justify-between flex-grow">
           <div className="w-full flex-col">
             <p>{nickname}</p>
-            <p className="text-xs pt-1 text-UNIMPORTANT">{createdAt}</p>
+            <p className="text-xs pt-1 text-UNIMPORTANT">{dayjs(createdAt).format('YYYY/MM/DD A HH:mm')}</p>
           </div>
           {tts && (
             <div className="px-1">
