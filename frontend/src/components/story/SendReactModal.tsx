@@ -23,7 +23,7 @@ const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
     };
 
     mutate(req);
-    Toast.success(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
+    Toast.success(`${getExpressionMeaning(expression)} 반응 등록이 되었습니다`);
     setIsOpen(false);
   };
 
