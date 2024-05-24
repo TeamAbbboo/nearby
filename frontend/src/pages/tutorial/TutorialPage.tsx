@@ -62,29 +62,3 @@ const TutorialPage = () => {
 };
 
 export default TutorialPage;
-{
-  /* {current !== 0 && (
-        <div className="absolute top-1/2 left-2 z-20">
-          <div
-            onClick={() => setCurrent(current - 1)}
-            className="w-8 h-8 rounded-full bg-black/40 flex justify-center items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ffffff" viewBox="0 0 256 256">
-              <path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
-            </svg>
-          </div>
-        </div>
-      )}
-      {current !== 3 && (
-        <div className="absolute top-1/2 right-2 z-20">
-          <div
-            onClick={() => setCurrent(current + 1)}
-            className="w-8 h-8 rounded-full bg-black/40 flex justify-center items-center"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ffffff" viewBox="0 0 256 256">
-              <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
-            </svg>
-          </div>
-        </div>
-      )} */
-}
