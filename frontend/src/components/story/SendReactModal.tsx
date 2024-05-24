@@ -23,23 +23,23 @@ const SendReactModal = ({ setIsOpen, storyId }: ISendReactProps) => {
     };
 
     mutate(req);
-    Toast.success(` ${getExpressionMeaning(expression)} 반응 등록이 되었습니다.`);
+    Toast.success(`${getExpressionMeaning(expression)} 반응 등록이 되었습니다`);
     setIsOpen(false);
   };
 
   return (
-    <Modal onClose={() => setIsOpen(false)} width="w-4/5">
-      <div className="p-5 flex flex-col bg-white w-full h-fit rounded-2xl justify-center font-bold text-center">
-        <p>반응하기</p>
-        <div className="grid grid-cols-2">
+    <Modal onClose={() => setIsOpen(false)} width="w-full">
+      <div className="flex flex-col w-full rounded-2xl font-bold text-center">
+        <p className="text-white text-lg pb-2">반응하기</p>
+        <div className="grid grid-cols-3 ">
           <PenguinExpression expression="LOL" onClick={() => sendReaction('LOL')} />
           <PenguinExpression expression="SAD" onClick={() => sendReaction('SAD')} />
           <PenguinExpression expression="OOPS" onClick={() => sendReaction('OOPS')} />
-          <PenguinExpression expression="COOL" onClick={() => sendReaction('COOL')} />
+          {/* <PenguinExpression expression="COOL" onClick={() => sendReaction('COOL')} /> */}
           <PenguinExpression expression="LOVE" onClick={() => sendReaction('LOVE')} />
           <PenguinExpression expression="PRETTY" onClick={() => sendReaction('PRETTY')} />
           <PenguinExpression expression="GOOD" onClick={() => sendReaction('GOOD')} />
-          <PenguinExpression expression="BEST" onClick={() => sendReaction('BEST')} />
+          {/* <PenguinExpression expression="BEST" onClick={() => sendReaction('BEST')} /> */}
         </div>
       </div>
     </Modal>

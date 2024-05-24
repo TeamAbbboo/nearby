@@ -154,7 +154,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <ToastContainer className={'font-bold'} position="top-center" />
+      <ToastContainer rtl className={'font-bold'} position="top-center" />
       <RouterProvider router={router} />
     </>
   );
