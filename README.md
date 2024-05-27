@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <p>로고?</p>
+  <img src='./exec/img/logo.PNG' width='300px'/>
   <br />
   <h1>일상과 추억을 공유하는 가족 소통 서비스, 가까이</h1>
 
@@ -21,7 +21,7 @@ SSAFY 자율 PJT TEAM 아뾰 <br/>
   </a>
 
 <p align='center'>
-    <!-- <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/TeamAbbboo/nearby&count_bg=%235959E7&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a> -->
+    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://github.com/TeamAbbboo/nearby&count_bg=%23FFABDF&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
 </p>
 
 <br />
@@ -288,19 +288,19 @@ SSAFY 자율 PJT TEAM 아뾰 <br/>
 
 <table>
   <tr>
-    <td align="center" width="120px">
+    <td align="center" width="300px" >
       <a href="https://github.com/Ryujy" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/63836145?v=4" alt="류지윤 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/63836145?v=4" width="120px" alt="류지윤 프로필" />
       </a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="300px">
       <a href="https://github.com/yeaaaaahhhhh" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/72369871?v=4" alt="김예현 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/72369871?v=4" width="120px" alt="김예현 프로필" />
       </a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="300px">
       <a href="https://github.com/syhan7516" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/83218200?v=4" alt="신영한 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/83218200?v=4" width="120px" alt="신영한 프로필" />
       </a>
     </td>
   </tr>
@@ -341,24 +341,25 @@ SSAFY 자율 PJT TEAM 아뾰 <br/>
   </tr>
 
 </table>
+<br/>
 
 ### Frontend
 
 <table>
   <tr>
-    <td align="center" width="120px">
+    <td align="center" width="300px">
       <a href="https://github.com/HeewonYoun" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/59885440?v=4" alt="윤희원 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/59885440?v=4"  width="120px" alt="윤희원 프로필" />
       </a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="300px">
       <a href="https://github.com/hyun812" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/92029126?v=4" alt="이승현 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/92029126?v=4" width="120px" alt="이승현 프로필" />
       </a>
     </td>
-    <td align="center" width="120px">
+    <td align="center" width="300px">
       <a href="https://github.com/dlgmldnd017" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/42001306?v=4" alt="이희웅 프로필" />
+        <img src="https://avatars.githubusercontent.com/u/42001306?v=4"  width="120px" alt="이희웅 프로필" />
       </a>
     </td>
   </tr>
